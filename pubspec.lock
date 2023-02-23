@@ -115,6 +115,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  nurbanhoney_ui_service:
+    dependency: "direct main"
+    description:
+      path: "application/nurbanhoney_ui_service"
+      relative: true
+    source: path
+    version: "0.0.1"
   path:
     dependency: transitive
     description:
@@ -185,4 +192,4 @@ packages:
     source: hosted
     version: "2.1.4"
 sdks:
-  dart: ">=2.18.5 <3.0.0"
+  dart: ">=2.19.2 <3.0.0"
