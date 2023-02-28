@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class App extends StatelessWidget {
@@ -20,12 +21,17 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: NurbanhoneyTheme.standard,
-      home: Container(
-        child: Text('test'),
-      ),
+    return Consumer(
+      builder: (_, WidgetRef ref, __){
+        final standard = ref.watch(standardTheme);
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: standard,
+          home: Container(
+            child: Text('test'),
+          ),
+        );
+      },
     );
   }
 }
