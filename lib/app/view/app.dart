@@ -27,8 +27,8 @@ class _AppViewState extends State<AppView> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: standard,
-          home: Container(
-            child: Text('test'),
+          home: Scaffold(
+            body: Text('test'),
           ),
         );
       },
