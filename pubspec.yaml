@@ -29,12 +29,13 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  authentication_service:
+    path: application/authentication_service
+  authentication_domain:
+    path: domain/authentication_domain
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.0.2
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   nurbanhoney_ui_service:
     path: application/nurbanhoney_ui_service
