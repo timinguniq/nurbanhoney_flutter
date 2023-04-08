@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/home/home.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,7 +29,71 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Row(
+          children: [
+            SizedBox(
+                width: 30,
+                height: 25,
+                child: Assets.images.home.nurbanSymbol.image(),
+            ),
+            const SizedBox(width: 12),
+            SizedBox(
+                width: 55,
+                height: 20,
+                child: Assets.images.home.nurbanChar.image(),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              log('toolbar clicked');
+            },
+            icon: SizedBox(
+              width: 20,
+              height: 15,
+              child: Assets.images.home.homeToolbar.image(),
+            ),
+          ),
+        ],
+        bottom: const AppbarBottom(),
+        /*
+        bottom: DefaultTabController(
+          length: 2,
+          child: TabBar(
+            tabs: const [
+              Tab(
+                text: 'Home',
+              ),
+              Tab(
+                text: 'Settings',
+              ),
+            ],
+          ),
+        ),
+
+         */
+      ),
+      body: const Center(
+        child: Text('Home'),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
+    );
   }
 }
 

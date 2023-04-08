@@ -12,7 +12,27 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+}
+
+class $AssetsImagesHomeGen {
+  const $AssetsImagesHomeGen();
+
+  /// File path: assets/images/home/home_toolbar.png
+  AssetGenImage get homeToolbar =>
+      const AssetGenImage('assets/images/home/home_toolbar.png');
+
+  /// File path: assets/images/home/nurban_char.png
+  AssetGenImage get nurbanChar =>
+      const AssetGenImage('assets/images/home/nurban_char.png');
+
+  /// File path: assets/images/home/nurban_symbol.png
+  AssetGenImage get nurbanSymbol =>
+      const AssetGenImage('assets/images/home/nurban_symbol.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [homeToolbar, nurbanChar, nurbanSymbol];
 }
 
 class $AssetsImagesSplashGen {
