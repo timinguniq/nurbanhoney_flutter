@@ -22,4 +22,12 @@ final headline5 = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.headline5;
 });
 
+final appbarBottomSelected = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.appbarBottomSelected;
+});
+
+final appbarBottomUnSelected = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.appbarBottomUnSelected;
+});
+
 

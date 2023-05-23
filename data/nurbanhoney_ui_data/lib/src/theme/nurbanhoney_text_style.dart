@@ -1,5 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:nurbanhoney_ui_data/gen/fonts.gen.dart';
 import 'package:nurbanhoney_ui_data/nurbanhoney_ui_data.dart';
+
+const _fontPackage = 'nurbanhoney_ui';
+const _primaryFontFamily = FontFamily.pretendardStd;
 
 /// Different [TextStyle] used in the game
 abstract class NurbanhoneyTextStyle {
@@ -38,6 +42,24 @@ abstract class NurbanhoneyTextStyle {
   static const subtitle1 = TextStyle(
     fontSize: 14,
     color: NurbanhoneyColors.darkGrey,
+  );
+
+  /// Font size: 12 | Color: F6B748
+  static const appbarBottomSelected = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.colorF6B748,
+  );
+
+  /// Font size: 12 | Color: F6B748
+  static const appbarBottomUnSelected = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.colorBABABA,
   );
 
 }

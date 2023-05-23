@@ -7,35 +7,47 @@ class AppbarBottomIcon extends StatelessWidget {
     Key? key,
     required bool isSelected,
     required String text,
+    required VoidCallback? onTap,
   })  : _isSelected = isSelected,
         _text = text,
+        _onTap = onTap,
         super(key: key);
 
   final bool _isSelected;
   final String _text;
+  final VoidCallback? _onTap;
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final selectColor = ref.read(colorF6B748);
-      final unSelectColor = ref.read(colorE5E5E5);
+      final unSelectColor = ref.read(colorBABABA);
+      final selectTextStyle = ref.read(appbarBottomSelected);
+      final unSelectTextStyle = ref.read(appbarBottomUnSelected);
 
-      return Container(
-        height: 30,
-        decoration: BoxDecoration(
-          // border
-          border: Border.all(
-            color: _isSelected ? selectColor : unSelectColor,
-            width: 1,
+      return InkWell(
+        onTap: _onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            // border
+            border: Border.all(
+              color: _isSelected ? selectColor : unSelectColor,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(43),
           ),
-          borderRadius: BorderRadius.circular(43),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Center(
-            child: Text(
-              _text,
-              style: TextStyle(color: _isSelected ? selectColor : unSelectColor),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8
+            ),
+            child: Center(
+              child: Text(
+                _text,
+                style: _isSelected
+                    ? selectTextStyle
+                    : unSelectTextStyle,
+              ),
             ),
           ),
         ),

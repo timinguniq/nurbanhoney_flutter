@@ -30,21 +30,22 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Row(
           children: [
             SizedBox(
-                width: 30,
-                height: 25,
-                child: Assets.images.home.nurbanSymbol.image(),
+              width: 30,
+              height: 25,
+              child: Assets.images.home.nurbanSymbol.image(),
             ),
             const SizedBox(width: 12),
             SizedBox(
-                width: 55,
-                height: 20,
-                child: Assets.images.home.nurbanChar.image(),
+              width: 55,
+              height: 20,
+              child: Assets.images.home.nurbanChar.image(),
             ),
           ],
         ),
@@ -60,27 +61,8 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ],
-        bottom: const AppbarBottom(),
-        /*
-        bottom: DefaultTabController(
-          length: 2,
-          child: TabBar(
-            tabs: const [
-              Tab(
-                text: 'Home',
-              ),
-              Tab(
-                text: 'Settings',
-              ),
-            ],
-          ),
-        ),
-
-         */
       ),
-      body: const Center(
-        child: Text('Home'),
-      ),
+      body: const HomeBodyView(),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -93,6 +75,20 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class HomeBodyView extends StatelessWidget {
+  const HomeBodyView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+        children: [
+          AppbarBottom(),
+          Text('Home'),
+        ],
     );
   }
 }

@@ -5,10 +5,12 @@ part 'authentication_service.g.dart';
 
 @riverpod
 class AuthenticationService extends _$AuthenticationService{
-  final _status = AuthenticationStatus.unknown;
-
   @override
   AuthenticationStatus build() {
-    return _status;
+    return state;
+  }
+
+  void set(AuthenticationStatus status){
+    state = status;
   }
 }

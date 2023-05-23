@@ -7,7 +7,7 @@ part of 'home_appbar_navigation.dart';
 // **************************************************************************
 
 String _$homeAppbarNavigationHash() =>
-    r'cad9af9d4dbff32377e68fc0dba283e9aabfb6ed';
+    r'5ed85778e6083bd337964abb1c4fbd659681b7f2';
 
 /// See also [HomeAppbarNavigation].
 @ProviderFor(HomeAppbarNavigation)

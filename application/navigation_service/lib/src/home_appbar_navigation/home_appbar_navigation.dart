@@ -5,10 +5,12 @@ part 'home_appbar_navigation.g.dart';
 
 @riverpod
 class HomeAppbarNavigation extends _$HomeAppbarNavigation {
-  final _status = HomeAppbarStatus.whole;
-
   @override
   HomeAppbarStatus build() {
-    return _status;
+    return state;
+  }
+
+  void select(HomeAppbarStatus status) {
+    state = status;
   }
 }
