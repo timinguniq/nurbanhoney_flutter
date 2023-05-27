@@ -62,4 +62,22 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.colorBABABA,
   );
 
+  /// Font size: 12 | Color: 222222
+  static const rankTabTitle = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.darkGrey,
+  );
+
+  /// Font size: 12 | Color: 6F6F6F
+  static const rankTabWhole = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color6F6F6F,
+  );
+
 }

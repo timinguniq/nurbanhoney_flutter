@@ -93,8 +93,15 @@ class HomeBodyView extends StatelessWidget {
       return Column(
           children: [
             const AppbarBottom(),
+            const SizedBox(
+              height: 16,
+            ),
             if(homeAppbarNavigation == HomeAppbarStatus.whole)
-              const NurbanRankTabView(),
+              NurbanRankTabView(
+                onTap: (){
+                  log('전체보기 클릭');
+                },
+              ),
           ],
         );
     });

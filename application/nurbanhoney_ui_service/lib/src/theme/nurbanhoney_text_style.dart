@@ -30,4 +30,12 @@ final appbarBottomUnSelected = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.appbarBottomUnSelected;
 });
 
+final rankTabTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTabTitle;
+});
+
+final rankTabWhole = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTabWhole;
+});
+
 
