@@ -6,7 +6,7 @@ part 'authentication_service.g.dart';
 @riverpod
 class AuthenticationService extends _$AuthenticationService{
   AuthenticationStatus build() {
-    state = AuthenticationStatus.unknown;
+    state = AuthenticationStatus.unauthenticated;
     return state;
   }
 

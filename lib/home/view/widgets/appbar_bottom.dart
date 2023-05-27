@@ -23,7 +23,6 @@ class AppbarBottom extends StatelessWidget{
         });
         */
 
-      log('homeAppbarNavigation : $homeAppbarNavigation');
       return SizedBox(
         width: double.infinity,
         child: Column(

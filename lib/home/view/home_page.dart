@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_domain/navigation_domain.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 
@@ -84,12 +87,18 @@ class HomeBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-        children: [
-          AppbarBottom(),
-          Text('Home'),
-        ],
-    );
+    return Consumer(builder: (_, WidgetRef ref, __) {
+      final homeAppbarNavigation = ref.watch(homeAppbarNavigationProvider);
+      log('homeAppbarNavigation : $homeAppbarNavigation');
+      return Column(
+          children: [
+            const AppbarBottom(),
+            if(homeAppbarNavigation == HomeAppbarStatus.whole)
+              const NurbanRankTabView(),
+          ],
+        );
+    });
+
   }
 }
 
