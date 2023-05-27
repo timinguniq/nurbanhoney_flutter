@@ -22,6 +22,7 @@ class AppbarBottom extends StatelessWidget{
           ref.read(authenticationServiceProvider.notifier).state = AuthenticationStatus.authenticated;
         });
         */
+
       log('homeAppbarNavigation : $homeAppbarNavigation');
       return SizedBox(
         width: double.infinity,

@@ -7,6 +7,7 @@ part 'home_appbar_navigation.g.dart';
 class HomeAppbarNavigation extends _$HomeAppbarNavigation {
   @override
   HomeAppbarStatus build() {
+    state = HomeAppbarStatus.whole;
     return state;
   }
 
