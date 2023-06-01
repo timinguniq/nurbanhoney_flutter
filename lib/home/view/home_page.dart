@@ -98,6 +98,7 @@ class HomeBodyView extends StatelessWidget {
             ),
             if(homeAppbarNavigation == HomeAppbarStatus.whole)
               NurbanRankTabView(
+                rankLength: 3,
                 onTap: (){
                   log('전체보기 클릭');
                 },

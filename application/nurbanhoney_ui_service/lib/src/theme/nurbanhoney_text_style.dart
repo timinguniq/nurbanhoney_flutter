@@ -39,3 +39,6 @@ final rankTabWhole = Provider<TextStyle>((ref) {
 });
 
 
+
+
+
