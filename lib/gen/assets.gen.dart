@@ -27,12 +27,17 @@ class $AssetsImagesHomeGen {
   AssetGenImage get nurbanChar =>
       const AssetGenImage('assets/images/home/nurban_char.png');
 
+  /// File path: assets/images/home/nurban_rank_tab_money.png
+  AssetGenImage get nurbanRankTabMoney =>
+      const AssetGenImage('assets/images/home/nurban_rank_tab_money.png');
+
   /// File path: assets/images/home/nurban_symbol.png
   AssetGenImage get nurbanSymbol =>
       const AssetGenImage('assets/images/home/nurban_symbol.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [homeToolbar, nurbanChar, nurbanSymbol];
+  List<AssetGenImage> get values =>
+      [homeToolbar, nurbanChar, nurbanRankTabMoney, nurbanSymbol];
 }
 
 class $AssetsImagesSplashGen {
@@ -110,7 +115,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 

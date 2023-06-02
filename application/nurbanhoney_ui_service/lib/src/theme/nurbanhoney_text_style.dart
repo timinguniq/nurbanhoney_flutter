@@ -38,7 +38,19 @@ final rankTabWhole = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.rankTabWhole;
 });
 
+final rankTabEleTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTabEleTitle;
+});
 
+final rankTabEleContent = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTabEleContent;
+});
 
+final rankTabEleMoney = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTabEleMoney;
+});
 
+final rankTabEleAuthor = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTabEleAuthor;
+});
 

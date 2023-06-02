@@ -80,4 +80,40 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color6F6F6F,
   );
 
+  /// Font size: 16 | Color: 212124
+  static const rankTabEleTitle = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.color212124,
+  );
+
+  /// Font size: 14 | Color: 212124
+  static const rankTabEleContent = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.color212124,
+  );
+
+  /// Font size: 12 | Color: 4D5159
+  static const rankTabEleMoney = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color4D5159,
+  );
+
+  /// Font size: 10 | Color: 868B94
+  static const rankTabEleAuthor = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color868B94,
+  );
+
 }
