@@ -6,6 +6,7 @@ import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -90,6 +91,9 @@ class HomeBodyView extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final homeAppbarNavigation = ref.watch(homeAppbarNavigationProvider);
       log('homeAppbarNavigation : $homeAppbarNavigation');
+
+      final colorDivider = ref.read(colorEFEFEF);
+      final homeDividerStyle = ref.read(homeDividerTitle);
       return Column(
           children: [
             const AppbarBottom(),
@@ -103,6 +107,23 @@ class HomeBodyView extends StatelessWidget {
                   log('전체보기 클릭');
                 },
               ),
+            const SizedBox(
+              height: 16,
+            ),
+            if(homeAppbarNavigation == HomeAppbarStatus.whole)
+              Container(
+                alignment: Alignment.centerLeft,
+                width: double.infinity,
+                height: 32,
+                color: colorDivider,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    '최신순',
+                    style: homeDividerStyle,
+                  ),
+                ),
+              )
           ],
         );
     });

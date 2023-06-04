@@ -54,3 +54,12 @@ final rankTabEleAuthor = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.rankTabEleAuthor;
 });
 
+final homeDividerTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.homeDividerTitle;
+});
+
+final badgeTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.badgeTitle;
+});
+
+

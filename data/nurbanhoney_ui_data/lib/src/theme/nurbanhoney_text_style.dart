@@ -116,4 +116,22 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color868B94,
   );
 
+  /// Font size: 10 | Color: 4D5159
+  static const homeDividerTitle = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color4D5159,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const badgeTitle = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+  );
+
 }
