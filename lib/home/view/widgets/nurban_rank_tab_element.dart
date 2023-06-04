@@ -34,7 +34,6 @@ class NurbanRankTabElement extends StatelessWidget {
 
       return Container(
         width: 200,
-        height: 120,
         // rounded corner
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -92,6 +91,9 @@ class NurbanRankTabElement extends StatelessWidget {
                   _author,
                   style: rankTabAuthorStyle,
                 ),
+              ),
+              const SizedBox(
+                height: 16,
               ),
             ],
           ),
