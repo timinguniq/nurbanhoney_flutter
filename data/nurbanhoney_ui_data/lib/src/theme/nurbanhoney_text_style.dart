@@ -134,4 +134,40 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color1E1E1E,
   );
 
+  /// Font size: 14 | Color: 212124
+  static const boardListItemTitle = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color212124,
+  );
+
+  /// Font size: 12 | Color: 868B94
+  static const boardListItemContent = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color868B94,
+  );
+
+  /// Font size: 10 | Color: 868B94
+  static const boardListItemAuthor = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color868B94,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const boardListItemLike = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+  );
+
 }
