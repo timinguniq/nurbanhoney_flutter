@@ -123,7 +123,8 @@ class HomeBodyView extends StatelessWidget {
                     style: homeDividerStyle,
                   ),
                 ),
-              )
+              ),
+
           ],
         );
     });
