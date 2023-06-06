@@ -43,67 +43,69 @@ class NurbanBoardItemView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child:
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const NurbanBoardBadge(),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      _title,
-                      style: titleStyle,
-                    )
-                  ],
-                ),
-                Row(
-                  children:[
-                    SizedBox(
-                      width: 14,
-                      height: 14,
-                      child: Assets.images.home.nurbanRankTabMoney.image(),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      _lossCut,
-                      style: lossCutStyle,
-                    ),
-                  ]
-                ),
-                Row(
-                  children: [
-                    Text(
-                      _author,
-                      style: authorStyle,
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Text(
-                      _date,
-                      style: authorStyle,
-                    ),
-                    const SizedBox(
-                      width: 9,
-                    ),
-                    Text(
-                      '추천',
-                      style: likeStyle,
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      _likeCount,
-                      style: likeStyle,
-                    ),
-                  ],
-                )
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const NurbanBoardBadge(),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        _title,
+                        style: titleStyle,
+                      )
+                    ],
+                  ),
+                  Row(
+                      children:[
+                        SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: Assets.images.home.nurbanRankTabMoney.image(),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          _lossCut,
+                          style: lossCutStyle,
+                        ),
+                      ]
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        _author,
+                        style: authorStyle,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        _date,
+                        style: authorStyle,
+                      ),
+                      const SizedBox(
+                        width: 9,
+                      ),
+                      Text(
+                        '추천',
+                        style: likeStyle,
+                      ),
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        _likeCount,
+                        style: likeStyle,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             _thumbnail,
           ]),

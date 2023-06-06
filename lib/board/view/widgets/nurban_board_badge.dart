@@ -11,10 +11,10 @@ class NurbanBoardBadge extends StatelessWidget {
       final badgeTitleStyle = ref.read(badgeTitle);
       final badgeBackgroundColor = ref.read(colorD9D9D9);
       return Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          color: badgeBackgroundColor,
         ),
-        color: badgeBackgroundColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
           child: Text(
