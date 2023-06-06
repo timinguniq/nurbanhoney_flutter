@@ -62,4 +62,20 @@ final badgeTitle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.badgeTitle;
 });
 
+final boardListItemTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.boardListItemTitle;
+});
+
+final boardListItemContent = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.boardListItemContent;
+});
+
+final boardListItemAuthor = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.boardListItemAuthor;
+});
+
+final boardListItemLike = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.boardListItemLike;
+});
+
 
