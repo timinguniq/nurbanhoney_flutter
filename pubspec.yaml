@@ -21,6 +21,7 @@ dependencies:
     path: application/navigation_service
   nurbanhoney_ui_service:
     path: application/nurbanhoney_ui_service
+  dio: ^5.2.0
 
 dev_dependencies:
   flutter_test:

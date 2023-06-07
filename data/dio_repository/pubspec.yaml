@@ -1,0 +1,17 @@
+name: dio_repository
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.0.2
+
+# Add regular dependencies here.
+dependencies:
+  dio: ^5.2.0
+  dio_domain:
+    path: ../../domain/dio_domain
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
