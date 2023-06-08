@@ -1,0 +1,5 @@
+class ProfileRepository {
+  /// constructor
+  ProfileRepository();
+
+}

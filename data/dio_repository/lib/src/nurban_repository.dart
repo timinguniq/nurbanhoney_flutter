@@ -1,0 +1,5 @@
+class NurbanRepository {
+  /// constructor
+  NurbanRepository();
+
+}

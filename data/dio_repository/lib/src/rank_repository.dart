@@ -1,0 +1,5 @@
+class RankRepository {
+  /// constructor
+  RankRepository();
+
+}
