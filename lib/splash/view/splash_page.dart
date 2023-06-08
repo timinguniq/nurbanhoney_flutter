@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +65,6 @@ class _SplashViewState extends State<SplashView> {
       builder: (_, WidgetRef ref, __) {
         final style = ref.read(overlayStyle);
         SystemChrome.setSystemUIOverlayStyle(style);
-
         return Scaffold(
           body: Center(
             child: SizedBox(

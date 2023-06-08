@@ -71,6 +71,27 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0"
+  dio_domain:
+    dependency: transitive
+    description:
+      path: "domain/dio_domain"
+      relative: true
+    source: path
+    version: "1.0.0"
+  dio_repository:
+    dependency: transitive
+    description:
+      path: "data/dio_repository"
+      relative: true
+    source: path
+    version: "1.0.0"
+  dio_service:
+    dependency: "direct main"
+    description:
+      path: "application/dio_service"
+      relative: true
+    source: path
+    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -446,5 +467,5 @@ packages:
     source: hosted
     version: "1.0.0"
 sdks:
-  dart: ">=3.0.0 <4.0.0"
+  dart: ">=3.0.2 <4.0.0"
   flutter: ">=3.0.0"
