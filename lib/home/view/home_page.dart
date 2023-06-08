@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_domain/navigation_domain.dart';
@@ -95,6 +96,10 @@ class HomeBodyView extends StatelessWidget {
 
       final colorDivider = ref.read(colorEFEFEF);
       final homeDividerStyle = ref.read(homeDividerTitle);
+
+      // getBoard 통신 예시코드
+      exampleGetBoard(ref);
+
       return Column(
           children: [
             const AppbarBottom(),
@@ -145,7 +150,31 @@ class HomeBodyView extends StatelessWidget {
           ],
         );
     });
-
   }
+
+  void exampleGetBoard(WidgetRef ref){
+    final getBoard = ref.read(getBoardProvider);
+    log('getBoard: $getBoard');
+    getBoard.when(
+      data: (data) async {
+        final receiveData = await data;
+        log('getBoard data: $data');
+        log('getBoard data receiveData : $receiveData');
+        for (var element in receiveData) {
+          log('getBoard data id: ${element.id}');
+          log('getBoard data type: ${element.type}');
+          log('getBoard data name: ${element.name}');
+          log('getBoard data address: ${element.address}');
+        }
+      },
+      loading: () {
+        log('getBoard loading');
+      },
+      error: (error, stackTrace) {
+        log('getBoard error: $error');
+      },
+    );
+  }
+
 }
 

@@ -22,6 +22,8 @@ dependencies:
   nurbanhoney_ui_service:
     path: application/nurbanhoney_ui_service
   dio: ^5.2.0
+  dio_service:
+    path: application/dio_service
 
 dev_dependencies:
   flutter_test:
