@@ -6,6 +6,10 @@ import 'package:dio_domain/dio_domain.dart';
 
 class FreeRepository {
   /// constructor
-  FreeRepository();
+  FreeRepository._privateConstructor();
+  static final FreeRepository _instance = FreeRepository._privateConstructor();
 
+  factory FreeRepository(){
+    return _instance;
+  }
 }

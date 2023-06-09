@@ -7,7 +7,12 @@ import 'package:dio_domain/dio_domain.dart';
 
 class DioRepository {
   /// constructor
-  DioRepository();
+  DioRepository._privateConstructor();
+  static final DioRepository _instance = DioRepository._privateConstructor();
+
+  factory DioRepository(){
+    return _instance;
+  }
 
   final dio = Dio();
 

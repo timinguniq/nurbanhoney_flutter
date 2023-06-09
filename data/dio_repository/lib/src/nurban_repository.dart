@@ -1,5 +1,9 @@
 class NurbanRepository {
   /// constructor
-  NurbanRepository();
+  NurbanRepository._privateConstructor();
+  static final NurbanRepository _instance = NurbanRepository._privateConstructor();
 
+  factory NurbanRepository(){
+    return _instance;
+  }
 }

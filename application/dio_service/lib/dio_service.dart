@@ -4,4 +4,6 @@
 library dio_service;
 
 export 'src/dio_service.dart';
+export 'src/rank_service.dart';
+
 

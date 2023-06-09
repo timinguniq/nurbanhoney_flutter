@@ -98,7 +98,9 @@ class HomeBodyView extends StatelessWidget {
       final homeDividerStyle = ref.read(homeDividerTitle);
 
       // getBoard 통신 예시코드
-      exampleGetBoard(ref);
+      //exampleGetBoard(ref);
+
+      exampleGetRankTab(ref, 0, 3);
 
       return Column(
           children: [
@@ -172,6 +174,31 @@ class HomeBodyView extends StatelessWidget {
       },
       error: (error, stackTrace) {
         log('getBoard error: $error');
+      },
+    );
+  }
+
+  void exampleGetRankTab(WidgetRef ref, int offset, int limit){
+    final getRankTab = ref.read(getRankTabProvider((offset: offset,limit: limit)));
+    log('getRankTab: $getRankTab');
+    getRankTab.when(
+      data: (data) async {
+        final receiveData = await data;
+        log('getRankTab data: $data');
+        log('getRankTab data receiveData : $receiveData');
+        for (var element in receiveData) {
+          log('getRankTab data id: ${element.id}');
+          log('getRankTab data userId: ${element.userId}');
+          log('getRankTab data badge: ${element.badge}');
+          log('getRankTab data nickname: ${element.nickname}');
+          log('getRankTab data insignia: ${element.insignia}');
+        }
+      },
+      loading: () {
+        log('getRankTab loading');
+      },
+      error: (error, stackTrace) {
+        log('getRankTab error: $error');
       },
     );
   }
