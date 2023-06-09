@@ -102,6 +102,8 @@ class HomeBodyView extends StatelessWidget {
 
       exampleGetRankTab(ref, 0, 3);
 
+      //final getRankTab = ref.watch(getRankTabProvider((offset: 0,limit: 3)));
+
       return Column(
           children: [
             const AppbarBottom(),
@@ -179,11 +181,11 @@ class HomeBodyView extends StatelessWidget {
   }
 
   void exampleGetRankTab(WidgetRef ref, int offset, int limit){
-    final getRankTab = ref.read(getRankTabProvider((offset: offset,limit: limit)));
+    final getRankTab = ref.watch(getRankTabProvider((offset: offset,limit: limit)));
     log('getRankTab: $getRankTab');
     getRankTab.when(
-      data: (data) async {
-        final receiveData = await data;
+      data: (data) {
+        final receiveData = data;
         log('getRankTab data: $data');
         log('getRankTab data receiveData : $receiveData');
         for (var element in receiveData) {
