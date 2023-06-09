@@ -11,13 +11,19 @@ class DioRepository {
 
   final dio = Dio();
 
-  Future<List<BoardModel>> getBoard() async {
+  Future<List<({int id, int type, String name, String address})>> getBoard() async {
     try {
       final response = await dio.get('${DioApi.mainApi}/board');
-      final result = <BoardModel>[];
+      final result = <({int id, int type, String name, String address})>[];
       for(int i = 0; i < response.data.length ; i++) {
         log('getBoard response: ${response.data[i]}');
-        result.add(BoardModel.fromJson(response.data[i]));
+        final records =
+          (id: int.parse(response.data[i]['id'].toString()),
+          type: int.parse(response.data[i]['type'].toString()),
+          name: response.data[i]['name'].toString(),
+          address: response.data[i]['address'].toString());
+       // result.add(BoardModel.fromJson(response.data[i]));
+        result.add(records);
       }
       log('getBoard response: ${response.data.toString()}');
 
