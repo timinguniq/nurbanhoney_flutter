@@ -102,8 +102,6 @@ class HomeBodyView extends StatelessWidget {
 
       exampleGetRankTab(ref, 0, 3);
 
-      //final getRankTab = ref.watch(getRankTabProvider((offset: 0,limit: 3)));
-
       return Column(
           children: [
             const AppbarBottom(),

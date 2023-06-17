@@ -14,7 +14,7 @@ class RankRepository {
 
   final dio = Dio();
 
-  Future<List<({int id, int userId, String badge, String nickname, Object insignia})>> getRankTab({
+  Future<List<({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>> getRankTab({
     required int offset,
     required int limit,
   }) async {
@@ -25,11 +25,13 @@ class RankRepository {
           'offset': offset, 'limit': limit,
         },
       );
-      final result = <({int id, int userId, String badge, String nickname, Object insignia})>[];
+      final result = <({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>[];
       for(int i = 0; i < response.data.length ; i++) {
         log('getRankTab response: ${response.data[i]}');
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
+        totalLossCut: int.parse(response.data[i]['totalLossCut'].toString()),
+        totalLikeCount: int.parse(response.data[i]['totalLikeCount'].toString()),
         userId: int.parse(response.data[i]['user']['userId'].toString()),
         badge: response.data[i]['user']['badge'].toString(),
         nickname: response.data[i]['user']['nickname'].toString(),
