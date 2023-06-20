@@ -19,6 +19,10 @@ class $AssetsImagesGen {
 class $AssetsImagesHomeGen {
   const $AssetsImagesHomeGen();
 
+  /// File path: assets/images/home/floating_button.png
+  AssetGenImage get floatingButton =>
+      const AssetGenImage('assets/images/home/floating_button.png');
+
   /// File path: assets/images/home/home_toolbar.png
   AssetGenImage get homeToolbar =>
       const AssetGenImage('assets/images/home/home_toolbar.png');
@@ -36,8 +40,13 @@ class $AssetsImagesHomeGen {
       const AssetGenImage('assets/images/home/nurban_symbol.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [homeToolbar, nurbanChar, nurbanRankTabMoney, nurbanSymbol];
+  List<AssetGenImage> get values => [
+        floatingButton,
+        homeToolbar,
+        nurbanChar,
+        nurbanRankTabMoney,
+        nurbanSymbol
+      ];
 }
 
 class $AssetsImagesSplashGen {
