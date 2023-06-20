@@ -33,6 +33,21 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
+  int _selectedIndex = 0;
+
+  final List<Widget> _widgetOptions = <Widget>[
+    HomeBodyView(),
+    HomeBodyView(),
+    HomeBodyView(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
@@ -71,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ],
         ),
-        body: const HomeBodyView(),
+        body: _widgetOptions.elementAt(_selectedIndex),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // TODO : 글 생성 화면으로 이동.
@@ -84,16 +99,51 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const [
+          backgroundColor: Colors.white,
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: SizedBox(
+                width: 32,
+                height: 32,
+                child: Assets.images.home.naviHomeInactive.image(),
+              ),
+              activeIcon: SizedBox(
+                width: 32,
+                height: 32,
+                child: Assets.images.home.naviHomeActive.image(),
+              ),
+              label: '홈',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
+              icon: SizedBox(
+                width: 32,
+                height: 32,
+                child: Assets.images.home.naviRankInactive.image(),
+              ),
+              activeIcon: SizedBox(
+                width: 32,
+                height: 32,
+                child: Assets.images.home.naviRankActive.image(),
+              ),
+              label: '꿀랭킹',
+            ),
+            BottomNavigationBarItem(
+              icon: SizedBox(
+                width: 32,
+                height: 32,
+                child: Assets.images.home.naviMyaccountInactive.image(),
+              ),
+              activeIcon: SizedBox(
+                width: 32,
+                height: 32,
+                child: Assets.images.home.naviMyaccountActive.image(),
+              ),
+              label: '내 정보',
             ),
           ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: floatButtonColor,
+          onTap: _onItemTapped,
         ),
       );
     });

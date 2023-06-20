@@ -27,6 +27,30 @@ class $AssetsImagesHomeGen {
   AssetGenImage get homeToolbar =>
       const AssetGenImage('assets/images/home/home_toolbar.png');
 
+  /// File path: assets/images/home/navi_home_active.png
+  AssetGenImage get naviHomeActive =>
+      const AssetGenImage('assets/images/home/navi_home_active.png');
+
+  /// File path: assets/images/home/navi_home_inactive.png
+  AssetGenImage get naviHomeInactive =>
+      const AssetGenImage('assets/images/home/navi_home_inactive.png');
+
+  /// File path: assets/images/home/navi_myaccount_active.png
+  AssetGenImage get naviMyaccountActive =>
+      const AssetGenImage('assets/images/home/navi_myaccount_active.png');
+
+  /// File path: assets/images/home/navi_myaccount_inactive.png
+  AssetGenImage get naviMyaccountInactive =>
+      const AssetGenImage('assets/images/home/navi_myaccount_inactive.png');
+
+  /// File path: assets/images/home/navi_rank_active.png
+  AssetGenImage get naviRankActive =>
+      const AssetGenImage('assets/images/home/navi_rank_active.png');
+
+  /// File path: assets/images/home/navi_rank_inactive.png
+  AssetGenImage get naviRankInactive =>
+      const AssetGenImage('assets/images/home/navi_rank_inactive.png');
+
   /// File path: assets/images/home/nurban_char.png
   AssetGenImage get nurbanChar =>
       const AssetGenImage('assets/images/home/nurban_char.png');
@@ -43,6 +67,12 @@ class $AssetsImagesHomeGen {
   List<AssetGenImage> get values => [
         floatingButton,
         homeToolbar,
+        naviHomeActive,
+        naviHomeInactive,
+        naviMyaccountActive,
+        naviMyaccountInactive,
+        naviRankActive,
+        naviRankInactive,
         nurbanChar,
         nurbanRankTabMoney,
         nurbanSymbol

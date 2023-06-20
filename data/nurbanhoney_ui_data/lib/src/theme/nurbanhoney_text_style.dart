@@ -170,4 +170,16 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color1E1E1E,
   );
 
+  /// Font size: 10 | Color: 1E1E1E
+  static const homeBottomNavigationSelected = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.colorF6B748,
+    height: 1.2,
+  );
+
+
+
 }

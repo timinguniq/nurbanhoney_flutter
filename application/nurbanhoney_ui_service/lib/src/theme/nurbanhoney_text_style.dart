@@ -78,4 +78,7 @@ final boardListItemLike = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.boardListItemLike;
 });
 
+final homeBottomNavigationSelected = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.boardListItemLike;
+});
 
