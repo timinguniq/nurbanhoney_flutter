@@ -178,6 +178,36 @@ class HomeBodyView extends StatelessWidget {
     );
   }
 
+  void exampleGetBoardAll(WidgetRef ref){
+    final getBoardAll = ref.watch(getBoardAllProvider);
+    log('getBoardAll: $getBoardAll');
+    getBoardAll.when(
+      data: (data) async {
+        final receiveData = await data;
+        log('getBoardAll data: $data');
+        log('getBoardAll data receiveData : $receiveData');
+        for (var element in receiveData) {
+          log('getBoardAll data id: ${element.id}');
+          log('getBoardAll data board: ${element.board}');
+          log('getBoardAll data thumbnail: ${element.thumbnail}');
+          log('getBoardAll data title: ${element.title}');
+          log('getBoardAll data content: ${element.content}');
+          log('getBoardAll data commentCount: ${element.commentCount}');
+          log('getBoardAll data likeCount: ${element.likeCount}');
+          log('getBoardAll data createdAt: ${element.createdAt}');
+          log('getBoardAll data nickname: ${element.nickname}');
+        }
+      },
+      loading: () {
+        log('getBoard loading');
+      },
+      error: (error, stackTrace) {
+        log('getBoard error: $error');
+      },
+    );
+  }
+
+
   void exampleGetRankTab(WidgetRef ref, int offset, int limit){
     final getRankTab = ref.watch(getRankTabProvider((offset: offset,limit: limit)));
     log('getRankTab: $getRankTab');

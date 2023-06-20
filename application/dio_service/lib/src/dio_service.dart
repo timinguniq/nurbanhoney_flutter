@@ -8,6 +8,11 @@ final getBoardProvider = FutureProvider.autoDispose<Future<List<({int id, int ty
   return dioRepository.getBoard();
 });
 
+final getBoardAllProvider = FutureProvider.autoDispose<Future<List<BoardAllType>>>((ref) {
+  final dioRepository = ref.watch(dioRepositoryProvider);
+  return dioRepository.getBoardAll();
+});
+
 final dioRepositoryProvider = Provider<DioRepository>((ref) {
   return DioRepository();
 });
