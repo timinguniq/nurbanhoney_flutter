@@ -25,7 +25,8 @@ class HomeBodyView extends StatelessWidget {
       // getBoard 통신 예시코드
       //exampleGetBoard(ref);
 
-      exampleGetRankTab(ref, 0, 3);
+      //exampleGetRankTab(ref, 0, 3);
+
 
       return Stack(children: [
         SizedBox(
@@ -61,23 +62,14 @@ class HomeBodyView extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (homeAppbarNavigation == HomeAppbarStatus.whole)
-                NurbanBoardItemView(
-                  title: 'title',
-                  lossCut: 'dflkj',
-                  author: 'dflkdjf',
-                  date: '2012-12-21',
-                  likeCount: '34',
-                  thumbnail: Assets.images.home.nurbanSymbol.image(),
+              if(homeAppbarNavigation == HomeAppbarStatus.whole)
+                const BoardAllView(
+                  flag: 0,
+                  articleId: -1,
+                  limit: 100,
                 ),
-              if (homeAppbarNavigation == HomeAppbarStatus.whole)
-                const FreeBoardItemView(
-                  title: 'title',
-                  content: 'content',
-                  author: 'dflkdjf',
-                  date: '2012-12-21',
-                  likeCount: '34',
-                ),
+
+
             ],
           ),
 
@@ -110,8 +102,8 @@ class HomeBodyView extends StatelessWidget {
     );
   }
 
-  void exampleGetBoardAll(WidgetRef ref) {
-    final getBoardAll = ref.watch(getBoardAllProvider);
+  void exampleGetBoardAll(WidgetRef ref, int flag, int articleId, int limit) {
+    final getBoardAll = ref.watch(getBoardAllProvider((flag, articleId, limit)));
     log('getBoardAll: $getBoardAll');
     getBoardAll.when(
       data: (data) async {

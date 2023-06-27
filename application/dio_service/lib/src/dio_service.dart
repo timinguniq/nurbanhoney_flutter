@@ -8,9 +8,9 @@ final getBoardProvider = FutureProvider.autoDispose<Future<List<({int id, int ty
   return dioRepository.getBoard();
 });
 
-final getBoardAllProvider = FutureProvider.autoDispose<Future<List<BoardAllType>>>((ref) {
+final getBoardAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>, (int, int, int)>((ref, records) async {
   final dioRepository = ref.watch(dioRepositoryProvider);
-  return dioRepository.getBoardAll();
+  return await dioRepository.getBoardAll(flag: records.$1, articleId: records.$2, limit: records.$3);
 });
 
 final dioRepositoryProvider = Provider<DioRepository>((ref) {

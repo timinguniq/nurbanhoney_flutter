@@ -123,7 +123,6 @@ class NurbanRankTabView extends StatelessWidget {
         },
       );
 
-
     });
   }
 
