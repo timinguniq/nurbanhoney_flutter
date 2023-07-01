@@ -27,7 +27,6 @@ class HomeBodyView extends StatelessWidget {
 
       //exampleGetRankTab(ref, 0, 3);
 
-
       return Stack(children: [
         SizedBox(
           width: double.infinity,
@@ -63,13 +62,16 @@ class HomeBodyView extends StatelessWidget {
                   ),
                 ),
               if(homeAppbarNavigation == HomeAppbarStatus.whole)
-                const BoardAllView(
-                  flag: 0,
-                  articleId: -1,
-                  limit: 100,
+                const Expanded(
+                  child: BoardAllView(
+                    flag: 0,
+                    articleId: -1,
+                    limit: 100,
+                  ),
                 ),
-
-
+              const SizedBox(
+                height: 90,
+              ),
             ],
           ),
 

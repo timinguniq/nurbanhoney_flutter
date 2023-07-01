@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/home/home.dart';
 
 class BoardAllView extends StatelessWidget {
   const BoardAllView({
@@ -48,31 +49,49 @@ class BoardAllView extends StatelessWidget {
             child: Column(
               children: [
                 for(var element in receiveData)
-                  if(element.board == 0)
-                    FreeBoardItemView(
-                      title: element.title,
-                      content: element.content,
-                  SizedBox(),
-
-
-                if (homeAppbarNavigation == HomeAppbarStatus.whole)
-                  NurbanBoardItemView(
-                    title: 'title',
-                    lossCut: 'dflkj',
-                    author: 'dflkdjf',
-                    date: '2012-12-21',
-                    likeCount: '34',
-                    thumbnail: Assets.images.home.nurbanSymbol.image(),
-                  ),
-                if (homeAppbarNavigation == HomeAppbarStatus.whole)
-                  const FreeBoardItemView(
-                    title: 'title',
-                    content: 'content',
-                    author: 'dflkdjf',
-                    date: '2012-12-21',
-                    likeCount: '34',
-                  ),
-
+                  element.board == 1
+                    ? Column(
+                      children: [
+                        NurbanBoardItemView(
+                          title: element.title,
+                          lossCut: element.lossCut,
+                          author: element.nickname,
+                          date: element.createdAt,
+                          likeCount: element.likeCount,
+                          thumbnail: element.thumbnail != null
+                              ? Image(
+                                image: NetworkImage(element.thumbnail ?? ''),
+                              )
+                              : Assets.images.home.nurbanSymbol.image(),
+                        ),
+                        const AppbarDivider(),
+                      ],
+                    )
+                    : element.board == 2
+                      ? Column(
+                          children: [
+                            FreeBoardItemView(
+                              title: element.title,
+                              content: element.content,
+                              author: element.nickname,
+                              date: element.createdAt,
+                              likeCount: element.likeCount,
+                            ),
+                            const AppbarDivider(),
+                          ],
+                        )
+                      : Column(
+                        children: [
+                          FreeBoardItemView(
+                            title: element.title,
+                            content: element.content,
+                            author: element.nickname,
+                            date: element.createdAt,
+                            likeCount: element.likeCount,
+                          ),
+                          const AppbarDivider(),
+                        ],
+                    ),
               ],
             ),
           );
