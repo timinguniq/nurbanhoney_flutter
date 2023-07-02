@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
+import 'package:share_service/share_service.dart';
 
 class BoardAllView extends StatelessWidget {
   const BoardAllView({
@@ -26,8 +27,8 @@ class BoardAllView extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final rankTabTitleStyle = ref.watch(rankTabTitle);
       //final rankTabWholeStyle = ref.watch(rankTabWhole);
-
       final getBoardAll = ref.watch(getBoardAllProvider((_flag, _articleId, _limit)));
+      final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
       return getBoardAll.when(
         data: (data) {
@@ -56,7 +57,7 @@ class BoardAllView extends StatelessWidget {
                           title: element.title,
                           lossCut: element.lossCut,
                           author: element.nickname,
-                          date: element.createdAt,
+                          date: formattingCreatedAt(element.createdAt),
                           likeCount: element.likeCount,
                           thumbnail: element.thumbnail != null
                               ? Image(
@@ -74,7 +75,7 @@ class BoardAllView extends StatelessWidget {
                               title: element.title,
                               content: element.content,
                               author: element.nickname,
-                              date: element.createdAt,
+                              date: formattingCreatedAt(element.createdAt),
                               likeCount: element.likeCount,
                             ),
                             const AppbarDivider(),
@@ -86,7 +87,7 @@ class BoardAllView extends StatelessWidget {
                             title: element.title,
                             content: element.content,
                             author: element.nickname,
-                            date: element.createdAt,
+                            date: formattingCreatedAt(element.createdAt),
                             likeCount: element.likeCount,
                           ),
                           const AppbarDivider(),

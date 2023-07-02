@@ -24,6 +24,8 @@ dependencies:
   dio: ^5.2.0
   dio_service:
     path: application/dio_service
+  share_service:
+    path: application/share_service
 
 dev_dependencies:
   flutter_test:
