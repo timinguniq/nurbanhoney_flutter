@@ -9,6 +9,11 @@ environment:
 # Add regular dependencies here.
 dependencies:
   # path: ^1.8.0
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.0.2
+  share_repository:
+    path: ../../data/share_repository
 
 dev_dependencies:
   lints: ^2.0.0
