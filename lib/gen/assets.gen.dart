@@ -83,12 +83,25 @@ class $AssetsImagesHomeGen {
 class $AssetsImagesLoginGen {
   const $AssetsImagesLoginGen();
 
+  /// File path: assets/images/login/google_symbol.png
+  AssetGenImage get googleSymbol =>
+      const AssetGenImage('assets/images/login/google_symbol.png');
+
+  /// File path: assets/images/login/kakao_symbol.png
+  AssetGenImage get kakaoSymbol =>
+      const AssetGenImage('assets/images/login/kakao_symbol.png');
+
   /// File path: assets/images/login/login_close.png
   AssetGenImage get loginClose =>
       const AssetGenImage('assets/images/login/login_close.png');
 
+  /// File path: assets/images/login/naver_symbol.png
+  AssetGenImage get naverSymbol =>
+      const AssetGenImage('assets/images/login/naver_symbol.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [loginClose];
+  List<AssetGenImage> get values =>
+      [googleSymbol, kakaoSymbol, loginClose, naverSymbol];
 }
 
 class $AssetsImagesSplashGen {

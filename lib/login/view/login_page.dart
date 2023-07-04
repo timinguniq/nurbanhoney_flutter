@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,6 +27,9 @@ class LoginPage extends StatelessWidget {
       final naverStyle = ref.read(loginNaverStyle);
       final noticeStyle = ref.read(loginNoticeStyle);
       final noticeHighlightStyle = ref.read(loginNoticeHighlightStyle);
+
+      final kakaoBackgroundColor = ref.read(colorFEE500);
+      final naverBackgroundColor = ref.read(color00C85A);
 
       return Scaffold(
         body: Padding(
@@ -57,6 +63,19 @@ class LoginPage extends StatelessWidget {
               const Expanded(
                 flex: 64,
                 child: SizedBox(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SocialLoginBtn(
+                  icon: Assets.images.login.kakaoSymbol.image(),
+                  text: '카카오톡 계정으로 로그인',
+                  textStyle: kakaoStyle,
+                  backgroundColor: kakaoBackgroundColor,
+                  elevation: 0,
+                  onTap: () {
+                    log('kakao login click');
+                  },
+                ),
               ),
               const Expanded(
                 flex: 21,
