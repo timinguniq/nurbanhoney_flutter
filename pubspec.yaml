@@ -39,6 +39,7 @@ flutter:
   assets:
     - assets/images/splash/
     - assets/images/home/
+    - assets/images/login/
 
 flutter_gen:
   line_length: 80

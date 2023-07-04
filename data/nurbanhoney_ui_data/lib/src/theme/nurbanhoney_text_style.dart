@@ -170,7 +170,7 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color1E1E1E,
   );
 
-  /// Font size: 10 | Color: 1E1E1E
+  /// Font size: 10 | Color: F6B748
   static const homeBottomNavigationSelected = TextStyle(
     fontSize: 10,
     package: _fontPackage,
@@ -180,6 +180,55 @@ abstract class NurbanhoneyTextStyle {
     height: 1.2,
   );
 
+  /// Font size: 22 | Color: 1E1E1E
+  static const loginTitle = TextStyle(
+    fontSize: 22,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1.2,
+  );
+
+  /// Font size: 14 | Color: 1E1E1E
+  static const loginKakao = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1.2,
+  );
+
+  /// Font size: 14 | Color: FFFFFF
+  static const loginNaver = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.white,
+    height: 1.2,
+  );
+
+  /// Font size: 12 | Color: D2D2D2
+  static const loginNotice = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.colorD2D2D2,
+    height: 1.2,
+  );
+
+  /// Font size: 12 | Color: FFFFFF
+  static const loginNoticeHighlight = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.colorF6B748,
+    height: 1.2,
+  );
 
 
 }

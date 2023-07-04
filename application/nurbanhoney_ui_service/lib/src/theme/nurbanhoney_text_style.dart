@@ -82,3 +82,22 @@ final homeBottomNavigationSelected = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.boardListItemLike;
 });
 
+final loginTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.loginTitle;
+});
+
+final loginKakaoStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.loginKakao;
+});
+
+final loginNaverStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.loginNaver;
+});
+
+final loginNoticeStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.loginNotice;
+});
+
+final loginNoticeHighlightStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.loginNoticeHighlight;
+});

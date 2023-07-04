@@ -13,6 +13,7 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
+  $AssetsImagesLoginGen get login => const $AssetsImagesLoginGen();
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 }
 
@@ -77,6 +78,17 @@ class $AssetsImagesHomeGen {
         nurbanRankTabMoney,
         nurbanSymbol
       ];
+}
+
+class $AssetsImagesLoginGen {
+  const $AssetsImagesLoginGen();
+
+  /// File path: assets/images/login/login_close.png
+  AssetGenImage get loginClose =>
+      const AssetGenImage('assets/images/login/login_close.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [loginClose];
 }
 
 class $AssetsImagesSplashGen {
