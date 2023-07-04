@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:authentication_domain/authentication_domain.dart';
+import 'package:authentication_service/authentication_service.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +10,7 @@ import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
+import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class HomePage extends StatelessWidget {
@@ -51,6 +54,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final floatButtonColor = ref.read(colorF6B748);
+      final authenticationProvider = ref.watch(authenticationServiceProvider);
 
       return Scaffold(
         extendBody: true,
@@ -101,7 +105,13 @@ class _HomeViewState extends State<HomeView> {
         floatingActionButton: _selectedIndex != 2
             ? FloatingActionButton(
                 onPressed: () {
-                  // TODO : 글 생성 화면으로 이동.
+                  if(authenticationProvider == AuthenticationStatus.authenticated) {
+                    // TODO : 글 생성 화면으로 이동.
+                    //Navigator.of(context).push(BoardPage.routeName);
+                  } else {
+                    // TODO : 로그인 화면으로 이동
+                    Navigator.of(context).push(LoginPage.route());
+                  }
                 },
                 backgroundColor: floatButtonColor,
                 child: SizedBox(
