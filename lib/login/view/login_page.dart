@@ -42,14 +42,19 @@ class LoginPage extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 9,
-                    left: 10,
-                  ),
-                  child: Assets.images.login.loginClose.image(
-                    width: 30,
-                    height: 30,
+                child: InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 9,
+                      left: 10,
+                    ),
+                    child: Assets.images.login.loginClose.image(
+                      width: 30,
+                      height: 30,
+                    ),
                   ),
                 ),
               ),
@@ -115,6 +120,21 @@ class LoginPage extends StatelessWidget {
               const Expanded(
                 flex: 218,
                 child: SizedBox(),
+              ),
+              LoginNotice(
+                text1: '회원가입 없이 이용가능 하며 첫 로그인시 ',
+                text2: '이용약관 ',
+                text3: '및',
+                text4: '개인정보 처리방침 ',
+                text5: '동의로 간주됩니다.',
+                textStyle: noticeStyle,
+                highlightTextStyle: noticeHighlightStyle,
+                termsOfUseOnTap: () {
+                  log('terms of use click');
+                },
+                privacyPolicyOnTap: (){
+                  log('privacy policy click');
+                },
               ),
               const Expanded(
                 flex: 19,
