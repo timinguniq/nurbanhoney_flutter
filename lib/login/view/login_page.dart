@@ -30,6 +30,7 @@ class LoginPage extends StatelessWidget {
 
       final kakaoBackgroundColor = ref.read(colorFEE500);
       final naverBackgroundColor = ref.read(color00C85A);
+      final whiteColor = ref.read(primaryWhite);
 
       return Scaffold(
         body: Padding(
@@ -81,9 +82,35 @@ class LoginPage extends StatelessWidget {
                 flex: 21,
                 child: SizedBox(),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SocialLoginBtn(
+                  icon: Assets.images.login.naverSymbol.image(),
+                  text: '네이버 계정으로 로그인',
+                  textStyle: naverStyle,
+                  backgroundColor: naverBackgroundColor,
+                  elevation: 0,
+                  onTap: () {
+                    log('naver login click');
+                  },
+                ),
+              ),
               const Expanded(
                 flex: 21,
                 child: SizedBox(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SocialLoginBtn(
+                  icon: Assets.images.login.googleSymbol.image(),
+                  text: '구글 계정으로 로그인',
+                  textStyle: kakaoStyle,
+                  backgroundColor: whiteColor,
+                  elevation: 2,
+                  onTap: () {
+                    log('google login click');
+                  },
+                ),
               ),
               const Expanded(
                 flex: 218,
