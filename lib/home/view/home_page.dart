@@ -62,6 +62,7 @@ class _HomeViewState extends State<HomeView> {
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(52),
                 child: AppBar(
+                  iconTheme: const IconThemeData(color: Colors.black),
                   backgroundColor: Colors.white,
                   elevation: 0,
                   title: Row(
@@ -79,6 +80,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ],
                   ),
+                  /*
                   actions: [
                     IconButton(
                       onPressed: () {
@@ -91,6 +93,8 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ],
+
+                   */
                 ),
               )
             : PreferredSize(
@@ -101,6 +105,13 @@ class _HomeViewState extends State<HomeView> {
                   child: Center(child: Text('마이페이지')),
                 ),
               ),
+        endDrawer: Drawer(
+          backgroundColor: Colors.red,
+          child: Container(
+            width: 200,
+            child: Text('drawer'),
+          ),
+        ),
         body: _widgetOptions.elementAt(_selectedIndex),
         floatingActionButton: _selectedIndex != 2
             ? FloatingActionButton(
