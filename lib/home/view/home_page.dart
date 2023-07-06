@@ -106,17 +106,43 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
         endDrawer: Drawer(
-          backgroundColor: Colors.red,
-          child: Container(
-            width: 200,
-            child: Text('drawer'),
+          backgroundColor: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top,
+              bottom: MediaQuery.of(context).padding.bottom,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 12,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: Assets.images.login.loginClose.image(),
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
           ),
         ),
         body: _widgetOptions.elementAt(_selectedIndex),
         floatingActionButton: _selectedIndex != 2
             ? FloatingActionButton(
                 onPressed: () {
-                  if(authenticationProvider == AuthenticationStatus.authenticated) {
+                  if (authenticationProvider ==
+                      AuthenticationStatus.authenticated) {
                     // TODO : 글 생성 화면으로 이동.
                     //Navigator.of(context).push(BoardPage.routeName);
                   } else {
