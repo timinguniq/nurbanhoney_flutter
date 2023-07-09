@@ -108,6 +108,7 @@ class BoardAllView extends StatelessWidget {
           return const Text('error');
         },
       );
+      
 
     });
   }
