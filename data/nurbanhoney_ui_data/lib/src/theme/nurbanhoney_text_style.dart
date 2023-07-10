@@ -230,5 +230,23 @@ abstract class NurbanhoneyTextStyle {
     height: 1.2,
   );
 
+  /// Font size: 12 | Color: FFFFFF
+  static const drawerProfile = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1.2,
+  );
 
+  /// Font size: 12 | Color: FFFFFF
+  static const drawerProfileEdit = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.white,
+    height: 1.2,
+  );
 }

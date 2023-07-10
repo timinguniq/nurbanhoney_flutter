@@ -101,3 +101,11 @@ final loginNoticeStyle = Provider<TextStyle>((ref) {
 final loginNoticeHighlightStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.loginNoticeHighlight;
 });
+
+final drawerProfileStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.drawerProfile;
+});
+
+final drawerProfileEditStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.drawerProfileEdit;
+});
