@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 class LoginNotice extends StatelessWidget {
@@ -37,48 +35,48 @@ class LoginNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _text1,
-                style: _textStyle,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _text1,
+              style: _textStyle,
+            ),
+            InkWell(
+              onTap: _termsOfUseOnTap,
+              child: Text(
+                _text2,
+                style: _highlightTextStyle,
               ),
-              InkWell(
-                onTap: _termsOfUseOnTap,
-                child: Text(
-                  _text2,
-                  style: _highlightTextStyle,
-                ),
+            ),
+            Text(
+              _text3,
+              style: _textStyle,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 2,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: _privacyPolicyOnTap,
+              child: Text(
+                _text4,
+                style: _highlightTextStyle,
               ),
-              Text(
-                _text3,
-                style: _textStyle,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: _privacyPolicyOnTap,
-                child: Text(
-                  _text4,
-                  style: _highlightTextStyle,
-                ),
-              ),
-              Text(
-                _text5,
-                style: _textStyle,
-              ),
-            ],
-          ),
-        ],
+            ),
+            Text(
+              _text5,
+              style: _textStyle,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

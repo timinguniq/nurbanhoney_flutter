@@ -35,15 +35,15 @@ class LoginPage extends StatelessWidget {
       return Scaffold(
         body: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
-              left: MediaQuery.of(context).padding.bottom,
+            top: MediaQuery.of(context).padding.top,
+            left: MediaQuery.of(context).padding.bottom,
           ),
           child: Column(
             children: [
               Align(
                 alignment: Alignment.topLeft,
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Padding(
@@ -131,9 +131,17 @@ class LoginPage extends StatelessWidget {
                 highlightTextStyle: noticeHighlightStyle,
                 termsOfUseOnTap: () {
                   log('terms of use click');
+                  _policyPopup(
+                    context: context,
+                    content: 'terms of use click',
+                  );
                 },
-                privacyPolicyOnTap: (){
+                privacyPolicyOnTap: () {
                   log('privacy policy click');
+                  _policyPopup(
+                    context: context,
+                    content: 'privacy policy click',
+                  );
                 },
               ),
               const Expanded(
@@ -145,5 +153,29 @@ class LoginPage extends StatelessWidget {
         ),
       );
     });
+  }
+
+  // 이용약관과 개인정보 처리방침 팝업
+  void _policyPopup({
+    required BuildContext context,
+    required String content,
+  }) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(content),
+            insetPadding: const EdgeInsets.fromLTRB(10, 80, 10, 80),
+            actions: [
+              TextButton(
+                child: const Text('확인'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }
