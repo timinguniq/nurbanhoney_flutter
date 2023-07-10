@@ -20,6 +20,10 @@ class $AssetsImagesGen {
 class $AssetsImagesHomeGen {
   const $AssetsImagesHomeGen();
 
+  /// File path: assets/images/home/drawer_profile_edit.png
+  AssetGenImage get drawerProfileEdit =>
+      const AssetGenImage('assets/images/home/drawer_profile_edit.png');
+
   /// File path: assets/images/home/floating_button.png
   AssetGenImage get floatingButton =>
       const AssetGenImage('assets/images/home/floating_button.png');
@@ -66,6 +70,7 @@ class $AssetsImagesHomeGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        drawerProfileEdit,
         floatingButton,
         homeToolbar,
         naviHomeActive,
