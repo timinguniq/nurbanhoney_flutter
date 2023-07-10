@@ -39,6 +39,9 @@ class DrawerProfile extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 30,
+              ),
               const Center(
                   child: DrawerProfilePreview(),
               ),
