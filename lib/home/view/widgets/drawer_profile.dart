@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/home/home.dart';
 
 class DrawerProfile extends StatelessWidget {
   const DrawerProfile({super.key});
@@ -37,6 +38,9 @@ class DrawerProfile extends StatelessWidget {
                     child: Assets.images.login.loginClose.image(),
                   ),
                 ),
+              ),
+              const Center(
+                  child: DrawerProfilePreview(),
               ),
 
             ],
