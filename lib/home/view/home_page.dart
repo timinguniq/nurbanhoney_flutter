@@ -105,38 +105,7 @@ class _HomeViewState extends State<HomeView> {
                   child: Center(child: Text('마이페이지')),
                 ),
               ),
-        endDrawer: Drawer(
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
-              bottom: MediaQuery.of(context).padding.bottom,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 12,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Assets.images.login.loginClose.image(),
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-        ),
+        endDrawer: const DrawerProfile(),
         body: _widgetOptions.elementAt(_selectedIndex),
         floatingActionButton: _selectedIndex != 2
             ? FloatingActionButton(
