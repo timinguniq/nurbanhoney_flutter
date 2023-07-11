@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -13,6 +15,7 @@ class DrawerProfile extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+      final drawerProfileTextStyle = ref.read(drawerProfileStyle);
       final dividerColor = ref.read(color55000000);
 
       return  Drawer(
@@ -55,7 +58,43 @@ class DrawerProfile extends StatelessWidget {
                 thickness: 0.5,
                 color: dividerColor,
               ),
-              
+              const SizedBox(
+                height: 14,
+              ),
+              DrawerBoardWidget(
+                title: '공지사항',
+                textStyle: drawerProfileTextStyle,
+                onTap: () {
+                  log('notice clicked');
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DrawerBoardWidget(
+                title: '인기글',
+                textStyle: drawerProfileTextStyle,
+                onTap: () {
+                  log('popular clicked');
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DrawerBoardWidget(
+                title: '너반꿀 랭킹(꿀랭)',
+                textStyle: drawerProfileTextStyle,
+                onTap: () {
+                  log('nurban rank clicked');
+                },
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              Divider(
+                thickness: 0.5,
+                color: dividerColor,
+              ),
             ],
           ),
         ),
