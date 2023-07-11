@@ -31,6 +31,7 @@ class LoginPage extends StatelessWidget {
       final kakaoBackgroundColor = ref.read(colorFEE500);
       final naverBackgroundColor = ref.read(color00C85A);
       final whiteColor = ref.read(primaryWhite);
+      final primaryColor = ref.read(colorF6B748);
 
       return Scaffold(
         body: Padding(
@@ -134,6 +135,7 @@ class LoginPage extends StatelessWidget {
                   _policyPopup(
                     context: context,
                     content: 'terms of use click',
+                    confirmColor: primaryColor,
                   );
                 },
                 privacyPolicyOnTap: () {
@@ -141,6 +143,7 @@ class LoginPage extends StatelessWidget {
                   _policyPopup(
                     context: context,
                     content: 'privacy policy click',
+                    confirmColor: primaryColor,
                   );
                 },
               ),
@@ -157,6 +160,36 @@ class LoginPage extends StatelessWidget {
 
   // 이용약관과 개인정보 처리방침 팝업
   void _policyPopup({
+    required BuildContext context,
+    required String content,
+    required Color confirmColor,
+  }) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(content),
+            insetPadding: const EdgeInsets.fromLTRB(10, 80, 10, 80),
+            actions: [
+              TextButton(
+                child: Text(
+                    '확인',
+                    style: TextStyle(
+                      color: confirmColor,
+                    ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  // 개발중 팝업
+  void _Popup({
     required BuildContext context,
     required String content,
   }) {
@@ -178,4 +211,5 @@ class LoginPage extends StatelessWidget {
           );
         });
   }
+
 }
