@@ -26,6 +26,8 @@ dependencies:
     path: application/dio_service
   share_service:
     path: application/share_service
+  kakao_flutter_sdk: ^1.4.3
+  kakao_flutter_sdk_user: ^1.4.3
 
 dev_dependencies:
   flutter_test:

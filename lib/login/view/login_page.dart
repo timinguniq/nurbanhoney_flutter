@@ -98,6 +98,11 @@ class LoginPage extends StatelessWidget {
                   elevation: 0,
                   onTap: () {
                     log('naver login click');
+                    _devPopup(
+                      context: context,
+                      content: '네이버 로그인 개발 중입니다.',
+                      confirmColor: primaryColor,
+                    );
                   },
                 ),
               ),
@@ -115,6 +120,11 @@ class LoginPage extends StatelessWidget {
                   elevation: 2,
                   onTap: () {
                     log('google login click');
+                    _devPopup(
+                      context: context,
+                      content: '구글 로그인 개발 중입니다.',
+                      confirmColor: primaryColor,
+                    );
                   },
                 ),
               ),
@@ -174,10 +184,10 @@ class LoginPage extends StatelessWidget {
             actions: [
               TextButton(
                 child: Text(
-                    '확인',
-                    style: TextStyle(
-                      color: confirmColor,
-                    ),
+                  '확인',
+                  style: TextStyle(
+                    color: confirmColor,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -189,9 +199,10 @@ class LoginPage extends StatelessWidget {
   }
 
   // 개발중 팝업
-  void _Popup({
+  void _devPopup({
     required BuildContext context,
     required String content,
+    required Color confirmColor,
   }) {
     showDialog(
         context: context,
@@ -202,7 +213,12 @@ class LoginPage extends StatelessWidget {
             insetPadding: const EdgeInsets.fromLTRB(10, 80, 10, 80),
             actions: [
               TextButton(
-                child: const Text('확인'),
+                child: Text(
+                  '확인',
+                  style: TextStyle(
+                    color: confirmColor,
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -211,5 +227,4 @@ class LoginPage extends StatelessWidget {
           );
         });
   }
-
 }
