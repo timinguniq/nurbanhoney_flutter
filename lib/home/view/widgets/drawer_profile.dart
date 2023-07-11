@@ -17,6 +17,7 @@ class DrawerProfile extends StatelessWidget {
 
       final drawerProfileTextStyle = ref.read(drawerProfileStyle);
       final dividerColor = ref.read(color55000000);
+      final drawerBoardTextStyle = ref.read(drawerBoardStyle);
 
       return  Drawer(
         backgroundColor: Colors.white,
@@ -94,6 +95,36 @@ class DrawerProfile extends StatelessWidget {
               Divider(
                 thickness: 0.5,
                 color: dividerColor,
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  '게시판',
+                  style: drawerBoardTextStyle,
+                ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              DrawerBoardWidget(
+                title: '너반꿀',
+                textStyle: drawerProfileTextStyle,
+                onTap: () {
+                  log('nurban board clicked');
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DrawerBoardWidget(
+                title: '자유게시판',
+                textStyle: drawerProfileTextStyle,
+                onTap: () {
+                  log('free board clicked');
+                },
               ),
             ],
           ),

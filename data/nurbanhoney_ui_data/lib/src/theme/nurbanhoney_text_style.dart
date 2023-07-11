@@ -249,4 +249,15 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.white,
     height: 1.2,
   );
+
+  /// Font size: 12 | Color: FFFFFF
+  static const drawerBoard = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color505050,
+    height: 1.2,
+  );
+
 }
