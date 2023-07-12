@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -79,8 +80,16 @@ class LoginPage extends StatelessWidget {
                   textStyle: kakaoStyle,
                   backgroundColor: kakaoBackgroundColor,
                   elevation: 0,
-                  onTap: () {
+                  onTap: () async {
                     log('kakao login click');
+                    await isKakaoTalkInstalled();
+
+                    try{
+                      final token = await UserApi.instance.loginWithKakaoTalk();
+                      log('kakao login token: ${token.accessToken}');
+                    }catch(e){
+                      log('kakao login error: $e');
+                    }
                   },
                 ),
               ),
