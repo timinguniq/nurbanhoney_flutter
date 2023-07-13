@@ -10,6 +10,8 @@ typedef BoardAllType = ({int id, int board, String? thumbnail,
   String title, String lossCut, String content, String commentCount, String likeCount, String createdAt,
   String nickname});
 
+typedef LoginType = ({String token, String userId});
+
 class DioRepository {
   /// constructor
   DioRepository._privateConstructor();
@@ -77,6 +79,34 @@ class DioRepository {
         result.add(records);
       }
       log('getBoardAll response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getBoardAll error : $e');
+      throw Exception(e);
+    }
+  }
+
+  Future<LoginType> getLogin({
+    required String loginType,
+    required String key,
+    required String? password,
+  }) async {
+    try {
+      var result = (token: '', userId: '');
+      final response = await dio.post(
+        '${DioApi.mainApi}/login',
+        data: {
+          'loginType': loginType,
+          'key': key,
+          'password': password,
+        },
+      );
+      result = (token: response.data['token'].toString(),
+        userId: response.data['userId'].toString());
+
+      log('getLogin response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
       return futureValue;

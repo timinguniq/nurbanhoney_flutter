@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,8 +85,14 @@ class LoginPage extends StatelessWidget {
                   onTap: () async {
                     log('kakao login click');
 
-                    await kakaoLogin();
-
+                    final kakaoAccessToken = await kakaoLogin();
+                    if(kakaoAccessToken == '') {
+                      log('kakao login fail');
+                      return;
+                    }else{
+                      log('kakao login success');
+                      await getLogin(ref, 'kakao', kakaoAccessToken, null);
+                    }
                   },
                 ),
               ),
@@ -272,5 +279,28 @@ class LoginPage extends StatelessWidget {
     }
 
     return accessToken;
+  }
+
+  Future<void> getLogin(WidgetRef ref, String loginType, String key, String? password) async {
+    final getLogin = ref.watch(getLoginProvider((loginType, key, password)));
+    log('getLogin: $getLogin');
+    final token = getLogin.asData?.value.token;
+    log('getLogin token: $token');
+    getLogin.when(
+      data: (data) {
+        final receiveData = data;
+        log('getLogin data: $data');
+        log('getLogin data receiveData : $receiveData');
+
+        log('getLogin data id: ${receiveData.token}');
+        log('getLogin data board: ${receiveData.userId}');
+      },
+      loading: () {
+        log('getLogin loading');
+      },
+      error: (error, stackTrace) {
+        log('getLogin error: $error');
+      },
+    );
   }
 }
