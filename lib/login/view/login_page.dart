@@ -284,9 +284,12 @@ class LoginPage extends StatelessWidget {
   Future<void> getLogin(WidgetRef ref, String loginType, String key, String? password) async {
     final getLogin = ref.watch(getLoginProvider((loginType, key, password)));
     log('getLogin: $getLogin');
-    
+
     final token = getLogin.asData?.value.token;
     log('getLogin token: $token');
+    final token2 = getLogin.value?.token;
+    log('getLogin token2: $token2');
+    
     getLogin.when(
       data: (data) {
         final receiveData = data;

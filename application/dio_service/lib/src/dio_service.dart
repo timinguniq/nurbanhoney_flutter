@@ -1,5 +1,7 @@
 // TODO: Put public facing types in this file.
 
+import 'dart:developer';
+
 import 'package:dio_repository/dio_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +17,7 @@ final getBoardAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>
 
 final getLoginProvider = FutureProvider.autoDispose.family<LoginType, (String, String, String?)>((ref, records) async {
   final dioRepository = ref.watch(dioRepositoryProvider);
+  log('getLoginProvider: $records');
   return await dioRepository.getLogin(loginType: records.$1, key: records.$2, password: records.$3);
 });
 
