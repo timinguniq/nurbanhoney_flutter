@@ -9,12 +9,10 @@ class LoginController extends AsyncNotifier<LoginType> {
   @override
   FutureOr<LoginType> build() {
     // 4. return a value (or do nothing if the return type is void)
-    return FutureOr(
-      // LoginType constructor
-      <LoginType>
-        (token: state.value?.token.toString() ?? '',
-        userId: state.value?.userId.toString() ?? '')
-    );
+    LoginType records = (token: state.value?.token ?? '',
+    userId: state.value?.userId ?? '');
+    FutureOr<LoginType> futureValue = Future.value(records);
+    return futureValue;
   }
 
   Future<void> signIn(String loginType, String key, String? password) async {
