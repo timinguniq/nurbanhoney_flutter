@@ -289,7 +289,7 @@ class LoginPage extends StatelessWidget {
     log('getLogin token: $token');
     final token2 = getLogin.value?.token;
     log('getLogin token2: $token2');
-    
+
     getLogin.when(
       data: (data) {
         final receiveData = data;
