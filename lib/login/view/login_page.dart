@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -283,10 +284,11 @@ class LoginPage extends StatelessWidget {
 
   Future<void> getLogin(WidgetRef ref, String loginType, String key, String? password) async {
     ref.listen(
-        getLoginProvider,
-        (AsyncValue<LoginType> ? _, AsyncValue<LoginType> next) {
-          context.go(next.asData!.value);
-        },
+      getLoginProvider((loginType, key, password)),
+          (AsyncValue<LoginType>? _, AsyncValue<LoginType> next) {
+        final token = next.value?.token;
+        log('getLoginProvider token: $token');
+      },
     );
 
     final getLogin = ref.watch(getLoginProvider((loginType, key, password)));

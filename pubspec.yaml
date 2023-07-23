@@ -24,6 +24,8 @@ dependencies:
   dio: ^5.2.0
   dio_service:
     path: application/dio_service
+  dio_repository:
+    path: data/dio_repository
   share_service:
     path: application/share_service
   kakao_flutter_sdk: ^1.4.3
