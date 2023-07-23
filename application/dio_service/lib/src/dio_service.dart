@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:dio_repository/dio_repository.dart';
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getBoardProvider = FutureProvider.autoDispose<Future<List<({int id, int type, String name, String address})>>>((ref) {
@@ -20,6 +21,9 @@ final getLoginProvider = FutureProvider.autoDispose.family<LoginType, (String, S
   log('getLoginProvider: $records');
   return await dioRepository.getLogin(loginType: records.$1, key: records.$2, password: records.$3);
 });
+
+final getLoginTestProvider = AsyncNotifierProvider
+    .autoDispose.family<AsyncLogin, LoginType, (String, String, String?)>(() => AsyncLogin());
 
 final dioRepositoryProvider = Provider<DioRepository>((ref) {
   return DioRepository();
