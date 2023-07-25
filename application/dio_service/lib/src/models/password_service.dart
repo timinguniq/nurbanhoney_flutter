@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'password_service.g.dart';
+
 @riverpod
 class PasswordService extends _$PasswordService{
   @override
