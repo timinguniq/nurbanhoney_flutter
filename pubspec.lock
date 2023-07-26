@@ -104,7 +104,7 @@ packages:
     source: hosted
     version: "5.2.0"
   dio_domain:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "domain/dio_domain"
       relative: true
@@ -123,7 +123,7 @@ packages:
       path: "application/dio_service"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "0.0.1"
   encrypt:
     dependency: transitive
     description:

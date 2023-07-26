@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +34,24 @@ class LoginPage extends ConsumerWidget {
     final whiteColor = ref.read(primaryWhite);
     final primaryColor = ref.read(colorF6B748);
 
-    final loginType = ref.watch(loginTypeProvider);
-    final key = ref.watch(keyProvider);
-    final password = ref.watch(passwordProvider);
+    final loginType = ref.watch(loginTypeServiceProvider);
+    final key = ref.watch(keyServiceProvider);
+    final password = ref.watch(passwordServiceProvider);
 
-    final getLogin = ref.watch(getLoginProvider((loginType, key, password)));
+    final sLoginType = switch(loginType){
+      LoginTypeStatus.kakao => 'kakao',
+      LoginTypeStatus.naver => 'naver',
+      LoginTypeStatus.google => 'google',
+      LoginTypeStatus.init => 'kakao',
+    };
 
+    final getLogin = ref.watch(getLoginProvider((sLoginType, key, password)));
 
-
+    getLogin.when(
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text('Error: $err'),
+      data: (weather) => Text(weather.toString()),
+    );
 
     return Scaffold(
       body: Padding(
