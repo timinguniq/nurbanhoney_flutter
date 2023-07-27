@@ -47,15 +47,16 @@ class LoginPage extends ConsumerWidget {
 
     final getLogin = ref.watch(getLoginProvider((sLoginType, key, password)));
 
-    getLogin.when(
-      loading: () => const CircularProgressIndicator(),
-      error: (err, stack) => Text('Error: $err'),
-      data: (data){
-        log('data123: ${data.toString()}');
-        return Text('data: $data');
-      },
-    );
-
+    final token = getLogin.asData?.value.token;
+    log('token before : $token');
+    if(token != null){
+      log('token : $token');
+      // token 저장하는 코드
+      WidgetsBinding.instance
+          .addPostFrameCallback((_){
+        Navigator.of(context).pop();
+      });
+    }
 
     return Scaffold(
       body: Padding(
@@ -111,22 +112,10 @@ class LoginPage extends ConsumerWidget {
                     log('kakao login fail');
                     return;
                   } else {
-/*
-                    ref.listen(
-                      getLoginProvider(('kakao', kakaoAccessToken, null)),
-                      (AsyncValue<LoginType>? _, AsyncValue<LoginType> next) {
-                        final token = next.value?.token;
-                        log('getLoginProvider token: $token');
-                      },
-                    );
-*/
-
+                    /// 카카오 로그인 성공
                     ref.watch(loginTypeServiceProvider.notifier).set(LoginTypeStatus.kakao);
                     ref.watch(keyServiceProvider.notifier).set(kakaoAccessToken);
                     ref.watch(passwordServiceProvider.notifier).set(null);
-
-                    //log('kakao login success');
-                    //await getLogin(ref, 'kakao', kakaoAccessToken, null);
                   }
                 },
               ),
