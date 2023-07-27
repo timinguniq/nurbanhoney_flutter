@@ -415,7 +415,7 @@ packages:
     source: path
     version: "0.0.1"
   preference_storage_service:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "application/preference_storage_service"
       relative: true

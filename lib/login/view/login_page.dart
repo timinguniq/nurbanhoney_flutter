@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:authentication_domain/authentication_domain.dart';
+import 'package:authentication_service/authentication_service.dart';
 import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
@@ -10,6 +12,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -34,6 +37,9 @@ class LoginPage extends ConsumerWidget {
     final whiteColor = ref.read(primaryWhite);
     final primaryColor = ref.read(colorF6B748);
 
+    final prefStorageProvider = ref.watch(preferenceStorageProvider);
+    final prefStorage = prefStorageProvider.asData?.value;
+
     final loginType = ref.watch(loginTypeServiceProvider);
     final key = ref.watch(keyServiceProvider);
     final password = ref.watch(passwordServiceProvider);
@@ -51,10 +57,15 @@ class LoginPage extends ConsumerWidget {
     log('token before : $token');
     if(token != null){
       log('token : $token');
-      // token 저장하는 코드
       WidgetsBinding.instance
-          .addPostFrameCallback((_){
-        Navigator.of(context).pop();
+          .addPostFrameCallback((_) async {
+        // 상태 바꾸는 코드
+        ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+        // token 저장하는 코드
+        await prefStorage?.setToken(token);
+        if(context.mounted){
+          Navigator.of(context).pop();
+        }
       });
     }
 
