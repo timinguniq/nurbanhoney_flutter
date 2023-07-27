@@ -20,6 +20,8 @@ class DrawerProfilePreview extends StatelessWidget {
 
       // TODO: 프로필 데이터 받아오는 통신해야 될듯 그래서 아래 Auth에 닉네임과 섬네일 넣어줘야 될 듯
 
+
+
       final drawerProfileTextStyle = ref.read(drawerProfileStyle);
       final drawerProfileEditTextStyle = ref.read(drawerProfileEditStyle);
       final loginButtonColor = ref.read(colorF6B748);

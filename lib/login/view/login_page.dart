@@ -54,7 +54,6 @@ class LoginPage extends ConsumerWidget {
     final getLogin = ref.watch(getLoginProvider((sLoginType, key, password)));
 
     final token = getLogin.asData?.value.token;
-    log('token before : $token');
     if(token != null){
       log('token : $token');
       WidgetsBinding.instance
