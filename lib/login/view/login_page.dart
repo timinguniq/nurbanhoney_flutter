@@ -50,8 +50,12 @@ class LoginPage extends ConsumerWidget {
     getLogin.when(
       loading: () => const CircularProgressIndicator(),
       error: (err, stack) => Text('Error: $err'),
-      data: (weather) => Text(weather.toString()),
+      data: (data){
+        log('data123: ${data.toString()}');
+        return Text('data: $data');
+      },
     );
+
 
     return Scaffold(
       body: Padding(
@@ -107,7 +111,7 @@ class LoginPage extends ConsumerWidget {
                     log('kakao login fail');
                     return;
                   } else {
-
+/*
                     ref.listen(
                       getLoginProvider(('kakao', kakaoAccessToken, null)),
                       (AsyncValue<LoginType>? _, AsyncValue<LoginType> next) {
@@ -115,9 +119,14 @@ class LoginPage extends ConsumerWidget {
                         log('getLoginProvider token: $token');
                       },
                     );
+*/
 
-                    log('kakao login success');
-                    await getLogin(ref, 'kakao', kakaoAccessToken, null);
+                    ref.watch(loginTypeServiceProvider.notifier).set(LoginTypeStatus.kakao);
+                    ref.watch(keyServiceProvider.notifier).set(kakaoAccessToken);
+                    ref.watch(passwordServiceProvider.notifier).set(null);
+
+                    //log('kakao login success');
+                    //await getLogin(ref, 'kakao', kakaoAccessToken, null);
                   }
                 },
               ),
