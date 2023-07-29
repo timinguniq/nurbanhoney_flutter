@@ -2,11 +2,13 @@ import 'dart:developer';
 
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 class DrawerProfilePreview extends StatelessWidget {
   const DrawerProfilePreview({super.key});
@@ -19,8 +21,26 @@ class DrawerProfilePreview extends StatelessWidget {
       //const authenticationProvider = AuthenticationStatus.authenticated;
 
       // TODO: 프로필 데이터 받아오는 통신해야 될듯 그래서 아래 Auth에 닉네임과 섬네일 넣어줘야 될 듯
+      final prefStorageProvider = ref.watch(preferenceStorageProvider);
+      final prefStorage = prefStorageProvider.asData?.value;
+      final token = prefStorage?.getToken() ?? '';
+      log('drawer_profile_preview token: $token');
+      final profileProvider = ref.watch(getProfileProvider(token));
+      final profileRecord = profileProvider.value;
 
-
+      if(profileRecord != null){
+        log('drawer_profile_preview profileRecord: $profileRecord');
+        log('drawer_profile_preview profileRecord id: ${profileRecord.id}');
+        log('drawer_profile_preview profileRecord loginType: ${profileRecord.loginType}');
+        log('drawer_profile_preview profileRecord badge: ${profileRecord.badge}');
+        log('drawer_profile_preview profileRecord nickname: ${profileRecord.nickname}');
+        log('drawer_profile_preview profileRecord description: ${profileRecord.description}');
+        log('drawer_profile_preview profileRecord point: ${profileRecord.point}');
+        log('drawer_profile_preview profileRecord insigniaShow: ${profileRecord.insigniaShow}');
+        log('drawer_profile_preview profileRecord insigniaOwn: ${profileRecord.insigniaOwn}');
+        log('drawer_profile_preview profileRecord myArticleCount: ${profileRecord.myArticleCount}');
+        log('drawer_profile_preview profileRecord myCommentCount: ${profileRecord.myCommentCount}');
+      }
 
       final drawerProfileTextStyle = ref.read(drawerProfileStyle);
       final drawerProfileEditTextStyle = ref.read(drawerProfileEditStyle);
