@@ -14,8 +14,8 @@ class StringFunctions{
   List<String> convertToInsignia(String insignia){
     var result = <String>[];
     try{
-      final tempInsignia = insignia.replaceAll('[', '').replaceAll(']', '').trim();
-      result = tempInsignia.split(',').toList();
+      final tempInsignia = insignia.replaceAll('[', '').replaceAll(']', '');
+      result = tempInsignia.split(',').map((e) => e.trim()).toList();
     }catch(e){
       print('convertToInsignia error : $e');
     }

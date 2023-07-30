@@ -9,6 +9,7 @@ import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
+import 'package:share_service/share_service.dart';
 
 class DrawerProfilePreview extends StatelessWidget {
   const DrawerProfilePreview({super.key});
@@ -28,6 +29,7 @@ class DrawerProfilePreview extends StatelessWidget {
       if(token != '__empty__'){
         final profileProvider = ref.watch(getProfileProvider(token));
         final profileRecord = profileProvider.value;
+        final convertToInsigniaFunc = ref.read(convertToInsignia);
 
         if(profileRecord != null){
           log('drawer_profile_preview profileRecord: $profileRecord');
@@ -43,7 +45,11 @@ class DrawerProfilePreview extends StatelessWidget {
           log('drawer_profile_preview profileRecord myCommentCount: ${profileRecord.myCommentCount}');
 
           // TODO: insighiaShow, insighiaOwn String을 List로 바꾸는 코드 작성해야 될듯.
-          final lInsigniaShow = profileRecord.insigniaShow.toString().convertToInsignia();
+          final lInsigniaShow = convertToInsigniaFunc(profileRecord.insigniaShow);
+          final lInsigniaOwn = convertToInsigniaFunc(profileRecord.insigniaOwn);
+
+          lInsigniaShow.map((e) => log('drawer_profile_preview lInsigniaShow: $e')).toString();
+          lInsigniaOwn.map((e) => log('drawer_profile_preview lInsigniaOwn: $e')).toString();
         }
       }
 
