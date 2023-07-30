@@ -5,3 +5,8 @@ final funcFormattingToCreatedAt = Provider<Function>((ref) {
   final stringFunctions = StringFunctions();
   return stringFunctions.formattingToCreatedAt;
 });
+
+final convertToInsignia = Provider<Function>((ref) {
+  final stringFunctions = StringFunctions();
+  return stringFunctions.convertToInsignia;
+});

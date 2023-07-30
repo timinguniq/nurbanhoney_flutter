@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
 
-/// TODO 여기서 부터고 insigniaShow, insighinaOwn 아마 List로 안 받아질 듯.
 typedef ProfileType = ({
   int id,
   String loginType,

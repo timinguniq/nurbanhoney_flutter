@@ -23,23 +23,28 @@ class DrawerProfilePreview extends StatelessWidget {
       // TODO: 프로필 데이터 받아오는 통신해야 될듯 그래서 아래 Auth에 닉네임과 섬네일 넣어줘야 될 듯
       final prefStorageProvider = ref.watch(preferenceStorageProvider);
       final prefStorage = prefStorageProvider.asData?.value;
-      final token = prefStorage?.getToken() ?? '';
+      final token = prefStorage?.getToken() ?? '__empty__';
       log('drawer_profile_preview token: $token');
-      final profileProvider = ref.watch(getProfileProvider(token));
-      final profileRecord = profileProvider.value;
+      if(token != '__empty__'){
+        final profileProvider = ref.watch(getProfileProvider(token));
+        final profileRecord = profileProvider.value;
 
-      if(profileRecord != null){
-        log('drawer_profile_preview profileRecord: $profileRecord');
-        log('drawer_profile_preview profileRecord id: ${profileRecord.id}');
-        log('drawer_profile_preview profileRecord loginType: ${profileRecord.loginType}');
-        log('drawer_profile_preview profileRecord badge: ${profileRecord.badge}');
-        log('drawer_profile_preview profileRecord nickname: ${profileRecord.nickname}');
-        log('drawer_profile_preview profileRecord description: ${profileRecord.description}');
-        log('drawer_profile_preview profileRecord point: ${profileRecord.point}');
-        log('drawer_profile_preview profileRecord insigniaShow: ${profileRecord.insigniaShow}');
-        log('drawer_profile_preview profileRecord insigniaOwn: ${profileRecord.insigniaOwn}');
-        log('drawer_profile_preview profileRecord myArticleCount: ${profileRecord.myArticleCount}');
-        log('drawer_profile_preview profileRecord myCommentCount: ${profileRecord.myCommentCount}');
+        if(profileRecord != null){
+          log('drawer_profile_preview profileRecord: $profileRecord');
+          log('drawer_profile_preview profileRecord id: ${profileRecord.id}');
+          log('drawer_profile_preview profileRecord loginType: ${profileRecord.loginType}');
+          log('drawer_profile_preview profileRecord badge: ${profileRecord.badge}');
+          log('drawer_profile_preview profileRecord nickname: ${profileRecord.nickname}');
+          log('drawer_profile_preview profileRecord description: ${profileRecord.description}');
+          log('drawer_profile_preview profileRecord point: ${profileRecord.point}');
+          log('drawer_profile_preview profileRecord insigniaShow: ${profileRecord.insigniaShow}');
+          log('drawer_profile_preview profileRecord insigniaOwn: ${profileRecord.insigniaOwn}');
+          log('drawer_profile_preview profileRecord myArticleCount: ${profileRecord.myArticleCount}');
+          log('drawer_profile_preview profileRecord myCommentCount: ${profileRecord.myCommentCount}');
+
+          // TODO: insighiaShow, insighiaOwn String을 List로 바꾸는 코드 작성해야 될듯.
+          final lInsigniaShow = profileRecord.insigniaShow.toString().convertToInsignia();
+        }
       }
 
       final drawerProfileTextStyle = ref.read(drawerProfileStyle);
