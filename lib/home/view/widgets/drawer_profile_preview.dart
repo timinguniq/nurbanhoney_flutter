@@ -26,6 +26,9 @@ class DrawerProfilePreview extends StatelessWidget {
       final prefStorage = prefStorageProvider.asData?.value;
       final token = prefStorage?.getToken() ?? '__empty__';
       log('drawer_profile_preview token: $token');
+      var thumbnail = '';
+      var nickname = '';
+
       if(token != '__empty__'){
         final profileProvider = ref.watch(getProfileProvider(token));
         final profileRecord = profileProvider.value;
@@ -44,12 +47,12 @@ class DrawerProfilePreview extends StatelessWidget {
           log('drawer_profile_preview profileRecord myArticleCount: ${profileRecord.myArticleCount}');
           log('drawer_profile_preview profileRecord myCommentCount: ${profileRecord.myCommentCount}');
 
-          // TODO: insighiaShow, insighiaOwn String을 List로 바꾸는 코드 작성해야 될듯.
+          // insighiaShow, insighiaOwn String을 List로 바꾸는 코드 예시
           final lInsigniaShow = convertToInsigniaFunc(profileRecord.insigniaShow);
           final lInsigniaOwn = convertToInsigniaFunc(profileRecord.insigniaOwn);
 
-          lInsigniaShow.map((e) => log('drawer_profile_preview lInsigniaShow: $e')).toString();
-          lInsigniaOwn.map((e) => log('drawer_profile_preview lInsigniaOwn: $e')).toString();
+          thumbnail = profileRecord.badge;
+          nickname = profileRecord.nickname;
         }
       }
 
@@ -59,8 +62,8 @@ class DrawerProfilePreview extends StatelessWidget {
 
       return authenticationProvider == AuthenticationStatus.authenticated
           ? DrawerProfilePreviewAuth(
-              thumbnail: Assets.images.login.kakaoSymbol.image(),
-              nickname: '닉네임',
+              thumbnail: thumbnail,
+              nickname: nickname,
               onTap: (){
                 log('edit profile clicked');
               },
@@ -77,7 +80,7 @@ class DrawerProfilePreview extends StatelessWidget {
 
 class DrawerProfilePreviewAuth extends StatelessWidget {
   const DrawerProfilePreviewAuth({
-    required Image thumbnail,
+    required String thumbnail,
     required String nickname,
     required VoidCallback? onTap,
     required TextStyle drawerProfileTextStyle,
@@ -87,7 +90,7 @@ class DrawerProfilePreviewAuth extends StatelessWidget {
         _onTap = onTap,
         _drawerProfileTextStyle = drawerProfileTextStyle;
 
-  final Image _thumbnail;
+  final String _thumbnail;
   final String _nickname;
   final VoidCallback? _onTap;
   final TextStyle _drawerProfileTextStyle;
@@ -104,7 +107,7 @@ class DrawerProfilePreviewAuth extends StatelessWidget {
             height: 50,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: _thumbnail,
+              child: Image.network(_thumbnail),
             ),
           ),
           const Expanded(
