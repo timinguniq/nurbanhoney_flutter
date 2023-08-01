@@ -10,14 +10,14 @@ import 'package:nurbanhoney/home/home.dart';
 import 'package:share_service/share_service.dart';
 
 class BoardAllView extends StatelessWidget {
-  const BoardAllView({
-    required int flag,
-    required int articleId,
-    required int limit,
-    super.key})
-    : _flag = flag,
-      _articleId = articleId,
-      _limit = limit;
+  const BoardAllView(
+      {required int flag,
+      required int articleId,
+      required int limit,
+      super.key})
+      : _flag = flag,
+        _articleId = articleId,
+        _limit = limit;
 
   final int _flag;
   final int _articleId;
@@ -28,7 +28,8 @@ class BoardAllView extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final rankTabTitleStyle = ref.watch(rankTabTitle);
       //final rankTabWholeStyle = ref.watch(rankTabWhole);
-      final getBoardAll = ref.watch(getBoardAllProvider((_flag, _articleId, _limit)));
+      final getBoardAll =
+          ref.watch(getBoardAllProvider((_flag, _articleId, _limit)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
       return getBoardAll.when(
@@ -50,62 +51,72 @@ class BoardAllView extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                for(var element in receiveData)
+                for (var element in receiveData)
                   element.board == 1
-                    ? Column(
-                      children: [
-                        NurbanBoardItemView(
-                          title: element.title,
-                          lossCut: element.lossCut,
-                          author: element.nickname,
-                          date: formattingCreatedAt(element.createdAt),
-                          likeCount: element.likeCount,
-                          thumbnail: element.thumbnail != null
-                              ? Image(
-                                image: NetworkImage(element.thumbnail ?? ''),
-                              )
-                              : Assets.images.home.nurbanSymbol.image(),
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(ArticleDetailPage.route(articleId: element.id));
-                          },
-                        ),
-                        const AppbarDivider(),
-                      ],
-                    )
-                    : element.board == 2
                       ? Column(
                           children: [
-                            FreeBoardItemView(
+                            NurbanBoardItemView(
                               title: element.title,
-                              content: element.content,
+                              lossCut: element.lossCut,
                               author: element.nickname,
                               date: formattingCreatedAt(element.createdAt),
                               likeCount: element.likeCount,
+                              thumbnail: element.thumbnail != null
+                                  ? Image(
+                                      image:
+                                          NetworkImage(element.thumbnail ?? ''),
+                                    )
+                                  : Assets.images.home.nurbanSymbol.image(),
                               onTap: () {
                                 Navigator.of(context)
-                                    .push(ArticleDetailPage.route(articleId: element.id));
+                                    .push(ArticleDetailPage.route(
+                                  board: element.board,
+                                  articleId: element.id,
+                                ));
                               },
                             ),
                             const AppbarDivider(),
                           ],
                         )
-                      : Column(
-                        children: [
-                          FreeBoardItemView(
-                            title: element.title,
-                            content: element.content,
-                            author: element.nickname,
-                            date: formattingCreatedAt(element.createdAt),
-                            likeCount: element.likeCount,
-                            onTap: () {
-                              Navigator.of(context)
-                                  .push(ArticleDetailPage.route(articleId: element.id));
-                            },
-                          ),
-                          const AppbarDivider(),
-                        ],
-                    ),
+                      : element.board == 2
+                          ? Column(
+                              children: [
+                                FreeBoardItemView(
+                                  title: element.title,
+                                  content: element.content,
+                                  author: element.nickname,
+                                  date: formattingCreatedAt(element.createdAt),
+                                  likeCount: element.likeCount,
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(ArticleDetailPage.route(
+                                      board: element.board,
+                                      articleId: element.id,
+                                    ));
+                                  },
+                                ),
+                                const AppbarDivider(),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                FreeBoardItemView(
+                                  title: element.title,
+                                  content: element.content,
+                                  author: element.nickname,
+                                  date: formattingCreatedAt(element.createdAt),
+                                  likeCount: element.likeCount,
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(ArticleDetailPage.route(
+                                      board: element.board,
+                                      articleId: element.id,
+                                    ));
+                                  },
+                                ),
+                                const AppbarDivider(),
+                              ],
+                            ),
               ],
             ),
           );
@@ -121,7 +132,6 @@ class BoardAllView extends StatelessWidget {
           return const Text('error');
         },
       );
-
     });
   }
 }

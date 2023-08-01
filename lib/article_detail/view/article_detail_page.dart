@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArticleDetailPage extends StatelessWidget {
-  const ArticleDetailPage({required int articleId, super.key})
-      : _articleId = articleId;
+  const ArticleDetailPage({
+    required int board,
+    required int articleId,
+    super.key})
+      : _board = board,
+        _articleId = articleId;
 
+  final int _board;
   final int _articleId;
 
-  static Route route({required int articleId}) {
+  static Route route({
+    required int articleId,
+    required int board,
+  }) {
     return MaterialPageRoute<void>(
       builder: (_) => ArticleDetailPage(
         articleId: articleId,
+        board: board,
       ),
     );
   }
@@ -49,8 +58,20 @@ class ArticleDetailPage extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Text('article_detail',
-                        style: TextStyle(color: Colors.black)),
+                    child: _board == 1
+                        ? const Text(
+                            '너반꿀',
+                            style: TextStyle(color: Colors.black),
+                          )
+                        : _board == 2
+                          ? const Text(
+                              '자유게시판',
+                              style: TextStyle(color: Colors.black),
+                            )
+                          : const Text(
+                              '자유게시판',
+                              style: TextStyle(color: Colors.black),
+                            ),
                   )
                 ],
               ),
