@@ -66,6 +66,8 @@ class DrawerProfilePreview extends StatelessWidget {
               nickname: nickname,
               onTap: (){
                 log('edit profile clicked');
+
+                // TODO: 아직 edit 페이지가 없음 나중에 edit 페이지로 이동.
               },
               drawerProfileTextStyle: drawerProfileTextStyle,
             )

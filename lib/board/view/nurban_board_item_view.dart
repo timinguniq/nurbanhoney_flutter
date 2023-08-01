@@ -12,6 +12,7 @@ class NurbanBoardItemView extends StatelessWidget {
     required String date,
     required String likeCount,
     required Image thumbnail,
+    required VoidCallback onTap,
     Key? key,
   })  : _title = title,
         _lossCut = lossCut,
@@ -19,6 +20,7 @@ class NurbanBoardItemView extends StatelessWidget {
         _date = date,
         _likeCount = likeCount,
         _thumbnail = thumbnail,
+        _onTap = onTap,
         super(key: key);
 
   final String _title;
@@ -27,6 +29,7 @@ class NurbanBoardItemView extends StatelessWidget {
   final String _date;
   final String _likeCount;
   final Image _thumbnail;
+  final VoidCallback _onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,79 +39,82 @@ class NurbanBoardItemView extends StatelessWidget {
       final authorStyle = ref.read(boardListItemAuthor);
       final likeStyle = ref.read(boardListItemLike);
 
-      return SizedBox(
-        width: double.infinity,
-        height: 90,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const NurbanBoardBadge(),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        _title,
-                        style: titleStyle,
-                      )
-                    ],
-                  ),
-                  Row(
-                      children:[
-                        SizedBox(
-                          width: 14,
-                          height: 14,
-                          child: Assets.images.home.nurbanRankTabMoney.image(),
-                        ),
+      return InkWell(
+        onTap: _onTap,
+        child: SizedBox(
+          width: double.infinity,
+          height: 90,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const NurbanBoardBadge(),
                         const SizedBox(
-                          width: 4,
+                          width: 8,
                         ),
                         Text(
-                          _lossCut,
-                          style: lossCutStyle,
+                          _title,
+                          style: titleStyle,
+                        )
+                      ],
+                    ),
+                    Row(
+                        children:[
+                          SizedBox(
+                            width: 14,
+                            height: 14,
+                            child: Assets.images.home.nurbanRankTabMoney.image(),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            _lossCut,
+                            style: lossCutStyle,
+                          ),
+                        ]
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          _author,
+                          style: authorStyle,
                         ),
-                      ]
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        _author,
-                        style: authorStyle,
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      Text(
-                        _date,
-                        style: authorStyle,
-                      ),
-                      const SizedBox(
-                        width: 9,
-                      ),
-                      Text(
-                        '추천',
-                        style: likeStyle,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      Text(
-                        _likeCount,
-                        style: likeStyle,
-                      ),
-                    ],
-                  )
-                ],
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          _date,
+                          style: authorStyle,
+                        ),
+                        const SizedBox(
+                          width: 9,
+                        ),
+                        Text(
+                          '추천',
+                          style: likeStyle,
+                        ),
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          _likeCount,
+                          style: likeStyle,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            _thumbnail,
-          ]),
+              _thumbnail,
+            ]),
+          ),
         ),
       );
     });

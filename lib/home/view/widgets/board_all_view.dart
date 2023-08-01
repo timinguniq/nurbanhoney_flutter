@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
@@ -64,6 +65,10 @@ class BoardAllView extends StatelessWidget {
                                 image: NetworkImage(element.thumbnail ?? ''),
                               )
                               : Assets.images.home.nurbanSymbol.image(),
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(ArticleDetailPage.route(articleId: element.id));
+                          },
                         ),
                         const AppbarDivider(),
                       ],
@@ -77,6 +82,10 @@ class BoardAllView extends StatelessWidget {
                               author: element.nickname,
                               date: formattingCreatedAt(element.createdAt),
                               likeCount: element.likeCount,
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(ArticleDetailPage.route(articleId: element.id));
+                              },
                             ),
                             const AppbarDivider(),
                           ],
@@ -89,6 +98,10 @@ class BoardAllView extends StatelessWidget {
                             author: element.nickname,
                             date: formattingCreatedAt(element.createdAt),
                             likeCount: element.likeCount,
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(ArticleDetailPage.route(articleId: element.id));
+                            },
                           ),
                           const AppbarDivider(),
                         ],
