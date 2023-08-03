@@ -29,7 +29,7 @@ class ProfileRepository {
 
   final dio = Dio();
 
-  // 참고해서 getProfile 만들기
+  // getProfile
   Future<ProfileType> getProfile({
     required String token,
   }) async {
