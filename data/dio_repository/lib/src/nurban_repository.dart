@@ -61,7 +61,7 @@ class NurbanRepository {
       final futureValue = Future.value(records);
       return futureValue;
     } catch (e) {
-      log('getBoardAll error : $e');
+      log('getNurbanArticle error : $e');
       throw Exception(e);
     }
   }
