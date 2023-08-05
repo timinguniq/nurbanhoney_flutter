@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +50,7 @@ class ArticleDetailPage extends StatelessWidget {
               _board == 1
                   ? NurbanTitleBoard(
                       board: _board,
+                      articleId: _articleId,
                     )
                   : _board == 2
                       ? FreeTitleBoard(
@@ -134,18 +137,38 @@ class ArticleDetailAppBar extends StatelessWidget
 class NurbanTitleBoard extends StatelessWidget {
   const NurbanTitleBoard({
     required int board,
+    required int articleId,
     Key? key
   }): _board = board,
+      _articleId = articleId,
       super(key: key);
 
   final int _board;
+  final int _articleId;
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
 
-      return Container(
-        child: Text('NurbanTitleBoard'),
+      final nurbanArticle = ref.watch(getNurbanArticleProvider(_articleId));
+      return nurbanArticle.when(
+        data: (data) {
+          log('nurbanArticle data: $data');
+          return Container(
+            child: Text('NurbanTitleBoard'),
+          );
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        error: (error, stackTrace) {
+          log('nurbanArticle error: $error');
+          return Container(
+            child: Text('NurbanTitleBoard Error'),
+          );
+        },
       );
     });
   }
@@ -164,6 +187,7 @@ class FreeTitleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
+      final freeArticle = ref.watch(getNurbanArticleProvider(_articleId));
 
       return Container(
         child: Text('FreeTitleBoard'),
