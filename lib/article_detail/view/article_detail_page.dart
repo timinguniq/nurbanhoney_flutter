@@ -32,8 +32,6 @@ class ArticleDetailPage extends StatelessWidget {
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
       final thinDividerColor = ref.read(color55000000);
       final thickDividerColor = ref.read(color55C4C4C4);
-      Provider articleDetailProvider = ref.watch(getNurbanArticleProvider(_articleId,) as ProviderListenable<Provider>);
-
 
       return Scaffold(
         appBar: ArticleDetailAppBar(
@@ -46,6 +44,23 @@ class ArticleDetailPage extends StatelessWidget {
                 thickness: 0.5,
                 color: thinDividerColor,
               ),
+              // TitleBoard
+              _board == 1
+                  ? NurbanTitleBoard(
+                      board: _board,
+                    )
+                  : _board == 2
+                      ? FreeTitleBoard(
+                          board: _board,
+                        )
+                      : FreeTitleBoard(
+                          board: _board,
+                        ),
+              ArticleDetailDivider(
+                thickness: 0.5,
+                color: thinDividerColor,
+              ),
+
             ],
           ),
         ),
@@ -129,7 +144,9 @@ class NurbanTitleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
 
-      return Container();
+      return Container(
+        child: Text('NurbanTitleBoard'),
+      );
     });
   }
 }
@@ -148,7 +165,9 @@ class FreeTitleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
 
-      return Container();
+      return Container(
+        child: Text('FreeTitleBoard'),
+      );
     });
   }
 }
