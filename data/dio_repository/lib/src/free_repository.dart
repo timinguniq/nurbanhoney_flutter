@@ -49,7 +49,7 @@ class FreeRepository {
       likeCount: int.parse(response.data['likeCount'].toString()),
       dislikeCount: int.parse(response.data['dislikeCount'].toString()),
       updatedAt: response.data['updatedAt'].toString(),
-      userId: int.parse(response.data['userid'].toString()),
+      userId: int.parse(response.data['userId'].toString()),
       badge: response.data['badge'].toString(),
       nickname: response.data['nickname'].toString(),
       insignia: response.data['insignia'].toString(),

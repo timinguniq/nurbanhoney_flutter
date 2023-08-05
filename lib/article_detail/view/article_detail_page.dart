@@ -55,9 +55,11 @@ class ArticleDetailPage extends StatelessWidget {
                   : _board == 2
                       ? FreeTitleBoard(
                           board: _board,
+                          articleId: _articleId,
                         )
                       : FreeTitleBoard(
                           board: _board,
+                          articleId: _articleId,
                         ),
               ArticleDetailDivider(
                 thickness: 0.5,
@@ -178,19 +180,38 @@ class NurbanTitleBoard extends StatelessWidget {
 class FreeTitleBoard extends StatelessWidget {
   const FreeTitleBoard({
     required int board,
+    required int articleId,
     Key? key
   }): _board = board,
+      _articleId = articleId,
         super(key: key);
 
   final int _board;
+  final int _articleId;
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final freeArticle = ref.watch(getNurbanArticleProvider(_articleId));
+      final freeArticle = ref.watch(getFreeArticleProvider(_articleId));
 
-      return Container(
-        child: Text('FreeTitleBoard'),
+      return freeArticle.when(
+        data: (data) {
+          log('freeArticle data: $data');
+          return Container(
+            child: Text('FreeTitleBoard'),
+          );
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        error: (error, stackTrace) {
+          log('freeArticle error: $error');
+          return Container(
+            child: Text('FreeTitleBoard Error'),
+          );
+        },
       );
     });
   }
