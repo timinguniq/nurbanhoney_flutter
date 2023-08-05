@@ -1,3 +1,4 @@
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
@@ -31,8 +32,7 @@ class ArticleDetailPage extends StatelessWidget {
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
       final thinDividerColor = ref.read(color55000000);
       final thickDividerColor = ref.read(color55C4C4C4);
-      var articleDetailProvider = ref.watch(getNurbanArticleProvider(articleId: _articleId,));
-
+      Provider articleDetailProvider = ref.watch(getNurbanArticleProvider(_articleId,) as ProviderListenable<Provider>);
 
 
       return Scaffold(
@@ -113,4 +113,42 @@ class ArticleDetailAppBar extends StatelessWidget
 
   @override
   Size get preferredSize => const Size.fromHeight(48);
+}
+
+// 너반꿀 디테일 보드(제목, 작가, 작성일, 손실액)
+class NurbanTitleBoard extends StatelessWidget {
+  const NurbanTitleBoard({
+    required int board,
+    Key? key
+  }): _board = board,
+      super(key: key);
+
+  final int _board;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (_, WidgetRef ref, __) {
+
+      return Container();
+    });
+  }
+}
+
+// 자유게시판 디테일 보드(제목, 작가, 작성일)
+class FreeTitleBoard extends StatelessWidget {
+  const FreeTitleBoard({
+    required int board,
+    Key? key
+  }): _board = board,
+        super(key: key);
+
+  final int _board;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (_, WidgetRef ref, __) {
+
+      return Container();
+    });
+  }
 }
