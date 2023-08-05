@@ -31,6 +31,8 @@ class ArticleDetailPage extends StatelessWidget {
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
       final thinDividerColor = ref.read(color55000000);
       final thickDividerColor = ref.read(color55C4C4C4);
+      var articleDetailProvider = ref.watch(getNurbanArticleProvider(articleId: _articleId,));
+
 
 
       return Scaffold(
