@@ -113,3 +113,7 @@ final drawerProfileEditStyle = Provider<TextStyle>((ref) {
 final drawerBoardStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.drawerBoard;
 });
+
+final articleDetailTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailTitle;
+});
