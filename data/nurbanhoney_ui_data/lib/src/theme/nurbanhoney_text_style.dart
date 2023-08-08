@@ -261,12 +261,62 @@ abstract class NurbanhoneyTextStyle {
   );
 
   /// Font size: 18 | Color: 1E1E1E
-  static const articleDetailTitle = TextStyle(
+  static const articleDetailAppbarTitle = TextStyle(
     fontSize: 18,
     package: _fontPackage,
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
+    height: 1.2,
+  );
+
+  /// Font size: 16 | Color: 1E1E1E
+  static const articleDetailNurbanTitle = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1.2,
+  );
+
+  /// Font size: 14 | Color: 1E1E1E
+  static const articleDetailNurbanAuthor = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1.2,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const articleDetailNurbanElement = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: 4F4F4F
+  static const articleDetailNurbanLossCutTitle = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color4F4F4F,
+    height: 1.2,
+  );
+
+  /// Font size: 14 | Color: 4F4F4F
+  static const articleDetailNurbanLossCutValue = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color4F4F4F,
     height: 1.2,
   );
 

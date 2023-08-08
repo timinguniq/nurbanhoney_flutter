@@ -114,6 +114,26 @@ final drawerBoardStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.drawerBoard;
 });
 
-final articleDetailTitleStyle = Provider<TextStyle>((ref) {
-  return NurbanhoneyTextStyle.articleDetailTitle;
+final articleDetailAppbarTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailAppbarTitle;
+});
+
+final articleDetailNurbanTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailNurbanTitle;
+});
+
+final articleDetailNurbanAuthorStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailNurbanAuthor;
+});
+
+final articleDetailNurbanElementStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailNurbanElement;
+});
+
+final articleDetailNurbanLossCutTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailNurbanLossCutTitle;
+});
+
+final articleDetailNurbanLossCutValueStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailNurbanLossCutValue;
 });

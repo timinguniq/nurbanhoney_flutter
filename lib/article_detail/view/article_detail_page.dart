@@ -35,7 +35,7 @@ class ArticleDetailPage extends StatelessWidget {
       final thinDividerColor = ref.read(color55000000);
       final thickDividerColor = ref.read(color55C4C4C4);
 
-      final appBarTitleStyle = ref.read(articleDetailTitleStyle);
+      final appBarTitleStyle = ref.read(articleDetailAppbarTitleStyle);
 
       return Scaffold(
         appBar: ArticleDetailAppBar(
@@ -68,7 +68,6 @@ class ArticleDetailPage extends StatelessWidget {
                 thickness: 0.5,
                 color: thinDividerColor,
               ),
-
             ],
           ),
         ),
@@ -83,8 +82,8 @@ class ArticleDetailAppBar extends StatelessWidget
     required int board,
     required TextStyle appBarTitleStyle,
     super.key,
-  }) : _board = board,
-       _appBarTitleStyle = appBarTitleStyle;
+  })  : _board = board,
+        _appBarTitleStyle = appBarTitleStyle;
 
   final int _board;
   final TextStyle _appBarTitleStyle;
@@ -143,13 +142,10 @@ class ArticleDetailAppBar extends StatelessWidget
 
 // 너반꿀 디테일 보드(제목, 작가, 작성일, 손실액)
 class NurbanTitleBoard extends StatelessWidget {
-  const NurbanTitleBoard({
-    required int board,
-    required int articleId,
-    Key? key
-  }): _board = board,
-      _articleId = articleId,
-      super(key: key);
+  const NurbanTitleBoard({required int board, required int articleId, Key? key})
+      : _board = board,
+        _articleId = articleId,
+        super(key: key);
 
   final int _board;
   final int _articleId;
@@ -157,13 +153,105 @@ class NurbanTitleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-
       final nurbanArticle = ref.watch(getNurbanArticleProvider(_articleId));
+
+      // TextStyle
+      final articleDetailNurbanTitleTextStyle =
+          ref.read(articleDetailNurbanTitleStyle);
+      final articleDetailNurbanAuthorTextStyle =
+          ref.read(articleDetailNurbanAuthorStyle);
+      final articleDetailNurbanElementTextStyle =
+          ref.read(articleDetailNurbanElementStyle);
+      final articleDetailNurbanLossCutTitleTextStyle =
+          ref.read(articleDetailNurbanLossCutTitleStyle);
+      final articleDetailNurbanLossCutValueTextStyle =
+          ref.read(articleDetailNurbanLossCutValueStyle);
+
       return nurbanArticle.when(
         data: (data) {
           log('nurbanArticle data: $data');
-          return Container(
-            child: Text('NurbanTitleBoard'),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  data.title,
+                  style: articleDetailNurbanTitleTextStyle,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 21,
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Image.network(
+                      data.badge,
+                      width: 21,
+                      height: 21,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      data.nickname,
+                      style: articleDetailNurbanAuthorTextStyle,
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+
+                    /// TODO: 휘장 리스트 작성.
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  SizedBox(
+                    height: 16,
+                    child: Text(
+                      data.updatedAt.toString(),
+                      style: articleDetailNurbanElementTextStyle,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: Text(
+                      '조회수',
+                      style: articleDetailNurbanElementTextStyle,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  SizedBox(
+                    height: 16,
+                    child: Text(
+                      data.count.toString(),
+                      style: articleDetailNurbanElementTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           );
         },
         loading: () {
@@ -184,12 +272,9 @@ class NurbanTitleBoard extends StatelessWidget {
 
 // 자유게시판 디테일 보드(제목, 작가, 작성일)
 class FreeTitleBoard extends StatelessWidget {
-  const FreeTitleBoard({
-    required int board,
-    required int articleId,
-    Key? key
-  }): _board = board,
-      _articleId = articleId,
+  const FreeTitleBoard({required int board, required int articleId, Key? key})
+      : _board = board,
+        _articleId = articleId,
         super(key: key);
 
   final int _board;
