@@ -12,9 +12,22 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesArticleDetailGen get articleDetail =>
+      const $AssetsImagesArticleDetailGen();
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
   $AssetsImagesLoginGen get login => const $AssetsImagesLoginGen();
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+}
+
+class $AssetsImagesArticleDetailGen {
+  const $AssetsImagesArticleDetailGen();
+
+  /// File path: assets/images/article_detail/loss_cut_icon.png
+  AssetGenImage get lossCutIcon =>
+      const AssetGenImage('assets/images/article_detail/loss_cut_icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [lossCutIcon];
 }
 
 class $AssetsImagesHomeGen {

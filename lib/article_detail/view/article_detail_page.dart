@@ -4,6 +4,7 @@ import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
+import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class ArticleDetailPage extends StatelessWidget {
@@ -250,6 +251,44 @@ class NurbanTitleBoard extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: Text(
+                      '손실액',
+                      style: articleDetailNurbanLossCutTitleTextStyle,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: Assets.images.articleDetail.lossCutIcon.image(),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: Text(
+                      data.lossCut.toString(),
+                      style: articleDetailNurbanLossCutValueTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 14,
               ),
             ],
           );
