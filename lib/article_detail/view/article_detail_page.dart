@@ -35,9 +35,12 @@ class ArticleDetailPage extends StatelessWidget {
       final thinDividerColor = ref.read(color55000000);
       final thickDividerColor = ref.read(color55C4C4C4);
 
+      final appBarTitleStyle = ref.read(articleDetailTitleStyle);
+
       return Scaffold(
         appBar: ArticleDetailAppBar(
           board: _board,
+          appBarTitleStyle: appBarTitleStyle,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -78,10 +81,13 @@ class ArticleDetailAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   const ArticleDetailAppBar({
     required int board,
+    required TextStyle appBarTitleStyle,
     super.key,
-  }) : _board = board;
+  }) : _board = board,
+       _appBarTitleStyle = appBarTitleStyle;
 
   final int _board;
+  final TextStyle _appBarTitleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -111,18 +117,18 @@ class ArticleDetailAppBar extends StatelessWidget
             Align(
               alignment: Alignment.center,
               child: _board == 1
-                  ? const Text(
+                  ? Text(
                       '너반꿀',
-                      style: TextStyle(color: Colors.black),
+                      style: _appBarTitleStyle,
                     )
                   : _board == 2
-                      ? const Text(
+                      ? Text(
                           '자유게시판',
-                          style: TextStyle(color: Colors.black),
+                          style: _appBarTitleStyle,
                         )
-                      : const Text(
+                      : Text(
                           '자유게시판',
-                          style: TextStyle(color: Colors.black),
+                          style: _appBarTitleStyle,
                         ),
             )
           ],
