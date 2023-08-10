@@ -171,6 +171,8 @@ class NurbanTitleBoard extends StatelessWidget {
       return nurbanArticle.when(
         data: (data) {
           log('nurbanArticle data: $data');
+          log('nurbanArticle insignia: ${data.insignia}');
+          
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -212,6 +214,7 @@ class NurbanTitleBoard extends StatelessWidget {
                     ),
 
                     /// TODO: 휘장 리스트 작성.
+
                   ],
                 ),
               ),
