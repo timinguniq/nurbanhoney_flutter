@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:share_service/share_service.dart';
 
 class ArticleDetailPage extends StatelessWidget {
   const ArticleDetailPage(
@@ -168,11 +169,14 @@ class NurbanTitleBoard extends StatelessWidget {
       final articleDetailNurbanLossCutValueTextStyle =
           ref.read(articleDetailNurbanLossCutValueStyle);
 
+      final fConvertToInsignia = ref.read(convertToInsignia);
+
       return nurbanArticle.when(
         data: (data) {
           log('nurbanArticle data: $data');
-          log('nurbanArticle insignia: ${data.insignia}');
-          
+          // 휘장 리스트
+          final insigniaList = fConvertToInsignia(data.insignia);
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -212,9 +216,15 @@ class NurbanTitleBoard extends StatelessWidget {
                     const SizedBox(
                       width: 16,
                     ),
-
-                    /// TODO: 휘장 리스트 작성.
-
+                    for(var ele in insigniaList)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Image.network(
+                          ele,
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
                   ],
                 ),
               ),
