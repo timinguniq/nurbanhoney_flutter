@@ -313,9 +313,7 @@ class NurbanTitleBoard extends StatelessWidget {
         },
         error: (error, stackTrace) {
           log('nurbanArticle error: $error');
-          return Container(
-            child: Text('NurbanTitleBoard Error'),
-          );
+          return const Text('NurbanTitleBoard Error');
         },
       );
     });
