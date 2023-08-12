@@ -211,7 +211,7 @@ class NurbanTitleBoard extends StatelessWidget {
                     const SizedBox(
                       width: 16,
                     ),
-                    for(var ele in insigniaList)
+                    for (var ele in insigniaList)
                       Padding(
                         padding: const EdgeInsets.only(right: 4.0),
                         child: Image.network(
@@ -231,32 +231,23 @@ class NurbanTitleBoard extends StatelessWidget {
                   const SizedBox(
                     width: 16,
                   ),
-                  SizedBox(
-                    height: 16,
-                    child: Text(
-                      data.updatedAt.toString(),
-                      style: articleDetailNurbanElementTextStyle,
-                    ),
+                  Text(
+                    data.updatedAt.toString(),
+                    style: articleDetailNurbanElementTextStyle,
                   ),
                   const SizedBox(
                     width: 12,
                   ),
-                  SizedBox(
-                    height: 20,
-                    child: Text(
-                      '조회수',
-                      style: articleDetailNurbanElementTextStyle,
-                    ),
+                  Text(
+                    '조회수',
+                    style: articleDetailNurbanElementTextStyle,
                   ),
                   const SizedBox(
                     width: 6,
                   ),
-                  SizedBox(
-                    height: 16,
-                    child: Text(
-                      data.count.toString(),
-                      style: articleDetailNurbanElementTextStyle,
-                    ),
+                  Text(
+                    data.count.toString(),
+                    style: articleDetailNurbanElementTextStyle,
                   ),
                 ],
               ),
@@ -328,11 +319,105 @@ class FreeTitleBoard extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final freeArticle = ref.watch(getFreeArticleProvider(_articleId));
 
+      // TextStyle
+      final articleDetailFreeTitleTextStyle =
+          ref.read(articleDetailNurbanTitleStyle);
+      final articleDetailFreeAuthorTextStyle =
+          ref.read(articleDetailNurbanAuthorStyle);
+      final articleDetailFreeElementTextStyle =
+          ref.read(articleDetailNurbanElementStyle);
+
+      final fConvertToInsignia = ref.read(convertToInsignia);
+
       return freeArticle.when(
         data: (data) {
           log('freeArticle data: $data');
-          return Container(
-            child: Text('FreeTitleBoard'),
+          // 휘장 리스트
+          final insigniaList = fConvertToInsignia(data.insignia);
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  data.title,
+                  style: articleDetailFreeTitleTextStyle,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 21,
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Image.network(
+                      data.badge,
+                      width: 21,
+                      height: 21,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      data.nickname,
+                      style: articleDetailFreeAuthorTextStyle,
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    for (var ele in insigniaList)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Image.network(
+                          ele,
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Text(
+                    data.updatedAt.toString(),
+                    style: articleDetailFreeElementTextStyle,
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Text(
+                    '조회수',
+                    style: articleDetailFreeElementTextStyle,
+                  ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Text(
+                    data.count.toString(),
+                    style: articleDetailFreeElementTextStyle,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+            ],
           );
         },
         loading: () {
