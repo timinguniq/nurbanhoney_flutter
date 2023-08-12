@@ -58,11 +58,9 @@ class ArticleDetailPage extends StatelessWidget {
                     )
                   : _board == 2
                       ? FreeTitleBoard(
-                          board: _board,
                           articleId: _articleId,
                         )
                       : FreeTitleBoard(
-                          board: _board,
                           articleId: _articleId,
                         ),
               ArticleDetailDivider(
@@ -319,12 +317,10 @@ class NurbanTitleBoard extends StatelessWidget {
 
 // 자유게시판 디테일 보드(제목, 작가, 작성일)
 class FreeTitleBoard extends StatelessWidget {
-  const FreeTitleBoard({required int board, required int articleId, Key? key})
-      : _board = board,
-        _articleId = articleId,
+  const FreeTitleBoard({required int articleId, Key? key})
+      : _articleId = articleId,
         super(key: key);
 
-  final int _board;
   final int _articleId;
 
   @override
