@@ -54,7 +54,6 @@ class ArticleDetailPage extends StatelessWidget {
               // TitleBoard
               _board == 1
                   ? NurbanTitleBoard(
-                      board: _board,
                       articleId: _articleId,
                     )
                   : _board == 2
@@ -144,12 +143,10 @@ class ArticleDetailAppBar extends StatelessWidget
 
 // 너반꿀 디테일 보드(제목, 작가, 작성일, 손실액)
 class NurbanTitleBoard extends StatelessWidget {
-  const NurbanTitleBoard({required int board, required int articleId, Key? key})
-      : _board = board,
-        _articleId = articleId,
+  const NurbanTitleBoard({required int articleId, Key? key})
+      : _articleId = articleId,
         super(key: key);
 
-  final int _board;
   final int _articleId;
 
   @override
