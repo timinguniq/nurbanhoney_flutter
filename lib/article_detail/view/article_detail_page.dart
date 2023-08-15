@@ -468,141 +468,27 @@ class NurbanContentBoard extends StatelessWidget {
       final nurbanArticle = ref.watch(getNurbanArticleProvider(_articleId));
 
       // TextStyle
-      final articleDetailNurbanTitleTextStyle =
-      ref.read(articleDetailNurbanTitleStyle);
-      final articleDetailNurbanAuthorTextStyle =
-      ref.read(articleDetailNurbanAuthorStyle);
-      final articleDetailNurbanElementTextStyle =
-      ref.read(articleDetailNurbanElementStyle);
-      final articleDetailNurbanLossCutTitleTextStyle =
-      ref.read(articleDetailNurbanLossCutTitleStyle);
-      final articleDetailNurbanLossCutValueTextStyle =
-      ref.read(articleDetailNurbanLossCutValueStyle);
-
-      final fConvertToInsignia = ref.read(convertToInsignia);
+      final articleDetailNurbanContentTextStyle =
+      ref.read(articleDetailNurbanContentStyle);
 
       return nurbanArticle.when(
         data: (data) {
-          log('nurbanArticle data: $data');
-          // 휘장 리스트
-          final insigniaList = fConvertToInsignia(data.insignia);
-
+          log('NurbanContentBoard data: $data');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 20,
+                height: 22,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 17),
                 child: Text(
-                  data.title,
-                  style: articleDetailNurbanTitleTextStyle,
+                  data.content,
+                  style: articleDetailNurbanContentTextStyle,
                 ),
               ),
               const SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 21,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Image.network(
-                      data.badge,
-                      width: 21,
-                      height: 21,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      data.nickname,
-                      style: articleDetailNurbanAuthorTextStyle,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    for (var ele in insigniaList)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: Image.network(
-                          ele,
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    data.updatedAt.toString(),
-                    style: articleDetailNurbanElementTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    '조회수',
-                    style: articleDetailNurbanElementTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    data.count.toString(),
-                    style: articleDetailNurbanElementTextStyle,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Text(
-                      '손실액',
-                      style: articleDetailNurbanLossCutTitleTextStyle,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  SizedBox(
-                    width: 14,
-                    height: 14,
-                    child: Assets.images.articleDetail.lossCutIcon.image(),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Text(
-                      data.lossCut.toString(),
-                      style: articleDetailNurbanLossCutValueTextStyle,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 14,
+                height: 52,
               ),
             ],
           );
@@ -613,17 +499,17 @@ class NurbanContentBoard extends StatelessWidget {
           );
         },
         error: (error, stackTrace) {
-          log('nurbanArticle error: $error');
-          return const Text('NurbanTitleBoard Error');
+          log('NurbanContentBoard error: $error');
+          return const Text('NurbanContentBoard Error');
         },
       );
     });
   }
 }
 
-// 자유게시판 디테일 보드(제목, 작가, 작성일)
-class FreeTitleBoard extends StatelessWidget {
-  const FreeTitleBoard({required int articleId, Key? key})
+// 자유게시판 디테일 보드(컨텐츠)
+class FreeContentBoard extends StatelessWidget {
+  const FreeContentBoard({required int articleId, Key? key})
       : _articleId = articleId,
         super(key: key);
 
@@ -632,105 +518,30 @@ class FreeTitleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final freeArticle = ref.watch(getFreeArticleProvider(_articleId));
+      final nurbanArticle = ref.watch(getNurbanArticleProvider(_articleId));
 
       // TextStyle
-      final articleDetailFreeTitleTextStyle =
-      ref.read(articleDetailNurbanTitleStyle);
-      final articleDetailFreeAuthorTextStyle =
-      ref.read(articleDetailNurbanAuthorStyle);
-      final articleDetailFreeElementTextStyle =
-      ref.read(articleDetailNurbanElementStyle);
+      final articleDetailNurbanContentTextStyle =
+      ref.read(articleDetailNurbanContentStyle);
 
-      final fConvertToInsignia = ref.read(convertToInsignia);
-
-      return freeArticle.when(
+      return nurbanArticle.when(
         data: (data) {
-          log('freeArticle data: $data');
-          // 휘장 리스트
-          final insigniaList = fConvertToInsignia(data.insignia);
-
+          log('FreeContentBoard data: $data');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 20,
+                height: 22,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 17),
                 child: Text(
-                  data.title,
-                  style: articleDetailFreeTitleTextStyle,
+                  data.content,
+                  style: articleDetailNurbanContentTextStyle,
                 ),
               ),
               const SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 21,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Image.network(
-                      data.badge,
-                      width: 21,
-                      height: 21,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      data.nickname,
-                      style: articleDetailFreeAuthorTextStyle,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    for (var ele in insigniaList)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: Image.network(
-                          ele,
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    data.updatedAt.toString(),
-                    style: articleDetailFreeElementTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    '조회수',
-                    style: articleDetailFreeElementTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    data.count.toString(),
-                    style: articleDetailFreeElementTextStyle,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 14,
+                height: 52,
               ),
             ],
           );
@@ -741,13 +552,10 @@ class FreeTitleBoard extends StatelessWidget {
           );
         },
         error: (error, stackTrace) {
-          log('freeArticle error: $error');
-          return Container(
-            child: Text('FreeTitleBoard Error'),
-          );
+          log('FreeContentBoard error: $error');
+          return const Text('FreeContentBoard Error');
         },
       );
     });
   }
 }
-
