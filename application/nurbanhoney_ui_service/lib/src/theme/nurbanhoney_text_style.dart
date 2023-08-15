@@ -137,3 +137,7 @@ final articleDetailNurbanLossCutTitleStyle = Provider<TextStyle>((ref) {
 final articleDetailNurbanLossCutValueStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.articleDetailNurbanLossCutValue;
 });
+
+final articleDetailNurbanContentStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleDetailNurbanContent;
+});
