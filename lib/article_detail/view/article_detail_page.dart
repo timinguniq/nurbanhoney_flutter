@@ -69,18 +69,16 @@ class ArticleDetailPage extends StatelessWidget {
               ),
               // Content
               _board == 1
-                  ? NurbanTitleBoard(
-                articleId: _articleId,
-              )
+                  ? NurbanContentBoard(
+                      articleId: _articleId,
+                    )
                   : _board == 2
-                  ? FreeTitleBoard(
-                articleId: _articleId,
-              )
-                  : FreeTitleBoard(
-                articleId: _articleId,
-              ),
-
-
+                      ? FreeContentBoard(
+                          articleId: _articleId,
+                        )
+                      : FreeContentBoard(
+                          articleId: _articleId,
+                        ),
               ArticleDetailDivider(
                 thickness: 0.5,
                 color: thinDividerColor,
@@ -469,7 +467,7 @@ class NurbanContentBoard extends StatelessWidget {
 
       // TextStyle
       final articleDetailNurbanContentTextStyle =
-      ref.read(articleDetailNurbanContentStyle);
+          ref.read(articleDetailNurbanContentStyle);
 
       return nurbanArticle.when(
         data: (data) {
@@ -478,17 +476,26 @@ class NurbanContentBoard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 22,
+                height: 12,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                child: Image.network(
+                  data.thumbnail,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 17),
-                child: Text(
-                  data.content,
-                  style: articleDetailNurbanContentTextStyle,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    data.content,
+                    style: articleDetailNurbanContentTextStyle,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 52,
+                height: 32,
               ),
             ],
           );
@@ -522,7 +529,7 @@ class FreeContentBoard extends StatelessWidget {
 
       // TextStyle
       final articleDetailNurbanContentTextStyle =
-      ref.read(articleDetailNurbanContentStyle);
+          ref.read(articleDetailNurbanContentStyle);
 
       return nurbanArticle.when(
         data: (data) {
@@ -531,17 +538,20 @@ class FreeContentBoard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 22,
+                height: 12,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 17),
-                child: Text(
-                  data.content,
-                  style: articleDetailNurbanContentTextStyle,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    data.content,
+                    style: articleDetailNurbanContentTextStyle,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 52,
+                height: 32,
               ),
             ],
           );
