@@ -38,6 +38,9 @@ class NurbanContentBoard extends StatelessWidget {
                   data.thumbnail,
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 17),
                 child: Align(
