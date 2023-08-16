@@ -83,6 +83,13 @@ class ArticleDetailPage extends StatelessWidget {
                 thickness: 0.5,
                 color: thinDividerColor,
               ),
+              LikeDislikeBoard(
+                articleId: _articleId,
+              ),
+              ArticleDetailDivider(
+                thickness: 8,
+                color: thickDividerColor,
+              ),
             ],
           ),
         ),

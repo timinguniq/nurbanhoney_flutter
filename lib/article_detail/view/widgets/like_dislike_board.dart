@@ -57,9 +57,12 @@ class LikeDislikeBoard extends StatelessWidget {
                 const SizedBox(
                   width: 4,
                 ),
-                Text(
-                  data.likeCount.toString(),
-                  style: articleDetailLikeTextStyle,
+                SizedBox(
+                  height: 10,
+                  child: Text(
+                    data.likeCount.toString(),
+                    style: articleDetailLikeTextStyle,
+                  ),
                 ),
                 const SizedBox(
                   width: 17,
@@ -82,9 +85,12 @@ class LikeDislikeBoard extends StatelessWidget {
                 const SizedBox(
                   width: 4,
                 ),
-                Text(
-                  data.dislikeCount.toString(),
-                  style: articleDetailLikeTextStyle,
+                SizedBox(
+                  height: 10,
+                  child: Text(
+                    data.dislikeCount.toString(),
+                    style: articleDetailLikeTextStyle,
+                  ),
                 ),
               ],
             ),
