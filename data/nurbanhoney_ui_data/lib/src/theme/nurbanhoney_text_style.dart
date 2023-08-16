@@ -330,4 +330,14 @@ abstract class NurbanhoneyTextStyle {
     height: 21 / 12,
   );
 
+  /// Font size: 12 | Color: 000000
+  static const articleDetailLike = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.black,
+    height: 1,
+  );
+
 }
