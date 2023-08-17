@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_detail/article_detail.dart';
+import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // Consumer widget format
@@ -36,61 +38,26 @@ class LikeDislikeBoard extends StatelessWidget {
             height: 48,
             child: Row(
               children: [
-                const SizedBox(
-                  width: 16,
-                ),
-                // TODO: 좋아요 이미지 넣어야됨.
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: Container(
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  '좋아요',
-                  style: articleDetailLikeTextStyle,
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                SizedBox(
-                  height: 10,
-                  child: Text(
-                    data.likeCount.toString(),
-                    style: articleDetailLikeTextStyle,
-                  ),
+                LikeDislikeWidget(
+                  onTap: (){
+                    log('like');
+                  },
+                  count: data.likeCount,
+                  icon: Assets.images.home.drawerProfileEdit.image(),
+                  title: '좋아요',
+                  textStyle: articleDetailLikeTextStyle,
                 ),
                 const SizedBox(
                   width: 17,
                 ),
-                // TODO: 싫어요 이미지 넣어야됨.
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: Container(
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  '싫어요',
-                  style: articleDetailLikeTextStyle,
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                SizedBox(
-                  height: 10,
-                  child: Text(
-                    data.dislikeCount.toString(),
-                    style: articleDetailLikeTextStyle,
-                  ),
+                LikeDislikeWidget(
+                  onTap: (){
+                    log('dislike');
+                  },
+                  count: data.dislikeCount,
+                  icon: Assets.images.home.drawerProfileEdit.image(),
+                  title: '싫어요',
+                  textStyle: articleDetailLikeTextStyle,
                 ),
               ],
             ),
