@@ -2,6 +2,7 @@
 // 자유게시판 디테일 보드(제목, 작가, 작성일)
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,10 +61,14 @@ class FreeTitleBoard extends StatelessWidget {
                     const SizedBox(
                       width: 16,
                     ),
-                    Image.network(
-                      data.badge,
+                    SizedBox(
                       width: 21,
                       height: 21,
+                      child: CachedNetworkImage(
+                        imageUrl: data.badge,
+                        placeholder: (context, url) => const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
                     ),
                     const SizedBox(
                       width: 8,
@@ -78,10 +83,14 @@ class FreeTitleBoard extends StatelessWidget {
                     for (var ele in insigniaList)
                       Padding(
                         padding: const EdgeInsets.only(right: 4.0),
-                        child: Image.network(
-                          ele,
-                          width: 20,
-                          height: 20,
+                        child: SizedBox(
+                          width: 21,
+                          height: 21,
+                          child: CachedNetworkImage(
+                            imageUrl: ele,
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
                         ),
                       ),
                   ],

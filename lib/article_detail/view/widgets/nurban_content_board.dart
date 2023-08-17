@@ -2,6 +2,7 @@
 // 너반꿀 디테일 보드(썸네일 컨텐츠)
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,8 +35,10 @@ class NurbanContentBoard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 17),
-                child: Image.network(
-                  data.thumbnail,
+                child: CachedNetworkImage(
+                  imageUrl: data.thumbnail,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
               const SizedBox(
