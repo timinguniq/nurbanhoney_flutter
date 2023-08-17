@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 // Consumer widget format
 class LikeDislikeBoard extends StatelessWidget {
@@ -42,6 +43,7 @@ class LikeDislikeBoard extends StatelessWidget {
                   onTap: (){
                     log('like');
                   },
+                  articleId: _articleId,
                   count: data.likeCount,
                   icon: Assets.images.home.drawerProfileEdit.image(),
                   title: '좋아요',
@@ -54,6 +56,7 @@ class LikeDislikeBoard extends StatelessWidget {
                   onTap: (){
                     log('dislike');
                   },
+                  articleId: _articleId,
                   count: data.dislikeCount,
                   icon: Assets.images.home.drawerProfileEdit.image(),
                   title: '싫어요',
