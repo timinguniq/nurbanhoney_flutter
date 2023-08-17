@@ -65,4 +65,39 @@ class NurbanRepository {
       throw Exception(e);
     }
   }
+
+  /// 아티클 좋아요 생성
+  Future<String> nurbanLikeCreate({
+    required String token,
+    required int articleId,
+  }) async {
+    try {
+
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.post('/',
+        data: {'articleId': articleId},
+      );
+
+      log('nurbanLikeCreate response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'].toString();
+
+      final futureValue = error != ''
+          ? Future.value(error)
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanLikeCreate error : $e');
+      throw Exception(e);
+    }
+  }
 }
