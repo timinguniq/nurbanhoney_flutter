@@ -60,6 +60,7 @@ class LoginPage extends ConsumerWidget {
           .addPostFrameCallback((_) async {
         // 상태 바꾸는 코드
         ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+        log('Widget token : $token');
         // token 저장하는 코드
         await prefStorage?.setToken(token);
         if(context.mounted){
