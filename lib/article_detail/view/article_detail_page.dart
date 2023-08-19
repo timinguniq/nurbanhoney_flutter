@@ -90,6 +90,9 @@ class ArticleDetailPage extends StatelessWidget {
                 thickness: 8,
                 color: thickDividerColor,
               ),
+              ArticleDetailCommentPage(
+                articleId: _articleId,
+              ),
             ],
           ),
         ),

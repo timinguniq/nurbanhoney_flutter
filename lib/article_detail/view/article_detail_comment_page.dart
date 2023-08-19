@@ -3,11 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // 글 상세 댓글 화면
 class ArticleDetailCommentPage extends StatelessWidget {
-  const ArticleDetailCommentPage({super.key});
+  const ArticleDetailCommentPage({
+    required int articleId,
+    super.key,
+  }) : _articleId = articleId;
 
-  static Route route() {
+  final int _articleId;
+
+  static Route route({required int articleId}) {
     return MaterialPageRoute<void>(
-      builder: (_) => const ArticleDetailCommentPage(),
+      builder: (_) => ArticleDetailCommentPage(
+        articleId: articleId,
+      ),
     );
   }
 
@@ -17,7 +24,92 @@ class ArticleDetailCommentPage extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-      return Container();
+      // TODO: comment data 통신 구현해서 데이터 받아야됨.
+
+      return Column(
+        children: [
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            color: Colors.grey,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+        ],
+      );
     });
   }
 }
