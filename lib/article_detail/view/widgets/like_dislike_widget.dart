@@ -34,15 +34,21 @@ class LikeDislikeWidget extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
-      final storage = ref.read(preferenceStorageProvider);
 
-      final token = storage.asData?.value.getToken() ?? '__empty__';
+      final preferenceStorage = ref.watch(preferenceStorageProvider);
+      final storage = preferenceStorage.asData?.value;
+
+      log('like_dislike_widget storage: $storage');
+
+      final token = storage?.getToken() ?? '__empty__';
       log('like_dislike_widget token: $token');
 
       return InkWell(
-        onTap: (){
+        onTap: () async {
           // TODO: 이렇게 하면 통신이 실행되나 테스트 해봐야 됨.
-          final createNurbanLike = ref.read(createNurbanLikeProvider((token, _articleId)));
+          final nurbanProvider = ref.read(nurbanRepositoryProvider);
+          final result = await nurbanProvider.nurbanLikeCreate(token: token, articleId: _articleId);
+          log('result : $result');
         },
         child: Row(
           children: [

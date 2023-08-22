@@ -23,6 +23,8 @@ dependencies:
     path: application/nurbanhoney_ui_service
   preference_storage_service:
     path: application/preference_storage_service
+  preference_storage:
+    path: data/preference_storage
   dio: ^5.2.0
   dio_domain:
     path: domain/dio_domain

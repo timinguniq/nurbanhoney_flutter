@@ -488,7 +488,7 @@ packages:
     source: hosted
     version: "3.7.3"
   preference_storage:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "data/preference_storage"
       relative: true

@@ -12,6 +12,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
 class LoginPage extends ConsumerWidget {
@@ -61,8 +62,9 @@ class LoginPage extends ConsumerWidget {
         // 상태 바꾸는 코드
         ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
         log('Widget token : $token');
+        log('prefStorage : $prefStorage');
         // token 저장하는 코드
-        await prefStorage?.setToken(token);
+        setLoginToken(prefStorage: prefStorage!, token: token);
         if(context.mounted){
           Navigator.of(context).pop();
         }
@@ -212,6 +214,13 @@ class LoginPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> setLoginToken({
+    required PreferenceStorage prefStorage,
+    required String token,
+  }) async{
+    await prefStorage.setToken(token);
   }
 
   // 이용약관과 개인정보 처리방침 팝업

@@ -88,10 +88,12 @@ class NurbanRepository {
       log('nurbanLikeCreate response: ${response.data}');
 
       final result = response.data['result'].toString();
-      final error = response.data['error'].toString();
+      final error = response.data['error'];
 
-      final futureValue = error != ''
-          ? Future.value(error)
+      log('nurbanLikeCreate error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
           : Future.value(result);
 
       return futureValue;
