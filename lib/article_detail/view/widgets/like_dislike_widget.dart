@@ -47,7 +47,14 @@ class LikeDislikeWidget extends StatelessWidget {
         onTap: () async {
           // TODO: 이렇게 하면 통신이 실행되나 테스트 해봐야 됨.
           final nurbanRepository = ref.read(nurbanRepositoryProvider);
-          final result = await nurbanRepository.nurbanLikeCreate(token: token, articleId: _articleId);
+          var result = '';
+          if(_title == '좋아요'){
+            result = await nurbanRepository.nurbanLikeCreate(token: token, articleId: _articleId);
+          }else{
+            // 싫어요 일 떄
+            result = await nurbanRepository.nurbanDislikeCreate(token: token, articleId: _articleId);
+          }
+
           log('result : $result');
           if(result == '1'){
             log('result == 1');

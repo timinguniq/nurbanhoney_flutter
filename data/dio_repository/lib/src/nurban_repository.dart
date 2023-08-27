@@ -102,4 +102,40 @@ class NurbanRepository {
       throw Exception(e);
     }
   }
+
+  /// 아티클 싫어요 생성
+  Future<String> nurbanDislikeCreate({
+    required String token,
+    required int articleId,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/dislike',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.post('/',
+        data: {'articleId': articleId},
+      );
+
+      log('nurbanDislikeCreate response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanDislikeCreate error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanDislikeCreate error : $e');
+      throw Exception(e);
+    }
+  }
 }
