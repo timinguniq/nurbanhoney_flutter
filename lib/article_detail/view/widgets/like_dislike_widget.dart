@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
@@ -35,31 +34,8 @@ class LikeDislikeWidget extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-      final preferenceStorage = ref.watch(preferenceStorageProvider);
-      final storage = preferenceStorage.asData?.value;
-
-      log('like_dislike_widget storage: $storage');
-
-      final token = storage?.getToken() ?? '__empty__';
-      log('like_dislike_widget token: $token');
-
       return InkWell(
-        onTap: () async {
-          // TODO: 이렇게 하면 통신이 실행되나 테스트 해봐야 됨.
-          final nurbanRepository = ref.read(nurbanRepositoryProvider);
-          var result = '';
-          if(_title == '좋아요'){
-            result = await nurbanRepository.nurbanLikeCreate(token: token, articleId: _articleId);
-          }else{
-            // 싫어요 일 떄
-            result = await nurbanRepository.nurbanDislikeCreate(token: token, articleId: _articleId);
-          }
-
-          log('result : $result');
-          if(result == '1'){
-            log('result == 1');
-          }
-        },
+        onTap: _onTap,
         child: Row(
           children: [
             const SizedBox(
