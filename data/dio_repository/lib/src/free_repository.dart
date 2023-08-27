@@ -28,16 +28,31 @@ class FreeRepository {
 
   /// 자유게시판 아티클 상세
   Future<FreeArticle> getFreeArticle({
+    required String token,
     required int articleId,
   }) async {
     try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/free/article',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.get('/',
+        queryParameters: {
+          'id': articleId,
+        },
+      );
+      /*
       final response = await dio.get(
         '${DioApi.mainApi}/board/free/article',
         queryParameters: {
           'id': articleId,
         },
       );
-
+*/
       log('getFreeArticle response: ${response.data}');
       final records =
       (id: int.parse(response.data['id'].toString()),

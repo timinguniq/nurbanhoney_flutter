@@ -7,6 +7,7 @@ import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
 class FreeTitleBoard extends StatelessWidget {
@@ -19,7 +20,12 @@ class FreeTitleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final freeArticle = ref.watch(getFreeArticleProvider(_articleId));
+      final preferenceStorage = ref.watch(preferenceStorageProvider);
+      final storage = preferenceStorage.asData?.value;
+      final token = storage?.getToken() ?? '__empty__';
+      log('like_dislike_board token: $token');
+
+      final freeArticle = ref.watch(getFreeArticleProvider((token, _articleId)));
 
       // TextStyle
       final articleDetailFreeTitleTextStyle =

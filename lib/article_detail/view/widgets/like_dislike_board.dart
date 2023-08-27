@@ -30,6 +30,7 @@ class LikeDislikeBoard extends StatefulWidget {
 class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
   late int _likeCount;
   late int _dislikeCount;
+  late String _myRating;
   bool _isFirst = true;
 
   @override
@@ -37,18 +38,15 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
-      final article = ref.watch(getFreeArticleProvider(widget._articleId));
-
-      final articleDetailLikeTextStyle = ref.read(articleDetailLikeStyle);
-
-      final nurbanRepository = ref.read(nurbanRepositoryProvider);
 
       final preferenceStorage = ref.watch(preferenceStorageProvider);
       final storage = preferenceStorage.asData?.value;
-      log('like_dislike_board storage: $storage');
-
       final token = storage?.getToken() ?? '__empty__';
       log('like_dislike_board token: $token');
+
+      final article = ref.watch(getFreeArticleProvider((token, widget._articleId)));
+      final articleDetailLikeTextStyle = ref.read(articleDetailLikeStyle);
+      final nurbanRepository = ref.read(nurbanRepositoryProvider);
 
       return article.when(
         data: (data) {
@@ -56,6 +54,7 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
           if(_isFirst){
             _likeCount = data.likeCount;
             _dislikeCount = data.dislikeCount;
+            _myRating = data.myRating;
             _isFirst = false;
           }
           log('like_dislike_board _likeCount: $_likeCount');
@@ -68,10 +67,22 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
                 LikeDislikeWidget(
                   onTap: () async {
                     log('like');
+                    // TODO: myRating에 따른 좋아요 싫어요 삭제 통신 구현하고 만들어야 될듯.
                     var result = await nurbanRepository.nurbanLikeCreate(token: token, articleId: widget._articleId);
                     setState(() {
-                      _likeCount++;
-                      _dislikeCount = data.dislikeCount;
+                      if(result == '1'){
+                        if(_myRating == 'like'){
+                          _likeCount--;
+                          _myRating = 'null';
+                        }else if(_myRating == 'dislike'){
+                          _likeCount++;
+                          _dislikeCount--;
+                          _myRating = 'like';
+                        }else{
+                          _likeCount++;
+                          _myRating = 'like';
+                        }
+                      }
                     });
                   },
                   articleId: widget._articleId,
@@ -86,10 +97,22 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
                 LikeDislikeWidget(
                   onTap: () async {
                     log('dislike');
+                    // TODO: myRating에 따른 좋아요 싫어요 삭제 통신 구현하고 만들어야 될듯.
                     var result = await nurbanRepository.nurbanDislikeCreate(token: token, articleId: widget._articleId);
                     setState(() {
-                      _likeCount = data.likeCount;
-                      _dislikeCount++;
+                      if(result == '1'){
+                        if(_myRating == 'dislike'){
+                          _dislikeCount--;
+                          _myRating = 'null';
+                        }else if(_myRating == 'like'){
+                          _dislikeCount++;
+                          _likeCount--;
+                          _myRating = 'dislike';
+                        }else{
+                          _dislikeCount++;
+                          _myRating = 'dislike';
+                        }
+                      }
                     });
                   },
                   articleId: widget._articleId,
