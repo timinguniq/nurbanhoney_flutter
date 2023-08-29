@@ -44,14 +44,15 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
       final token = storage?.getToken() ?? '__empty__';
       log('like_dislike_board token: $token');
 
-      final article = ref.watch(getFreeArticleProvider((token, widget._articleId)));
+      final article =
+          ref.watch(getFreeArticleProvider((token, widget._articleId)));
       final articleDetailLikeTextStyle = ref.read(articleDetailLikeStyle);
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
 
       return article.when(
         data: (data) {
           log('like_dislike_board myRating : ${data.myRating}');
-          if(_isFirst){
+          if (_isFirst) {
             _likeCount = data.likeCount;
             _dislikeCount = data.dislikeCount;
             _myRating = data.myRating;
@@ -67,22 +68,25 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
                 LikeDislikeWidget(
                   onTap: () async {
                     log('like');
-                    // TODO: myRating에 따른 좋아요 싫어요 삭제 통신 구현하고 만들어야 될듯.
-                    var result = await nurbanRepository.nurbanLikeCreate(token: token, articleId: widget._articleId);
+                    var result = _myRating == 'like'
+                        ? await nurbanRepository.nurbanLikeDelete(
+                            token: token, articleId: widget._articleId)
+                        : await nurbanRepository.nurbanLikeCreate(
+                            token: token, articleId: widget._articleId);
+
+                    log('like result : $result');
+
                     setState(() {
-                      if(result == '1'){
-                        if(_myRating == 'like'){
-                          _likeCount--;
-                          _myRating = 'null';
-                        }else if(_myRating == 'dislike'){
-                          _likeCount++;
-                          _dislikeCount--;
-                          _myRating = 'like';
-                        }else{
-                          _likeCount++;
-                          _myRating = 'like';
-                        }
+                      if (_myRating == 'like') {
+                        _myRating = 'null';
+                      } else if (_myRating == 'dislike') {
+                        _dislikeCount--;
+                        _myRating = 'like';
+                      } else {
+                        _myRating = 'like';
                       }
+                      _likeCount = int.parse(result);
+
                     });
                   },
                   articleId: widget._articleId,
@@ -97,22 +101,24 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
                 LikeDislikeWidget(
                   onTap: () async {
                     log('dislike');
-                    // TODO: myRating에 따른 좋아요 싫어요 삭제 통신 구현하고 만들어야 될듯.
-                    var result = await nurbanRepository.nurbanDislikeCreate(token: token, articleId: widget._articleId);
+                    var result = _myRating == 'dislike'
+                        ? await nurbanRepository.nurbanDislikeDelete(
+                        token: token, articleId: widget._articleId)
+                        : await nurbanRepository.nurbanDislikeCreate(
+                        token: token, articleId: widget._articleId);
+
+                    log('dislike result : $result');
+
                     setState(() {
-                      if(result == '1'){
-                        if(_myRating == 'dislike'){
-                          _dislikeCount--;
-                          _myRating = 'null';
-                        }else if(_myRating == 'like'){
-                          _dislikeCount++;
-                          _likeCount--;
-                          _myRating = 'dislike';
-                        }else{
-                          _dislikeCount++;
-                          _myRating = 'dislike';
-                        }
+                      if (_myRating == 'dislike') {
+                        _myRating = 'null';
+                      } else if (_myRating == 'like') {
+                        _likeCount--;
+                        _myRating = 'dislike';
+                      } else {
+                        _myRating = 'dislike';
                       }
+                      _dislikeCount = int.parse(result);
                     });
                   },
                   articleId: widget._articleId,
