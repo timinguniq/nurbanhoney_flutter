@@ -12,11 +12,24 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesArticleCreateGen get articleCreate =>
+      const $AssetsImagesArticleCreateGen();
   $AssetsImagesArticleDetailGen get articleDetail =>
       const $AssetsImagesArticleDetailGen();
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
   $AssetsImagesLoginGen get login => const $AssetsImagesLoginGen();
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+}
+
+class $AssetsImagesArticleCreateGen {
+  const $AssetsImagesArticleCreateGen();
+
+  /// File path: assets/images/article_create/article_create_close.png
+  AssetGenImage get articleCreateClose => const AssetGenImage(
+      'assets/images/article_create/article_create_close.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [articleCreateClose];
 }
 
 class $AssetsImagesArticleDetailGen {
