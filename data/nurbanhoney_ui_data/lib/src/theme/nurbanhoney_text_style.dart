@@ -340,4 +340,54 @@ abstract class NurbanhoneyTextStyle {
     height: 1,
   );
 
+  /// Font size: 16 | Color: 1E1E1E
+  static const articleCreateBoard = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 14 | Color: 1E1E1E
+  static const articleCreateConfirm = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.colorF6B748,
+    height: 1,
+  );
+
+  /// Font size: 18 | Color: 858585
+  static const articleCreateTitle = TextStyle(
+    fontSize: 18,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color858585,
+    height: 1,
+  );
+
+  /// Font size: 14 | Color: 858585
+  static const articleCreateLossCut = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color858585,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: 858585
+  static const articleCreateContent = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color858585,
+    height: 1,
+  );
+
 }
