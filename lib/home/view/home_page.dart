@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
+import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
@@ -112,10 +113,9 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () {
                   if (authenticationProvider ==
                       AuthenticationStatus.authenticated) {
-                    // TODO : 글 생성 화면으로 이동.
                     //Navigator.of(context).push(BoardPage.routeName);
+                    Navigator.of(context).push(ArticleCreatePage.route());
                   } else {
-                    // TODO : 로그인 화면으로 이동
                     Navigator.of(context).push(LoginPage.route());
                   }
                 },
