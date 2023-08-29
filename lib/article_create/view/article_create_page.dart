@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // Consumer widget format
 class ArticleCreatePage extends StatelessWidget {
@@ -17,11 +18,21 @@ class ArticleCreatePage extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-
+      final boardTextStyle = ref.read(articleCreateBoardStyle);
+      final confirmTextStyle = ref.read(articleCreateConfirmStyle);
+      final titleTextStyle = ref.read(articleCreateTitleStyle);
+      final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
+      final contentTextStyle = ref.read(articleCreateContentStyle);
 
       return Scaffold(
-        body: Container(
-          child: Text('ArticleCreatePage'),
+        body: Padding(
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top,
+              bottom: MediaQuery.of(context).padding.bottom,
+          ),
+          child: Container(
+            child: Text('ArticleCreatePage'),
+          ),
         ),
       );
     });
