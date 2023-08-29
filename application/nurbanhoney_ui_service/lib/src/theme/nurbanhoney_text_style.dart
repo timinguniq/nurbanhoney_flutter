@@ -145,3 +145,23 @@ final articleDetailNurbanContentStyle = Provider<TextStyle>((ref) {
 final articleDetailLikeStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.articleDetailLike;
 });
+
+final articleCreateBoardStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleCreateBoard;
+});
+
+final articleCreateConfirmStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleCreateConfirm;
+});
+
+final articleCreateTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleCreateTitle;
+});
+
+final articleCreateLossCutStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleCreateLossCut;
+});
+
+final articleCreateContentStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleCreateContent;
+});

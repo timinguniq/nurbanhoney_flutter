@@ -17,6 +17,8 @@ class ArticleCreatePage extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+
+
       return Scaffold(
         body: Container(
           child: Text('ArticleCreatePage'),
