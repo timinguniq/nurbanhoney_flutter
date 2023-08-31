@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // Consumer widget format
@@ -30,8 +31,12 @@ class ArticleCreatePage extends StatelessWidget {
               top: MediaQuery.of(context).padding.top,
               bottom: MediaQuery.of(context).padding.bottom,
           ),
-          child: Container(
-            child: Text('ArticleCreatePage'),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                ArticleCreateAppbar(),
+              ],
+            ),
           ),
         ),
       );
