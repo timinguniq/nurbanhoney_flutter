@@ -47,7 +47,28 @@ class ArticleCreateAppbar extends StatelessWidget {
               await _showPickerDialog(context);
             },
             child: Text('타이틀'),
-          )
+          ),
+          const Expanded(
+              child: SizedBox(
+                width: 1,
+              )
+          ),
+          InkWell(
+            onTap: () async{
+              log('완료 버튼 클릭');
+            },
+            child: Row(
+              children: [
+                Text(
+                  '완료',
+                  style: confirmTextStyle,
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+              ],
+            ),
+          ),
 
         ],
       );
