@@ -27,50 +27,53 @@ class ArticleCreateAppbar extends StatelessWidget {
       final boardTextStyle = ref.read(articleCreateBoardStyle);
       final confirmTextStyle = ref.read(articleCreateConfirmStyle);
 
-      return Row(
-        children: [
-          const SizedBox(
-            width: 10,
-          ),
-          SizedBox(
-            width: 30,
-            height: 30,
-            child: Assets.images.articleCreate.articleCreateClose.image(),
-          ),
-          const Expanded(
-            child: SizedBox(
-              width: 1,
-            )
-          ),
-          InkWell(
-            onTap: () async{
-              await _showPickerDialog(context);
-            },
-            child: Text('타이틀'),
-          ),
-          const Expanded(
-              child: SizedBox(
-                width: 1,
-              )
-          ),
-          InkWell(
-            onTap: () async{
-              log('완료 버튼 클릭');
-            },
-            child: Row(
-              children: [
-                Text(
-                  '완료',
-                  style: confirmTextStyle,
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-              ],
+      return SizedBox(
+        height: 48,
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 10,
             ),
-          ),
+            SizedBox(
+              width: 30,
+              height: 30,
+              child: Assets.images.articleCreate.articleCreateClose.image(),
+            ),
+            const Expanded(
+              child: SizedBox(
+                width: 119,
+              )
+            ),
+            InkWell(
+              onTap: () async{
+                await _showPickerDialog(context);
+              },
+              child: Text('타이틀'),
+            ),
+            const Expanded(
+                child: SizedBox(
+                  width: 84,
+                )
+            ),
+            InkWell(
+              onTap: () async{
+                log('완료 버튼 클릭');
+              },
+              child: Row(
+                children: [
+                  Text(
+                    '완료',
+                    style: confirmTextStyle,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                ],
+              ),
+            ),
 
-        ],
+          ],
+        ),
       );
     });
   }
