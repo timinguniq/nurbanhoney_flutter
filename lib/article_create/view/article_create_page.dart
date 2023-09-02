@@ -25,6 +25,8 @@ class ArticleCreatePage extends StatelessWidget {
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       final contentTextStyle = ref.read(articleCreateContentStyle);
 
+      final boundaryColor = ref.read(color55000000);
+
       return Scaffold(
         body: Padding(
           padding: EdgeInsets.only(
@@ -35,6 +37,10 @@ class ArticleCreatePage extends StatelessWidget {
             child: Column(
               children: [
                 ArticleCreateAppbar(),
+                ArticleCreateDivider(
+                  thickness: 0.5,
+                  color: boundaryColor,
+                ),
               ],
             ),
           ),
