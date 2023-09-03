@@ -28,8 +28,12 @@ class $AssetsImagesArticleCreateGen {
   AssetGenImage get articleCreateClose => const AssetGenImage(
       'assets/images/article_create/article_create_close.png');
 
+  /// File path: assets/images/article_create/article_create_downdrop.png
+  AssetGenImage get articleCreateDowndrop => const AssetGenImage(
+      'assets/images/article_create/article_create_downdrop.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [articleCreateClose];
+  List<AssetGenImage> get values => [articleCreateClose, articleCreateDowndrop];
 }
 
 class $AssetsImagesArticleDetailGen {
@@ -215,16 +219,7 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
-  }
+  ImageProvider provider() => AssetImage(_assetName);
 
   String get path => _assetName;
 
