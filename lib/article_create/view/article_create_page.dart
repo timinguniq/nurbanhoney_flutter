@@ -68,5 +68,3 @@ class ArticleCreatePage extends StatelessWidget {
     });
   }
 }
-
-// TODO: 여기에 타이틀 변수 넣어서. 화면 다르게 바꿔야 될 듯.
