@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -26,7 +27,6 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
   @override
   void initState() {
     super.initState();
-    selectedBoard = '등록위치 선택';
   }
 
   @override
@@ -40,6 +40,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       final confirmTextStyle = ref.read(articleCreateConfirmStyle);
 
       final boardTitlePickerColor = ref.read(colorF6B748);
+
+      final selectedBoard = ref.watch(articleCreateBoardNavigationProvider);
 
       return SizedBox(
         height: 48,
@@ -63,6 +65,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                 await _showPickerDialog(
                   context: context,
                   color: boardTitlePickerColor,
+                  ref: ref,
                 );
               },
               child: Row(
@@ -113,6 +116,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
   Future<void> _showPickerDialog({
     required BuildContext context,
     required Color color,
+    required WidgetRef ref,
   }) async{
     showMaterialRadioPicker<StateModel>(
       headerColor: color,
@@ -126,7 +130,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       onConfirmed: () {
         log('게시판 선택 완료 : ${selectedUsState.name}');
         setState((){
-          selectedBoard = selectedUsState.name;
+          ref.read(articleCreateBoardNavigationProvider.notifier).select(selectedUsState.name);
         });
       },
     );
@@ -140,4 +144,4 @@ const List<StateModel> usStates = <StateModel>[
 ];
 StateModel selectedUsState = usStates[0];
 
-var selectedBoard = '';
+//var selectedBoard = '';
