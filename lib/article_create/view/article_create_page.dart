@@ -30,8 +30,8 @@ class ArticleCreatePage extends StatelessWidget {
       return Scaffold(
         body: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
-              bottom: MediaQuery.of(context).padding.bottom,
+            top: MediaQuery.of(context).padding.top,
+            bottom: MediaQuery.of(context).padding.bottom,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -49,3 +49,5 @@ class ArticleCreatePage extends StatelessWidget {
     });
   }
 }
+
+// TODO: 여기에 타이틀 변수 넣어서. 화면 다르게 바꿔야 될 듯.

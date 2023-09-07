@@ -7,7 +7,7 @@ part of 'home_appbar_navigation.dart';
 // **************************************************************************
 
 String _$homeAppbarNavigationHash() =>
-    r'5ed85778e6083bd337964abb1c4fbd659681b7f2';
+    r'f446a1d2d3b48bb349beae25c2988e2621287681';
 
 /// See also [HomeAppbarNavigation].
 @ProviderFor(HomeAppbarNavigation)
@@ -23,4 +23,5 @@ final homeAppbarNavigationProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$HomeAppbarNavigation = AutoDisposeNotifier<HomeAppbarStatus>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
