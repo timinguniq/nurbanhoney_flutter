@@ -45,10 +45,6 @@ class ArticleCreateTitle extends StatelessWidget {
                 },
               ),
             ),
-            //Text(
-            //  selectedTitle,
-            //  style: titleTextStyle,
-            //),
             const SizedBox(
               height: 14,
             ),
