@@ -23,7 +23,7 @@ class ArticleCreateTitle extends StatelessWidget {
 
       final selectedTitle = ref.watch(articleCreateTitleNavigationProvider);
 
-      
+
       return SizedBox(
         height: 53,
         child: Column(
