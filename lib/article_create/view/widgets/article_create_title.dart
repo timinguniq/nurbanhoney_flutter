@@ -21,7 +21,7 @@ class ArticleCreateTitle extends StatelessWidget {
 
       final titleTextStyle = ref.read(articleCreateTitleStyle);
 
-      final selectedTitle = ref.watch(articleCreateTitleNavigationProvider)
+      final selectedTitle = ref.watch(articleCreateTitleNavigationProvider);
 
       return SizedBox(
         height: 53,
@@ -30,19 +30,25 @@ class ArticleCreateTitle extends StatelessWidget {
             const SizedBox(
               height: 17,
             ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: '제목을 입력하세요.',
-                labelStyle: titleTextStyle,
+            SizedBox(
+              height: 22,
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.0),
+                  hintText: '제목을 입력하세요.',
+                  hintStyle: titleTextStyle,
+                ),
+                style: titleTextStyle,
+                onChanged: (value){
+                  ref.read(articleCreateTitleNavigationProvider.notifier).select(value);
+                },
               ),
-              onChanged: (value){
-                ref.read(articleCreateTitleNavigationProvider.notifier).select(value);
-              },
             ),
-            Text(
-              selectedTitle,
-              style: titleTextStyle,
-            ),
+            //Text(
+            //  selectedTitle,
+            //  style: titleTextStyle,
+            //),
             const SizedBox(
               height: 14,
             ),
