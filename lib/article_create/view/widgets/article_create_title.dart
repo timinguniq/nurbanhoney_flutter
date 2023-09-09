@@ -21,8 +21,7 @@ class ArticleCreateTitle extends StatelessWidget {
 
       final titleTextStyle = ref.read(articleCreateTitleStyle);
 
-      final selectedTitle = ref.watch(articleCreateTitleNavigationProvider);
-
+      final selectedTitle = ref.watch(articleCreateTitleNavigationProvider)
 
       return SizedBox(
         height: 53,
@@ -30,6 +29,15 @@ class ArticleCreateTitle extends StatelessWidget {
           children: [
             const SizedBox(
               height: 17,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: '제목을 입력하세요.',
+                labelStyle: titleTextStyle,
+              ),
+              onChanged: (value){
+                ref.read(articleCreateTitleNavigationProvider.notifier).select(value);
+              },
             ),
             Text(
               selectedTitle,
