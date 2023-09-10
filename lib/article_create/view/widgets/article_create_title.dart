@@ -21,8 +21,6 @@ class ArticleCreateTitle extends StatelessWidget {
 
       final titleTextStyle = ref.read(articleCreateTitleStyle);
 
-      final selectedTitle = ref.watch(articleCreateTitleNavigationProvider);
-
       return SizedBox(
         height: 53,
         child: Column(
@@ -35,7 +33,7 @@ class ArticleCreateTitle extends StatelessWidget {
               child: TextField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.0),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 7.0),
                   hintText: '제목을 입력하세요.',
                   hintStyle: titleTextStyle,
                 ),
