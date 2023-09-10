@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_service/navigation_service.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // Consumer widget format
 class ArticleCreateLossCut extends StatelessWidget {
@@ -18,12 +19,37 @@ class ArticleCreateLossCut extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-      final selectedLossCut = ref.watch(articleCreateLossCutNavigationProvider);
+      final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
 
-      return Container(
-        height: 60,
-        child: Text(selectedLossCut),
+      return SizedBox(
+        height: 43,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 14,
+            ),
+            SizedBox(
+              height: 22,
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 7.0),
+                  hintText: '₩ 손실액을 입력하세요.',
+                  hintStyle: lossCutTextStyle,
+                ),
+                style: lossCutTextStyle,
+                onChanged: (value){
+                  ref.read(articleCreateLossCutNavigationProvider.notifier).select(value);
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+          ],
+        ),
       );
+
     });
   }
 }
