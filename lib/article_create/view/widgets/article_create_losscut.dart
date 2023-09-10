@@ -29,11 +29,12 @@ class ArticleCreateLossCut extends StatelessWidget {
               height: 14,
             ),
             SizedBox(
-              height: 22,
+              height: 17,
               child: TextField(
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 7.0),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   hintText: '₩ 손실액을 입력하세요.',
                   hintStyle: lossCutTextStyle,
                 ),
