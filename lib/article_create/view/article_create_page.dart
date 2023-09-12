@@ -57,10 +57,6 @@ class ArticleCreatePage extends StatelessWidget {
                     color: boundaryColor,
                   ),
                 ArticleCreateContent(),
-                ArticleCreateDivider(
-                  thickness: 0.5,
-                  color: boundaryColor,
-                ),
               ],
             ),
           ),
