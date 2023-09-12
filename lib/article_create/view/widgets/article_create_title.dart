@@ -26,6 +26,7 @@ class ArticleCreateTitle extends StatelessWidget {
       return SizedBox(
         height: 53,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 17,
