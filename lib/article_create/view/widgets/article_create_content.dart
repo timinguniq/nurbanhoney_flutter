@@ -21,32 +21,23 @@ class ArticleCreateContent extends StatelessWidget {
 
       final contentTextStyle = ref.read(articleCreateContentStyle);
 
-      final selectedContent = ref.watch(articleCreateContentNavigationProvider);
-
-      return Column(
-          children: [
-            const SizedBox(
-              height: 14,
-            ),
-            SizedBox(
-              child: TextField(
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30.0),
-                  hintText: '내용을 입력하세요.',
-                  hintStyle: contentTextStyle,
-                ),
-                style: contentTextStyle,
-                onChanged: (value){
-                  ref.read(articleCreateLossCutNavigationProvider.notifier).select(value);
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-          ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: TextField(
+          maxLines: null,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+            hintText: '내용을 입력하세요.',
+            hintStyle: contentTextStyle,
+          ),
+          style: contentTextStyle,
+          onChanged: (value) {
+            ref
+                .read(articleCreateContentNavigationProvider.notifier)
+                .select(value);
+          },
+        ),
       );
     });
   }
