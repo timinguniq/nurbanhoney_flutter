@@ -51,10 +51,11 @@ class ArticleCreatePage extends StatelessWidget {
                 ),
                 if(selectedBoard == '너반꿀')
                   ArticleCreateLossCut(),
-                ArticleCreateDivider(
-                  thickness: 0.5,
-                  color: boundaryColor,
-                ),
+                if(selectedBoard == '너반꿀')
+                  ArticleCreateDivider(
+                    thickness: 0.5,
+                    color: boundaryColor,
+                  ),
                 ArticleCreateContent(),
                 ArticleCreateDivider(
                   thickness: 0.5,

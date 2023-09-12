@@ -30,6 +30,7 @@ class ArticleCreateContent extends StatelessWidget {
             ),
             SizedBox(
               child: TextField(
+                maxLines: null,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30.0),
