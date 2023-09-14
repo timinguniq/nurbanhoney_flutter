@@ -21,8 +21,7 @@ class ArticleCreateThumbnail extends StatelessWidget {
 
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       // TODO(Cross): 여기 해야됨.
-      final thumbnail = ref.read(articleCreateThumbnailNavigationProvider.notifier).select(value);
-
+      final thumbnail = ref.read(articleCreateThumbnailNavigationProvider);
       return SizedBox(
         height: 43,
         child: Column(
@@ -30,21 +29,9 @@ class ArticleCreateThumbnail extends StatelessWidget {
             const SizedBox(
               height: 14,
             ),
-            SizedBox(
-              height: 17,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  hintText: '썸네일 입력 해야됨.',
-                  hintStyle: lossCutTextStyle,
-                ),
-                style: lossCutTextStyle,
-                onChanged: (value){
-                  ref.read(articleCreateLossCutNavigationProvider.notifier).select(value);
-                },
-              ),
+            Text(
+              thumbnail,
+              style: lossCutTextStyle,
             ),
             const SizedBox(
               height: 12,

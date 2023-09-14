@@ -50,6 +50,8 @@ class ArticleCreatePage extends StatelessWidget {
                   color: boundaryColor,
                 ),
                 if(selectedBoard == '너반꿀')
+                  ArticleCreateThumbnail(),
+                if(selectedBoard == '너반꿀')
                   ArticleCreateLossCut(),
                 if(selectedBoard == '너반꿀')
                   ArticleCreateDivider(
