@@ -5,12 +5,12 @@ part 'article_create_thumbnail_navigation.g.dart';
 @riverpod
 class ArticleCreateThumbnailNavigation extends _$ArticleCreateThumbnailNavigation {
   @override
-  int build() {
-    state = -1;
+  String build() {
+    state = '';
     return state;
   }
 
-  void select(int value) {
+  void select(String value) {
     state = value;
   }
 }

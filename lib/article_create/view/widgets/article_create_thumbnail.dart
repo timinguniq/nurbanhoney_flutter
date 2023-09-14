@@ -22,12 +22,17 @@ class ArticleCreateThumbnail extends StatelessWidget {
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       // TODO(Cross): 여기 해야됨.
 
+      final ref.read(articleCreateThumbnailNavigationProvider.notifier).select(value);
+
       return SizedBox(
         height: 43,
         child: Column(
           children: [
             const SizedBox(
               height: 14,
+            ),
+            Text(
+
             ),
             SizedBox(
               height: 17,
