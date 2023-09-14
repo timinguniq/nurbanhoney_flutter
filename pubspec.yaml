@@ -38,6 +38,7 @@ dependencies:
   kakao_flutter_sdk: ^1.4.3
   kakao_flutter_sdk_user: ^1.4.3
   cached_network_image: ^3.2.3
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:
