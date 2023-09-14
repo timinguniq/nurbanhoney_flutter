@@ -22,6 +22,8 @@ class ArticleCreateThumbnail extends StatelessWidget {
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       // TODO(Cross): 여기 해야됨.
       final thumbnail = ref.read(articleCreateThumbnailNavigationProvider);
+
+      // TODO: UI를 Visibiltiy로 감싸고 버튼으로 만들고 이미지 url이 ''이 아니면 이미지 나오게
       return SizedBox(
         height: 43,
         child: Column(
