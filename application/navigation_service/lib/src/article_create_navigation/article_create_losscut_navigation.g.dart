@@ -7,7 +7,7 @@ part of 'article_create_losscut_navigation.dart';
 // **************************************************************************
 
 String _$articleCreateLossCutNavigationHash() =>
-    r'01e2d3568f4d01a545959aa800ec234c3d2ca1d3';
+    r'f48ba3c71f62d78109c7d3cdfddbd3d89dd86ebf';
 
 /// See also [ArticleCreateLossCutNavigation].
 @ProviderFor(ArticleCreateLossCutNavigation)

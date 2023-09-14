@@ -7,7 +7,7 @@ part of 'article_create_title_navigation.dart';
 // **************************************************************************
 
 String _$articleCreateTitleNavigationHash() =>
-    r'294835e5e7e3e5ca08456a42a73c5103dd8f2a2e';
+    r'356396f61f4b2b4cf4a877a5027c23a2a22b5718';
 
 /// See also [ArticleCreateTitleNavigation].
 @ProviderFor(ArticleCreateTitleNavigation)

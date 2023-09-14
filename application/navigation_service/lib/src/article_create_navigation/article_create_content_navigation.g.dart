@@ -7,7 +7,7 @@ part of 'article_create_content_navigation.dart';
 // **************************************************************************
 
 String _$articleCreateContentNavigationHash() =>
-    r'8f196562de6bddf872c498533929fba6d40c03e2';
+    r'17001ae8f88c7fcfe38c09099693a2ccb26359d7';
 
 /// See also [ArticleCreateContentNavigation].
 @ProviderFor(ArticleCreateContentNavigation)
