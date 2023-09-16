@@ -24,24 +24,31 @@ class ArticleCreateThumbnail extends StatelessWidget {
       final thumbnail = ref.read(articleCreateThumbnailNavigationProvider);
 
       // TODO: UI를 Visibiltiy로 감싸고 버튼으로 만들고 이미지 url이 ''이 아니면 이미지 나오게
-      return SizedBox(
-        height: 43,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 14,
+      return Column(
+        children: [
+          const SizedBox(
+            height: 14,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              height: 20,
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                    },
+                    child: const Text('이미지 선택'),
+                  ),
+                ],
+              ),
             ),
-            Text(
-              thumbnail,
-              style: lossCutTextStyle,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+        ],
       );
-
     });
   }
 }
