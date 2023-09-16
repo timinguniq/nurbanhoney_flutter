@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
@@ -208,6 +209,46 @@ class NurbanRepository {
       return futureValue;
     } catch (e) {
       log('nurbanDislikeDelete error : $e');
+      throw Exception(e);
+    }
+  }
+
+  /// 너반꿀 이미지 업로드 생성
+  Future<String> nurbanImageUpload({
+    required String uuid,
+    required String token,
+    required File image,
+  }) async {
+    try {
+
+
+
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.post('/',
+        data: {'articleId': articleId},
+      );
+
+      log('nurbanLikeCreate response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanLikeCreate error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanLikeCreate error : $e');
       throw Exception(e);
     }
   }
