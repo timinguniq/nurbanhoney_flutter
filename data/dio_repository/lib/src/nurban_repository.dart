@@ -237,7 +237,13 @@ class NurbanRepository {
 
       final response = await dio.post(
           '${DioApi.mainApi}/board/nurban/article/upload/image',
-          data: Stream.fromIterable(imageUnit8List.map((e) => [e])),
+          data: {
+            'uuid': uuid,
+            'image': MultipartFile.fromBytes(
+                imageUnit8List,
+                filename: image.path.split('/').last,
+            ),
+          },
           options: options
       );
       // test
@@ -256,6 +262,42 @@ class NurbanRepository {
       return futureValue;
     } catch (e) {
       log('nurbanImageUpload error : $e');
+      throw Exception(e);
+    }
+  }
+
+  /// 너반꿀 이미지 삭제
+  Future<String> nurbanImageDelete({
+    required String uuid,
+    required String token,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/image',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.delete('/',
+        data: {'uuid': uuid},
+      );
+
+      log('nurbanImageDelete response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanImageDelete error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanImageDelete error : $e');
       throw Exception(e);
     }
   }
