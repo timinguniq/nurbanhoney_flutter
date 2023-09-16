@@ -1,5 +1,9 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
@@ -36,7 +40,11 @@ class ArticleCreateThumbnail extends StatelessWidget {
               child: Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final xFileImage = await _getImage();
+                      final fileImage = convertToXFileToFile(xFileImage!);
+                      log('fileImage: ${fileImage.path}');
+
                     },
                     child: const Text('이미지 선택'),
                   ),
@@ -51,4 +59,15 @@ class ArticleCreateThumbnail extends StatelessWidget {
       );
     });
   }
+
+  Future<XFile?> _getImage() async {
+    final picker = ImagePicker();
+    // Capture a photo.
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+
+    return photo;
+  }
+
+  File convertToXFileToFile(XFile xFile) => File(xFile.path);
+
 }
