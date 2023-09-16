@@ -3,7 +3,6 @@
 import 'dart:developer';
 
 import 'package:dio_repository/dio_repository.dart';
-import 'package:dio_service/dio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getBoardProvider = FutureProvider.autoDispose<Future<List<({int id, int type, String name, String address})>>>((ref) {

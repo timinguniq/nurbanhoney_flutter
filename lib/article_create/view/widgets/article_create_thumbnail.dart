@@ -26,6 +26,7 @@ class ArticleCreateThumbnail extends StatelessWidget {
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       // TODO(Cross): 여기 해야됨.
       final thumbnail = ref.read(articleCreateThumbnailNavigationProvider);
+      final buttonBackgroundColor = ref.read(colorF6B748);
 
       // TODO: UI를 Visibiltiy로 감싸고 버튼으로 만들고 이미지 url이 ''이 아니면 이미지 나오게
       return Column(
@@ -36,10 +37,13 @@ class ArticleCreateThumbnail extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 20,
+              height: 25,
               child: Row(
                 children: [
                   ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(buttonBackgroundColor),
+                    ),
                     onPressed: () async {
                       final xFileImage = await _getImage();
                       final fileImage = convertToXFileToFile(xFileImage!);
