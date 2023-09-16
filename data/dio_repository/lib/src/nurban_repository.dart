@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
+import 'package:mime/mime.dart';
 
 typedef NurbanArticle = ({
   int id, String uuid, String thumbnail,
@@ -220,27 +221,33 @@ class NurbanRepository {
     required File image,
   }) async {
     try {
+      // test code
+      final imageUnit8List = image.readAsBytesSync();
 
-
-
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
+      Options options = Options(
+          contentType: lookupMimeType(image.path),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Accept': "*/*",
+            'Content-Length': image.length,
+            'Connection': 'keep-alive',
+            'User-Agent': 'ClinicPlush'
+          },
       );
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.post('/',
-        data: {'articleId': articleId},
+      final response = await dio.post(
+          '${DioApi.mainApi}/board/nurban/article/upload/image',
+          data: Stream.fromIterable(imageUnit8List.map((e) => [e])),
+          options: options
       );
+      // test
 
-      log('nurbanLikeCreate response: ${response.data}');
+      log('nurbanImageUpload response: ${response.data}');
 
       final result = response.data['result'].toString();
       final error = response.data['error'];
 
-      log('nurbanLikeCreate error: $error');
+      log('nurbanImageUpload error: $error');
 
       final futureValue = error != null
           ? Future.value(error.toString())
@@ -248,7 +255,7 @@ class NurbanRepository {
 
       return futureValue;
     } catch (e) {
-      log('nurbanLikeCreate error : $e');
+      log('nurbanImageUpload error : $e');
       throw Exception(e);
     }
   }
