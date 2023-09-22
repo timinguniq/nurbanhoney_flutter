@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 // Consumer widget format
 class ArticleCreateThumbnail extends StatelessWidget {
@@ -25,8 +27,17 @@ class ArticleCreateThumbnail extends StatelessWidget {
 
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       // TODO(Cross): 여기 해야됨.
-      final thumbnail = ref.read(articleCreateThumbnailNavigationProvider);
+      final thumbnail = ref.watch(articleCreateThumbnailNavigationProvider);
       final buttonBackgroundColor = ref.read(colorF6B748);
+
+      final nurbanRepository = ref.read(nurbanRepositoryProvider);
+
+      log('thumbnail: $thumbnail');
+
+      final preferenceStorage = ref.watch(preferenceStorageProvider);
+      final storage = preferenceStorage.asData?.value;
+      final token = storage?.getToken() ?? '__empty__';
+      log('article create thumbnail token: $token');
 
       // TODO: UI를 Visibiltiy로 감싸고 버튼으로 만들고 이미지 url이 ''이 아니면 이미지 나오게
       return Column(
@@ -48,6 +59,13 @@ class ArticleCreateThumbnail extends StatelessWidget {
                       final xFileImage = await _getImage();
                       final fileImage = convertToXFileToFile(xFileImage!);
                       log('fileImage: ${fileImage.path}');
+                      final uploadImage = await nurbanRepository.nurbanImageUpload(
+                        uuid: 'adlkssdadsfjdslfkj',
+                        token: token,
+                        image: fileImage,
+                      );
+
+                      log('uploadImage: $uploadImage');
 
                     },
                     child: const Text('이미지 선택'),
