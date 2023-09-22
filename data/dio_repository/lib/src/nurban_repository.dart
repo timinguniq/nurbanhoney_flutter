@@ -241,19 +241,19 @@ class NurbanRepository {
         contentType: 'multipart/form-data',
         headers: {
           'Authorization': 'Bearer $token',
-          'Content-Length': image.length,
-          'Connection': 'keep-alive',
         },
       );
 
-      log('nurbanImage filename: ${image.path.split('/').last}');
+      var formData = FormData.fromMap({'image': await MultipartFile.fromFile(image.path)});
 
+      log('nurbanImage filename: ${image.path.split('/').last}');
+      dynamic input = {
+        'uuid': uuid,
+        'image': formData,
+      };
       final response = await dio.post(
           '${DioApi.mainApi}/board/nurban/article/upload/image',
-          data: {
-            'uuid': uuid,
-            'image': image,
-          },
+          data: input,
           options: options
       );
       // test
