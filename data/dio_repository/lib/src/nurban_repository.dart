@@ -238,22 +238,26 @@ class NurbanRepository {
       //);
 
       Options options = Options(
-        contentType: 'multipart/form-data',
         headers: {
           'Authorization': 'Bearer $token',
+          'Content-Type': 'multipart/form-data',
         },
       );
 
-      var formData = FormData.fromMap({'image': await MultipartFile.fromFile(image.path)});
+      var formData = FormData.fromMap({
+        'uuid': uuid,
+        'image': await MultipartFile.fromFile(image.path),
+      });
+
+      final imageFile = await MultipartFile.fromFile(image.path);
 
       log('nurbanImage filename: ${image.path.split('/').last}');
-      dynamic input = {
-        'uuid': uuid,
-        'image': formData,
-      };
       final response = await dio.post(
           '${DioApi.mainApi}/board/nurban/article/upload/image',
-          data: input,
+          data: {
+            'uuid': uuid,
+            'image': imageFile,
+          },
           options: options
       );
       // test
@@ -271,7 +275,7 @@ class NurbanRepository {
 
       return futureValue;
     } catch (e) {
-      log('nurbanImageUpload error : $e');
+      log('nurbanImageUpload e : $e');
       throw Exception(e);
     }
   }
