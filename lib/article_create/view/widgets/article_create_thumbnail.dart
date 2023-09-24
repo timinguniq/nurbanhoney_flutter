@@ -85,7 +85,10 @@ class ArticleCreateThumbnail extends StatelessWidget {
   Future<XFile?> _getImage() async {
     final picker = ImagePicker();
     // Capture a photo.
-    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? photo = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+    );
 
     return photo;
   }

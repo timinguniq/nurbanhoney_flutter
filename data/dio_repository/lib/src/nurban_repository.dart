@@ -252,10 +252,9 @@ class NurbanRepository {
       );
 
       final formData = FormData.fromMap({
-        'uuid': uuid,
+        'uuid': '223421343341123',
         'image': await MultipartFile.fromFile(image.path),
       });
-
 
       log('nurbanImage uuid: $uuid');
       log('nurbanImage filename: ${image.path.split('/').last}');
