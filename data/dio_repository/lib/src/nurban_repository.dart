@@ -237,30 +237,33 @@ class NurbanRepository {
       //    },
       //);
 
-      Options options = Options(
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/upload/image',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'multipart/form-data',
+          'Accept': "*/*",
+          'Content-Length': image.length,
+          'Connection': 'keep-alive',
+          'User-Agent': 'ClinicPlush'
         },
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
       );
 
-      var formData = FormData.fromMap({
+      final formData = FormData.fromMap({
         'uuid': uuid,
         'image': await MultipartFile.fromFile(image.path),
       });
 
-      final imageFile = await MultipartFile.fromFile(image.path);
 
+      log('nurbanImage uuid: $uuid');
       log('nurbanImage filename: ${image.path.split('/').last}');
-      final response = await dio.post(
-          '${DioApi.mainApi}/board/nurban/article/upload/image',
-          data: {
-            'uuid': uuid,
-            'image': imageFile,
-          },
-          options: options
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.post('/',
+        data: formData,
       );
-      // test
 
       log('nurbanImageUpload response: ${response.data}');
 
