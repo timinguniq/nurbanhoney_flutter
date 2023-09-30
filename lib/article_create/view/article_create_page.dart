@@ -64,6 +64,7 @@ class ArticleCreatePage extends StatelessWidget {
                     color: boundaryColor,
                   ),
                 ArticleCreateContent(),
+
               ],
             ),
           ),
