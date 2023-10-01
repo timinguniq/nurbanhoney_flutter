@@ -226,19 +226,8 @@ class NurbanRepository {
       log('nurbanImage token: $token');
       //log('nurbanImage unit8List: $imageUnit8List');
 
-      //Options options = Options(
-      //    contentType: lookupMimeType(image.path),
-      //    headers: {
-      //      'Authorization': 'Bearer $token',
-      //      'Accept': "*/*",
-      //      'Content-Length': image.length,
-      //      'Connection': 'keep-alive',
-      //      'User-Agent': 'ClinicPlush'
-      //    },
-      //);
-
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/upload/image',
+      Options options = Options(
+        contentType: lookupMimeType(image.path),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'multipart/form-data',
@@ -247,22 +236,36 @@ class NurbanRepository {
           'Connection': 'keep-alive',
           'User-Agent': 'ClinicPlush'
         },
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
       );
 
+//      final baseOptions = BaseOptions(
+//       baseUrl: '${DioApi.mainApi}/board/nurban/article/upload/image',
+//        headers: {
+//          'Authorization': 'Bearer $token',
+//          'Content-Type': 'multipart/form-data',
+//          'Accept': "*/*",
+//          'Content-Length': image.length,
+//          'Connection': 'keep-alive',
+//          'User-Agent': 'ClinicPlush'
+//        },
+//        connectTimeout: const Duration(seconds: 5),
+//        receiveTimeout: const Duration(seconds: 3),
+//     );
+
       final formData = FormData.fromMap({
-        'uuid': '223421343341123',
+        'uuid': '2234213321233341123',
         'image': await MultipartFile.fromFile(image.path),
       });
 
       log('nurbanImage uuid: $uuid');
       log('nurbanImage filename: ${image.path.split('/').last}');
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.post('/',
+      //final authDio = Dio(baseOptions);
+      final response = await Dio().post('${DioApi.mainApi}/board/nurban/article/upload/image',
         data: formData,
+        options: options,
       );
+
 
       log('nurbanImageUpload response: ${response.data}');
 
