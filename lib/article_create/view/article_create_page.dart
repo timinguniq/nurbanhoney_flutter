@@ -65,6 +65,7 @@ class ArticleCreatePage extends StatelessWidget {
                   ),
                 ArticleCreateContent(),
 
+
               ],
             ),
           ),
