@@ -253,7 +253,7 @@ class NurbanRepository {
 //     );
 
       final formData = FormData.fromMap({
-        'uuid': '2234213321233341123',
+        'uuid': '12344234',
         'image': await MultipartFile.fromFile(image.path),
       });
 
@@ -292,7 +292,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/image',
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/upload/image',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
