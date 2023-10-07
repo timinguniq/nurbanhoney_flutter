@@ -253,7 +253,7 @@ class NurbanRepository {
 //     );
 
       final formData = FormData.fromMap({
-        'uuid': '12344234',
+        'uuid': uuid,
         'image': await MultipartFile.fromFile(image.path),
       });
 

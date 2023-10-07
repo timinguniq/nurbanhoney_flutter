@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
+import 'package:uuid/uuid.dart';
 
 // Consumer widget format
 class ArticleCreateThumbnail extends StatelessWidget {
@@ -59,8 +60,10 @@ class ArticleCreateThumbnail extends StatelessWidget {
                       final xFileImage = await _getImage();
                       final fileImage = convertToXFileToFile(xFileImage!);
                       log('fileImage: ${fileImage.path}');
+                      final uuid = const Uuid().v4();
+                      log('uuid: $uuid');
                       final uploadImage = await nurbanRepository.nurbanImageUpload(
-                        uuid: 'adlkssdadsfjdslfkj',
+                        uuid: uuid,
                         token: token,
                         image: fileImage,
                       );
