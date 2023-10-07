@@ -69,6 +69,7 @@ class ArticleCreateThumbnail extends StatelessWidget {
                       );
 
                       log('uploadImage: $uploadImage');
+                      ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
 
                     },
                     child: const Text('이미지 선택'),
