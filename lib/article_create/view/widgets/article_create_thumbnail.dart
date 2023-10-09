@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,7 +87,11 @@ class ArticleCreateThumbnail extends StatelessWidget {
                   visible: imageVisible,
                   child: SizedBox(
                     height: 200,
-                    child: Image.network(thumbnail),
+                    child: CachedNetworkImage(
+                      imageUrl: thumbnail,
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
                   ),
                 ),
               ],
