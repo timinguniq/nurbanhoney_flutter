@@ -55,33 +55,39 @@ class ArticleCreateThumbnail extends StatelessWidget {
               children: [
                 Visibility(
                   visible: btnVisible,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          buttonBackgroundColor),
-                    ),
-                    onPressed: () async {
-                      final xFileImage = await _getImage();
-                      final fileImage = convertToXFileToFile(xFileImage!);
-                      log('fileImage: ${fileImage.path}');
-                      final uuid = const Uuid().v4();
-                      log('uuid: $uuid');
-                      final uploadImage =
-                          await nurbanRepository.nurbanImageUpload(
-                        uuid: uuid,
-                        token: token,
-                        image: fileImage,
-                      );
+                  child: SizedBox(
+                    height: 25,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            buttonBackgroundColor),
+                      ),
+                      onPressed: () async {
+                        final xFileImage = await _getImage();
+                        final fileImage = convertToXFileToFile(xFileImage!);
+                        log('fileImage: ${fileImage.path}');
+                        final uuid = const Uuid().v4();
+                        log('uuid: $uuid');
+                        final uploadImage =
+                            await nurbanRepository.nurbanImageUpload(
+                          uuid: uuid,
+                          token: token,
+                          image: fileImage,
+                        );
 
-                      log('uploadImage: $uploadImage');
-                      ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
-                    },
-                    child: const Text('이미지 선택'),
+                        log('uploadImage: $uploadImage');
+                        ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
+                      },
+                      child: const Text('이미지 선택'),
+                    ),
                   ),
                 ),
                 Visibility(
                   visible: imageVisible,
-                  child: Image.network(thumbnail),
+                  child: SizedBox(
+                    height: 200,
+                    child: Image.network(thumbnail),
+                  ),
                 ),
               ],
             ),
