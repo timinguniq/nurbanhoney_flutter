@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
+import 'package:uuid/uuid.dart';
 
 // Consumer widget format
 class ArticleCreateThumbnail extends StatelessWidget {
@@ -51,35 +52,39 @@ class ArticleCreateThumbnail extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
-                children: [
-                  Visibility(
-                    visible: btnVisible,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(buttonBackgroundColor),
-                      ),
-                      onPressed: () async {
-                        final xFileImage = await _getImage();
-                        final fileImage = convertToXFileToFile(xFileImage!);
-                        log('fileImage: ${fileImage.path}');
-                        final uploadImage = await nurbanRepository.nurbanImageUpload(
-                          uuid: 'adlkssdadsfjdslfkj',
-                          token: token,
-                          image: fileImage,
-                        );
-
-                        log('uploadImage: $uploadImage');
-
-                      },
-                      child: const Text('이미지 선택'),
+              children: [
+                Visibility(
+                  visible: btnVisible,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          buttonBackgroundColor),
                     ),
+                    onPressed: () async {
+                      final xFileImage = await _getImage();
+                      final fileImage = convertToXFileToFile(xFileImage!);
+                      log('fileImage: ${fileImage.path}');
+                      final uuid = const Uuid().v4();
+                      log('uuid: $uuid');
+                      final uploadImage =
+                          await nurbanRepository.nurbanImageUpload(
+                        uuid: uuid,
+                        token: token,
+                        image: fileImage,
+                      );
+
+                      log('uploadImage: $uploadImage');
+                      ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
+                    },
+                    child: const Text('이미지 선택'),
                   ),
-                  Visibility(
-                    visible: imageVisible,
-                    child: Image.network(thumbnail),
-                  ),
-                ],
-              ),
+                ),
+                Visibility(
+                  visible: imageVisible,
+                  child: Image.network(thumbnail),
+                ),
+              ],
+            ),
           ),
           const SizedBox(
             height: 12,
@@ -101,5 +106,4 @@ class ArticleCreateThumbnail extends StatelessWidget {
   }
 
   File convertToXFileToFile(XFile xFile) => File(xFile.path);
-
 }

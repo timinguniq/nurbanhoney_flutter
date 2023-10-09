@@ -221,10 +221,7 @@ class NurbanRepository {
     required File image,
   }) async {
     try {
-      // test code
-      //final imageUnit8List = await image.readAsBytes();
       log('nurbanImage token: $token');
-      //log('nurbanImage unit8List: $imageUnit8List');
 
       Options options = Options(
         contentType: lookupMimeType(image.path),
@@ -238,22 +235,8 @@ class NurbanRepository {
         },
       );
 
-//      final baseOptions = BaseOptions(
-//       baseUrl: '${DioApi.mainApi}/board/nurban/article/upload/image',
-//        headers: {
-//          'Authorization': 'Bearer $token',
-//          'Content-Type': 'multipart/form-data',
-//          'Accept': "*/*",
-//          'Content-Length': image.length,
-//          'Connection': 'keep-alive',
-//          'User-Agent': 'ClinicPlush'
-//        },
-//        connectTimeout: const Duration(seconds: 5),
-//        receiveTimeout: const Duration(seconds: 3),
-//     );
-
       final formData = FormData.fromMap({
-        'uuid': '12344234',
+        'uuid': uuid,
         'image': await MultipartFile.fromFile(image.path),
       });
 
