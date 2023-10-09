@@ -32,13 +32,16 @@ class ArticleCreateThumbnail extends StatelessWidget {
 
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
 
-      log('thumbnail: $thumbnail');
+      log('thumbnail: ArticleCreateThumbnail $thumbnail');
 
       final preferenceStorage = ref.watch(preferenceStorageProvider);
       final storage = preferenceStorage.asData?.value;
       final token = storage?.getToken() ?? '__empty__';
       log('article create thumbnail token: $token');
 
+      final btnVisible = thumbnail == '';
+      final imageVisible = thumbnail != '';
+      log('btnVisible: $btnVisible, imageVisible: $imageVisible');
       // TODO: UI를 Visibiltiy로 감싸고 버튼으로 만들고 이미지 url이 ''이 아니면 이미지 나오게
       return Column(
         children: [
@@ -47,32 +50,36 @@ class ArticleCreateThumbnail extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SizedBox(
-              height: 25,
-              child: Row(
+            child: Row(
                 children: [
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(buttonBackgroundColor),
+                  Visibility(
+                    visible: btnVisible,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(buttonBackgroundColor),
+                      ),
+                      onPressed: () async {
+                        final xFileImage = await _getImage();
+                        final fileImage = convertToXFileToFile(xFileImage!);
+                        log('fileImage: ${fileImage.path}');
+                        final uploadImage = await nurbanRepository.nurbanImageUpload(
+                          uuid: 'adlkssdadsfjdslfkj',
+                          token: token,
+                          image: fileImage,
+                        );
+
+                        log('uploadImage: $uploadImage');
+
+                      },
+                      child: const Text('이미지 선택'),
                     ),
-                    onPressed: () async {
-                      final xFileImage = await _getImage();
-                      final fileImage = convertToXFileToFile(xFileImage!);
-                      log('fileImage: ${fileImage.path}');
-                      final uploadImage = await nurbanRepository.nurbanImageUpload(
-                        uuid: 'adlkssdadsfjdslfkj',
-                        token: token,
-                        image: fileImage,
-                      );
-
-                      log('uploadImage: $uploadImage');
-
-                    },
-                    child: const Text('이미지 선택'),
+                  ),
+                  Visibility(
+                    visible: imageVisible,
+                    child: Image.network(thumbnail),
                   ),
                 ],
               ),
-            ),
           ),
           const SizedBox(
             height: 12,
