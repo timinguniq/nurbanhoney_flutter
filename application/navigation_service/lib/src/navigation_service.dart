@@ -4,4 +4,6 @@ export 'article_create_navigation/article_create_content_navigation.dart';
 export 'article_create_navigation/article_create_losscut_navigation.dart';
 export 'article_create_navigation/article_create_title_navigation.dart';
 export 'article_create_navigation/article_create_thumbnail_navigation.dart';
+export 'article_create_navigation/article_create_navigation_service.dart';
+
 
