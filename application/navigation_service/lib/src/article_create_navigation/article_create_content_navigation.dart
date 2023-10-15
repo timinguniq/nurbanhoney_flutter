@@ -6,7 +6,7 @@ part 'article_create_content_navigation.g.dart';
 class ArticleCreateContentNavigation extends _$ArticleCreateContentNavigation {
   @override
   String build() {
-    state = '내용을 입력하세요';
+    state = '내용을 입력하세요.';
     return state;
   }
 
