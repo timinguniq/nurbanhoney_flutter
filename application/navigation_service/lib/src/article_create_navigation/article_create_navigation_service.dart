@@ -15,7 +15,8 @@ final articleCreateProvider = Provider<bool>((ref) {
   }else if(articleCreateBoardNavigation == '자유'){
     // title, content
   }else{
-    return false;
+    result = false;
   }
+  return result;
 
 });
