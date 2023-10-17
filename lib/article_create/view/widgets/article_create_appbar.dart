@@ -98,7 +98,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                 if(bCreateConfirm){
 
                 }else{
-                  // TODO: 부족한 곳을 입력을 해달라는 팝업
+                  // TODO: 부족한 곳을 입력을 해달라는 토스트
+
                 }
               },
               child: Row(
@@ -142,6 +143,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       },
     );
   }
+
+
 
 }
 
