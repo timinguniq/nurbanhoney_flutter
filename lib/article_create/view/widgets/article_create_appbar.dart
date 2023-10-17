@@ -42,7 +42,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       final boardTitlePickerColor = ref.read(colorF6B748);
 
       final selectedBoard = ref.watch(articleCreateBoardNavigationProvider);
-
+      final bCreateConfirm = ref.watch(articleCreateProvider);
       return SizedBox(
         height: 48,
         child: Row(
@@ -93,6 +93,13 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
             InkWell(
               onTap: () async{
                 log('완료 버튼 클릭');
+                log('bCreateConfirm : $bCreateConfirm');
+                // TODO: bCreateConfirm가 true이면 글 작성 프로세스
+                if(bCreateConfirm){
+
+                }else{
+                  // TODO: 부족한 곳을 입력을 해달라는 팝업
+                }
               },
               child: Row(
                 children: [
