@@ -57,9 +57,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
               child: Assets.images.articleCreate.articleCreateClose.image(),
             ),
             const Expanded(
-              child: SizedBox(
-                width: 119,
-              )
+              flex: 90,
+              child: SizedBox(),
             ),
             InkWell(
               onTap: () async{
@@ -87,9 +86,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
               ),
             ),
             const Expanded(
-                child: SizedBox(
-                  width: 84,
-                )
+              flex: 68,
+              child: SizedBox(),
             ),
             InkWell(
               onTap: () async{
@@ -118,19 +116,14 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                   );
                 }
               },
-              child: Row(
-                children: [
-                  Text(
-                    '완료',
-                    style: confirmTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  '완료',
+                  style: confirmTextStyle,
+                ),
               ),
             ),
-
           ],
         ),
       );
