@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -96,10 +97,25 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                 log('bCreateConfirm : $bCreateConfirm');
                 // TODO: bCreateConfirm가 true이면 글 작성 프로세스
                 if(bCreateConfirm){
-
+                  Fluttertoast.showToast(
+                      msg: "글 작성이 되었습니다.",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
                 }else{
-                  // TODO: 부족한 곳을 입력을 해달라는 토스트
-
+                  Fluttertoast.showToast(
+                      msg: "입력이 안된 부분이 있습니다.",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
                 }
               },
               child: Row(
