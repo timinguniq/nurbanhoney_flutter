@@ -104,8 +104,9 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                   final thumbnail = ref.watch(articleCreateThumbnailNavigationProvider);
                   var lossCut = ref.watch(articleCreateLossCutNavigationProvider);
                   final content = ref.watch(articleCreateContentNavigationProvider);
+                  final uuid = ref.read(articleCreateUuidNavigationProvider);
 
-                  final preferenceStorage = ref.watch(preferenceStorageProvider);
+                  final preferenceStorage = ref.read(preferenceStorageProvider);
                   final storage = preferenceStorage.asData?.value;
                   final token = storage?.getToken() ?? '__empty__';
 
@@ -123,8 +124,16 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       content: content,
                   );
 
+                  log('articleCreateAppbar result : $result');
+
+                  var toastMsg = '';
+                  if(result == 'nurbanboard_posted'){
+                    toastMsg = '글 작성이 되었습니다.';
+                  }else{
+                    toastMsg = '글 작성에 실패했습니다.';
+                  }
                   Fluttertoast.showToast(
-                      msg: "글 작성이 되었습니다.",
+                      msg: toastMsg,
                       toastLength: Toast.LENGTH_LONG,
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
@@ -132,6 +141,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       textColor: Colors.white,
                       fontSize: 16.0
                   );
+                  
                 }else{
                   Fluttertoast.showToast(
                       msg: "입력이 안된 부분이 있습니다.",
