@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,7 @@ import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 // Consumer widget format
 class ArticleCreateAppbar extends StatefulWidget {
@@ -44,6 +46,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
 
       final selectedBoard = ref.watch(articleCreateBoardNavigationProvider);
       final bCreateConfirm = ref.watch(articleCreateProvider);
+
+      final nurbanRepository = ref.read(nurbanRepositoryProvider);
       return SizedBox(
         height: 48,
         child: Row(
@@ -95,6 +99,30 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                 log('bCreateConfirm : $bCreateConfirm');
                 // TODO: bCreateConfirm가 true이면 글 작성 프로세스
                 if(bCreateConfirm){
+                  final board = ref.watch(articleCreateBoardNavigationProvider);
+                  final title = ref.watch(articleCreateTitleNavigationProvider);
+                  final thumbnail = ref.watch(articleCreateThumbnailNavigationProvider);
+                  var lossCut = ref.watch(articleCreateLossCutNavigationProvider);
+                  final content = ref.watch(articleCreateContentNavigationProvider);
+
+                  final preferenceStorage = ref.watch(preferenceStorageProvider);
+                  final storage = preferenceStorage.asData?.value;
+                  final token = storage?.getToken() ?? '__empty__';
+
+                  if(lossCut == '₩ 손실액을 입력하세요.'){
+                    lossCut = '0';
+                  }
+
+                  // TODO: 나중에 자유 게시판도 글 작성 되는지 확인
+                  final result = await nurbanRepository.nurbanArticleCreate(
+                      token: token,
+                      title: title,
+                      uuid: uuid,
+                      lossCut: int.parse(lossCut),
+                      thumbnail: thumbnail,
+                      content: content,
+                  );
+
                   Fluttertoast.showToast(
                       msg: "글 작성이 되었습니다.",
                       toastLength: Toast.LENGTH_LONG,

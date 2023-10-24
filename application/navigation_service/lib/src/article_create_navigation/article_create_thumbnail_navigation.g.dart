@@ -7,7 +7,7 @@ part of 'article_create_thumbnail_navigation.dart';
 // **************************************************************************
 
 String _$articleCreateThumbnailNavigationHash() =>
-    r'9151a9a6844d9dcf68d39c5c14a0f3fe8b902d66';
+    r'5843b7326c5171818c9e4c611424f7ad1384f746';
 
 /// See also [ArticleCreateThumbnailNavigation].
 @ProviderFor(ArticleCreateThumbnailNavigation)
