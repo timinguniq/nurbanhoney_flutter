@@ -303,4 +303,51 @@ class NurbanRepository {
       throw Exception(e);
     }
   }
+
+  /// 아티클 생성
+  Future<String> nurbanArticleCreate({
+    required String token,
+    required String title,
+    required String uuid,
+    required int lossCut,
+    required String thumbnail,
+    required String content,
+  }) async {
+    try {
+
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.post('/',
+        data: {
+          'title': title,
+          'uuid': uuid,
+          'lossCut': lossCut,
+          'thumbnail': thumbnail,
+          'content': content,
+        },
+      );
+
+      log('nurbanArticleCreate response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanArticleCreate error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanArticleCreate error : $e');
+      throw Exception(e);
+    }
+  }
 }
