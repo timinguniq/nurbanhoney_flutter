@@ -79,4 +79,46 @@ class FreeRepository {
       throw Exception(e);
     }
   }
+
+  /// 아티클 생성
+  Future<String> freeArticleCreate({
+    required String token,
+    required String title,
+    required String uuid,
+    required String content,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/free/article',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.post('/',
+        data: {
+          'title': title,
+          'uuid': uuid,
+          'content': content,
+        },
+      );
+
+      log('nurbanFreeCreate response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanFreeCreate error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanFreeCreate error : $e');
+      throw Exception(e);
+    }
+  }
 }

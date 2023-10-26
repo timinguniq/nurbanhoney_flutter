@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio_service/dio_service.dart';
@@ -26,7 +27,6 @@ class ArticleCreateAppbar extends StatefulWidget {
 }
 
 class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
-
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,6 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
@@ -47,7 +46,10 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       final selectedBoard = ref.watch(articleCreateBoardNavigationProvider);
       final bCreateConfirm = ref.watch(articleCreateProvider);
 
+      final preferenceStorage = ref.read(preferenceStorageProvider);
+
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
+      final freeRepository = ref.read(freeRepositoryProvider);
       return SizedBox(
         height: 48,
         child: Row(
@@ -65,7 +67,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
               child: SizedBox(),
             ),
             InkWell(
-              onTap: () async{
+              onTap: () async {
                 await _showPickerDialog(
                   context: context,
                   color: boardTitlePickerColor,
@@ -84,7 +86,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                   SizedBox(
                     width: 12,
                     height: 12,
-                    child: Assets.images.articleCreate.articleCreateDowndrop.image(),
+                    child: Assets.images.articleCreate.articleCreateDowndrop
+                        .image(),
                   )
                 ],
               ),
@@ -94,42 +97,62 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
               child: SizedBox(),
             ),
             InkWell(
-              onTap: () async{
+              onTap: () async {
                 log('완료 버튼 클릭');
                 log('bCreateConfirm : $bCreateConfirm');
                 // TODO: bCreateConfirm가 true이면 글 작성 프로세스
-                if(bCreateConfirm){
+                if (bCreateConfirm) {
                   final board = ref.watch(articleCreateBoardNavigationProvider);
                   final title = ref.watch(articleCreateTitleNavigationProvider);
-                  final thumbnail = ref.watch(articleCreateThumbnailNavigationProvider);
-                  var lossCut = ref.watch(articleCreateLossCutNavigationProvider);
-                  final content = ref.watch(articleCreateContentNavigationProvider);
+                  final thumbnail =
+                      ref.watch(articleCreateThumbnailNavigationProvider);
+                  var lossCut =
+                      ref.watch(articleCreateLossCutNavigationProvider);
+                  final content =
+                      ref.watch(articleCreateContentNavigationProvider);
                   final uuid = ref.read(articleCreateUuidNavigationProvider);
 
-                  final preferenceStorage = ref.read(preferenceStorageProvider);
                   final storage = preferenceStorage.asData?.value;
                   final token = storage?.getToken() ?? '__empty__';
 
-                  if(lossCut == '₩ 손실액을 입력하세요.'){
+                  if (lossCut == '₩ 손실액을 입력하세요.') {
                     lossCut = '0';
                   }
 
-                  // TODO: 나중에 자유 게시판도 글 작성 되는지 확인
-                  final result = await nurbanRepository.nurbanArticleCreate(
+                  String result;
+                  log('token: $token');
+                  log('board: $board');
+                  if (board == '너반꿀') {
+                    result = await nurbanRepository.nurbanArticleCreate(
                       token: token,
                       title: title,
                       uuid: uuid,
                       lossCut: int.parse(lossCut),
                       thumbnail: thumbnail,
                       content: content,
-                  );
+                    );
+                  } else if (board == '자유') {
+                    result = await freeRepository.freeArticleCreate(
+                      token: token,
+                      title: title,
+                      uuid: uuid,
+                      content: content,
+                    );
+                  } else {
+                    result = '';
+                  }
+                  // TODO: 나중에 자유 게시판도 글 작성 되는지 확인
 
                   log('articleCreateAppbar result : $result');
 
                   var toastMsg = '';
-                  if(result == 'nurbanboard_posted'){
+                  if (result == 'nurbanboard_posted' ||
+                      result == 'freeboard_posted') {
                     toastMsg = '글 작성이 되었습니다.';
-                  }else{
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  } else {
                     toastMsg = '글 작성에 실패했습니다.';
                   }
                   Fluttertoast.showToast(
@@ -139,10 +162,8 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       timeInSecForIosWeb: 1,
                       backgroundColor: Colors.red,
                       textColor: Colors.white,
-                      fontSize: 16.0
-                  );
-                  
-                }else{
+                      fontSize: 16.0);
+                } else {
                   Fluttertoast.showToast(
                       msg: "입력이 안된 부분이 있습니다.",
                       toastLength: Toast.LENGTH_LONG,
@@ -150,8 +171,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       timeInSecForIosWeb: 1,
                       backgroundColor: Colors.red,
                       textColor: Colors.white,
-                      fontSize: 16.0
-                  );
+                      fontSize: 16.0);
                 }
               },
               child: Padding(
@@ -172,7 +192,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
     required BuildContext context,
     required Color color,
     required WidgetRef ref,
-  }) async{
+  }) async {
     showMaterialRadioPicker<StateModel>(
       headerColor: color,
       context: context,
@@ -184,15 +204,14 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       onChanged: (value) => setState(() => selectedUsState = value),
       onConfirmed: () {
         log('게시판 선택 완료 : ${selectedUsState.name}');
-        setState((){
-          ref.read(articleCreateBoardNavigationProvider.notifier).select(selectedUsState.name);
+        setState(() {
+          ref
+              .read(articleCreateBoardNavigationProvider.notifier)
+              .select(selectedUsState.name);
         });
       },
     );
   }
-
-
-
 }
 
 const List<StateModel> usStates = <StateModel>[
