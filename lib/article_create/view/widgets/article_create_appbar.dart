@@ -46,7 +46,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
       final selectedBoard = ref.watch(articleCreateBoardNavigationProvider);
       final bCreateConfirm = ref.watch(articleCreateProvider);
 
-      final preferenceStorage = ref.read(preferenceStorageProvider);
+      final preferenceStorage = ref.watch(preferenceStorageProvider);
 
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
       final freeRepository = ref.read(freeRepositoryProvider);
