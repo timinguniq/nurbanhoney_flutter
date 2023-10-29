@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/board/board.dart';
@@ -11,7 +12,7 @@ class NurbanBoardItemView extends StatelessWidget {
     required String author,
     required String date,
     required String likeCount,
-    required Image thumbnail,
+    required CachedNetworkImage thumbnail,
     required VoidCallback onTap,
     Key? key,
   })  : _title = title,
@@ -28,7 +29,7 @@ class NurbanBoardItemView extends StatelessWidget {
   final String _author;
   final String _date;
   final String _likeCount;
-  final Image _thumbnail;
+  final CachedNetworkImage _thumbnail;
   final VoidCallback _onTap;
 
   @override

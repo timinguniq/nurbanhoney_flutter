@@ -103,7 +103,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Padding(
                   padding:
                       EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                  child: Center(child: Text('마이페이지')),
+                  child: const Center(child: Text('마이페이지')),
                 ),
               ),
         endDrawer: const DrawerProfile(),

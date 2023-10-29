@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,12 +62,12 @@ class BoardAllView extends StatelessWidget {
                               author: element.nickname,
                               date: formattingCreatedAt(element.createdAt),
                               likeCount: element.likeCount,
-                              thumbnail: element.thumbnail != null
-                                  ? Image(
-                                      image:
-                                          NetworkImage(element.thumbnail ?? ''),
-                                    )
-                                  : Assets.images.home.nurbanSymbol.image(),
+                              thumbnail: CachedNetworkImage(
+                                imageUrl: element.thumbnail ?? '',
+                                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(value: downloadProgress.progress),
+                                errorWidget: (context, url, error) => Assets.images.home.nurbanSymbol.image(),
+                              ),
                               onTap: () {
                                 Navigator.of(context)
                                     .push(ArticleDetailPage.route(
