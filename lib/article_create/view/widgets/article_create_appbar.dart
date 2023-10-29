@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -150,7 +151,14 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       result == 'freeboard_posted') {
                     toastMsg = '글 작성이 되었습니다.';
                     if (context.mounted) {
-                      Navigator.of(context).pop();
+                      ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.unknown);
+                      Future.delayed(const Duration(milliseconds: 500), (){
+                        ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.whole);
+                      });
+
+                      Future.delayed(const Duration(seconds: 1), (){
+                        Navigator.of(context).pop();
+                      });
                     }
                   } else {
                     toastMsg = '글 작성에 실패했습니다.';
