@@ -42,11 +42,6 @@ class NurbanTitleBoard extends StatelessWidget {
           // 휘장 리스트
           List<String> insigniaList = fConvertToInsignia(data.insignia);
 
-          // empty처리가 안되서. if문 사용
-          if(insigniaList.toString() == '[]'){
-            insigniaList = <String>[];
-          }
-
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

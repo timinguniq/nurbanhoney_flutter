@@ -12,6 +12,9 @@ class StringFunctions{
 
   // 휘장을 String을 받아서 List<String>으로 변환
   List<String> convertToInsignia(String insignia){
+    if(insignia == '[]'){
+      return <String>[];
+    }
     var result = <String>[];
     try{
       final tempInsignia = insignia.replaceAll('[', '').replaceAll(']', '');
