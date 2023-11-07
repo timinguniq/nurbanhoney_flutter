@@ -16,6 +16,11 @@ typedef NurbanArticle = ({
   String myRating,
 });
 
+typedef NurbanComment = ({
+  int id, String content, String badge,
+  String nickname, String insignia
+});
+
 class NurbanRepository {
   /// constructor
   NurbanRepository._privateConstructor();
@@ -74,7 +79,6 @@ class NurbanRepository {
     required int articleId,
   }) async {
     try {
-
       final baseOptions = BaseOptions(
         baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
         headers: {'Authorization': 'Bearer $token'},
@@ -314,7 +318,6 @@ class NurbanRepository {
     required String content,
   }) async {
     try {
-
       final baseOptions = BaseOptions(
         baseUrl: '${DioApi.mainApi}/board/nurban/article',
         headers: {'Authorization': 'Bearer $token'},
@@ -347,6 +350,36 @@ class NurbanRepository {
       return futureValue;
     } catch (e) {
       log('nurbanArticleCreate error : $e');
+      throw Exception(e);
+    }
+  }
+
+  /// 댓글 리스트 조회
+  Future<List<NurbanComment>> getNurbanComments({
+    required int articleId,
+    required int commentId,
+    required int limit,
+  }) async {
+    try {
+      final response = await dio.get('${DioApi.mainApi}/board/nurban/article/comment');
+      final result = <NurbanComment>[];
+      for(int i = 0; i < response.data.length ; i++) {
+        log('getNurbanComments response: ${response.data[i]}');
+        final records =
+        (id: int.parse(response.data[i]['id'].toString()),
+        content: response.data[i]['content'].toString(),
+        badge: response.data[i]['user']['badge'].toString(),
+        nickname: response.data[i]['user']['nickname'].toString(),
+        insignia: response.data[i]['user']['insignia'].toString());
+        // result.add(BoardModel.fromJson(response.data[i]));
+        result.add(records);
+      }
+      log('getNurbanComments response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getNurbanComments error : $e');
       throw Exception(e);
     }
   }
