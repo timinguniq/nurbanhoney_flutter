@@ -17,7 +17,8 @@ typedef NurbanArticle = ({
 });
 
 typedef NurbanComment = ({
-  int id, String content, String badge,
+  int id, String content,
+  int userId, String badge,
   String nickname, String insignia
 });
 
@@ -368,6 +369,7 @@ class NurbanRepository {
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
         content: response.data[i]['content'].toString(),
+        userId: int.parse(response.data[i]['user']['id'].toString()),
         badge: response.data[i]['user']['badge'].toString(),
         nickname: response.data[i]['user']['nickname'].toString(),
         insignia: response.data[i]['user']['insignia'].toString());
