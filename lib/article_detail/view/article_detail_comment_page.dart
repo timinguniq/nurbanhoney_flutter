@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,91 +27,106 @@ class ArticleDetailCommentPage extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-      // TODO: comment data 통신 구현해서 데이터 받아야됨.
+      final nurbanArticleComment = ref.watch(getNurbanCommentsProvider((_articleId, 0, 10)));
 
-      return Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            color: Colors.grey,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-        ],
+      return nurbanArticleComment.when(
+        data: (data) {
+          log('nurbanArticleComment data: $data');
+          return Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          );
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        error: (error, stackTrace) {
+          return Center(
+            child: Text('error: $error'),
+          );
+        },
       );
     });
   }

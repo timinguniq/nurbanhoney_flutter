@@ -362,7 +362,14 @@ class NurbanRepository {
     required int limit,
   }) async {
     try {
-      final response = await dio.get('${DioApi.mainApi}/board/nurban/article/comment');
+      final response = await dio.get(
+          '${DioApi.mainApi}/board/nurban/article/comment',
+          queryParameters: {
+            'articleId': articleId,
+            'commentId': commentId,
+            'limit': limit,
+          },
+      );
       final result = <NurbanComment>[];
       for(int i = 0; i < response.data.length ; i++) {
         log('getNurbanComments response: ${response.data[i]}');
