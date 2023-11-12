@@ -165,3 +165,23 @@ final articleCreateLossCutStyle = Provider<TextStyle>((ref) {
 final articleCreateContentStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.articleCreateContent;
 });
+
+final articleDetailCommentEmptyStyle = Provider<TextStyle>((ref){
+  return NurbanhoneyTextStyle.articleDetailCommentEmpty;
+});
+
+final articleDetailCommentInputHintStyle = Provider<TextStyle>((ref){
+  return NurbanhoneyTextStyle.articleDetailCommentInputHint;
+});
+
+final articleDetailCommentRegisterStyle = Provider<TextStyle>((ref){
+  return NurbanhoneyTextStyle.articleDetailCommentRegister;
+});
+
+final articleDetailCommentInputStyle = Provider<TextStyle>((ref){
+  return NurbanhoneyTextStyle.articleDetailCommentInput;
+});
+
+final articleDetailCommentContentStyle = Provider<TextStyle>((ref){
+  return NurbanhoneyTextStyle.articleDetailCommentContent;
+});
