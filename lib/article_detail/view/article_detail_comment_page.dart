@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_detail/article_detail.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // 글 상세 댓글 화면
 class ArticleDetailCommentPage extends StatelessWidget {
@@ -27,98 +29,23 @@ class ArticleDetailCommentPage extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+      final thickDividerColor = ref.read(color55C4C4C4);
+
       final nurbanArticleComment = ref.watch(getNurbanCommentsProvider((_articleId, 0, 10)));
 
       return nurbanArticleComment.when(
         data: (data) {
-          log('nurbanArticleComment data: $data');
-          if(data.isEmpty){
-            log('nurbanArticleComment isEmpty');
-          }else {
-            log('nurbanArticleComment not isEmpty');
-          }
           return Column(
             children: [
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
+              if(data.isEmpty)
+                const CommentDashboardEmptyWidget()
+              else
+                const CommentDashboardWidget(),
+              ArticleDetailDivider(
+                  thickness: 0.5,
+                  color: thickDividerColor,
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.grey,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+              CommentInputWidget(),
             ],
           );
         },
