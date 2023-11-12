@@ -390,4 +390,53 @@ abstract class NurbanhoneyTextStyle {
     height: 1,
   );
 
+  /// Font size: 14 | Color: C4C4C4
+  static const articleDetailCommentEmpty = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.colorC4C4C4,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: 808080
+  static const articleDetailCommentInputHint = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color808080,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: F6B748
+  static const articleDetailCommentRegister = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.colorF6B748,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: 1E1E1E
+  static const articleDetailCommentInput = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: 1E1E1E
+  static const articleDetailCommentContent = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color121214,
+    height: 1,
+  );
 }
