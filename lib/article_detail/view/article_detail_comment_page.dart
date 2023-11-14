@@ -46,6 +46,10 @@ class ArticleDetailCommentPage extends StatelessWidget {
                   color: thickDividerColor,
               ),
               CommentInputWidget(),
+              ArticleDetailDivider(
+                thickness: 0.5,
+                color: thickDividerColor,
+              ),
             ],
           );
         },
