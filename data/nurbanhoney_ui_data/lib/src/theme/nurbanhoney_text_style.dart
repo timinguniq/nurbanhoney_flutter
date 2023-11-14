@@ -397,7 +397,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorC4C4C4,
-    height: 1.5,
+    height: 1.3,
   );
 
   /// Font size: 12 | Color: 808080

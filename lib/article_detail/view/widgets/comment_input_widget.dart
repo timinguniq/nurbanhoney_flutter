@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -40,20 +42,26 @@ class CommentInputWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+              child: SizedBox(
+                width: 60,
+                height: 40,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    side: BorderSide(
+                      color: colorBorder,
+                      width: 0.5,
+                    ),
                   ),
-                  side: BorderSide(
-                    color: colorBorder,
-                    width: 0.5,
+                  onPressed: () {
+                    log('등록 버튼 클릭');
+                  },
+                  child: Text(
+                    '등록',
+                    style: registerStyle,
                   ),
-                ),
-                onPressed: () {},
-                child: Text(
-                  '등록',
-                  style: registerStyle,
                 ),
               ),
             ),
