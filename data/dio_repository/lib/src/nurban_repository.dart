@@ -392,4 +392,40 @@ class NurbanRepository {
       throw Exception(e);
     }
   }
+
+  /// 댓글 작성 TODO
+  Future<List<NurbanComment>> nurbanCommentCreate({
+    required int articleId,
+    required String content,
+  }) async {
+    try {
+      final response = await dio.post(
+        '${DioApi.mainApi}/board/nurban/article/comment',
+        data: {
+          'articleId': articleId,
+          'content': content,
+        },
+      );
+      final result = <NurbanComment>[];
+      for(int i = 0; i < response.data.length ; i++) {
+        log('getNurbanComments response: ${response.data[i]}');
+        final records =
+        (id: int.parse(response.data[i]['id'].toString()),
+        content: response.data[i]['content'].toString(),
+        userId: int.parse(response.data[i]['user']['id'].toString()),
+        badge: response.data[i]['user']['badge'].toString(),
+        nickname: response.data[i]['user']['nickname'].toString(),
+        insignia: response.data[i]['user']['insignia'].toString());
+        // result.add(BoardModel.fromJson(response.data[i]));
+        result.add(records);
+      }
+      log('getNurbanComments response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getNurbanComments error : $e');
+      throw Exception(e);
+    }
+  }
 }
