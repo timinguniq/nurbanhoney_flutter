@@ -57,6 +57,7 @@ class CommentInputWidget extends StatelessWidget {
                   ),
                   onPressed: () {
                     log('등록 버튼 클릭');
+
                   },
                   child: Text(
                     '등록',
