@@ -7,5 +7,5 @@ export 'src/dio_service.dart';
 export 'src/rank_service.dart';
 export 'src/profile_service.dart';
 export 'src/free_service.dart';
-export 'src/nurban_service.dart';
+export 'src/nurban/nurban.dart';
 export 'src/models/models.dart';

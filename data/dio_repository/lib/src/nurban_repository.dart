@@ -116,7 +116,6 @@ class NurbanRepository {
     required int articleId,
   }) async {
     try {
-
       final baseOptions = BaseOptions(
         baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
         headers: {'Authorization': 'Bearer $token'},
@@ -376,11 +375,10 @@ class NurbanRepository {
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
         content: response.data[i]['content'].toString(),
-        userId: int.parse(response.data[i]['user']['id'].toString()),
+        userId: int.parse(response.data[i]['user']['userId'].toString()),
         badge: response.data[i]['user']['badge'].toString(),
         nickname: response.data[i]['user']['nickname'].toString(),
         insignia: response.data[i]['user']['insignia'].toString());
-        // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
       log('getNurbanComments response: ${response.data.toString()}');
