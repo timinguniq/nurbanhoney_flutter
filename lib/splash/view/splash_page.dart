@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:authentication_domain/authentication_domain.dart';
+import 'package:authentication_service/authentication_service.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({
@@ -65,6 +68,15 @@ class _SplashViewState extends State<SplashView> {
       builder: (_, WidgetRef ref, __) {
         final style = ref.read(overlayStyle);
         SystemChrome.setSystemUIOverlayStyle(style);
+
+        final preferenceStorage = ref.watch(preferenceStorageProvider);
+        final storage = preferenceStorage.asData?.value;
+        final token = storage?.getToken() ?? '__empty__';
+
+        if(token != '__empty__') {
+          ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+        }
+
         return Scaffold(
           body: Center(
             child: SizedBox(
