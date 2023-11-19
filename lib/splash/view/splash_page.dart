@@ -74,7 +74,9 @@ class _SplashViewState extends State<SplashView> {
         final token = storage?.getToken() ?? '__empty__';
 
         if(token != '__empty__') {
-          ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+          Future.delayed(const Duration(seconds: 1), () {
+            ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+          });
         }
 
         return Scaffold(
