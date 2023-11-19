@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:navigation_service/navigation_service.dart';
+import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -85,24 +87,38 @@ class CommentInputWidget extends StatelessWidget {
                     log('token: $token');
                     log('articleId: $_articleId');
                     log('commentText: $commentText');
-                    // TODO: token이 없으면 로그인 화면으로 이동.
 
-                    final result = await nurbanRepository.nurbanCommentCreate(
-                      token: token,
-                      articleId: _articleId,
-                      content: commentText,
-                    );
+                    if(token == '__empty__') {
+                      Navigator.of(context).push(
+                        LoginPage.route(),
+                      );
+                      return;
+                    } else if(commentText == ""){
+                      Fluttertoast.showToast(
+                        msg: "빈칸은 입력할 수 없습니다.",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                      );
+                      return;
+                    } else{
+                      final result = await nurbanRepository.nurbanCommentCreate(
+                        token: token,
+                        articleId: _articleId,
+                        content: commentText,
+                      );
 
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      final uuid = ref.read(articleCreateUuidNavigationProvider);
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        final uuid = ref.read(articleCreateUuidNavigationProvider);
 
-                      ref.watch(nurbanCommentIdProvider.notifier).set(
+                        ref.watch(nurbanCommentIdProvider.notifier).set(
                           commentId: -1,
                           uuid: uuid,
-                      );
-                    });
-
-                    log('result : $result');
+                        );
+                      });
+                    }
                   },
                   child: Text(
                     '등록',
