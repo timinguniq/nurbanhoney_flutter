@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -92,14 +93,11 @@ class CommentInputWidget extends StatelessWidget {
                     );
 
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      ref.watch(nurbanCommentIdProvider.notifier).set(
-                        commentId: 0,
-                      );
-                    });
+                      final uuid = ref.read(articleCreateUuidNavigationProvider);
 
-                    Future.delayed(const Duration(milliseconds: 1000), () {
                       ref.watch(nurbanCommentIdProvider.notifier).set(
-                        commentId: -1,
+                          commentId: -1,
+                          uuid: uuid,
                       );
                     });
 

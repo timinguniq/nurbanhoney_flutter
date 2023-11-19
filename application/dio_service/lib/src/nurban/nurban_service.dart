@@ -21,11 +21,11 @@ final getNurbanCommentsProvider =
     FutureProvider.autoDispose.family<List<NurbanComment>, int>(
         (ref, articleId) async {
   final nurbanRepository = ref.watch(nurbanRepositoryProvider);
-  final commentId = ref.watch(nurbanCommentIdProvider);
-  log("commentId : $commentId");
+  final commentIdRecords = ref.watch(nurbanCommentIdProvider);
+  log("commentId : ${commentIdRecords.$1}");
   return await nurbanRepository.getNurbanComments(
     articleId: articleId,
-    commentId: commentId,
+    commentId: commentIdRecords.$1,
     limit: 10,
   );
 });

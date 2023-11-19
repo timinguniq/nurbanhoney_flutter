@@ -5,14 +5,15 @@ part 'nurban_comment_id.g.dart';
 @riverpod
 class NurbanCommentId extends _$NurbanCommentId{
   @override
-  int build() {
-    state = -1;
+  (int, String) build() {
+    state = (-1, "");
     return state;
   }
 
   void set({
     required int commentId,
+    required String uuid,
   }) {
-    state = commentId;
+    state = (commentId, uuid);
   }
 }
