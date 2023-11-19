@@ -85,6 +85,7 @@ class CommentInputWidget extends StatelessWidget {
                     log('token: $token');
                     log('articleId: $_articleId');
                     log('commentText: $commentText');
+                    // TODO: token이 없으면 로그인 화면으로 이동.
 
                     final result = await nurbanRepository.nurbanCommentCreate(
                       token: token,
