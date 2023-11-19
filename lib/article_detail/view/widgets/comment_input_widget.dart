@@ -92,13 +92,16 @@ class CommentInputWidget extends StatelessWidget {
                     );
 
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      ref.read(nurbanCommentsProvider.notifier).set(
-                        articleId: _articleId,
-                        commentId: -1,
-                        limit: 10,
+                      ref.watch(nurbanCommentIdProvider.notifier).set(
+                        commentId: 0,
                       );
                     });
 
+                    Future.delayed(const Duration(milliseconds: 1000), () {
+                      ref.watch(nurbanCommentIdProvider.notifier).set(
+                        commentId: -1,
+                      );
+                    });
 
                     log('result : $result');
                   },

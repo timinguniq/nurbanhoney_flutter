@@ -31,7 +31,7 @@ class ArticleDetailCommentPage extends StatelessWidget {
 
       final thickDividerColor = ref.read(color55C4C4C4);
 
-      final nurbanArticleComment = ref.watch(getNurbanCommentsProvider((_articleId, -1, 10)));
+      final nurbanArticleComment = ref.watch(getNurbanCommentsProvider(_articleId));
 
       return nurbanArticleComment.when(
         data: (data) {
