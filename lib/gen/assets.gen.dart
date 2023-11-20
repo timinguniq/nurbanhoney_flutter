@@ -39,12 +39,16 @@ class $AssetsImagesArticleCreateGen {
 class $AssetsImagesArticleDetailGen {
   const $AssetsImagesArticleDetailGen();
 
+  /// File path: assets/images/article_detail/delete_icon.png
+  AssetGenImage get deleteIcon =>
+      const AssetGenImage('assets/images/article_detail/delete_icon.png');
+
   /// File path: assets/images/article_detail/loss_cut_icon.png
   AssetGenImage get lossCutIcon =>
       const AssetGenImage('assets/images/article_detail/loss_cut_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [lossCutIcon];
+  List<AssetGenImage> get values => [deleteIcon, lossCutIcon];
 }
 
 class $AssetsImagesHomeGen {
@@ -219,7 +223,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 

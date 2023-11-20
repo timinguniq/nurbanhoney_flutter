@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // 댓글 아이템 뷰
 class CommentItemView extends StatelessWidget {
@@ -19,6 +20,7 @@ class CommentItemView extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
+      final commentTextStyle = ref.watch(articleDetailCommentContentStyle);
 
       return Container();
     });

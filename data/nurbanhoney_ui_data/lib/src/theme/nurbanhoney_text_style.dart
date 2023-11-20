@@ -430,7 +430,7 @@ abstract class NurbanhoneyTextStyle {
     height: 1,
   );
 
-  /// Font size: 12 | Color: 1E1E1E
+  /// Font size: 12 | Color: 121214
   static const articleDetailCommentContent = TextStyle(
     fontSize: 12,
     package: _fontPackage,
