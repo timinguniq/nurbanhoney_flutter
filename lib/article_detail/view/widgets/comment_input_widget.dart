@@ -60,6 +60,7 @@ class CommentInputWidget extends StatelessWidget {
                     hintText: '댓글을 입력해주세요.',
                     hintStyle: inputHintStyle,
                     border: InputBorder.none,
+                    counterText: '',
                   ),
                   style: inputStyle,
                 ),

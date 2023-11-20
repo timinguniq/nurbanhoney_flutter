@@ -27,7 +27,6 @@ class CommentDashboardWidget extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-
       return SingleChildScrollView(
         child: Column(
           children: [

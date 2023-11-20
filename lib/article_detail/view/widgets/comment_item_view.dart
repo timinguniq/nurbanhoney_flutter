@@ -53,28 +53,33 @@ class CommentItemView extends StatelessWidget {
         color: Colors.white,
         child: Row(
           children: [
-            CachedNetworkImage(
-              imageUrl: _thumbnail,
-              imageBuilder: (context, imageProvider) => Container(
-                width: 32,
-                height: 32,
-                margin: const EdgeInsets.only(left: 16, right: 12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            Align(
+              alignment: Alignment.topLeft,
+              child: CachedNetworkImage(
+                imageUrl: _thumbnail,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 32,
+                  height: 32,
+                  margin: const EdgeInsets.only(top: 12, left: 16, right: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 12,
+                  ),
                   Text(
                     _nickname,
                     style: commentTextStyle,
@@ -95,11 +100,15 @@ class CommentItemView extends StatelessWidget {
                   log("delete icon click");
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 16),
-                  child: SizedBox(
-                    width: 10,
-                    height: 20,
-                    child: Assets.images.articleDetail.deleteIcon.image(),
+                  padding: const EdgeInsets.only(top: 12, left: 12, right: 16),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child:
+                    SizedBox(
+                      width: 10,
+                      height: 20,
+                      child: Assets.images.articleDetail.deleteIcon.image(),
+                    ),
                   ),
                 ),
               ),
