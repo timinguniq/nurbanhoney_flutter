@@ -52,6 +52,7 @@ class CommentInputWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: TextField(
+                  maxLength: 60,
                   onChanged: (text){
                     commentText = text;
                   },

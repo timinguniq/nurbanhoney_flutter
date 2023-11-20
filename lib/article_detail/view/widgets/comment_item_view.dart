@@ -79,6 +79,9 @@ class CommentItemView extends StatelessWidget {
                     _nickname,
                     style: commentTextStyle,
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     _content,
                     style: commentTextStyle,

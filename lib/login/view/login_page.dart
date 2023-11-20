@@ -65,6 +65,7 @@ class LoginPage extends ConsumerWidget {
         log('prefStorage : $prefStorage');
         // token 저장하는 코드
         setLoginToken(prefStorage: prefStorage!, token: token);
+
         if(context.mounted){
           Navigator.of(context).pop();
         }
