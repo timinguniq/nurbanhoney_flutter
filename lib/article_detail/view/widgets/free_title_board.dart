@@ -67,14 +67,21 @@ class FreeTitleBoard extends StatelessWidget {
                     const SizedBox(
                       width: 16,
                     ),
-                    SizedBox(
-                      width: 21,
-                      height: 21,
-                      child: CachedNetworkImage(
-                        imageUrl: data.badge,
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                    CachedNetworkImage(
+                      imageUrl: data.badge,
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 21,
+                        height: 21,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                     const SizedBox(
                       width: 8,
