@@ -41,7 +41,9 @@ class ArticleDetailCommentPage extends StatelessWidget {
               if(data.isEmpty)
                 const CommentDashboardEmptyWidget()
               else
-                const CommentDashboardWidget(),
+                CommentDashboardWidget(
+                  comments: data,
+                ),
               ArticleDetailDivider(
                   thickness: 0.5,
                   color: thickDividerColor,

@@ -1,13 +1,23 @@
+import 'package:dio_repository/dio_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_detail/article_detail.dart';
 
 // Consumer widget format
 class CommentDashboardWidget extends StatelessWidget {
-  const CommentDashboardWidget({super.key});
+  const CommentDashboardWidget({
+    required List<NurbanComment> comments,
+    super.key}): _comments = comments;
 
-  static Route route() {
+  final List<NurbanComment> _comments;
+
+  static Route route({
+    required List<NurbanComment> comments,
+  }) {
     return MaterialPageRoute<void>(
-      builder: (_) => const CommentDashboardWidget(),
+      builder: (_) => CommentDashboardWidget(
+        comments: comments,
+      ),
     );
   }
 
@@ -17,34 +27,17 @@ class CommentDashboardWidget extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+
       return SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.blue,
-            ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.cyan,
-            ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.red,
-            ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.yellowAccent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.amber,
-            ),
+            for(var comment in _comments)
+              CommentItemView(
+                thumbnail: comment.badge,
+                nickname: comment.nickname,
+                content: comment.content,
+                isAuthor: true,
+              ),
           ],
         ),
       );

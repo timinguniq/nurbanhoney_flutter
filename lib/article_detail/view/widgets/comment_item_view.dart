@@ -49,7 +49,7 @@ class CommentItemView extends StatelessWidget {
 
       return Container(
         width: double.infinity,
-        height: 70,
+        height: 80,
         color: Colors.white,
         child: Row(
           children: [

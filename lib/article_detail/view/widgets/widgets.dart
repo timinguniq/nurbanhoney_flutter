@@ -9,4 +9,5 @@ export 'like_dislike_widget.dart';
 export 'comment_dashboard_empty_widget.dart';
 export 'comment_dashboard_widget.dart';
 export 'comment_input_widget.dart';
+export 'comment_item_view.dart';
 
