@@ -17,10 +17,36 @@ class CommentDashboardWidget extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-      return Container(
-        width: double.infinity,
-        height: 500,
-        color: Colors.red,
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.blue,
+            ),
+            Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.cyan,
+            ),
+            Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.red,
+            ),
+            Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.yellowAccent,
+            ),
+            Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.amber,
+            ),
+          ],
+        ),
       );
     });
   }
