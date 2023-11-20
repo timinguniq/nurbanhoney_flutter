@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 // 댓글 아이템 뷰
@@ -52,6 +55,18 @@ class CommentItemView extends StatelessWidget {
           children: [
             CachedNetworkImage(
               imageUrl: _thumbnail,
+              imageBuilder: (context, imageProvider) => Container(
+                width: 32,
+                height: 32,
+                margin: const EdgeInsets.only(left: 16, right: 12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
@@ -72,18 +87,23 @@ class CommentItemView extends StatelessWidget {
               ),
             ),
             if(_isAuthor)
-              Container(
-                width: 40,
-                height: 40,
-                margin: const EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage(_thumbnail),
-                    fit: BoxFit.cover,
+              InkWell(
+                onTap: () {
+                  log("delete icon click");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 16),
+                  child: SizedBox(
+                    width: 10,
+                    height: 20,
+                    child: Assets.images.articleDetail.deleteIcon.image(),
                   ),
                 ),
               ),
+            if(!_isAuthor)
+              const SizedBox(
+                width: 40,
+              )
           ],
         ),
       );
