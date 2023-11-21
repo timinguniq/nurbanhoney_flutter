@@ -11,7 +11,7 @@ import 'package:preference_storage_service/preference_storage_service.dart';
 
 // Consumer widget format
 class CommentInputWidget extends StatelessWidget {
-  const CommentInputWidget({
+  CommentInputWidget({
     required int articleId,
     super.key,
   }): _articleId = articleId;
@@ -27,6 +27,8 @@ class CommentInputWidget extends StatelessWidget {
       ),
     );
   }
+
+  final fieldText = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class CommentInputWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: TextField(
+                  controller: fieldText,
                   maxLength: 60,
                   onChanged: (text){
                     commentText = text;
@@ -91,6 +94,7 @@ class CommentInputWidget extends StatelessWidget {
                     log('commentText: $commentText');
 
                     if(token == '__empty__') {
+                      fieldText.clear();
                       Navigator.of(context).push(
                         LoginPage.route(),
                       );

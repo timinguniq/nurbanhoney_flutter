@@ -15,7 +15,7 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   static Route route() {
@@ -25,196 +25,216 @@ class LoginPage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final titleStyle = ref.read(loginTitleStyle);
-    // 카카오와 구글은 텍스트 스타일이 같다.
-    final kakaoStyle = ref.read(loginKakaoStyle);
-    final naverStyle = ref.read(loginNaverStyle);
-    final noticeStyle = ref.read(loginNoticeStyle);
-    final noticeHighlightStyle = ref.read(loginNoticeHighlightStyle);
+  State<LoginPage> createState() => _LoginPageState();
+}
 
-    final kakaoBackgroundColor = ref.read(colorFEE500);
-    final naverBackgroundColor = ref.read(color00C85A);
-    final whiteColor = ref.read(primaryWhite);
-    final primaryColor = ref.read(colorF6B748);
+class _LoginPageState extends State<LoginPage> {
+  var isFirst = true;
 
-    final prefStorageProvider = ref.watch(preferenceStorageProvider);
-    final prefStorage = prefStorageProvider.asData?.value;
+  @override
+  void initState() {
+    super.initState();
+    isFirst = true;
+  }
 
-    final loginType = ref.watch(loginTypeServiceProvider);
-    final key = ref.watch(keyServiceProvider);
-    final password = ref.watch(passwordServiceProvider);
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (_, WidgetRef ref, __) {
+      //final floatButtonColor = ref.read(colorF6B748);
+      //final authenticationProvider = ref.watch(authenticationServiceProvider);
+      final titleStyle = ref.read(loginTitleStyle);
+      // 카카오와 구글은 텍스트 스타일이 같다.
+      final kakaoStyle = ref.read(loginKakaoStyle);
+      final naverStyle = ref.read(loginNaverStyle);
+      final noticeStyle = ref.read(loginNoticeStyle);
+      final noticeHighlightStyle = ref.read(loginNoticeHighlightStyle);
 
-    final sLoginType = switch(loginType){
-      LoginTypeStatus.kakao => 'kakao',
-      LoginTypeStatus.naver => 'naver',
-      LoginTypeStatus.google => 'google',
-      LoginTypeStatus.init => 'kakao',
-    };
+      final kakaoBackgroundColor = ref.read(colorFEE500);
+      final naverBackgroundColor = ref.read(color00C85A);
+      final whiteColor = ref.read(primaryWhite);
+      final primaryColor = ref.read(colorF6B748);
 
-    final getLogin = ref.watch(getLoginProvider((sLoginType, key, password)));
+      final prefStorageProvider = ref.watch(preferenceStorageProvider);
+      final prefStorage = prefStorageProvider.asData?.value;
 
-    final token = getLogin.asData?.value.token;
-    if(token != null){
-      log('token : $token');
-      WidgetsBinding.instance
-          .addPostFrameCallback((_) async {
-        // 상태 바꾸는 코드
-        ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
-        log('Widget token : $token');
-        log('prefStorage : $prefStorage');
-        // token 저장하는 코드
-        setLoginToken(prefStorage: prefStorage!, token: token);
+      final loginType = ref.watch(loginTypeServiceProvider);
+      final key = ref.watch(keyServiceProvider);
+      final password = ref.watch(passwordServiceProvider);
 
-        if(context.mounted){
-          Navigator.of(context).pop();
-        }
-      });
-    }
+      final sLoginType = switch(loginType){
+        LoginTypeStatus.kakao => 'kakao',
+        LoginTypeStatus.naver => 'naver',
+        LoginTypeStatus.google => 'google',
+        LoginTypeStatus.init => 'kakao',
+      };
 
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
-          left: MediaQuery.of(context).padding.bottom,
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 9,
-                    left: 10,
-                  ),
-                  child: Assets.images.login.loginClose.image(
-                    width: 30,
-                    height: 30,
+      final getLogin = ref.watch(getLoginProvider((sLoginType, key, password)));
+
+      final token = getLogin.asData?.value.token;
+      if(token != null){
+        log('token : $token');
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) async {
+          // 상태 바꾸는 코드
+          ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+          log('Widget token : $token');
+          log('prefStorage : $prefStorage');
+          // token 저장하는 코드
+          setLoginToken(prefStorage: prefStorage!, token: token);
+
+          if(context.mounted){
+            if(Navigator.of(context).canPop()&&isFirst){
+              Navigator.of(context).pop();
+              isFirst = false;
+            }
+          }
+        });
+      }
+
+      return Scaffold(
+        body: Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top,
+            left: MediaQuery.of(context).padding.bottom,
+          ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 9,
+                      left: 10,
+                    ),
+                    child: Assets.images.login.loginClose.image(
+                      width: 30,
+                      height: 30,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const Expanded(
-              flex: 156,
-              child: SizedBox(),
-            ),
-            Text(
-              '로그인 방법을 선택하세요',
-              style: titleStyle,
-            ),
-            const Expanded(
-              flex: 64,
-              child: SizedBox(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SocialLoginBtn(
-                icon: Assets.images.login.kakaoSymbol.image(),
-                text: '카카오톡 계정으로 로그인',
-                textStyle: kakaoStyle,
-                backgroundColor: kakaoBackgroundColor,
-                elevation: 0,
-                onTap: () async {
-                  log('kakao login click');
+              const Expanded(
+                flex: 156,
+                child: SizedBox(),
+              ),
+              Text(
+                '로그인 방법을 선택하세요',
+                style: titleStyle,
+              ),
+              const Expanded(
+                flex: 64,
+                child: SizedBox(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SocialLoginBtn(
+                  icon: Assets.images.login.kakaoSymbol.image(),
+                  text: '카카오톡 계정으로 로그인',
+                  textStyle: kakaoStyle,
+                  backgroundColor: kakaoBackgroundColor,
+                  elevation: 0,
+                  onTap: () async {
+                    log('kakao login click');
 
-                  final kakaoAccessToken = await kakaoLogin();
-                  if (kakaoAccessToken == '') {
-                    log('kakao login fail');
-                    return;
-                  } else {
-                    /// 카카오 로그인 성공
-                    ref.watch(loginTypeServiceProvider.notifier).set(LoginTypeStatus.kakao);
-                    ref.watch(keyServiceProvider.notifier).set(kakaoAccessToken);
-                    ref.watch(passwordServiceProvider.notifier).set(null);
-                  }
-                },
+                    final kakaoAccessToken = await kakaoLogin();
+                    if (kakaoAccessToken == '') {
+                      log('kakao login fail');
+                      return;
+                    } else {
+                      /// 카카오 로그인 성공
+                      ref.watch(loginTypeServiceProvider.notifier).set(LoginTypeStatus.kakao);
+                      ref.watch(keyServiceProvider.notifier).set(kakaoAccessToken);
+                      ref.watch(passwordServiceProvider.notifier).set(null);
+                    }
+                  },
+                ),
               ),
-            ),
-            const Expanded(
-              flex: 21,
-              child: SizedBox(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SocialLoginBtn(
-                icon: Assets.images.login.naverSymbol.image(),
-                text: '네이버 계정으로 로그인',
-                textStyle: naverStyle,
-                backgroundColor: naverBackgroundColor,
-                elevation: 0,
-                onTap: () {
-                  log('naver login click');
-                  _devPopup(
+              const Expanded(
+                flex: 21,
+                child: SizedBox(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SocialLoginBtn(
+                  icon: Assets.images.login.naverSymbol.image(),
+                  text: '네이버 계정으로 로그인',
+                  textStyle: naverStyle,
+                  backgroundColor: naverBackgroundColor,
+                  elevation: 0,
+                  onTap: () {
+                    log('naver login click');
+                    _devPopup(
+                      context: context,
+                      content: '네이버 로그인 개발 중입니다.',
+                      confirmColor: primaryColor,
+                    );
+                  },
+                ),
+              ),
+              const Expanded(
+                flex: 21,
+                child: SizedBox(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SocialLoginBtn(
+                  icon: Assets.images.login.googleSymbol.image(),
+                  text: '구글 계정으로 로그인',
+                  textStyle: kakaoStyle,
+                  backgroundColor: whiteColor,
+                  elevation: 2,
+                  onTap: () {
+                    log('google login click');
+                    _devPopup(
+                      context: context,
+                      content: '구글 로그인 개발 중입니다.',
+                      confirmColor: primaryColor,
+                    );
+                  },
+                ),
+              ),
+              const Expanded(
+                flex: 218,
+                child: SizedBox(),
+              ),
+              LoginNotice(
+                text1: '회원가입 없이 이용가능 하며 첫 로그인시 ',
+                text2: '이용약관 ',
+                text3: '및',
+                text4: '개인정보 처리방침 ',
+                text5: '동의로 간주됩니다.',
+                textStyle: noticeStyle,
+                highlightTextStyle: noticeHighlightStyle,
+                termsOfUseOnTap: () {
+                  log('terms of use click');
+                  _policyPopup(
                     context: context,
-                    content: '네이버 로그인 개발 중입니다.',
+                    content: 'terms of use click',
+                    confirmColor: primaryColor,
+                  );
+                },
+                privacyPolicyOnTap: () {
+                  log('privacy policy click');
+                  _policyPopup(
+                    context: context,
+                    content: 'privacy policy click',
                     confirmColor: primaryColor,
                   );
                 },
               ),
-            ),
-            const Expanded(
-              flex: 21,
-              child: SizedBox(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SocialLoginBtn(
-                icon: Assets.images.login.googleSymbol.image(),
-                text: '구글 계정으로 로그인',
-                textStyle: kakaoStyle,
-                backgroundColor: whiteColor,
-                elevation: 2,
-                onTap: () {
-                  log('google login click');
-                  _devPopup(
-                    context: context,
-                    content: '구글 로그인 개발 중입니다.',
-                    confirmColor: primaryColor,
-                  );
-                },
+              const Expanded(
+                flex: 19,
+                child: SizedBox(),
               ),
-            ),
-            const Expanded(
-              flex: 218,
-              child: SizedBox(),
-            ),
-            LoginNotice(
-              text1: '회원가입 없이 이용가능 하며 첫 로그인시 ',
-              text2: '이용약관 ',
-              text3: '및',
-              text4: '개인정보 처리방침 ',
-              text5: '동의로 간주됩니다.',
-              textStyle: noticeStyle,
-              highlightTextStyle: noticeHighlightStyle,
-              termsOfUseOnTap: () {
-                log('terms of use click');
-                _policyPopup(
-                  context: context,
-                  content: 'terms of use click',
-                  confirmColor: primaryColor,
-                );
-              },
-              privacyPolicyOnTap: () {
-                log('privacy policy click');
-                _policyPopup(
-                  context: context,
-                  content: 'privacy policy click',
-                  confirmColor: primaryColor,
-                );
-              },
-            ),
-            const Expanded(
-              flex: 19,
-              child: SizedBox(),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Future<void> setLoginToken({
@@ -285,7 +305,6 @@ class LoginPage extends ConsumerWidget {
   }
 
   // 빈 문자열을 리턴하면 로그인 실패
-  // 로그인에 성공하면 kakao accessToken을 리턴
   Future<String> kakaoLogin() async {
     var accessToken = '';
     // 카카오톡 설치 여부 확인
@@ -361,4 +380,5 @@ class LoginPage extends ConsumerWidget {
       },
     );
   }
+
 }
