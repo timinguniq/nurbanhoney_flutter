@@ -71,8 +71,10 @@ class _LoginPageState extends State<LoginPage> {
       final getLogin = ref.watch(getLoginProvider((sLoginType, key, password)));
 
       final token = getLogin.asData?.value.token;
+      final userId = getLogin.asData?.value.userId;
       if(token != null){
         log('token : $token');
+        log('userId: $userId');
         WidgetsBinding.instance
             .addPostFrameCallback((_) async {
           // 상태 바꾸는 코드
@@ -81,6 +83,9 @@ class _LoginPageState extends State<LoginPage> {
           log('prefStorage : $prefStorage');
           // token 저장하는 코드
           setLoginToken(prefStorage: prefStorage!, token: token);
+          // userId 저장하는 코드.
+          setLoginUserId(prefStorage: prefStorage, userId: userId!);
+
 
           if(context.mounted){
             if(Navigator.of(context).canPop()&&isFirst){
@@ -242,6 +247,13 @@ class _LoginPageState extends State<LoginPage> {
     required String token,
   }) async{
     await prefStorage.setToken(token);
+  }
+
+  Future<void> setLoginUserId({
+    required PreferenceStorage prefStorage,
+    required String userId,
+  }) async{
+    await prefStorage.setUserId(userId);
   }
 
   // 이용약관과 개인정보 처리방침 팝업
