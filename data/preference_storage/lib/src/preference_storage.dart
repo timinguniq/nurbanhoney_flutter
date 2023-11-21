@@ -17,6 +17,9 @@ class PreferenceStorage {
   /// preference empty string
   static const _prefEmptyStr = '__empty__';
 
+  /// user id key
+  static const _prefUserId = '__pref_user_id__';
+
   /// get user token
   String getToken() => _plugin.getString(_prefAuthToken) ?? _prefEmptyStr;
 
@@ -30,5 +33,12 @@ class PreferenceStorage {
 
   /// has token
   bool hasToken() => getToken() != _prefEmptyStr;
+
+  /// get user id
+  String getUserId() => _plugin.getString(_prefUserId) ?? _prefEmptyStr;
+
+  /// set user id
+  Future<void> setUserId(String value) =>
+      _plugin.setString(_prefUserId, value);
 
 }
