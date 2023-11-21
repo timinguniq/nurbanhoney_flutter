@@ -86,7 +86,6 @@ class _LoginPageState extends State<LoginPage> {
           // userId 저장하는 코드.
           setLoginUserId(prefStorage: prefStorage, userId: userId!);
 
-
           if(context.mounted){
             if(Navigator.of(context).canPop()&&isFirst){
               Navigator.of(context).pop();
