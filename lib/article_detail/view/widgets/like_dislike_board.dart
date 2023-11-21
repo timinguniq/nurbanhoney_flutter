@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -68,6 +69,18 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
                 LikeDislikeWidget(
                   onTap: () async {
                     log('like');
+                    if(token == '__empty__'){
+                      Fluttertoast.showToast(
+                          msg: "로그인을 해주세요.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                      _isFirst = true;
+                      return;
+                    }
                     var result = _myRating == 'like'
                         ? await nurbanRepository.nurbanLikeDelete(
                             token: token, articleId: widget._articleId)
@@ -101,6 +114,18 @@ class _LikeDislikeBoardState extends State<LikeDislikeBoard> {
                 LikeDislikeWidget(
                   onTap: () async {
                     log('dislike');
+                    if(token == '__empty__'){
+                      Fluttertoast.showToast(
+                          msg: "로그인을 해주세요.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                      _isFirst = true;
+                      return;
+                    }
                     var result = _myRating == 'dislike'
                         ? await nurbanRepository.nurbanDislikeDelete(
                         token: token, articleId: widget._articleId)
