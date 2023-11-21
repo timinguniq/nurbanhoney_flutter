@@ -35,10 +35,10 @@ class PreferenceStorage {
   bool hasToken() => getToken() != _prefEmptyStr;
 
   /// get user id
-  String getUserId() => _plugin.getString(_prefUserId) ?? _prefEmptyStr;
+  int getUserId() => _plugin.getInt(_prefUserId) ?? -1;
 
   /// set user id
-  Future<void> setUserId(String value) =>
-      _plugin.setString(_prefUserId, value);
+  Future<void> setUserId(int value) =>
+      _plugin.setInt(_prefUserId, value);
 
 }

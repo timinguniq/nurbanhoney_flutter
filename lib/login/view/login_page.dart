@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
           // token 저장하는 코드
           setLoginToken(prefStorage: prefStorage!, token: token);
           // userId 저장하는 코드.
-          setLoginUserId(prefStorage: prefStorage, userId: userId!);
+          setLoginUserId(prefStorage: prefStorage, userId: int.parse(userId!));
 
           if(context.mounted){
             if(Navigator.of(context).canPop()&&isFirst){
@@ -250,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> setLoginUserId({
     required PreferenceStorage prefStorage,
-    required String userId,
+    required int userId,
   }) async{
     await prefStorage.setUserId(userId);
   }
