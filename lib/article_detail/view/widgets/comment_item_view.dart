@@ -114,9 +114,13 @@ class CommentItemView extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   log("delete icon click");
-                  // TODO : 삭제하는 기능 구현해야 됨.
+                  final storage = preferenceStorage.asData?.value;
+                  final token = storage?.getToken() ?? '__empty__';
+
+                  log('token: $token');
+
                   await nurbanRepository.nurbanCommentDelete(
-                    token: '',
+                    token: token,
                     commentId: _commentId,
                     articleId: _articleId,
                   );
