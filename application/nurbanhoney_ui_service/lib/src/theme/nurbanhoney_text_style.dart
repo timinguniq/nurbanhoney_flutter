@@ -185,3 +185,7 @@ final articleDetailCommentInputStyle = Provider<TextStyle>((ref){
 final articleDetailCommentContentStyle = Provider<TextStyle>((ref){
   return NurbanhoneyTextStyle.articleDetailCommentContent;
 });
+
+final articleDetailCommentDeleteStyle = Provider<TextStyle>((ref){
+  return NurbanhoneyTextStyle.articleDetailCommentDelete;
+});

@@ -439,4 +439,14 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color121214,
     height: 1,
   );
+
+  /// Font size: 14 | Color: 121214
+  static const articleDetailCommentDelete = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color121214,
+    height: 1,
+  );
 }
