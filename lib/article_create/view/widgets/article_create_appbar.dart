@@ -58,10 +58,16 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
             const SizedBox(
               width: 10,
             ),
-            SizedBox(
-              width: 30,
-              height: 30,
-              child: Assets.images.articleCreate.articleCreateClose.image(),
+            InkWell(
+              onTap: () {
+                log('뒤로가기 버튼 클릭');
+                Navigator.of(context).pop();
+              },
+              child: SizedBox(
+                width: 30,
+                height: 30,
+                child: Assets.images.articleCreate.articleCreateClose.image(),
+              ),
             ),
             const Expanded(
               flex: 90,
