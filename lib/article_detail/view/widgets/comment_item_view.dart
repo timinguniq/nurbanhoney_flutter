@@ -99,6 +99,7 @@ class CommentItemView extends StatelessWidget {
                 onTap: () {
                   log("delete icon click");
                   // TODO : 삭제하는 기능 구현해야 됨.
+
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12, left: 12, right: 16),
