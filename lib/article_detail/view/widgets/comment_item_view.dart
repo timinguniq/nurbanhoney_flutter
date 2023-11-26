@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
@@ -119,12 +120,24 @@ class CommentItemView extends StatelessWidget {
 
                   log('token: $token');
 
-                  await nurbanRepository.nurbanCommentDelete(
+                  final result = await nurbanRepository.nurbanCommentDelete(
                     token: token,
                     commentId: _commentId,
                     articleId: _articleId,
                   );
 
+                  log('comment delete result : $result');
+
+                  if(result == 'nurbancomment_deleted'){
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      final uuid = ref.read(articleCreateUuidNavigationProvider);
+
+                      ref.watch(nurbanCommentIdProvider.notifier).set(
+                        commentId: -1,
+                        uuid: uuid,
+                      );
+                    });
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12, left: 12, right: 16),
