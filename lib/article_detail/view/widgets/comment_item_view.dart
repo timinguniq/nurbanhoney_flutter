@@ -1,30 +1,40 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 // 댓글 아이템 뷰
 class CommentItemView extends StatelessWidget {
   const CommentItemView({
+    required int articleId,
+    required int commentId,
     required String thumbnail,
     required String nickname,
     required String content,
     required bool isAuthor,
     super.key
-  }): _thumbnail = thumbnail,
+  }): _articleId = articleId,
+    _commentId = commentId,
+    _thumbnail = thumbnail,
     _nickname = nickname,
     _content = content,
     _isAuthor = isAuthor;
 
+  final int _articleId;
+  final int _commentId;
   final String _thumbnail;
   final String _nickname;
   final String _content;
   final bool _isAuthor;
 
   static Route route({
+    required int articleId,
+    required int commentId,
     required String thumbnail,
     required String nickname,
     required String content,
@@ -32,6 +42,8 @@ class CommentItemView extends StatelessWidget {
   }) {
     return MaterialPageRoute<void>(
       builder: (_) => CommentItemView(
+        articleId: articleId,
+        commentId: commentId,
         thumbnail: thumbnail,
         nickname: nickname,
         content: content,
@@ -46,6 +58,10 @@ class CommentItemView extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
       final commentTextStyle = ref.watch(articleDetailCommentContentStyle);
+
+      final preferenceStorage = ref.watch(preferenceStorageProvider);
+
+      final nurbanRepository = ref.watch(nurbanRepositoryProvider);
 
       return Container(
         width: double.infinity,
@@ -96,9 +112,14 @@ class CommentItemView extends StatelessWidget {
             ),
             if(_isAuthor)
               InkWell(
-                onTap: () {
+                onTap: () async {
                   log("delete icon click");
                   // TODO : 삭제하는 기능 구현해야 됨.
+                  await nurbanRepository.nurbanCommentDelete(
+                    token: '',
+                    commentId: _commentId,
+                    articleId: _articleId,
+                  );
 
                 },
                 child: Padding(

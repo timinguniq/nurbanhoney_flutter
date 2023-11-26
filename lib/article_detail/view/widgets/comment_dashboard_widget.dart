@@ -9,16 +9,22 @@ import 'package:preference_storage_service/preference_storage_service.dart';
 // Consumer widget format
 class CommentDashboardWidget extends StatelessWidget {
   const CommentDashboardWidget({
+    required int articleId,
     required List<NurbanComment> comments,
-    super.key}): _comments = comments;
+    super.key,
+  }): _articleId = articleId,
+      _comments = comments;
 
+  final int _articleId;
   final List<NurbanComment> _comments;
 
   static Route route({
+    required int articleId,
     required List<NurbanComment> comments,
   }) {
     return MaterialPageRoute<void>(
       builder: (_) => CommentDashboardWidget(
+        articleId: articleId,
         comments: comments,
       ),
     );
@@ -41,6 +47,8 @@ class CommentDashboardWidget extends StatelessWidget {
           children: [
             for(var comment in _comments)
               CommentItemView(
+                articleId: _articleId,
+                commentId: comment.id,
                 thumbnail: comment.badge,
                 nickname: comment.nickname,
                 content: comment.content,

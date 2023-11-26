@@ -42,6 +42,7 @@ class ArticleDetailCommentPage extends StatelessWidget {
                 const CommentDashboardEmptyWidget()
               else
                 CommentDashboardWidget(
+                  articleId: _articleId,
                   comments: data,
                 ),
               ArticleDetailDivider(
