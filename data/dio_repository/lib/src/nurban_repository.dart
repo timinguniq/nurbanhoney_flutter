@@ -430,4 +430,45 @@ class NurbanRepository {
       throw Exception(e);
     }
   }
+
+  /// 댓글 삭제
+  Future<String> nurbanCommentDelete({
+    required String token,
+    required int commentId,
+    required int articleId,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article/comment',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.delete('/',
+        data: {
+          'id': commentId,
+          'articleId': articleId,
+        },
+      );
+
+      log('nurbanCommentDelete response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanCommentDelete error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanCommentDelete error : $e');
+      throw Exception(e);
+    }
+  }
+
 }
