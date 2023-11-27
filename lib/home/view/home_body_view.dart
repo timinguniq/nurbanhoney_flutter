@@ -59,7 +59,7 @@ class HomeBodyView extends StatelessWidget {
                     ),
                   ),
                 ),
-              if(homeAppbarNavigation == HomeAppbarStatus.whole)
+              if (homeAppbarNavigation == HomeAppbarStatus.whole)
                 const Expanded(
                   child: BoardAllView(
                     flag: 0,
@@ -67,12 +67,22 @@ class HomeBodyView extends StatelessWidget {
                     limit: 100,
                   ),
                 ),
+              if (homeAppbarNavigation == HomeAppbarStatus.popular)
+                const Expanded(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: BoardAllView(
+                      flag: 1,
+                      articleId: -1,
+                      limit: 100,
+                    ),
+                  ),
+                ),
               const SizedBox(
                 height: 90,
               ),
             ],
           ),
-
         ),
       ]);
     });
@@ -103,7 +113,8 @@ class HomeBodyView extends StatelessWidget {
   }
 
   void exampleGetBoardAll(WidgetRef ref, int flag, int articleId, int limit) {
-    final getBoardAll = ref.watch(getBoardAllProvider((flag, articleId, limit)));
+    final getBoardAll =
+        ref.watch(getBoardAllProvider((flag, articleId, limit)));
     log('getBoardAll: $getBoardAll');
     getBoardAll.when(
       data: (data) async {
@@ -133,7 +144,7 @@ class HomeBodyView extends StatelessWidget {
 
   void exampleGetRankTab(WidgetRef ref, int offset, int limit) {
     final getRankTab =
-    ref.watch(getRankTabProvider((offset: offset, limit: limit)));
+        ref.watch(getRankTabProvider((offset: offset, limit: limit)));
     log('getRankTab: $getRankTab');
     getRankTab.when(
       data: (data) {
