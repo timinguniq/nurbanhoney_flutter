@@ -74,9 +74,8 @@ class HomeBodyView extends StatelessWidget {
               if (homeAppbarNavigation == HomeAppbarStatus.popular)
                 const Expanded(
                   child: PopularView(
-                    flag: 0,
                     articleId: -1,
-                    limit: 3,
+                    limit: 100,
                   ),
                 ),
               const SizedBox(

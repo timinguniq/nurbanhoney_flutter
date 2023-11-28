@@ -15,6 +15,11 @@ final getBoardAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>
   return await dioRepository.getBoardAll(flag: records.$1, articleId: records.$2, limit: records.$3);
 });
 
+final getPopularAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>, (int, int)>((ref, records) async {
+  final dioRepository = ref.watch(dioRepositoryProvider);
+  return await dioRepository.getPopularAll(articleId: records.$1, limit: records.$2);
+});
+
 final getLoginProvider = FutureProvider.autoDispose.family<LoginType, (String, String, String?)>((ref, records) async {
   final dioRepository = ref.watch(dioRepositoryProvider);
   log('getLoginProvider: $records');

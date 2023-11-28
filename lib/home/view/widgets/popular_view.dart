@@ -12,15 +12,12 @@ import 'package:share_service/share_service.dart';
 
 class PopularView extends StatelessWidget {
   const PopularView(
-      {required int flag,
-        required int articleId,
+      { required int articleId,
         required int limit,
         super.key})
-      : _flag = flag,
-        _articleId = articleId,
+      : _articleId = articleId,
         _limit = limit;
 
-  final int _flag;
   final int _articleId;
   final int _limit;
 
@@ -29,25 +26,25 @@ class PopularView extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final rankTabTitleStyle = ref.watch(rankTabTitle);
       //final rankTabWholeStyle = ref.watch(rankTabWhole);
-      final getBoardAll =
-      ref.watch(getBoardAllProvider((_flag, _articleId, _limit)));
+      final getPopularAll =
+      ref.watch(getPopularAllProvider((_articleId, _limit)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
-      return getBoardAll.when(
+      return getPopularAll.when(
         data: (data) {
           final receiveData = data;
-          log('getBoardAll data: $data');
-          log('getBoardAll data receiveData : $receiveData');
+          log('getPopularAll data: $data');
+          log('getPopularAll data receiveData : $receiveData');
           for (var element in receiveData) {
-            log('getBoardAll data id: ${element.id}');
-            log('getBoardAll data board: ${element.board}');
-            log('getBoardAll data thumbnail: ${element.thumbnail}');
-            log('getBoardAll data title: ${element.title}');
-            log('getBoardAll data content: ${element.content}');
-            log('getBoardAll data commentCount: ${element.commentCount}');
-            log('getBoardAll data likeCount: ${element.likeCount}');
-            log('getBoardAll data createdAt: ${element.createdAt}');
-            log('getBoardAll data nickname: ${element.nickname}');
+            log('getPopularAll data id: ${element.id}');
+            log('getPopularAll data board: ${element.board}');
+            log('getPopularAll data thumbnail: ${element.thumbnail}');
+            log('getPopularAll data title: ${element.title}');
+            log('getPopularAll data content: ${element.content}');
+            log('getPopularAll data commentCount: ${element.commentCount}');
+            log('getPopularAll data likeCount: ${element.likeCount}');
+            log('getPopularAll data createdAt: ${element.createdAt}');
+            log('getPopularAll data nickname: ${element.nickname}');
           }
           return SingleChildScrollView(
             child: Column(
@@ -123,13 +120,13 @@ class PopularView extends StatelessWidget {
           );
         },
         loading: () {
-          log('getBoardAll loading');
+          log('getPopularAll loading');
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
-          log('getBoardAll error: $error');
+          log('getPopularAll error: $error');
           return const Text('error');
         },
       );

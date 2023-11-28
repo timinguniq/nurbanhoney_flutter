@@ -113,4 +113,44 @@ class DioRepository {
       throw Exception(e);
     }
   }
+
+  /// popular tab에 있는 리스트 받기!
+  Future<List<BoardAllType>> getPopularAll({
+    required int articleId,
+    required int limit,
+  }) async {
+    try {
+      final response = await dio.get(
+        '${DioApi.mainApi}/board/popular',
+        queryParameters: {
+          'articleId': articleId,
+          'limit': limit,
+        },
+      );
+      final result = <BoardAllType>[];
+      for(int i = 0; i < response.data.length ; i++) {
+        log('getPopularAll response: ${response.data[i]}');
+        final records =
+        (id: int.parse(response.data[i]['id'].toString()),
+        board: int.parse(response.data[i]['board'].toString()),
+        thumbnail: response.data[i]['thumbnail'].toString(),
+        title: response.data[i]['title'].toString(),
+        lossCut: response.data[i]['lossCut'].toString(),
+        content: response.data[i]['content'].toString(),
+        commentCount: response.data[i]['commentCount'].toString(),
+        likeCount: response.data[i]['likeCount'].toString(),
+        createdAt: response.data[i]['createdAt'].toString(),
+        nickname: response.data[i]['user']['nickname'].toString());
+        // result.add(BoardModel.fromJson(response.data[i]));
+        result.add(records);
+      }
+      log('getPopularAll response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getPopularAll error : $e');
+      throw Exception(e);
+    }
+  }
 }
