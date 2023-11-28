@@ -32,9 +32,10 @@ class HomeBodyView extends StatelessWidget {
           child: Column(
             children: [
               const AppbarBottom(),
-              const SizedBox(
-                height: 16,
-              ),
+              if(homeAppbarNavigation == HomeAppbarStatus.whole)
+                const SizedBox(
+                  height: 16,
+                ),
               if (homeAppbarNavigation == HomeAppbarStatus.whole)
                 NurbanRankTabView(
                   rankLength: 3,
@@ -42,9 +43,10 @@ class HomeBodyView extends StatelessWidget {
                     log('전체보기 클릭');
                   },
                 ),
-              const SizedBox(
-                height: 16,
-              ),
+              if(homeAppbarNavigation == HomeAppbarStatus.whole)
+                const SizedBox(
+                  height: 16,
+                ),
               if (homeAppbarNavigation == HomeAppbarStatus.whole)
                 Container(
                   alignment: Alignment.centerLeft,
@@ -67,15 +69,14 @@ class HomeBodyView extends StatelessWidget {
                     limit: 100,
                   ),
                 ),
+
+
               if (homeAppbarNavigation == HomeAppbarStatus.popular)
                 const Expanded(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: BoardAllView(
-                      flag: 1,
-                      articleId: -1,
-                      limit: 100,
-                    ),
+                  child: PopularView(
+                    flag: 0,
+                    articleId: -1,
+                    limit: 3,
                   ),
                 ),
               const SizedBox(
