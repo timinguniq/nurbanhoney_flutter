@@ -62,6 +62,14 @@ final badgeTitle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.badgeTitle;
 });
 
+final rankMajorTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankMajorTitle;
+});
+
+final rankMinorTitle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankMinorTitle;
+});
+
 final boardListItemTitle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.boardListItemTitle;
 });

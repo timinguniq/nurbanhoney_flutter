@@ -134,6 +134,24 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color1E1E1E,
   );
 
+  /// Font size: 10 | Color: FFFFFF
+  static const rankMajorTitle = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.white,
+  );
+
+  /// Font size: 10 | Color: 212124
+  static const rankMinorTitle = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color212124,
+  );
+
   /// Font size: 14 | Color: 212124
   static const boardListItemTitle = TextStyle(
     fontSize: 14,

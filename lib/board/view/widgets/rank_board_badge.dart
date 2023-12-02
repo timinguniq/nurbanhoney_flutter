@@ -24,7 +24,7 @@ class RankBoardBadge extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
           child: Text(
-            '너반꿀',
+            '$_rank 위',
             style: badgeTitleStyle,
           ),
         ),
