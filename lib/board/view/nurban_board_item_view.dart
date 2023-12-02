@@ -7,6 +7,7 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class NurbanBoardItemView extends StatelessWidget {
   const NurbanBoardItemView({
+    required Widget badge,
     required String title,
     required String lossCut,
     required String author,
@@ -15,7 +16,8 @@ class NurbanBoardItemView extends StatelessWidget {
     required CachedNetworkImage thumbnail,
     required VoidCallback onTap,
     Key? key,
-  })  : _title = title,
+  })  : _badge = badge,
+        _title = title,
         _lossCut = lossCut,
         _author = author,
         _date = date,
@@ -24,6 +26,7 @@ class NurbanBoardItemView extends StatelessWidget {
         _onTap = onTap,
         super(key: key);
 
+  final Widget _badge;
   final String _title;
   final String _lossCut;
   final String _author;
@@ -55,7 +58,7 @@ class NurbanBoardItemView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const NurbanBoardBadge(),
+                        _badge,
                         const SizedBox(
                           width: 8,
                         ),

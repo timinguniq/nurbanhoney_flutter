@@ -57,6 +57,7 @@ class BoardAllView extends StatelessWidget {
                       ? Column(
                           children: [
                             NurbanBoardItemView(
+                              badge: const NurbanBoardBadge(),
                               title: element.title,
                               lossCut: element.lossCut,
                               author: element.nickname,
@@ -83,6 +84,7 @@ class BoardAllView extends StatelessWidget {
                           ? Column(
                               children: [
                                 FreeBoardItemView(
+                                  badge: const FreeBoardBadge(),
                                   title: element.title,
                                   content: element.content,
                                   author: element.nickname,
@@ -102,6 +104,7 @@ class BoardAllView extends StatelessWidget {
                           : Column(
                               children: [
                                 FreeBoardItemView(
+                                  badge: const FreeBoardBadge(),
                                   title: element.title,
                                   content: element.content,
                                   author: element.nickname,

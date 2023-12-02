@@ -49,18 +49,21 @@ class PopularView extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                for (var element in receiveData)
-                  element.board == 1
+                for (var i = 0 ; i < receiveData.length ; i++)
+                  receiveData[i].board == 1
                       ? Column(
                     children: [
                       NurbanBoardItemView(
-                        title: element.title,
-                        lossCut: element.lossCut,
-                        author: element.nickname,
-                        date: formattingCreatedAt(element.createdAt),
-                        likeCount: element.likeCount,
+                        badge: RankBoardBadge(
+                          rank: i + 1,
+                        ),
+                        title: receiveData[i].title,
+                        lossCut: receiveData[i].lossCut,
+                        author: receiveData[i].nickname,
+                        date: formattingCreatedAt(receiveData[i].createdAt),
+                        likeCount: receiveData[i].likeCount,
                         thumbnail: CachedNetworkImage(
-                          imageUrl: element.thumbnail ?? '',
+                          imageUrl: receiveData[i].thumbnail ?? '',
                           progressIndicatorBuilder: (context, url, downloadProgress) =>
                               CircularProgressIndicator(value: downloadProgress.progress),
                           errorWidget: (context, url, error) => Assets.images.home.nurbanSymbol.image(),
@@ -68,28 +71,31 @@ class PopularView extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context)
                               .push(ArticleDetailPage.route(
-                            board: element.board,
-                            articleId: element.id,
+                            board: receiveData[i].board,
+                            articleId: receiveData[i].id,
                           ));
                         },
                       ),
                       const AppbarDivider(),
                     ],
                   )
-                      : element.board == 2
+                      : receiveData[i].board == 2
                       ? Column(
                     children: [
                       FreeBoardItemView(
-                        title: element.title,
-                        content: element.content,
-                        author: element.nickname,
-                        date: formattingCreatedAt(element.createdAt),
-                        likeCount: element.likeCount,
+                        badge: RankBoardBadge(
+                          rank: i + 1,
+                        ),
+                        title: receiveData[i].title,
+                        content: receiveData[i].content,
+                        author: receiveData[i].nickname,
+                        date: formattingCreatedAt(receiveData[i].createdAt),
+                        likeCount: receiveData[i].likeCount,
                         onTap: () {
                           Navigator.of(context)
                               .push(ArticleDetailPage.route(
-                            board: element.board,
-                            articleId: element.id,
+                            board: receiveData[i].board,
+                            articleId: receiveData[i].id,
                           ));
                         },
                       ),
@@ -99,16 +105,19 @@ class PopularView extends StatelessWidget {
                       : Column(
                     children: [
                       FreeBoardItemView(
-                        title: element.title,
-                        content: element.content,
-                        author: element.nickname,
-                        date: formattingCreatedAt(element.createdAt),
-                        likeCount: element.likeCount,
+                        badge: RankBoardBadge(
+                          rank: i + 1,
+                        ),
+                        title: receiveData[i].title,
+                        content: receiveData[i].content,
+                        author: receiveData[i].nickname,
+                        date: formattingCreatedAt(receiveData[i].createdAt),
+                        likeCount: receiveData[i].likeCount,
                         onTap: () {
                           Navigator.of(context)
                               .push(ArticleDetailPage.route(
-                            board: element.board,
-                            articleId: element.id,
+                            board: receiveData[i].board,
+                            articleId: receiveData[i].id,
                           ));
                         },
                       ),

@@ -5,6 +5,7 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class FreeBoardItemView extends StatelessWidget {
   const FreeBoardItemView({
+    required Widget badge,
     required String title,
     required String content,
     required String author,
@@ -12,7 +13,8 @@ class FreeBoardItemView extends StatelessWidget {
     required String likeCount,
     required VoidCallback onTap,
     Key? key,
-  })  : _title = title,
+  })  : _badge = badge,
+        _title = title,
         _content = content,
         _author = author,
         _date = date,
@@ -20,6 +22,7 @@ class FreeBoardItemView extends StatelessWidget {
         _onTap = onTap,
         super(key: key);
 
+  final Widget _badge;
   final String _title;
   final String _content;
   final String _author;
@@ -48,7 +51,7 @@ class FreeBoardItemView extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const FreeBoardBadge(),
+                    _badge,
                     const SizedBox(
                       width: 8,
                     ),
