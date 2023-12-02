@@ -8,6 +8,7 @@ import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:share_service/share_service.dart';
 
 class PopularView extends StatelessWidget {
@@ -29,6 +30,8 @@ class PopularView extends StatelessWidget {
       final getPopularAll =
       ref.watch(getPopularAllProvider((_articleId, _limit)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
+
+      final colorDivider = ref.read(colorEFEFEF);
 
       return getPopularAll.when(
         data: (data) {
@@ -76,7 +79,14 @@ class PopularView extends StatelessWidget {
                           ));
                         },
                       ),
-                      const AppbarDivider(),
+                      if(i == 2)
+                        Container(
+                          width: double.infinity,
+                          height: 8,
+                          color: colorDivider,
+                        ),
+                      if(i != 2)
+                        const AppbarDivider(),
                     ],
                   )
                       : receiveData[i].board == 2
@@ -99,7 +109,14 @@ class PopularView extends StatelessWidget {
                           ));
                         },
                       ),
-                      const AppbarDivider(),
+                      if(i == 2)
+                        Container(
+                          width: double.infinity,
+                          height: 8,
+                          color: colorDivider,
+                        ),
+                      if(i != 2)
+                        const AppbarDivider(),
                     ],
                   )
                       : Column(
@@ -121,7 +138,14 @@ class PopularView extends StatelessWidget {
                           ));
                         },
                       ),
-                      const AppbarDivider(),
+                      if(i == 2)
+                        Container(
+                          width: double.infinity,
+                          height: 8,
+                          color: colorDivider,
+                        ),
+                      if(i != 2)
+                        const AppbarDivider(),
                     ],
                   ),
               ],

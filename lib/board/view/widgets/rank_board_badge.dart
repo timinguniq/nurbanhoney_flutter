@@ -18,8 +18,8 @@ class RankBoardBadge extends StatelessWidget {
       final badgeMinorTitleStyle = ref.read(rankMinorTitle);
 
       final badge1BackgroundColor = ref.read(colorF19F39);
-      final badge2BackgroundColor = ref.read(colorA57117);
-      final badge3BackgroundColor = ref.read(colorB3B3B3);
+      final badge2BackgroundColor = ref.read(colorB3B3B3);
+      final badge3BackgroundColor = ref.read(colorA57117);
       final badge4BackgroundColor = ref.read(colorD9D9D9);
 
       var titleStyle = badgeMajorTitleStyle;
