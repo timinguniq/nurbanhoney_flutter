@@ -16,6 +16,18 @@ class RankBoardBadge extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final badgeTitleStyle = ref.read(badgeTitle);
       final badgeBackgroundColor = ref.read(colorD9D9D9);
+      final colorF19F39 = Provider<Color>((ref) {
+        return NurbanhoneyColors.colorF19F39;
+      });
+
+      final colorFFA57117 = Provider<Color>((ref) {
+        return NurbanhoneyColors.colorFFA57117;
+      });
+
+      final colorFFB3B3B3 = Provider<Color>((ref) {
+        return NurbanhoneyColors.colorB3B3B3;
+      });
+
       return Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(4)),
