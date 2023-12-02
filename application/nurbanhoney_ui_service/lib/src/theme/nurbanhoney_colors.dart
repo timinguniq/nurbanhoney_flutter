@@ -26,11 +26,11 @@ final colorF19F39 = Provider<Color>((ref) {
   return NurbanhoneyColors.colorF19F39;
 });
 
-final colorFFA57117 = Provider<Color>((ref) {
-  return NurbanhoneyColors.colorFFA57117;
+final colorA57117 = Provider<Color>((ref) {
+  return NurbanhoneyColors.colorA57117;
 });
 
-final colorFFB3B3B3 = Provider<Color>((ref) {
+final colorB3B3B3 = Provider<Color>((ref) {
   return NurbanhoneyColors.colorB3B3B3;
 });
 

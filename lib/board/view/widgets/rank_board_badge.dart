@@ -14,30 +14,46 @@ class RankBoardBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final badgeTitleStyle = ref.read(badgeTitle);
-      final badgeBackgroundColor = ref.read(colorD9D9D9);
-      final colorF19F39 = Provider<Color>((ref) {
-        return NurbanhoneyColors.colorF19F39;
-      });
+      final badgeMajorTitleStyle = ref.read(rankMajorTitle);
+      final badgeMinorTitleStyle = ref.read(rankMinorTitle);
 
-      final colorFFA57117 = Provider<Color>((ref) {
-        return NurbanhoneyColors.colorFFA57117;
-      });
+      final badge1BackgroundColor = ref.read(colorF19F39);
+      final badge2BackgroundColor = ref.read(colorA57117);
+      final badge3BackgroundColor = ref.read(colorB3B3B3);
+      final badge4BackgroundColor = ref.read(colorD9D9D9);
 
-      final colorFFB3B3B3 = Provider<Color>((ref) {
-        return NurbanhoneyColors.colorB3B3B3;
-      });
+      var titleStyle = badgeMajorTitleStyle;
+      var backgroundColor = badge1BackgroundColor;
+
+      switch(_rank) {
+        case 1:
+          titleStyle = badgeMajorTitleStyle;
+          backgroundColor = badge1BackgroundColor;
+          break;
+        case 2:
+          titleStyle = badgeMajorTitleStyle;
+          backgroundColor = badge2BackgroundColor;
+          break;
+        case 3:
+          titleStyle = badgeMajorTitleStyle;
+          backgroundColor = badge3BackgroundColor;
+          break;
+        default:
+          titleStyle = badgeMinorTitleStyle;
+          backgroundColor = badge4BackgroundColor;
+          break;
+      }
 
       return Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(4)),
-          color: badgeBackgroundColor,
+          color: backgroundColor,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
           child: Text(
             '$_rank 위',
-            style: badgeTitleStyle,
+            style: titleStyle,
           ),
         ),
       );
