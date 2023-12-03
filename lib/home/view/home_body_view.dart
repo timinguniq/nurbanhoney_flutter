@@ -78,6 +78,8 @@ class HomeBodyView extends StatelessWidget {
                     limit: 100,
                   ),
                 ),
+
+              // TODO(너반꿀 게시판 만들기)
               const SizedBox(
                 height: 90,
               ),

@@ -74,6 +74,43 @@ class NurbanRepository {
     }
   }
 
+  /// 너반꿀 리스트 조회
+  Future<List<NurbanComment>> getNurbans({
+    required int articleId,
+    required int commentId,
+    required int limit,
+  }) async {
+    try {
+      final response = await dio.get(
+        '${DioApi.mainApi}/board/nurban/article/comment',
+        queryParameters: {
+          'articleId': articleId,
+          'commentId': commentId,
+          'limit': limit,
+        },
+      );
+      final result = <NurbanComment>[];
+      for(int i = 0; i < response.data.length ; i++) {
+        log('getNurbanComments response: ${response.data[i]}');
+        final records =
+        (id: int.parse(response.data[i]['id'].toString()),
+        content: response.data[i]['content'].toString(),
+        userId: int.parse(response.data[i]['user']['userId'].toString()),
+        badge: response.data[i]['user']['badge'].toString(),
+        nickname: response.data[i]['user']['nickname'].toString(),
+        insignia: response.data[i]['user']['insignia'].toString());
+        result.add(records);
+      }
+      log('getNurbanComments response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getNurbanComments error : $e');
+      throw Exception(e);
+    }
+  }
+
   /// 아티클 좋아요 생성
   Future<String> nurbanLikeCreate({
     required String token,
