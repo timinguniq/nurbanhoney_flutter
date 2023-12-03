@@ -12,13 +12,16 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:share_service/share_service.dart';
 
 class NurbanView extends StatelessWidget {
-  const NurbanView(
-      { required int articleId,
-        required int limit,
-        super.key})
-      : _articleId = articleId,
+  const NurbanView({
+    required int flag,
+    required int articleId,
+    required int limit,
+    super.key})
+      : _flag = flag,
+        _articleId = articleId,
         _limit = limit;
 
+  final int _flag;
   final int _articleId;
   final int _limit;
 
@@ -27,66 +30,68 @@ class NurbanView extends StatelessWidget {
     return Consumer(builder: (_, WidgetRef ref, __) {
       //final rankTabTitleStyle = ref.watch(rankTabTitle);
       //final rankTabWholeStyle = ref.watch(rankTabWhole);
-      final getPopularAll =
-      ref.watch(getPopularAllProvider((_articleId, _limit)));
+      final getNurbanAll =
+          ref.watch(getNurbanAllProvider((_flag, _articleId, _limit)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
       final colorDivider = ref.read(colorEFEFEF);
 
-      return getPopularAll.when(
+      return getNurbanAll.when(
         data: (data) {
           final receiveData = data;
-          log('getPopularAll data: $data');
-          log('getPopularAll data receiveData : $receiveData');
+          log('getNurbanAll data: $data');
+          log('getNurbanAll data receiveData : $receiveData');
           for (var element in receiveData) {
-            log('getPopularAll data id: ${element.id}');
-            log('getPopularAll data board: ${element.board}');
-            log('getPopularAll data thumbnail: ${element.thumbnail}');
-            log('getPopularAll data title: ${element.title}');
-            log('getPopularAll data content: ${element.content}');
-            log('getPopularAll data commentCount: ${element.commentCount}');
-            log('getPopularAll data likeCount: ${element.likeCount}');
-            log('getPopularAll data createdAt: ${element.createdAt}');
-            log('getPopularAll data nickname: ${element.nickname}');
+            log('getNurbanAll data id: ${element.id}');
+            log('getNurbanAll data board: ${element.board}');
+            log('getNurbanAll data thumbnail: ${element.thumbnail}');
+            log('getNurbanAll data title: ${element.title}');
+            log('getNurbanAll data content: ${element.content}');
+            log('getNurbanAll data commentCount: ${element.commentCount}');
+            log('getNurbanAll data likeCount: ${element.likeCount}');
+            log('getNurbanAll data createdAt: ${element.createdAt}');
+            log('getNurbanAll data nickname: ${element.nickname}');
           }
           return SingleChildScrollView(
             child: Column(
               children: [
                 for (var element in receiveData)
-                      NurbanBoardItemView(
-                        badge: const NurbanBoardBadge(),
-                        title: element.title,
-                        lossCut: element.lossCut,
-                        author: element.nickname,
-                        date: formattingCreatedAt(element.createdAt),
-                        likeCount: element.likeCount,
-                        thumbnail: CachedNetworkImage(
-                          imageUrl: element.thumbnail ?? '',
-                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                              CircularProgressIndicator(value: downloadProgress.progress),
-                          errorWidget: (context, url, error) => Assets.images.home.nurbanSymbol.image(),
-                        ),
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(ArticleDetailPage.route(
-                            board: element.board,
-                            articleId: element.id,
-                          ));
-                        },
-                      ),
-                      const AppbarDivider(),
-                    ],
+                  NurbanBoardItemView(
+                    badge: const NurbanBoardBadge(),
+                    title: element.title,
+                    lossCut: element.lossCut,
+                    author: element.nickname,
+                    date: formattingCreatedAt(element.createdAt),
+                    likeCount: element.likeCount,
+                    thumbnail: CachedNetworkImage(
+                      imageUrl: element.thumbnail ?? '',
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          Assets.images.home.nurbanSymbol.image(),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(ArticleDetailPage.route(
+                        board: element.board,
+                        articleId: element.id,
+                      ));
+                    },
                   ),
-            );
+                const AppbarDivider(),
+              ],
+            ),
+          );
         },
         loading: () {
-          log('getPopularAll loading');
+          log('getNurbanAll loading');
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
-          log('getPopularAll error: $error');
+          log('getNurbanAll error: $error');
           return const Text('error');
         },
       );

@@ -70,7 +70,6 @@ class HomeBodyView extends StatelessWidget {
                   ),
                 ),
 
-
               if (homeAppbarNavigation == HomeAppbarStatus.popular)
                 const Expanded(
                   child: PopularView(
@@ -80,6 +79,14 @@ class HomeBodyView extends StatelessWidget {
                 ),
 
               // TODO(너반꿀 게시판 만들기)
+              if (homeAppbarNavigation == HomeAppbarStatus.nurban)
+                const Expanded(
+                  child: NurbanView(
+                    flag: 0,
+                    articleId: -1,
+                    limit: 100,
+                  ),
+                ),
               const SizedBox(
                 height: 90,
               ),
