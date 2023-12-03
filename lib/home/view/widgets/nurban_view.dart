@@ -56,30 +56,34 @@ class NurbanView extends StatelessWidget {
             child: Column(
               children: [
                 for (var element in receiveData)
-                  NurbanBoardItemView(
-                    badge: const NurbanBoardBadge(),
-                    title: element.title,
-                    lossCut: element.lossCut,
-                    author: element.nickname,
-                    date: formattingCreatedAt(element.createdAt),
-                    likeCount: element.likeCount,
-                    thumbnail: CachedNetworkImage(
-                      imageUrl: element.thumbnail ?? '',
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
+                  Column(
+                    children: [
+                      NurbanBoardItemView(
+                        badge: const NurbanBoardBadge(),
+                        title: element.title,
+                        lossCut: element.lossCut,
+                        author: element.nickname,
+                        date: formattingCreatedAt(element.createdAt),
+                        likeCount: element.likeCount,
+                        thumbnail: CachedNetworkImage(
+                          imageUrl: element.thumbnail ?? '',
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
                               CircularProgressIndicator(
                                   value: downloadProgress.progress),
-                      errorWidget: (context, url, error) =>
-                          Assets.images.home.nurbanSymbol.image(),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(ArticleDetailPage.route(
-                        board: element.board,
-                        articleId: element.id,
-                      ));
-                    },
+                          errorWidget: (context, url, error) =>
+                              Assets.images.home.nurbanSymbol.image(),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(ArticleDetailPage.route(
+                            board: element.board,
+                            articleId: element.id,
+                          ));
+                        },
+                      ),
+                      const AppbarDivider(),
+                    ],
                   ),
-                const AppbarDivider(),
               ],
             ),
           );
