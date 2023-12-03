@@ -28,13 +28,9 @@ class NurbanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      //final rankTabTitleStyle = ref.watch(rankTabTitle);
-      //final rankTabWholeStyle = ref.watch(rankTabWhole);
       final getNurbanAll =
           ref.watch(getNurbanAllProvider((_flag, _articleId, _limit)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
-
-      final colorDivider = ref.read(colorEFEFEF);
 
       return getNurbanAll.when(
         data: (data) {
