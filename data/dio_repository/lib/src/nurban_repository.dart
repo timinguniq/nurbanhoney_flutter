@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
+import 'package:dio_repository/dio_repository.dart';
 import 'package:mime/mime.dart';
 
 typedef NurbanArticle = ({
@@ -75,38 +76,43 @@ class NurbanRepository {
   }
 
   /// 너반꿀 리스트 조회
-  Future<List<NurbanComment>> getNurbans({
+  Future<List<BoardAllType>> getNurbanAll({
+    required int flag,
     required int articleId,
-    required int commentId,
     required int limit,
   }) async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/board/nurban/article/comment',
+        '${DioApi.mainApi}/board/nurban',
         queryParameters: {
+          'flag': flag,
           'articleId': articleId,
-          'commentId': commentId,
           'limit': limit,
         },
       );
-      final result = <NurbanComment>[];
+      final result = <BoardAllType>[];
       for(int i = 0; i < response.data.length ; i++) {
-        log('getNurbanComments response: ${response.data[i]}');
+        log('getNurbanAll response: ${response.data[i]}');
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
+        board: int.parse(response.data[i]['board'].toString()),
+        thumbnail: response.data[i]['thumbnail'].toString(),
+        title: response.data[i]['title'].toString(),
+        lossCut: response.data[i]['lossCut'].toString(),
         content: response.data[i]['content'].toString(),
-        userId: int.parse(response.data[i]['user']['userId'].toString()),
-        badge: response.data[i]['user']['badge'].toString(),
-        nickname: response.data[i]['user']['nickname'].toString(),
-        insignia: response.data[i]['user']['insignia'].toString());
+        commentCount: response.data[i]['commentCount'].toString(),
+        likeCount: response.data[i]['likeCount'].toString(),
+        createdAt: response.data[i]['createdAt'].toString(),
+        nickname: response.data[i]['user']['nickname'].toString());
+        // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
-      log('getNurbanComments response: ${response.data.toString()}');
+      log('getNurbanAll response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
       return futureValue;
     } catch (e) {
-      log('getNurbanComments error : $e');
+      log('getNurbanAll error : $e');
       throw Exception(e);
     }
   }

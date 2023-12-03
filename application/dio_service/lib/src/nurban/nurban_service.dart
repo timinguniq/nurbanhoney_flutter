@@ -17,6 +17,11 @@ final createNurbanLikeProvider =
   return await nurbanRepository.nurbanLikeCreate(token: record.$1, articleId: record.$2);
 });
 
+final getNurbanAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>, (int, int, int)>((ref, records) async {
+  final nurbanRepository = ref.watch(nurbanRepositoryProvider);
+  return await nurbanRepository.getNurbanAll(flag: records.$1, articleId: records.$2, limit: records.$3);
+});
+
 final getNurbanCommentsProvider =
     FutureProvider.autoDispose.family<List<NurbanComment>, int>(
         (ref, articleId) async {
