@@ -78,7 +78,6 @@ class HomeBodyView extends StatelessWidget {
                   ),
                 ),
 
-              // TODO(너반꿀 게시판 만들기)
               if (homeAppbarNavigation == HomeAppbarStatus.nurban)
                 const Expanded(
                   child: NurbanView(
@@ -87,6 +86,17 @@ class HomeBodyView extends StatelessWidget {
                     limit: 100,
                   ),
                 ),
+
+              // TODO: 자유 게시판 만들기!
+              if (homeAppbarNavigation == HomeAppbarStatus.free)
+                const Expanded(
+                  child: FreeView(
+                    flag: 0,
+                    articleId: -1,
+                    limit: 100,
+                  ),
+                ),
+
               const SizedBox(
                 height: 90,
               ),

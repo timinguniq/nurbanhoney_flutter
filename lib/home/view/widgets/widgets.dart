@@ -9,3 +9,5 @@ export 'drawer_profile_preview.dart';
 export 'drawer_board_widget.dart';
 export 'popular_view.dart';
 export 'nurban_view.dart';
+export 'free_view.dart';
+

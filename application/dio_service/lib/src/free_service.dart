@@ -7,6 +7,11 @@ final getFreeArticleProvider =
   return await freeRepository.getFreeArticle(token: record.$1, articleId: record.$2);
 });
 
+final getFreeAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>, (int, int, int)>((ref, records) async {
+  final freeRepository = ref.watch(freeRepositoryProvider);
+  return await freeRepository.getFreeAll(flag: records.$1, articleId: records.$2, limit: records.$3);
+});
+
 final freeRepositoryProvider = Provider<FreeRepository>((ref) {
   return FreeRepository();
 });

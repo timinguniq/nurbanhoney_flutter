@@ -10,8 +10,8 @@ import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:share_service/share_service.dart';
 
-class NurbanView extends StatelessWidget {
-  const NurbanView({
+class FreeView extends StatelessWidget {
+  const FreeView({
     required int flag,
     required int articleId,
     required int limit,
@@ -27,25 +27,26 @@ class NurbanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final getNurbanAll =
-          ref.watch(getNurbanAllProvider((_flag, _articleId, _limit)));
+      // TODO: 고쳐야 됨.
+      final getFreeAll =
+      ref.watch(getFreeAllProvider((_flag, _articleId, _limit)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
-      return getNurbanAll.when(
+      return getFreeAll.when(
         data: (data) {
           final receiveData = data;
-          log('getNurbanAll data: $data');
-          log('getNurbanAll data receiveData : $receiveData');
+          log('getFreeAll data: $data');
+          log('getFreeAll data receiveData : $receiveData');
           for (var element in receiveData) {
-            log('getNurbanAll data id: ${element.id}');
-            log('getNurbanAll data board: ${element.board}');
-            log('getNurbanAll data thumbnail: ${element.thumbnail}');
-            log('getNurbanAll data title: ${element.title}');
-            log('getNurbanAll data content: ${element.content}');
-            log('getNurbanAll data commentCount: ${element.commentCount}');
-            log('getNurbanAll data likeCount: ${element.likeCount}');
-            log('getNurbanAll data createdAt: ${element.createdAt}');
-            log('getNurbanAll data nickname: ${element.nickname}');
+            log('getFreeAll data id: ${element.id}');
+            log('getFreeAll data board: ${element.board}');
+            log('getFreeAll data thumbnail: ${element.thumbnail}');
+            log('getFreeAll data title: ${element.title}');
+            log('getFreeAll data content: ${element.content}');
+            log('getFreeAll data commentCount: ${element.commentCount}');
+            log('getFreeAll data likeCount: ${element.likeCount}');
+            log('getFreeAll data createdAt: ${element.createdAt}');
+            log('getFreeAll data nickname: ${element.nickname}');
           }
           return SingleChildScrollView(
             child: Column(
@@ -53,22 +54,13 @@ class NurbanView extends StatelessWidget {
                 for (var element in receiveData)
                   Column(
                     children: [
-                      NurbanBoardItemView(
-                        badge: const NurbanBoardBadge(),
+                      FreeBoardItemView(
+                        badge: const FreeBoardBadge(),
                         title: element.title,
-                        lossCut: element.lossCut,
                         author: element.nickname,
+                        content: element.content,
                         date: formattingCreatedAt(element.createdAt),
                         likeCount: element.likeCount,
-                        thumbnail: CachedNetworkImage(
-                          imageUrl: element.thumbnail ?? '',
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              Assets.images.home.nurbanSymbol.image(),
-                        ),
                         onTap: () {
                           Navigator.of(context).push(ArticleDetailPage.route(
                             board: element.board,
@@ -84,13 +76,13 @@ class NurbanView extends StatelessWidget {
           );
         },
         loading: () {
-          log('getNurbanAll loading');
+          log('getFreeAll loading');
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
-          log('getNurbanAll error: $error');
+          log('getFreeAll error: $error');
           return const Text('error');
         },
       );
