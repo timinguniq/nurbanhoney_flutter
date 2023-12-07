@@ -95,7 +95,7 @@ class NurbanRepository {
         log('getNurbanAll response: ${response.data[i]}');
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
-        board: 0,
+        board: 1,
         thumbnail: response.data[i]['thumbnail'].toString(),
         title: response.data[i]['title'].toString(),
         lossCut: response.data[i]['lossCut'].toString(),
