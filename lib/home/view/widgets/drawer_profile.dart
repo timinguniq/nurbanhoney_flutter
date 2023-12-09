@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_domain/navigation_domain.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -77,6 +79,8 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('popular clicked');
+                  ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.popular);
+                  Navigator.of(context).pop();
                 },
               ),
               const SizedBox(
@@ -114,6 +118,8 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('nurban board clicked');
+                  ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.nurban);
+                  Navigator.of(context).pop();
                 },
               ),
               const SizedBox(
@@ -124,6 +130,8 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('free board clicked');
+                  ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.free);
+                  Navigator.of(context).pop();
                 },
               ),
             ],
