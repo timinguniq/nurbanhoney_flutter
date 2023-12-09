@@ -6,5 +6,5 @@ export 'article_create_navigation/article_create_title_navigation.dart';
 export 'article_create_navigation/article_create_thumbnail_navigation.dart';
 export 'article_create_navigation/article_create_navigation_service.dart';
 export 'article_create_navigation/article_create_uuid_navigation.dart';
-
+export 'home_bottom_navigation/home_bottom_navigation.dart';
 
