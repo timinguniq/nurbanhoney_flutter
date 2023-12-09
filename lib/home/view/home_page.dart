@@ -4,6 +4,8 @@ import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_domain/navigation_domain.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
@@ -52,6 +54,8 @@ class _HomeViewState extends State<HomeView> {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final floatButtonColor = ref.read(colorF6B748);
       final authenticationProvider = ref.watch(authenticationServiceProvider);
+
+      final homeBottomNavigation = ref.watch(homeBottomNavigationProvider);
 
       return Scaffold(
         extendBody: true,
