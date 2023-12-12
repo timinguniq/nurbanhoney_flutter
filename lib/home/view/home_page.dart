@@ -87,6 +87,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         _selectedIndex = 0;
         break;
     }
+    /*
     switch (widget._homeAppbarStatus) {
       case HomeAppbarStatus.whole:
         ref.read(homeAppbarNavigationProvider.notifier)
@@ -109,6 +110,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
             .select(HomeAppbarStatus.whole);
         break;
     }
+
+     */
   }
 
   void _onItemTapped(int index) {
