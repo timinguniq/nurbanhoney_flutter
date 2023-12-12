@@ -87,31 +87,30 @@ class _HomeViewState extends ConsumerState<HomeView> {
         _selectedIndex = 0;
         break;
     }
-    /*
-    switch (widget._homeAppbarStatus) {
-      case HomeAppbarStatus.whole:
-        ref.read(homeAppbarNavigationProvider.notifier)
-           .select(HomeAppbarStatus.whole);
-        break;
-      case HomeAppbarStatus.popular:
-        ref.read(homeAppbarNavigationProvider.notifier)
-            .select(HomeAppbarStatus.popular);
-        break;
-      case HomeAppbarStatus.nurban:
-        ref.read(homeAppbarNavigationProvider.notifier)
-            .select(HomeAppbarStatus.nurban);
-        break;
-      case HomeAppbarStatus.free:
-        ref.read(homeAppbarNavigationProvider.notifier)
-            .select(HomeAppbarStatus.free);
-        break;
-      case HomeAppbarStatus.unknown:
-        ref.read(homeAppbarNavigationProvider.notifier)
-            .select(HomeAppbarStatus.whole);
-        break;
-    }
-
-     */
+    Future.delayed(const Duration(milliseconds: 500), () {
+      switch (widget._homeAppbarStatus) {
+        case HomeAppbarStatus.whole:
+          ref.read(homeAppbarNavigationProvider.notifier)
+              .select(HomeAppbarStatus.whole);
+          break;
+        case HomeAppbarStatus.popular:
+          ref.read(homeAppbarNavigationProvider.notifier)
+              .select(HomeAppbarStatus.popular);
+          break;
+        case HomeAppbarStatus.nurban:
+          ref.read(homeAppbarNavigationProvider.notifier)
+              .select(HomeAppbarStatus.nurban);
+          break;
+        case HomeAppbarStatus.free:
+          ref.read(homeAppbarNavigationProvider.notifier)
+              .select(HomeAppbarStatus.free);
+          break;
+        case HomeAppbarStatus.unknown:
+          ref.read(homeAppbarNavigationProvider.notifier)
+              .select(HomeAppbarStatus.whole);
+          break;
+      }
+    });
   }
 
   void _onItemTapped(int index) {
