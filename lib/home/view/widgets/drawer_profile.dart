@@ -79,8 +79,12 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('popular clicked');
-                  ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.popular);
-                  Navigator.of(context).pop();
+                  //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.popular);
+                  //Navigator.of(context).pop();
+                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
+                    homeBottomStatus: HomeBottomStatus.home,
+                    homeAppbarStatus: HomeAppbarStatus.popular,
+                  ), (route) => false);
                 },
               ),
               const SizedBox(
@@ -91,6 +95,10 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('nurban rank clicked');
+                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
+                    homeBottomStatus: HomeBottomStatus.rank,
+                    homeAppbarStatus: HomeAppbarStatus.whole,
+                  ), (route) => false);
                 },
               ),
               const SizedBox(
@@ -118,8 +126,12 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('nurban board clicked');
-                  ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.nurban);
-                  Navigator.of(context).pop();
+                  //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.nurban);
+                  //Navigator.of(context).pop();
+                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
+                    homeBottomStatus: HomeBottomStatus.home,
+                    homeAppbarStatus: HomeAppbarStatus.nurban,
+                  ), (route) => false);
                 },
               ),
               const SizedBox(
@@ -130,8 +142,12 @@ class DrawerProfile extends StatelessWidget {
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('free board clicked');
-                  ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.free);
-                  Navigator.of(context).pop();
+                  //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.free);
+                  //Navigator.of(context).pop();
+                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
+                    homeBottomStatus: HomeBottomStatus.home,
+                    homeAppbarStatus: HomeAppbarStatus.free,
+                  ), (route) => false);
                 },
               ),
             ],
