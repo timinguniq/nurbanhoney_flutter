@@ -87,7 +87,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         _selectedIndex = 0;
         break;
     }
-
+    
     Future.delayed(const Duration(milliseconds: 10), () {
       switch (widget._homeAppbarStatus) {
         case HomeAppbarStatus.whole:
