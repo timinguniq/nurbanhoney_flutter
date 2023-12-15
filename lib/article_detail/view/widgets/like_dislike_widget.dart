@@ -57,7 +57,7 @@ class LikeDislikeWidget extends StatelessWidget {
               width: 4,
             ),
             SizedBox(
-              height: 10,
+              height: 12,
               child: Text(
                 _count.toString(),
                 style: _textStyle,
