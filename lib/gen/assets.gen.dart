@@ -39,6 +39,10 @@ class $AssetsImagesArticleCreateGen {
 class $AssetsImagesArticleDetailGen {
   const $AssetsImagesArticleDetailGen();
 
+  /// File path: assets/images/article_detail/back_key.png
+  AssetGenImage get backKey =>
+      const AssetGenImage('assets/images/article_detail/back_key.png');
+
   /// File path: assets/images/article_detail/delete_icon.png
   AssetGenImage get deleteIcon =>
       const AssetGenImage('assets/images/article_detail/delete_icon.png');
@@ -48,7 +52,7 @@ class $AssetsImagesArticleDetailGen {
       const AssetGenImage('assets/images/article_detail/loss_cut_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [deleteIcon, lossCutIcon];
+  List<AssetGenImage> get values => [backKey, deleteIcon, lossCutIcon];
 }
 
 class $AssetsImagesHomeGen {

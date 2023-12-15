@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurbanhoney/gen/assets.gen.dart';
 
 class ArticleDetailAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -18,22 +19,23 @@ class ArticleDetailAppBar extends StatelessWidget
       backgroundColor: Colors.white,
       elevation: 0,
       leadingWidth: 0,
+      leading: Container(),
       title: SizedBox(
         width: double.infinity,
         height: 48,
         child: Stack(
           children: [
             // back key icon
-            SizedBox(
-              width: 42,
-              height: 48,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Assets.images.articleDetail.backKey.image(),
                 ),
               ),
             ),
