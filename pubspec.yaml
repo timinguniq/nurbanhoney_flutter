@@ -13,7 +13,7 @@ dependencies:
     path: domain/authentication_domain
   flutter:
     sdk: flutter
-  fluttertoast: ^8.2.2
+  fluttertoast: ^8.2.4
   flutter_material_pickers: ^3.6.0
   flutter_riverpod: ^2.0.2
   cupertino_icons: ^1.0.2
