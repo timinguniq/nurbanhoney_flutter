@@ -72,7 +72,7 @@ class CommentInputWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: SizedBox(
-                width: 60,
+                width: 70,
                 height: 40,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
