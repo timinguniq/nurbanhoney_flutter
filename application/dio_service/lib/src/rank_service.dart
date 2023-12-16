@@ -6,6 +6,11 @@ final getRankTabProvider = FutureProvider.autoDispose.family<List<({int id, int 
   return await rankRepository.getRankTab(offset: records.offset, limit: records.limit);
 });
 
+final getRankProvider = FutureProvider.autoDispose<List<BoardAllType>>((ref) async {
+  final rankRepository = ref.watch(rankRepositoryProvider);
+  return await rankRepository.getRanks();
+});
+
 final rankRepositoryProvider = Provider<RankRepository>((ref) {
   return RankRepository();
 });

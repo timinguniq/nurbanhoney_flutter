@@ -9,8 +9,8 @@ class HoneyRankBodyView extends StatelessWidget {
     return const Column(
       children: [
         AppbarDivider(),
-        Center(
-          child: Text('HoneyRankBodyView'),
+        Expanded(
+          child: RankView(),
         ),
       ],
     );
