@@ -51,25 +51,22 @@ class RankRepository {
   }
 
   /// 너반꿀 리스트 조회
-  Future<List<BoardAllType>> getRanks() async {
+  Future<List<({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>> getRanks() async {
     try {
       final response = await dio.get(
         '${DioApi.mainApi}/rank',
       );
-      final result = <BoardAllType>[];
+      final result = <({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>[];
       for(int i = 0; i < response.data.length ; i++) {
-        log('getRanks response: ${response.data[i]}');
+        log('getRankTab response: ${response.data[i]}');
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
-        board: 1,
-        thumbnail: response.data[i]['thumbnail'].toString(),
-        title: response.data[i]['title'].toString(),
-        lossCut: response.data[i]['lossCut'].toString(),
-        content: response.data[i]['content'].toString(),
-        commentCount: response.data[i]['commentCount'].toString(),
-        likeCount: response.data[i]['likeCount'].toString(),
-        createdAt: response.data[i]['createdAt'].toString(),
-        nickname: response.data[i]['user']['nickname'].toString());
+        totalLossCut: int.parse(response.data[i]['totalLossCut'].toString()),
+        totalLikeCount: int.parse(response.data[i]['totalLikeCount'].toString()),
+        userId: int.parse(response.data[i]['user']['userId'].toString()),
+        badge: response.data[i]['user']['badge'].toString(),
+        nickname: response.data[i]['user']['nickname'].toString(),
+        insignia: response.data[i]['user']['insignia'] as Object);
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }

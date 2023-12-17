@@ -51,6 +51,9 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
 
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
       final freeRepository = ref.read(freeRepositoryProvider);
+
+      final uuid = ref.watch(articleCreateUuidNavigationProvider);
+
       return SizedBox(
         height: 48,
         child: Row(
@@ -117,7 +120,6 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       ref.watch(articleCreateLossCutNavigationProvider);
                   final content =
                       ref.watch(articleCreateContentNavigationProvider);
-                  final uuid = ref.read(articleCreateUuidNavigationProvider);
 
                   final storage = preferenceStorage.asData?.value;
                   final token = storage?.getToken() ?? '__empty__';
@@ -129,6 +131,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                   String result;
                   log('token: $token');
                   log('board: $board');
+                  log('article create uuid: $uuid');
                   if (board == '너반꿀') {
                     result = await nurbanRepository.nurbanArticleCreate(
                       token: token,

@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
@@ -33,14 +32,8 @@ class RankView extends StatelessWidget {
           log('RankView data receiveData : $receiveData');
           for (var element in receiveData) {
             log('RankView data id: ${element.id}');
-            log('RankView data board: ${element.board}');
-            log('RankView data thumbnail: ${element.thumbnail}');
-            log('RankView data title: ${element.title}');
-            log('RankView data content: ${element.content}');
-            log('RankView data commentCount: ${element.commentCount}');
-            log('RankView data likeCount: ${element.likeCount}');
-            log('RankView data createdAt: ${element.createdAt}');
-            log('RankView data nickname: ${element.nickname}');
+            log('RankView data board: ${element.totalLossCut}');
+            log('RankView data thumbnail: ${element.totalLikeCount}');
           }
           return SingleChildScrollView(
             child: Column(
@@ -52,13 +45,13 @@ class RankView extends StatelessWidget {
                         badge: RankBoardBadge(
                           rank: i + 1,
                         ),
-                        title: receiveData[i].title,
-                        lossCut: receiveData[i].lossCut,
+                        title: '',
+                        lossCut: '',
                         author: receiveData[i].nickname,
-                        date: formattingCreatedAt(receiveData[i].createdAt),
-                        likeCount: receiveData[i].likeCount,
+                        date: formattingCreatedAt(''),
+                        likeCount: '',
                         thumbnail: CachedNetworkImage(
-                          imageUrl: receiveData[i].thumbnail ?? '',
+                          imageUrl: '' ?? '',
                           progressIndicatorBuilder: (context, url,
                               downloadProgress) =>
                               CircularProgressIndicator(
@@ -67,11 +60,13 @@ class RankView extends StatelessWidget {
                               Assets.images.home.nurbanSymbol.image(),
                         ),
                         onTap: () {
+                          /*
                           Navigator.of(context)
                               .push(ArticleDetailPage.route(
                             board: receiveData[i].board,
                             articleId: receiveData[i].id,
                           ));
+                          */
                         },
                       ),
                       if(i == 2)
@@ -89,13 +84,13 @@ class RankView extends StatelessWidget {
           );
         },
         loading: () {
-          log('getPopularAll loading');
+          log('RankView loading');
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
-          log('getPopularAll error: $error');
+          log('RankView error: $error');
           return const Text('error');
         },
       );

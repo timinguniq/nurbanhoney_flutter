@@ -189,11 +189,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 }
               },
               backgroundColor: floatButtonColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
               child: SizedBox(
                 width: 32,
                 height: 32,
                 child: Assets.images.home.floatingButton.image(),
-              ),
+              )
             )
           : null,
       bottomNavigationBar: BottomNavigationBar(

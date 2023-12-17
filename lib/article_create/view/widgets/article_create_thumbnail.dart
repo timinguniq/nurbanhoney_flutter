@@ -28,7 +28,6 @@ class ArticleCreateThumbnail extends StatelessWidget {
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
-      // TODO(Cross): 여기 해야됨.
       final thumbnail = ref.watch(articleCreateThumbnailNavigationProvider);
       final buttonBackgroundColor = ref.read(colorF6B748);
 
@@ -68,7 +67,7 @@ class ArticleCreateThumbnail extends StatelessWidget {
                         final fileImage = convertToXFileToFile(xFileImage!);
                         log('fileImage: ${fileImage.path}');
                         final uuid = const Uuid().v4();
-                        log('uuid: $uuid');
+                        log('upload uuid: $uuid');
                         final uploadImage =
                             await nurbanRepository.nurbanImageUpload(
                           uuid: uuid,
@@ -77,8 +76,9 @@ class ArticleCreateThumbnail extends StatelessWidget {
                         );
 
                         log('uploadImage: $uploadImage');
-                        ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
+                        log('upload uuid 2: $uuid');
                         ref.read(articleCreateUuidNavigationProvider.notifier).select(uuid);
+                        ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
                       },
                       child: const Text('이미지 선택'),
                     ),
