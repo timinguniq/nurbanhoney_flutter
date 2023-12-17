@@ -76,11 +76,16 @@ class ArticleCreateThumbnail extends StatelessWidget {
                         );
 
                         log('uploadImage: $uploadImage');
-                        log('upload uuid 2: $uuid');
                         ref.read(articleCreateUuidNavigationProvider.notifier).select(uuid);
                         ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
                       },
-                      child: const Text('이미지 선택'),
+                      child: const Text(
+                        '이미지 선택',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
