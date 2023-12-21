@@ -9,8 +9,8 @@ class MyaccountBodyView extends StatelessWidget {
     return const Column(
       children: [
         AppbarDivider(),
-        Center(
-          child: Text('MyaccountBodyView'),
+        Expanded(
+          child: MyaccountView(),
         ),
       ],
     );

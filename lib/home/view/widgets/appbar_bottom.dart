@@ -12,7 +12,6 @@ class AppbarBottom extends StatelessWidget{
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final homeAppbarNavigation = ref.watch(homeAppbarNavigationProvider);
-      // TODO : 여기에 딜레이 걸어서 화면 변화 테스트해보기.
       /*
         Timer(const Duration(seconds: 5), (){
           /// 사실상 필요 없으나 예시코드.
