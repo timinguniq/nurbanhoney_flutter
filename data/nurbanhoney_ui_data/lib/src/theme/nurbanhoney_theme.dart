@@ -6,6 +6,7 @@ class NurbanhoneyTheme {
   /// Standard [ThemeData] for Nurbanhoney UI
   static ThemeData get standard {
     return ThemeData(
+      useMaterial3: false,
       appBarTheme: AppBarTheme(
         systemOverlayStyle: NurbanhoneyOverlayStyle.dark,
       ),
