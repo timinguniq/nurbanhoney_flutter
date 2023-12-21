@@ -41,6 +41,11 @@ class HomeBodyView extends StatelessWidget {
                   rankLength: 3,
                   onTap: () {
                     log('전체보기 클릭');
+                    //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.whole);
+                    Navigator.of(context).push(HomePage.route(
+                      homeBottomStatus: HomeBottomStatus.rank,
+                      homeAppbarStatus: HomeAppbarStatus.whole,
+                    ));
                   },
                 ),
               if(homeAppbarNavigation == HomeAppbarStatus.whole)
