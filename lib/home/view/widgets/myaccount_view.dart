@@ -8,6 +8,7 @@ import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
 class MyaccountView extends StatelessWidget {
@@ -16,25 +17,32 @@ class MyaccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      //final rankTabTitleStyle = ref.watch(rankTabTitle);
-      //final rankTabWholeStyle = ref.watch(rankTabWhole);
       // TODO: myaccount 통신 바꿔야 됨.
-      final getRankAll =
-      ref.watch(getRankProvider);
-      final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
+      final prefStorageProvider = ref.watch(preferenceStorageProvider);
+      final prefStorage = prefStorageProvider.asData?.value;
+      final token = prefStorage?.getToken() ?? '__empty__';
+
+      // TODO : token이 없을 떄 처리 해야 됨.
+      final profileProvider = ref.watch(getProfileProvider(token));
 
       final colorDivider = ref.read(colorEFEFEF);
 
-      return getRankAll.when(
+      return profileProvider.when(
         data: (data) {
           final receiveData = data;
-          log('RankView data: $data');
-          log('RankView data receiveData : $receiveData');
-          for (var element in receiveData) {
-            log('RankView data id: ${element.id}');
-            log('RankView data board: ${element.totalLossCut}');
-            log('RankView data thumbnail: ${element.totalLikeCount}');
-          }
+
+          log('myaccount_view whole : $receiveData');
+          log('myaccount_view id: ${receiveData.id}');
+          log('myaccount_view loginType: ${receiveData.loginType}');
+          log('myaccount_view badge: ${receiveData.badge}');
+          log('myaccount_view nickname: ${receiveData.nickname}');
+          log('myaccount_view description: ${receiveData.description}');
+          log('myaccount_view point: ${receiveData.point}');
+          log('myaccount_view insigniaShow: ${receiveData.insigniaShow}');
+          log('myaccount_view insigniaOwn: ${receiveData.insigniaOwn}');
+          log('myaccount_view myArticleCount: ${receiveData.myArticleCount}');
+          log('myaccount_view myCommentCount: ${receiveData.myCommentCount}');
+
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -49,13 +57,13 @@ class MyaccountView extends StatelessWidget {
           );
         },
         loading: () {
-          log('RankView loading');
+          log('myaccount_view loading');
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
-          log('RankView error: $error');
+          log('myaccount_view error: $error');
           return const Text('error');
         },
       );
