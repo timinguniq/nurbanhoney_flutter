@@ -12,4 +12,6 @@ export 'nurban_view.dart';
 export 'free_view.dart';
 export 'rank_view.dart';
 export 'myaccount_view.dart';
+export 'myaccount_dashboard_view.dart';
+
 

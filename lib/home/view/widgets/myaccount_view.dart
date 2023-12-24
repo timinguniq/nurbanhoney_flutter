@@ -84,10 +84,16 @@ class MyaccountView extends StatelessWidget {
                     ),
                   ),
                 ),
-                //
-                Center(
-                  child: Text('MyaccountBodyView'),
+                // 대시보드
+                MyaccountDashboardView(
+                  thumbnail: receiveData.badge,
+                  nickname: receiveData.nickname,
+                  description: receiveData.description,
+                  articleCount: receiveData.myArticleCount,
+                  commentCount: receiveData.myCommentCount,
+                  point: receiveData.point,
                 ),
+                //
                 SizedBox(
                   height: 1000,
                 ),
