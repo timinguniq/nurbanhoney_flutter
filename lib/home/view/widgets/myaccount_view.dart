@@ -25,7 +25,18 @@ class MyaccountView extends StatelessWidget {
       // TODO : token이 없을 떄 처리 해야 됨.
       final profileProvider = ref.watch(getProfileProvider(token));
 
-      final colorDivider = ref.read(colorEFEFEF);
+      // text style
+      final reviseStyle = ref.read(myaccountReviseStyle);
+      final nicknameStyle = ref.read(myaccountNicknameStyle);
+      final introduceStyle = ref.read(myaccountIntroduceStyle);
+      final factorTitleStyle = ref.read(myaccountFactorTitleStyle);
+      final factorValueStyle = ref.read(myaccountFactorValueStyle);
+      final articleTitleStyle = ref.read(myaccountArticleTitleStyle);
+      final articleDateStyle = ref.read(myaccountArticleDateStyle);
+      final articleCountStyle = ref.read(myaccountArticleCountStyle);
+
+      // color
+      final reviseButtonColor = ref.read(colorF6B748);
 
       return profileProvider.when(
         data: (data) {
@@ -46,6 +57,34 @@ class MyaccountView extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
+                // 수정 버튼
+                Align(
+                  alignment: Alignment.centerRight,
+                  child:  Padding(
+                    padding: const EdgeInsets.only(top: 7, right: 16),
+                    child: SizedBox(
+                      width: 57,
+                      height: 30,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            log('myaccount_view 수정 버튼 클릭');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: reviseButtonColor,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          child: Text(
+                            '수정',
+                            style: reviseStyle,
+                          ),
+                      ),
+                    ),
+                  ),
+                ),
+                //
                 Center(
                   child: Text('MyaccountBodyView'),
                 ),

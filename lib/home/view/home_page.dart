@@ -125,6 +125,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final floatButtonColor = ref.read(colorF6B748);
     final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+    final myaccountTitleTextStyle = ref.read(myaccountTitleStyle);
+
     final homeBottomNavigation = ref.watch(homeBottomNavigationProvider);
     return Scaffold(
       extendBody: true,
@@ -172,7 +174,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
               child: Padding(
                 padding:
                     EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                child: const Center(child: Text('마이페이지')),
+                child: Center(
+                    child: Text(
+                      '마이페이지',
+                      style: myaccountTitleTextStyle,
+                    ),
+                ),
               ),
             ),
       endDrawer: const DrawerProfile(),
