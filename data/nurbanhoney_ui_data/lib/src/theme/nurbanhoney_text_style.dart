@@ -467,4 +467,88 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color121214,
     height: 1,
   );
+
+  /// Font size: 18 | Color: 1E1E1E
+  static const myaccountTitle = TextStyle(
+    fontSize: 18,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 12 | Color: FFFFFF
+  static const myaccountRevise = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.white,
+    height: 1,
+  );
+
+  /// Font size: 18 | Color: 1E1E1E
+  static const myaccountNickname = myaccountTitle;
+
+  /// Font size: 12 | Color: 1E1E1E
+  static const myaccountIntroduce = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const myaccountFactorTitle = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 16 | Color: 1E1E1E
+  static const myaccountFactorValue = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 14 | Color: 1E1E1E
+  static const myaccountArticleTitle = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const myaccountArticleDate = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const myaccountArticleCount = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
 }
