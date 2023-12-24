@@ -197,3 +197,39 @@ final articleDetailCommentContentStyle = Provider<TextStyle>((ref){
 final articleDetailCommentDeleteStyle = Provider<TextStyle>((ref){
   return NurbanhoneyTextStyle.articleDetailCommentDelete;
 });
+
+final myaccountTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountTitle;
+});
+
+final myaccountReviseStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountRevise;
+});
+
+final myaccountNicknameStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountNickname;
+});
+
+final myaccountIntroduceStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountIntroduce;
+});
+
+final myaccountFactorTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountFactorTitle;
+});
+
+final myaccountFactorValueStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountFactorValue;
+});
+
+final myaccountArticleTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountArticleTitle;
+});
+
+final myaccountArticleDateStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountArticleDate;
+});
+
+final myaccountArticleCountStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountArticleCount;
+});
