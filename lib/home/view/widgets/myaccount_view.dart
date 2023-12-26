@@ -84,6 +84,9 @@ class MyaccountView extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 33,
+                ),
                 // 대시보드
                 MyaccountDashboardView(
                   thumbnail: receiveData.badge,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -54,26 +55,24 @@ class MyaccountDashboardView extends StatelessWidget {
 
       return Column(
         children: [
-          Container(
-            height: 200,
-            color: Colors.red,
+          // Thumbnail
+          CachedNetworkImage(
+            imageUrl: _thumbnail,
+            imageBuilder: (context, imageProvider) => Container(
+              width: 82,
+              height: 82,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
-          Container(
-            height: 200,
-            color: Colors.blue,
-          ),
-          Container(
-            height: 200,
-            color: Colors.green,
-          ),
-          Container(
-            height: 200,
-            color: Colors.yellow,
-          ),
-          Container(
-            height: 200,
-            color: Colors.purple,
-          ),
+
         ],
       );
     });
