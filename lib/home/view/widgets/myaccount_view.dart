@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
+import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
@@ -17,12 +18,10 @@ class MyaccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      // TODO: myaccount 통신 바꿔야 됨.
       final prefStorageProvider = ref.watch(preferenceStorageProvider);
       final prefStorage = prefStorageProvider.asData?.value;
       final token = prefStorage?.getToken() ?? '__empty__';
 
-      // TODO : token이 없을 떄 처리 해야 됨.
       final profileProvider = ref.watch(getProfileProvider(token));
 
       // text style
@@ -112,6 +111,19 @@ class MyaccountView extends StatelessWidget {
         },
         error: (error, stackTrace) {
           log('myaccount_view error: $error');
+          /// Token 없을 때 처리
+          if(token == '__empty__') {
+            Future.delayed(const Duration(milliseconds: 100),(){
+              Navigator.of(context).push(
+                LoginPage.route(),
+              );
+            });
+
+            return const Center(
+              child: Text('로그인이 필요합니다.'),
+            );
+          }
+          //
           return const Text('error');
         },
       );
