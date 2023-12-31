@@ -62,6 +62,8 @@ class MyaccountDashboardView extends StatelessWidget {
 
       final nicknameStyle = ref.read(myaccountNicknameStyle);
       final introduceStyle = ref.read(myaccountIntroduceStyle);
+      final factorTitleStyle = ref.read(myaccountFactorTitleStyle);
+      final factorValueStyle = ref.read(myaccountFactorValueStyle);
 
       final fConvertToInsignia = ref.read(convertToInsignia);
 
@@ -130,6 +132,78 @@ class MyaccountDashboardView extends StatelessWidget {
             description,
             style: introduceStyle,
           ),
+          const SizedBox(
+            height: 38,
+          ),
+          Row(
+            children: [
+              const Expanded(
+                flex: 45,
+                child: SizedBox(),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '게시글 수',
+                    style: factorTitleStyle,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    _articleCount.toString(),
+                    style: factorValueStyle,
+                  ),
+                ],
+              ),
+              const Expanded(
+                flex: 83,
+                child: SizedBox(),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '댓글 수',
+                    style: factorTitleStyle,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    _commentCount.toString(),
+                    style: factorValueStyle,
+                  ),
+                ],
+              ),
+              const Expanded(
+                flex: 82,
+                child: SizedBox(),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '포인트',
+                    style: factorTitleStyle,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    _point.toString(),
+                    style: factorValueStyle,
+                  ),
+                ],
+              ),
+              const Expanded(
+                flex: 57,
+                child: SizedBox(),
+              ),
+            ],
+          )
+
         ],
       );
     });

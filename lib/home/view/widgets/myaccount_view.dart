@@ -97,8 +97,12 @@ class MyaccountView extends StatelessWidget {
                   point: receiveData.point,
                 ),
                 //
-                SizedBox(
-                  height: 1000,
+                const SizedBox(
+                  height: 26,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: AppbarDivider(),
                 ),
               ],
             ),
