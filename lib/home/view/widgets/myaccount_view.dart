@@ -90,6 +90,7 @@ class MyaccountView extends StatelessWidget {
                 MyaccountDashboardView(
                   thumbnail: receiveData.badge,
                   nickname: receiveData.nickname,
+                  insigniaShow: receiveData.insigniaShow,
                   description: receiveData.description,
                   articleCount: receiveData.myArticleCount,
                   commentCount: receiveData.myCommentCount,
