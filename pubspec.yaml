@@ -57,6 +57,7 @@ flutter:
     - assets/images/login/
     - assets/images/article_detail/
     - assets/images/article_create/
+    - assets/images/myaccount/
 
 flutter_gen:
   line_length: 80

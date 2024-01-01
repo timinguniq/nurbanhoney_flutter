@@ -104,6 +104,7 @@ class MyaccountView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: AppbarDivider(),
                 ),
+
               ],
             ),
           );

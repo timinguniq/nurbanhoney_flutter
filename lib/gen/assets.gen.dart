@@ -18,6 +18,7 @@ class $AssetsImagesGen {
       const $AssetsImagesArticleDetailGen();
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
   $AssetsImagesLoginGen get login => const $AssetsImagesLoginGen();
+  $AssetsImagesMyaccountGen get myaccount => const $AssetsImagesMyaccountGen();
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 }
 
@@ -150,6 +151,39 @@ class $AssetsImagesLoginGen {
   /// List of all assets
   List<AssetGenImage> get values =>
       [googleSymbol, kakaoSymbol, loginClose, naverSymbol];
+}
+
+class $AssetsImagesMyaccountGen {
+  const $AssetsImagesMyaccountGen();
+
+  /// File path: assets/images/myaccount/myaccount_article_active.png
+  AssetGenImage get myaccountArticleActive => const AssetGenImage(
+      'assets/images/myaccount/myaccount_article_active.png');
+
+  /// File path: assets/images/myaccount/myaccount_article_inactive.png
+  AssetGenImage get myaccountArticleInactive => const AssetGenImage(
+      'assets/images/myaccount/myaccount_article_inactive.png');
+
+  /// File path: assets/images/myaccount/myaccount_comment_active.png
+  AssetGenImage get myaccountCommentActive => const AssetGenImage(
+      'assets/images/myaccount/myaccount_comment_active.png');
+
+  /// File path: assets/images/myaccount/myaccount_comment_inactive.png
+  AssetGenImage get myaccountCommentInactive => const AssetGenImage(
+      'assets/images/myaccount/myaccount_comment_inactive.png');
+
+  /// File path: assets/images/myaccount/myaccount_setting.png
+  AssetGenImage get myaccountSetting =>
+      const AssetGenImage('assets/images/myaccount/myaccount_setting.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        myaccountArticleActive,
+        myaccountArticleInactive,
+        myaccountCommentActive,
+        myaccountCommentInactive,
+        myaccountSetting
+      ];
 }
 
 class $AssetsImagesSplashGen {
