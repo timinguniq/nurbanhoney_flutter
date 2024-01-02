@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
@@ -36,6 +37,8 @@ class MyaccountView extends StatelessWidget {
 
       // color
       final reviseButtonColor = ref.read(colorF6B748);
+      final factorBorderColor = ref.read(colorEDEDED);
+      final dashboardBorderColor = ref.read(colorBBBBBB);
 
       return profileProvider.when(
         data: (data) {
@@ -100,11 +103,28 @@ class MyaccountView extends StatelessWidget {
                 const SizedBox(
                   height: 26,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: AppbarDivider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ArticleCreateDivider(
+                    thickness: 0.5,
+                    color: dashboardBorderColor,
+                  ),
                 ),
-
+                const SizedBox(
+                  height: 11,
+                ),
+                // 팩터
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 55),
+                  child: MyaccountFactorView(),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ArticleCreateDivider(
+                    thickness: 12,
+                    color: factorBorderColor,
+                ),
               ],
             ),
           );

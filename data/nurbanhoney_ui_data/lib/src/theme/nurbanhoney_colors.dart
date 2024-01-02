@@ -94,4 +94,10 @@ abstract class NurbanhoneyColors {
 
   /// Color: FF121214
   static const Color color121214 = Color(0xFF121214);
+
+  /// Color: FFEDEDED
+  static const Color colorEDEDED = Color(0xFFEDEDED);
+
+  /// Color: FFBBBBBB
+  static const Color colorBBBBBB = Color(0xFFBBBBBB);
 }
