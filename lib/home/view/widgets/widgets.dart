@@ -14,3 +14,6 @@ export 'rank_view.dart';
 export 'myaccount_view.dart';
 export 'myaccount_dashboard_view.dart';
 export 'myaccount_factor_view.dart';
+export 'myaccount_tab_article_view.dart';
+export 'myaccount_tab_comment_view.dart';
+

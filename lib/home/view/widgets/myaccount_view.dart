@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_domain/navigation_domain.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -55,6 +57,8 @@ class MyaccountView extends StatelessWidget {
           log('myaccount_view insigniaOwn: ${receiveData.insigniaOwn}');
           log('myaccount_view myArticleCount: ${receiveData.myArticleCount}');
           log('myaccount_view myCommentCount: ${receiveData.myCommentCount}');
+
+          final myaccounttabStatus = ref.watch(myaccountNavigationProvider);
 
           return SingleChildScrollView(
             child: Column(
@@ -125,6 +129,10 @@ class MyaccountView extends StatelessWidget {
                     thickness: 12,
                     color: factorBorderColor,
                 ),
+                if(myaccounttabStatus == MyaccountTabStatus.article)
+                  const MyaccountTabArticleView(),
+                if(myaccounttabStatus == MyaccountTabStatus.comment)
+                  const MyaccountTabCommentView(),
               ],
             ),
           );
