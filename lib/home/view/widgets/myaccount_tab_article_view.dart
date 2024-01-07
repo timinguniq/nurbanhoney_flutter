@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Consumer widget format
+// TODO: myaccount tab article view를 구현해야됨.
 class MyaccountTabArticleView extends StatelessWidget {
   const MyaccountTabArticleView({super.key});
 
