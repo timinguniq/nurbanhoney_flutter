@@ -16,6 +16,16 @@ typedef ProfileType = ({
   int myCommentCount
 });
 
+typedef ProfileArticleType = ({
+  int id,
+  int board,
+  String thumbnail,
+  String title,
+  int count,
+  int commentCount,
+  String createdAt,
+});
+
 class ProfileRepository {
   /// constructor
   ProfileRepository._privateConstructor();
@@ -67,4 +77,50 @@ class ProfileRepository {
   }
 
   // TODO: profile 통신들 구현해야됨. article comment
+  Future<List<ProfileArticleType>> getMyaccountArticle({
+    required String token,
+    required int offset,
+    required int limit,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/profile/myarticle',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.get(
+          '/',
+          queryParameters: {
+            'offset': offset,
+            'limit': limit,
+          },
+      );
+
+      final result = <ProfileArticleType>[];
+      for(int i = 0; i < response.data.length ; i++) {
+        log('getBoardAll response: ${response.data[i]}');
+        final records =
+        (id: int.parse(response.data[i]['id'].toString()),
+        board: int.parse(response.data[i]['board'].toString()),
+        thumbnail: response.data[i]['thumbnail'].toString(),
+        title: response.data[i]['title'].toString(),
+        count: int.parse(response.data[i]['count'].toString()),
+        commentCount: int.parse(response.data[i]['commentCount'].toString()),
+        createdAt: response.data[i]['createdAt'].toString());
+        // result.add(BoardModel.fromJson(response.data[i]));
+        result.add(records);
+      }
+      log('getBoardAll response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getBoardAll error : $e');
+      throw Exception(e);
+    }
+  }
+
 }

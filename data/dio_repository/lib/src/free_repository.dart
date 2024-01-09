@@ -106,7 +106,7 @@ class FreeRepository {
         title: response.data[i]['title'].toString(),
         lossCut: response.data[i]['lossCut'].toString(),
         content: response.data[i]['content'].toString(),
-        commentCount: response.data[i]['commentCount'].toString(),
+        commentCount: int.parse(response.data[i]['commentCount'].toString()),
         likeCount: response.data[i]['likeCount'].toString(),
         createdAt: response.data[i]['createdAt'].toString(),
         nickname: response.data[i]['user']['nickname'].toString());

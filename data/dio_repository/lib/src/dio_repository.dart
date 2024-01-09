@@ -5,7 +5,7 @@ import 'package:dio_domain/dio_domain.dart';
 
 
 typedef BoardAllType = ({int id, int board, String? thumbnail,
-  String title, String lossCut, String content, String commentCount, String likeCount, String createdAt,
+  String title, String lossCut, String content, int commentCount, String likeCount, String createdAt,
   String nickname});
 
 typedef LoginType = ({String token, String userId});
@@ -69,7 +69,7 @@ class DioRepository {
         title: response.data[i]['title'].toString(),
         lossCut: response.data[i]['lossCut'].toString(),
         content: response.data[i]['content'].toString(),
-        commentCount: response.data[i]['commentCount'].toString(),
+        commentCount: int.parse(response.data[i]['commentCount'].toString()),
         likeCount: response.data[i]['likeCount'].toString(),
         createdAt: response.data[i]['createdAt'].toString(),
         nickname: response.data[i]['user']['nickname'].toString());
@@ -137,7 +137,7 @@ class DioRepository {
         title: response.data[i]['title'].toString(),
         lossCut: response.data[i]['lossCut'].toString(),
         content: response.data[i]['content'].toString(),
-        commentCount: response.data[i]['commentCount'].toString(),
+        commentCount: int.parse(response.data[i]['commentCount'].toString()),
         likeCount: response.data[i]['likeCount'].toString(),
         createdAt: response.data[i]['createdAt'].toString(),
         nickname: response.data[i]['user']['nickname'].toString());
