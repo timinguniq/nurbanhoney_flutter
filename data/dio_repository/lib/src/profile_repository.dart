@@ -65,4 +65,6 @@ class ProfileRepository {
       throw Exception(e);
     }
   }
+
+  // TODO: profile 통신들 구현해야됨. article comment
 }
