@@ -551,4 +551,34 @@ abstract class NurbanhoneyTextStyle {
     height: 1,
   );
 
+  /// Font size: 14 | Color: 1E1E1E
+  static const myaccountArticleItemTitle = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const myaccountArticleItemDate = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 10 | Color: 1E1E1E
+  static const myaccountArticleItemCommentCount = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
 }

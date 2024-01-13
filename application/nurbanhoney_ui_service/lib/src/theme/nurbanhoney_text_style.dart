@@ -233,3 +233,15 @@ final myaccountArticleDateStyle = Provider<TextStyle>((ref) {
 final myaccountArticleCountStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.myaccountArticleCount;
 });
+
+final myaccountArticleItemTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountArticleItemTitle;
+});
+
+final myaccountArticleItemDateStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountArticleItemDate;
+});
+
+final myaccountArticleItemCommentCountStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountArticleItemCommentCount;
+});
