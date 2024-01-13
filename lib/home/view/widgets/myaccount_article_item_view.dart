@@ -38,53 +38,57 @@ class MyaccountArticleItemView extends StatelessWidget {
 
       return Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: 75,
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      _title,
-                      style: titleTextStyle,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          _data,
-                          style: dataTextStyle,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '∙ 조회수 $_count',
-                          style: dataTextStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    // border color
-                    border: Border.all(
-                      width: 1,
-                      color: commentCountBorderColor,
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 75,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        _title,
+                        style: titleTextStyle,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            _data,
+                            style: dataTextStyle,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '∙ 조회수 $_count',
+                            style: dataTextStyle,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  child: Center(
-                    child: Text(
-                      _commentCount,
-                      style: commentCountTextStyle,
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      // border color
+                      border: Border.all(
+                        width: 1,
+                        color: commentCountBorderColor,
+                      ),
                     ),
-                  ),
-                )
-              ],
+                    child: Center(
+                      child: Text(
+                        _commentCount,
+                        style: commentCountTextStyle,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Padding(
