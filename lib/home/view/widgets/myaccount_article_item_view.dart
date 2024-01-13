@@ -71,11 +71,17 @@ class MyaccountArticleItemView extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: commentCountBorderColor,
+                    // border color
+                    border: Border.all(
+                      width: 1,
+                      color: commentCountBorderColor,
+                    ),
                   ),
-                  child: Text(
-                    _commentCount,
-                    style: commentCountTextStyle,
+                  child: Center(
+                    child: Text(
+                      _commentCount,
+                      style: commentCountTextStyle,
+                    ),
                   ),
                 )
               ],
