@@ -30,6 +30,7 @@ class MyaccountArticleItemView extends StatelessWidget {
 
       final dividerColor = ref.read(colorBBBBBB);
       final commentCountBorderColor = ref.read(color808080);
+
       final titleTextStyle = ref.read(myaccountArticleItemTitleStyle);
       final dataTextStyle = ref.read(myaccountArticleItemDateStyle);
       final commentCountTextStyle =
@@ -66,6 +67,8 @@ class MyaccountArticleItemView extends StatelessWidget {
                   ],
                 ),
                 Container(
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: commentCountBorderColor,
