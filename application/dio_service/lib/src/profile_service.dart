@@ -7,6 +7,26 @@ final getProfileProvider =
   return await profileRepository.getProfile(token: token);
 });
 
+final getProfileArticleProvider =
+    FutureProvider.autoDispose.family<List<ProfileArticleType>, (String, int, int)>((ref, records) async {
+  final profileRepository = ref.watch(profileRepositoryProvider);
+  return await profileRepository.getMyaccountArticle(
+      token: records.$1,
+      offset: records.$2,
+      limit: records.$3,
+  );
+});
+
+final getProfileCommentProvider =
+    FutureProvider.autoDispose.family<List<ProfileCommentType>, (String, int, int)>((ref, records) async {
+  final profileRepository = ref.watch(profileRepositoryProvider);
+  return await profileRepository.getMyaccountComment(
+      token: records.$1,
+      offset: records.$2,
+      limit: records.$3,
+  );
+});
+
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
   return ProfileRepository();
 });

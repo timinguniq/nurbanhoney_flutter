@@ -131,7 +131,6 @@ class ProfileRepository {
     }
   }
 
-  /// TODO : 여기 서버 통신 수정해야 되는거 같음.
   Future<List<ProfileCommentType>> getMyaccountComment({
     required String token,
     required int offset,
@@ -160,7 +159,7 @@ class ProfileRepository {
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
         board: int.parse(response.data[i]['board'].toString()),
-        title: response.data[i]['title'].toString(),
+        title: response.data[i]['location']['title'].toString(),
         content: response.data[i]['content'].toString(),
         createdAt: response.data[i]['createdAt'].toString(),
         articleId: int.parse(response.data[i]['location']['articleId'].toString()));
