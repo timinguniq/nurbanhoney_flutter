@@ -47,10 +47,15 @@ class MyaccountArticleItemView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         _title,
                         style: titleTextStyle,
+                      ),
+                      const SizedBox(
+                        height: 4,
                       ),
                       Row(
                         children: [
