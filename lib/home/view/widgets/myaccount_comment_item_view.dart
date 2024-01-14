@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
@@ -24,7 +26,7 @@ class MyaccountCommentItemView extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: SizedBox(
               width: double.infinity,
               height: 75,
@@ -48,12 +50,29 @@ class MyaccountCommentItemView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  InkWell(
-                    onTap: (){
-
-                    },
-                    child: Assets.images.articleDetail.deleteIcon.image(),
-                  )
+                  Column(
+                    children: [
+                      const Spacer(
+                        flex: 25,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // TODO: 댓글 삭제 기능 추가
+                          log('댓글 삭제 기능 추가');
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Assets.images.articleDetail.deleteIcon.image(
+                            width: 6,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                      const Spacer(
+                        flex: 36,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
