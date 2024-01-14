@@ -31,11 +31,15 @@ class MyaccountTabArticleView extends StatelessWidget {
             children: [
               for(var element in data)
                 MyaccountArticleItemView(
+                    articleId: element.id,
                     title: element.title,
                     data: formattingCreatedAt(element.createdAt),
                     count: element.count.toString(),
                     commentCount: element.commentCount.toString()
-                )
+                ),
+              const SizedBox(
+                height: 60,
+              ),
             ],
           );
         },

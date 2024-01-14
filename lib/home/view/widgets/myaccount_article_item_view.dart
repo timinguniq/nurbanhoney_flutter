@@ -7,16 +7,19 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 // TODO: myaccount article item view를 구현해야됨.
 class MyaccountArticleItemView extends StatelessWidget {
   const MyaccountArticleItemView(
-      {required String title,
+      {required int articleId,
+        required String title,
       required String data,
       required String count,
       required String commentCount,
       super.key})
-      : _title = title,
+      : _articleId = articleId,
+        _title = title,
         _data = data,
         _count = count,
         _commentCount = commentCount;
 
+  final int _articleId;
   final String _title;
   final String _data;
   final String _count;
