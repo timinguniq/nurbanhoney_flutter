@@ -32,6 +32,7 @@ class MyaccountTabArticleView extends StatelessWidget {
               for(var element in data)
                 MyaccountArticleItemView(
                     articleId: element.id,
+                    board: element.board,
                     title: element.title,
                     data: formattingCreatedAt(element.createdAt),
                     count: element.count.toString(),
