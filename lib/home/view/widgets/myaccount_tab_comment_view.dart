@@ -28,8 +28,10 @@ class MyaccountTabCommentView extends StatelessWidget {
             children: [
               for(var element in data)
                 MyaccountCommentItemView(
-                    title: element.title,
-                    data: formattingCreatedAt(element.createdAt),
+                  id: element.id,
+                  articleId: element.articleId,
+                  title: element.title,
+                  data: formattingCreatedAt(element.createdAt),
                 ),
               const SizedBox(
                 height: 60,

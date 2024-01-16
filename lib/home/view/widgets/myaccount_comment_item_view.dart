@@ -11,10 +11,16 @@ import 'package:preference_storage_service/preference_storage_service.dart';
 
 class MyaccountCommentItemView extends StatelessWidget {
   const MyaccountCommentItemView(
-      {required String title, required String data, super.key})
-      : _title = title,
+      {required int id,
+        required int articleId,
+        required String title, required String data, super.key})
+      : _id = id,
+        _articleId = articleId,
+        _title = title,
         _data = data;
 
+  final int _id;
+  final int _articleId;
   final String _title;
   final String _data;
 
@@ -25,6 +31,7 @@ class MyaccountCommentItemView extends StatelessWidget {
 
       final titleTextStyle = ref.read(myaccountArticleItemTitleStyle);
       final dataTextStyle = ref.read(myaccountArticleItemDateStyle);
+      final commentDeleteTextStyle = ref.watch(articleDetailCommentDeleteStyle);
 
       return Column(
         children: [
@@ -174,7 +181,7 @@ class MyaccountCommentItemView extends StatelessWidget {
 
     final result = await nurbanRepository.nurbanCommentDelete(
       token: token,
-      commentId: _commentId,
+      commentId: _id,
       articleId: _articleId,
     );
 
