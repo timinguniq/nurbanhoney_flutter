@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -124,6 +126,7 @@ class MyaccountCommentItemView extends StatelessWidget {
                 log('delete clicked');
                 await deleteComment(
                   ref: ref,
+                  context: context,
                 );
 
                 if(context.mounted){
@@ -169,6 +172,7 @@ class MyaccountCommentItemView extends StatelessWidget {
 
   Future<void> deleteComment({
     required WidgetRef ref,
+    required BuildContext context,
   }) async {
     final preferenceStorage = ref.watch(preferenceStorageProvider);
 
@@ -189,7 +193,17 @@ class MyaccountCommentItemView extends StatelessWidget {
 
     if (result == 'nurbancomment_deleted') {
       Future.delayed(const Duration(milliseconds: 500), () {
+        final preferenceStorage = ref.watch(preferenceStorageProvider);
+        final storage = preferenceStorage.asData?.value;
+        final token = storage?.getToken() ?? '__empty__';
+
+        final profileCommentProvider = ref.watch(getProfileCommentProvider(
+            (token, 0, 10)
+        ));
+
         final uuid = ref.read(articleCreateUuidNavigationProvider);
+
+        // TODO myaccount navigation 조정해야 될듯.
 
         ref.watch(nurbanCommentIdProvider.notifier).set(
           commentId: -1,
