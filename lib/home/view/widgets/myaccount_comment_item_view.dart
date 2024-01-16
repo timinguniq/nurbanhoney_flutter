@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 class MyaccountCommentItemView extends StatelessWidget {
   const MyaccountCommentItemView(
@@ -59,6 +62,11 @@ class MyaccountCommentItemView extends StatelessWidget {
                         onTap: () {
                           // TODO: 댓글 삭제 기능 추가
                           log('댓글 삭제 기능 추가');
+                          _showDeleteDialog(
+                            context: context,
+                            textStyle: commentDeleteTextStyle,
+                            ref: ref,
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -88,4 +96,100 @@ class MyaccountCommentItemView extends StatelessWidget {
       );
     });
   }
+
+  void _showDeleteDialog({
+    required BuildContext context,
+    required TextStyle textStyle,
+    required WidgetRef ref,
+  }) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              height: 16,
+            ),
+            InkWell(
+              onTap: () async {
+                log('delete clicked');
+                await deleteComment(
+                  ref: ref,
+                );
+
+                if(context.mounted){
+                  Navigator.of(context).pop();
+                }
+              },
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
+                  child: Text(
+                    '삭제',
+                    style: textStyle,
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
+                  child: Text(
+                    '취소',
+                    style: textStyle,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 13,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteComment({
+    required WidgetRef ref,
+  }) async {
+    final preferenceStorage = ref.watch(preferenceStorageProvider);
+
+    final nurbanRepository = ref.watch(nurbanRepositoryProvider);
+
+    final storage = preferenceStorage.asData?.value;
+    final token = storage?.getToken() ?? '__empty__';
+
+    log('token: $token');
+
+    final result = await nurbanRepository.nurbanCommentDelete(
+      token: token,
+      commentId: _commentId,
+      articleId: _articleId,
+    );
+
+    log('comment delete result : $result');
+
+    if (result == 'nurbancomment_deleted') {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        final uuid = ref.read(articleCreateUuidNavigationProvider);
+
+        ref.watch(nurbanCommentIdProvider.notifier).set(
+          commentId: -1,
+          uuid: uuid,
+        );
+      });
+    }
+  }
+
 }
