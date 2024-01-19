@@ -193,22 +193,12 @@ class MyaccountCommentItemView extends StatelessWidget {
 
     if (result == 'nurbancomment_deleted') {
       Future.delayed(const Duration(milliseconds: 500), () {
-        final preferenceStorage = ref.watch(preferenceStorageProvider);
-        final storage = preferenceStorage.asData?.value;
-        final token = storage?.getToken() ?? '__empty__';
+        // TODO: 삭제 완료 되었다는 팝업 토스트 만들기
 
-        final profileCommentProvider = ref.watch(getProfileCommentProvider(
-            (token, 0, 10)
-        ));
-
-        final uuid = ref.read(articleCreateUuidNavigationProvider);
-
-        // TODO myaccount navigation 조정해야 될듯.
-
-        ref.watch(nurbanCommentIdProvider.notifier).set(
-          commentId: -1,
-          uuid: uuid,
+        ref.watch(myaccountNavigationProvider.notifier).select(
+            MyaccountTabStatus.article
         );
+
       });
     }
   }
