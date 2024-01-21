@@ -192,14 +192,14 @@ class MyaccountCommentItemView extends StatelessWidget {
     log('comment delete result : $result');
 
     if (result == 'nurbancomment_deleted') {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        // TODO: 삭제 완료 되었다는 팝업 토스트 만들기
+      // TODO: 댓글 삭제 후, 댓글 목록 새로고침
 
+      Future.delayed(const Duration(milliseconds: 500), (){
         ref.watch(myaccountNavigationProvider.notifier).select(
-            MyaccountTabStatus.article
+          MyaccountTabStatus.article,
         );
-
       });
+
     }
   }
 
