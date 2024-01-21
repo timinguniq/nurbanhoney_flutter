@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
@@ -194,9 +195,17 @@ class MyaccountCommentItemView extends StatelessWidget {
     log('comment delete result : $result');
 
     if (result == 'nurbancomment_deleted') {
-      // TODO: 댓글 삭제 후, 댓글 목록 새로고침
+      Fluttertoast.showToast(
+          msg: '댓글이 삭제되었습니다.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          //backgroundColor: ref.read(color000000),
+          //textColor: ref.read(colorFFFFFF),
+          fontSize: 16.0
+      );
 
-      Future.delayed(const Duration(milliseconds: 500), (){
+      Future.delayed(const Duration(milliseconds: 300), (){
         ref.watch(myaccountNavigationProvider.notifier).select(
           MyaccountTabStatus.article,
         );
