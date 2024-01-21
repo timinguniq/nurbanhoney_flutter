@@ -15,15 +15,17 @@ class MyaccountCommentItemView extends StatelessWidget {
   const MyaccountCommentItemView(
       {required int id,
         required int articleId,
-        required String title, required String data, super.key})
+        required String content,
+        required String data,
+        super.key})
       : _id = id,
         _articleId = articleId,
-        _title = title,
+        _content = content,
         _data = data;
 
   final int _id;
   final int _articleId;
-  final String _title;
+  final String _content;
   final String _data;
 
   @override
@@ -50,7 +52,7 @@ class MyaccountCommentItemView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _title,
+                        _content,
                         style: titleTextStyle,
                       ),
                       const SizedBox(

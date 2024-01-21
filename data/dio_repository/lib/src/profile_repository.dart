@@ -155,7 +155,7 @@ class ProfileRepository {
 
       final result = <ProfileCommentType>[];
       for(int i = 0; i < response.data.length ; i++) {
-        log('getBoardAll response: ${response.data[i]}');
+        log('Mycomment response: ${response.data[i]}');
         final records =
         (id: int.parse(response.data[i]['id'].toString()),
         board: int.parse(response.data[i]['board'].toString()),
@@ -166,12 +166,12 @@ class ProfileRepository {
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
-      log('getBoardAll response: ${response.data.toString()}');
+      log('Mycomment response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
       return futureValue;
     } catch (e) {
-      log('getBoardAll error : $e');
+      log('Mycomment error : $e');
       throw Exception(e);
     }
   }

@@ -30,7 +30,7 @@ class MyaccountTabCommentView extends StatelessWidget {
                 MyaccountCommentItemView(
                   id: element.id,
                   articleId: element.articleId,
-                  title: element.title,
+                  content: element.content,
                   data: formattingCreatedAt(element.createdAt),
                 ),
               const SizedBox(
