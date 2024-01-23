@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/myaccount_setting/myaccount_setting.dart';
 
 // myaccount factor view (article, comment, setting)
 class MyaccountFactorView extends StatelessWidget {
@@ -54,6 +55,9 @@ class MyaccountFactorView extends StatelessWidget {
           InkWell(
             onTap: () {
               log('myaccount setting clicked');
+              Navigator.of(context).push(
+                  MyaccountSettingPage.route(),
+              );
             },
             child: SizedBox(
               width: 32,
