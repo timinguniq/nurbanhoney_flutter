@@ -245,3 +245,19 @@ final myaccountArticleItemDateStyle = Provider<TextStyle>((ref) {
 final myaccountArticleItemCommentCountStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.myaccountArticleItemCommentCount;
 });
+
+final myaccountSettingTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountSettingTitle;
+});
+
+final myaccountSettingTypeStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountSettingType;
+});
+
+final myaccountSettingLogoutStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountSettingLogout;
+});
+
+final myaccountSettingWithdrawalStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountSettingWithdrawal;
+});
