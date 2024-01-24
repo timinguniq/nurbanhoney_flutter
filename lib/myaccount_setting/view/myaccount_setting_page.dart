@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/myaccount_setting/myaccount_setting.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 셋팅화면
 class MyaccountSettingPage extends StatelessWidget {
@@ -18,6 +20,8 @@ class MyaccountSettingPage extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+      final dividerColor = ref.read(colorBBBBBB);
+
       return Scaffold(
         body: SafeArea(
           child: SizedBox(
@@ -25,7 +29,11 @@ class MyaccountSettingPage extends StatelessWidget {
             height: double.infinity,
             child: Column(
               children: [
-                MyaccountSettingTitleWidget(),
+                const MyaccountSettingTitleWidget(),
+                ArticleCreateDivider(
+                  thickness: 0.5,
+                  color: dividerColor,
+                ),
                 Expanded(
                   child: Text('test'),
                 ),
