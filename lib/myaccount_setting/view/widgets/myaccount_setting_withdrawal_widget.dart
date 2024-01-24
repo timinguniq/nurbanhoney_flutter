@@ -10,35 +10,32 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final typeStyle = ref.read(myaccountSettingTypeStyle);
-      final logoutStyle = ref.read(myaccountSettingLogoutStyle);
       final withdrawalStyle = ref.read(myaccountSettingWithdrawalStyle);
 
       return SizedBox(
         width: double.infinity,
-        height: 48,
-        child: Stack(
+        height: 53,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17),
+              child: Text(
+                '탈퇴하기',
+                style: withdrawalStyle,
+              ),
+            ),
             InkWell(
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 0),
-                  child: SizedBox(
-                    width: 22,
-                    height: 33,
-                    child: Assets.images.articleDetail.backKey.image(),
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: 22,
+                  height: 33,
+                  child: Assets.images.articleDetail.backKey.image(),
                 ),
-              ),
-            ),
-            Center(
-              child: Text(
-                '내 정보',
-                style: typeStyle,
               ),
             ),
           ],

@@ -8,7 +8,7 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
   const MyaccountSettingLogoutWidget({
     required String type,
     super.key,
-  }): _type = type;
+  }) : _type = type;
 
   final String _type;
 
@@ -24,7 +24,8 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Center(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17),
               child: Text(
                 _type,
                 style: typeStyle,
@@ -34,9 +35,12 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
               onTap: () {
                 // TODO: 로그아웃 버튼
               },
-              child: Text(
-                '로그아웃',
-                style: logoutStyle,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  '로그아웃',
+                  style: logoutStyle,
+                ),
               ),
             ),
           ],
