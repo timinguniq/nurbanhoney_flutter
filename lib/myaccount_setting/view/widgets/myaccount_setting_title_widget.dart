@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 셋팅화면 타이틀
 class MyaccountSettingTitleWidget extends StatelessWidget {
@@ -9,8 +10,10 @@ class MyaccountSettingTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      //final floatButtonColor = ref.read(colorF6B748);
-      //final authenticationProvider = ref.watch(authenticationServiceProvider);
+      final titleStyle = ref.read(myaccountSettingTitleStyle);
+      final typeStyle = ref.read(myaccountSettingTypeStyle);
+      final logoutStyle = ref.read(myaccountSettingLogoutStyle);
+      final withdrawalStyle = ref.read(myaccountSettingWithdrawalStyle);
 
       return SizedBox(
         width: double.infinity,
@@ -24,10 +27,10 @@ class MyaccountSettingTitleWidget extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 17),
+                  padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 0),
                   child: SizedBox(
-                    width: 16,
-                    height: 22,
+                    width: 22,
+                    height: 33,
                     child: Assets.images.articleDetail.backKey.image(),
                   ),
                 ),
@@ -35,12 +38,9 @@ class MyaccountSettingTitleWidget extends StatelessWidget {
             ),
             Center(
               child: Text(
-                  '내 정보',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+                '내 정보',
+                style: titleStyle,
+              ),
             ),
           ],
         ),
