@@ -14,6 +14,7 @@ class MyaccountSettingTitleWidget extends StatelessWidget {
 
       return SizedBox(
         width: double.infinity,
+        height: 48,
         child: Stack(
           children: [
             InkWell(

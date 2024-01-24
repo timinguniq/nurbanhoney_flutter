@@ -581,4 +581,45 @@ abstract class NurbanhoneyTextStyle {
     height: 1,
   );
 
+  /// Font size: 18 | Color: 1E1E1E
+  static const myaccountSettingTitle = TextStyle(
+    fontSize: 18,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 14 | Color: 1E1E1E
+  static const myaccountSettingType = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w400,
+    color: NurbanhoneyColors.color1E1E1E,
+    height: 1,
+  );
+
+  /// Font size: 14 | Color: F6B748
+  static const myaccountSettingLogout = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.colorF6B748,
+    height: 1,
+  );
+
+  /// Font size: 16 | Color: 505050
+  static const myaccountSettingWithdrawal = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color505050,
+    height: 1,
+  );
+
+
 }
