@@ -178,7 +178,7 @@ class ProfileRepository {
 
   Future<String> myaccountWithdrawal({
     required String token,
-    required String userId,
+    required int userId,
   }) async {
     try {
       final baseOptions = BaseOptions(

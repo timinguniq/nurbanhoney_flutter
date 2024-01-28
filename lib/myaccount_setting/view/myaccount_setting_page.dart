@@ -53,7 +53,9 @@ class MyaccountSettingPage extends StatelessWidget {
                       thickness: 0.5,
                       color: dividerColor,
                     ),
-                    const MyaccountSettingWithdrawalWidget(),
+                    MyaccountSettingWithdrawalWidget(
+                      userId: receiveData.id,
+                    ),
                   ],
                 ),
               ),
