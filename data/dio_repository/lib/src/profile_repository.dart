@@ -176,4 +176,50 @@ class ProfileRepository {
     }
   }
 
+  Future<List<ProfileCommentType>> myaccountWithdrawal({
+    required String token,
+    required int offset,
+    required int limit,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/profile/mycomment',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.get(
+        '/',
+        queryParameters: {
+          'offset': offset,
+          'limit': limit,
+        },
+      );
+
+      final result = <ProfileCommentType>[];
+      for(int i = 0; i < response.data.length ; i++) {
+        log('Mycomment response: ${response.data[i]}');
+        final records =
+        (id: int.parse(response.data[i]['id'].toString()),
+        board: int.parse(response.data[i]['board'].toString()),
+        title: response.data[i]['location']['title'].toString(),
+        content: response.data[i]['content'].toString(),
+        createdAt: response.data[i]['createdAt'].toString(),
+        articleId: int.parse(response.data[i]['location']['articleId'].toString()));
+        // result.add(BoardModel.fromJson(response.data[i]));
+        result.add(records);
+      }
+      log('Mycomment response: ${response.data.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('Mycomment error : $e');
+      throw Exception(e);
+    }
+  }
+
+
 }

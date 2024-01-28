@@ -31,6 +31,7 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
               onTap: () {
                 //Navigator.of(context).pop();
                 log('탈퇴하기');
+
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
