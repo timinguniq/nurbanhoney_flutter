@@ -1,3 +1,5 @@
+import 'package:authentication_domain/authentication_domain.dart';
+import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -40,6 +42,7 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
                 await prefStorage?.setEmptyToken();
                 // TODO: 상태 unauthorized로 변경
                 // TODO: 화면 이동도 어디로 할지 정하기
+                ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.unauthenticated);
 
 
               },
