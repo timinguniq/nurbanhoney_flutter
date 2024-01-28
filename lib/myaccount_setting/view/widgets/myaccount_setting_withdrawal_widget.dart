@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -27,7 +29,8 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
+                log('탈퇴하기');
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
