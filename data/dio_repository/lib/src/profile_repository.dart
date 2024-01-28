@@ -176,47 +176,40 @@ class ProfileRepository {
     }
   }
 
-  Future<List<ProfileCommentType>> myaccountWithdrawal({
+  Future<String> myaccountWithdrawal({
     required String token,
-    required int offset,
-    required int limit,
+    required String userId,
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile/mycomment',
+        baseUrl: '${DioApi.mainApi}/profile/withdrawal',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.get(
+      final response = await authDio.delete(
         '/',
-        queryParameters: {
-          'offset': offset,
-          'limit': limit,
+        data: {
+          'id': userId,
         },
       );
 
-      final result = <ProfileCommentType>[];
-      for(int i = 0; i < response.data.length ; i++) {
-        log('Mycomment response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        board: int.parse(response.data[i]['board'].toString()),
-        title: response.data[i]['location']['title'].toString(),
-        content: response.data[i]['content'].toString(),
-        createdAt: response.data[i]['createdAt'].toString(),
-        articleId: int.parse(response.data[i]['location']['articleId'].toString()));
-        // result.add(BoardModel.fromJson(response.data[i]));
-        result.add(records);
-      }
-      log('Mycomment response: ${response.data.toString()}');
+      log('withdrawal response: ${response.data}');
 
-      final futureValue = Future.value(result);
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('withdrawal error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
       return futureValue;
     } catch (e) {
-      log('Mycomment error : $e');
+      log('withdrawal error : $e');
       throw Exception(e);
     }
   }
