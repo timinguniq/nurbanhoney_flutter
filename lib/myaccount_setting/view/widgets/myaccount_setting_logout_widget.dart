@@ -2,6 +2,7 @@ import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -44,11 +45,24 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
                 // TODO: 상태 unauthorized로 변경
                 // TODO: 화면 이동도 어디로 할지 정하기
                 ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.unauthenticated);
+
+                Fluttertoast.showToast(
+                  msg: '로그아웃 되었습니다.',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  //backgroundColor: ref.read(color000000),
+                  //textColor: ref.read(colorFFFFFF),
+                  fontSize: 16.0,
+                );
+
                 if(context.mounted){
-                  Navigator.of(context).pushAndRemoveUntil(
-                    HomePage.route(),
-                        (route) => false,
-                  );
+                  Future.delayed(const Duration(milliseconds: 1000), () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      HomePage.route(),
+                      (route) => false,
+                    );
+                  });
                 }
               },
               child: Padding(
