@@ -60,6 +60,8 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
                     fontSize: 16.0,
                   );
 
+                  await prefStorage?.setEmptyToken();
+
                   // 탈퇴 성공
                   Future.delayed(const Duration(milliseconds: 1000), () {
                     Navigator.of(context).pushAndRemoveUntil(
