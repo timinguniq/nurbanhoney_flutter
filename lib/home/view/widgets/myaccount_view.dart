@@ -74,6 +74,13 @@ class MyaccountView extends StatelessWidget {
                       child: ElevatedButton(
                           onPressed: () {
                             log('myaccount_view 수정 버튼 클릭');
+                            Navigator.of(context).push(
+                              MyaccountEditPage.route(
+                                receiveData.id,
+                                receiveData.nickname,
+                                receiveData.description,
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: reviseButtonColor,
