@@ -43,6 +43,16 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                 style: titleStyle,
               ),
             ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  '저장',
+                  style: confirmStyle,
+                ),
+              ),
+            ),
           ],
         ),
       );

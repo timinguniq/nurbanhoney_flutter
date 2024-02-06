@@ -29,6 +29,12 @@ class MyaccountEditPage extends StatelessWidget {
 
       final profileProvider = ref.watch(getProfileProvider(token));
 
+      final titleStyle = ref.read(myaccountEditTitleStyle);
+      final confirmStyle = ref.read(myaccountEditConfirmStyle);
+      final subTitleStyle = ref.read(myaccountEditSubTitleStyle);
+      final subValueStyle = ref.read(myaccountEditSubValueStyle);
+      final warnStyle = ref.read(myaccountEditWarnStyle);
+
       return profileProvider.when(
         data: (data) {
           final receiveData = data;
