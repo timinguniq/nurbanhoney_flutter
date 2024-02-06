@@ -45,16 +45,6 @@ class MyaccountEditPage extends StatelessWidget {
                       thickness: 0.5,
                       color: dividerColor,
                     ),
-                    MyaccountSettingLogoutWidget(
-                      type: receiveData.loginType,
-                    ),
-                    ArticleCreateDivider(
-                      thickness: 0.5,
-                      color: dividerColor,
-                    ),
-                    MyaccountSettingWithdrawalWidget(
-                      userId: receiveData.id,
-                    ),
                   ],
                 ),
               ),
