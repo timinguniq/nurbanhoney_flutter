@@ -8,13 +8,13 @@ import 'package:nurbanhoney/myaccount_setting/myaccount_setting.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
-/// 내 정보 셋팅화면
-class MyaccountSettingPage extends StatelessWidget {
-  const MyaccountSettingPage({super.key});
+/// 내 정보 수정화면
+class MyaccountEditPage extends StatelessWidget {
+  const MyaccountEditPage({super.key});
 
   static Route route() {
     return MaterialPageRoute<void>(
-      builder: (_) => const MyaccountSettingPage(),
+      builder: (_) => const MyaccountEditPage(),
     );
   }
 
