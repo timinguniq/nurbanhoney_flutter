@@ -27,18 +27,18 @@ class MyaccountEditTitleWidget extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
                   child: SizedBox(
-                    width: 22,
-                    height: 33,
-                    child: Assets.images.articleDetail.backKey.image(),
+                    width: 30,
+                    height: 30,
+                    child: Assets.images.myaccount.myaccountEditCancel.image(),
                   ),
                 ),
               ),
             ),
             Center(
               child: Text(
-                '내 정보',
+                '프로필 수정',
                 style: titleStyle,
               ),
             ),

@@ -4,7 +4,7 @@ import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
-import 'package:nurbanhoney/myaccount_setting/myaccount_setting.dart';
+import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -40,7 +40,7 @@ class MyaccountEditPage extends StatelessWidget {
                 height: double.infinity,
                 child: Column(
                   children: [
-                    const MyaccountSettingTitleWidget(),
+                    const MyaccountEditTitleWidget(),
                     ArticleCreateDivider(
                       thickness: 0.5,
                       color: dividerColor,
