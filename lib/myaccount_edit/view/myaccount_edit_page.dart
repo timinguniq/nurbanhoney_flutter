@@ -32,7 +32,6 @@ class MyaccountEditPage extends StatelessWidget {
       return profileProvider.when(
         data: (data) {
           final receiveData = data;
-          log('myaccount_view loginType: ${receiveData.loginType}');
 
           return Scaffold(
             body: SafeArea(
@@ -63,13 +62,13 @@ class MyaccountEditPage extends StatelessWidget {
           );
         },
         loading: () {
-          log('myaccount_view loading');
+          log('myaccount edit loading');
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
-          log('myaccount_view error: $error');
+          log('myaccount edit error: $error');
           return const Text('error');
         },
       );
