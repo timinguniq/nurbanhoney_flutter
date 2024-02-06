@@ -10,10 +10,11 @@ class MyaccountEditTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final titleStyle = ref.read(myaccountSettingTitleStyle);
-      final typeStyle = ref.read(myaccountSettingTypeStyle);
-      final logoutStyle = ref.read(myaccountSettingLogoutStyle);
-      final withdrawalStyle = ref.read(myaccountSettingWithdrawalStyle);
+      final titleStyle = ref.read(myaccountEditTitleStyle);
+      final confirmStyle = ref.read(myaccountEditConfirmStyle);
+      final subTitleStyle = ref.read(myaccountEditSubTitleStyle);
+      final subValueStyle = ref.read(myaccountEditSubValueStyle);
+      final warnStyle = ref.read(myaccountEditWarnStyle);
 
       return SizedBox(
         width: double.infinity,
