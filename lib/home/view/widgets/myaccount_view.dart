@@ -11,6 +11,7 @@ import 'package:nurbanhoney/board/board.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney/login/login.dart';
+import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
@@ -75,11 +76,7 @@ class MyaccountView extends StatelessWidget {
                           onPressed: () {
                             log('myaccount_view 수정 버튼 클릭');
                             Navigator.of(context).push(
-                              MyaccountEditPage.route(
-                                receiveData.id,
-                                receiveData.nickname,
-                                receiveData.description,
-                              ),
+                              MyaccountEditPage.route(),
                             );
                           },
                           style: ElevatedButton.styleFrom(
