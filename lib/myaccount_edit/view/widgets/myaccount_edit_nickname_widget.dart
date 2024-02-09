@@ -6,7 +6,9 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 닉네임
 class MyaccountEditNicknameWidget extends StatelessWidget {
-  const MyaccountEditNicknameWidget({super.key});
+  MyaccountEditNicknameWidget({super.key});
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,22 +18,36 @@ class MyaccountEditNicknameWidget extends StatelessWidget {
       final subTitleStyle = ref.read(myaccountEditSubTitleStyle);
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
+      
+      _controller.text = '나중에 데이터 받아서 입력해야됨.';
 
       return SizedBox(
         width: double.infinity,
-        height: 90,
+        height: 100,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '닉네임',
-              style: subTitleStyle,
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 16),
+              child: Text(
+                '닉네임',
+                style: subTitleStyle,
+              ),
             ),
-            TextField(
-              style: subValueStyle,
-              decoration: InputDecoration(
-                hintText: '닉네임을 입력해주세요',
-                hintStyle: subValueStyle,
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: '닉네임을 입력하세요.',
+                  hintStyle: subValueStyle,
+                ),
+                style: subValueStyle,
+                onChanged: (value){
+                  //ref.read(articleCreateTitleNavigationProvider.notifier).select(value);
+                },
               ),
             ),
           ],

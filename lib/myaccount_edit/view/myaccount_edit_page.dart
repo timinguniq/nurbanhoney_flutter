@@ -51,7 +51,11 @@ class MyaccountEditPage extends StatelessWidget {
                       thickness: 0.5,
                       color: dividerColor,
                     ),
-                    const MyaccountEditNicknameWidget(),
+                    MyaccountEditNicknameWidget(),
+                    ArticleCreateDivider(
+                      thickness: 0.5,
+                      color: dividerColor,
+                    ),
                   ],
                 ),
               ),
