@@ -261,3 +261,23 @@ final myaccountSettingLogoutStyle = Provider<TextStyle>((ref) {
 final myaccountSettingWithdrawalStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.myaccountSettingWithdrawal;
 });
+
+final myaccountEditTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountEditTitle;
+});
+
+final myaccountEditConfirmStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountEditConfirm;
+});
+
+final myaccountEditSubTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountEditSubTitle;
+});
+
+final myaccountEditSubValueStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountEditSubValue;
+});
+
+final myaccountEditWarnStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.myaccountEditWarn;
+});

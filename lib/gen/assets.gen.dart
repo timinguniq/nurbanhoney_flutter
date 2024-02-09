@@ -172,6 +172,10 @@ class $AssetsImagesMyaccountGen {
   AssetGenImage get myaccountCommentInactive => const AssetGenImage(
       'assets/images/myaccount/myaccount_comment_inactive.png');
 
+  /// File path: assets/images/myaccount/myaccount_edit_cancel.png
+  AssetGenImage get myaccountEditCancel =>
+      const AssetGenImage('assets/images/myaccount/myaccount_edit_cancel.png');
+
   /// File path: assets/images/myaccount/myaccount_setting.png
   AssetGenImage get myaccountSetting =>
       const AssetGenImage('assets/images/myaccount/myaccount_setting.png');
@@ -182,6 +186,7 @@ class $AssetsImagesMyaccountGen {
         myaccountArticleInactive,
         myaccountCommentActive,
         myaccountCommentInactive,
+        myaccountEditCancel,
         myaccountSetting
       ];
 }
