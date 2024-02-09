@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
@@ -43,13 +45,18 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                 style: titleStyle,
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(
-                  '저장',
-                  style: confirmStyle,
+            InkWell(
+              onTap: (){
+                log('저장 버튼 클릭');
+              },
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Text(
+                    '저장',
+                    style: confirmStyle,
+                  ),
                 ),
               ),
             ),
