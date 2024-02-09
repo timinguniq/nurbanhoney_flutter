@@ -22,15 +22,19 @@ class MyaccountEditTitleWidget extends StatelessWidget {
         width: double.infinity,
         height: 48,
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Align(
-                alignment: Alignment.centerLeft,
+            Positioned(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
                   child: SizedBox(
                     width: 30,
                     height: 30,
@@ -45,14 +49,17 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                 style: titleStyle,
               ),
             ),
-            InkWell(
-              onTap: (){
-                log('저장 버튼 클릭');
-              },
-              child: Align(
-                alignment: Alignment.centerRight,
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: InkWell(
+                onTap: () {
+                  log('저장 버튼 클릭');
+                },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   child: Text(
                     '저장',
                     style: confirmStyle,
