@@ -18,7 +18,7 @@ class MyaccountEditNicknameWidget extends StatelessWidget {
       final subTitleStyle = ref.read(myaccountEditSubTitleStyle);
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
-      
+
       _controller.text = '나중에 데이터 받아서 입력해야됨.';
 
       return SizedBox(
