@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
-/// 내 정보 수정화면 닉네임
-class MyaccountEditNicknameWidget extends StatelessWidget {
-  MyaccountEditNicknameWidget({
+/// 내 정보 수정화면 소개
+class MyaccountEditDescriptionWidget extends StatelessWidget {
+  MyaccountEditDescriptionWidget({
     required String nickname,
     super.key,
   }): _nickname = nickname;
