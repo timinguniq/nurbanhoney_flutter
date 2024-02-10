@@ -8,11 +8,11 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 /// 내 정보 수정화면 소개
 class MyaccountEditDescriptionWidget extends StatelessWidget {
   MyaccountEditDescriptionWidget({
-    required String nickname,
+    required String description,
     super.key,
-  }): _nickname = nickname;
+  }): _description = description;
 
-  final String _nickname;
+  final String _description;
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -24,7 +24,7 @@ class MyaccountEditDescriptionWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      _controller.text = _nickname;
+      _controller.text = _description;
 
       return SizedBox(
           width: double.infinity,
