@@ -35,7 +35,7 @@ class MyaccountEditDescriptionWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 30, left: 16),
                 child: Text(
-                  '닉네임',
+                  '소개',
                   style: subTitleStyle,
                 ),
               ),
@@ -46,12 +46,12 @@ class MyaccountEditDescriptionWidget extends StatelessWidget {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
-                    hintText: '닉네임을 입력하세요.',
+                    hintText: '자기소개를 입력하세요.',
                     hintStyle: subValueStyle,
                   ),
                   style: subValueStyle,
                   onChanged: (value){
-                    ref.read(myaccountEditNicknameNavigationProvider.notifier).select(value);
+                    ref.read(myaccountEditDescriptionNavigationProvider.notifier).select(value);
                   },
                 ),
               ),
