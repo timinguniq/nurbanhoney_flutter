@@ -8,4 +8,4 @@ export 'article_create_navigation/article_create_navigation_service.dart';
 export 'article_create_navigation/article_create_uuid_navigation.dart';
 export 'home_bottom_navigation/home_bottom_navigation.dart';
 export 'myaccount_navigation/myaccount_navigation.dart';
-
+export 'myaccount_edit_navigation/myaccount_edit_navigation.dart';
