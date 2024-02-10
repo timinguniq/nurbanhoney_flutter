@@ -58,6 +58,9 @@ class MyaccountEditPage extends StatelessWidget {
                       thickness: 0.5,
                       color: dividerColor,
                     ),
+                    MyaccountEditDescriptionWidget(
+                      description: receiveData.description,
+                    ),
                   ],
                 ),
               ),
