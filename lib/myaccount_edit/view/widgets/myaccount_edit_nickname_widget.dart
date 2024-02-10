@@ -2,12 +2,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 닉네임
 class MyaccountEditNicknameWidget extends StatelessWidget {
-  MyaccountEditNicknameWidget({super.key});
+  MyaccountEditNicknameWidget({
+    required String nickname,
+    super.key,
+  }): _nickname = nickname;
 
+  final String _nickname;
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -19,7 +24,7 @@ class MyaccountEditNicknameWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      _controller.text = '나중에 데이터 받아서 입력해야됨.';
+      _controller.text = _nickname;
 
       return SizedBox(
         width: double.infinity,
@@ -46,7 +51,7 @@ class MyaccountEditNicknameWidget extends StatelessWidget {
                 ),
                 style: subValueStyle,
                 onChanged: (value){
-                  //ref.read(articleCreateTitleNavigationProvider.notifier).select(value);
+                  ref.read(myaccountEditNicknameNavigationProvider.notifier).select(value);
                 },
               ),
             ),
