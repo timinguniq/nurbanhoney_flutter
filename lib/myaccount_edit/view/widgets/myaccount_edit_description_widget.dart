@@ -28,12 +28,12 @@ class MyaccountEditDescriptionWidget extends StatelessWidget {
 
       return SizedBox(
           width: double.infinity,
-          height: 100,
+          height: 90,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 16),
+                padding: const EdgeInsets.only(top: 21, left: 16),
                 child: Text(
                   '소개',
                   style: subTitleStyle,

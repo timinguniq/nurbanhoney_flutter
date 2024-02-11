@@ -8,12 +8,11 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 /// 내 정보 수정화면 보이는 휘장
 class MyaccountEditInsigniaShowWidget extends StatelessWidget {
   MyaccountEditInsigniaShowWidget({
-    required String description,
+    required String insigniaShow,
     super.key,
-  }): _description = description;
+  }): _insigniaShow = insigniaShow;
 
-  final String _description;
-  final TextEditingController _controller = TextEditingController();
+  final String _insigniaShow;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,6 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      _controller.text = _description;
-
       return SizedBox(
           width: double.infinity,
           height: 100,
@@ -33,28 +30,13 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 16),
+                padding: const EdgeInsets.only(top: 19, left: 16),
                 child: Text(
-                  '소개',
+                  '보이는 휘장',
                   style: subTitleStyle,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
-                    hintText: '자기소개를 입력하세요.',
-                    hintStyle: subValueStyle,
-                  ),
-                  style: subValueStyle,
-                  onChanged: (value){
-                    ref.read(myaccountEditDescriptionNavigationProvider.notifier).select(value);
-                  },
-                ),
-              ),
+
             ],
           )
       );
