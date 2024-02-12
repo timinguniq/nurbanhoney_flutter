@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 보이는 휘장
@@ -79,7 +77,7 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
               ),
               if(insigniaShowList.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(top: 19, left: 16),
+                  padding: const EdgeInsets.only(left: 16, top: 8),
                   child: Text(
                     '2개 이상은 선택할 수 없습니다.',
                     style: warnStyle,
