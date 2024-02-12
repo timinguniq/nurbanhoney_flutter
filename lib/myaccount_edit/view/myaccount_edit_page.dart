@@ -59,7 +59,9 @@ class MyaccountEditPage extends StatelessWidget {
                       color: dividerColor,
                     ),
                     MyaccountEditDescriptionWidget(
-                      description: receiveData.description,
+                      description: receiveData.description == 'null'
+                          ? '자기소개를 입력하세요.'
+                          : receiveData.description,
                     ),
                     ArticleCreateDivider(
                       thickness: 0.5,
