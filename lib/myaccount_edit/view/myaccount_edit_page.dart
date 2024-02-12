@@ -67,6 +67,10 @@ class MyaccountEditPage extends StatelessWidget {
                       thickness: 0.5,
                       color: dividerColor,
                     ),
+                    MyaccountEditInsigniaShowWidget(
+                        insigniaShow: receiveData.insigniaShow,
+                    ),
+
                   ],
                 ),
               ),
