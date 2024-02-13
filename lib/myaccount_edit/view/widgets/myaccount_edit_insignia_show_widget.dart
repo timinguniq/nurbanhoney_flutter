@@ -6,7 +6,7 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 보이는 휘장
 class MyaccountEditInsigniaShowWidget extends StatelessWidget {
-  MyaccountEditInsigniaShowWidget({
+  const MyaccountEditInsigniaShowWidget({
     required String insigniaShow,
     super.key,
   }) : _insigniaShow = insigniaShow;
