@@ -26,7 +26,7 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
 
       return SizedBox(
           width: double.infinity,
-          height: 100,
+          height: 110,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
