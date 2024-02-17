@@ -31,7 +31,7 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 19, left: 16),
+                padding: const EdgeInsets.only(top: 31, left: 16),
                 child: Text(
                   '보유 휘장',
                   style: subTitleStyle,

@@ -70,8 +70,9 @@ class MyaccountEditPage extends StatelessWidget {
                     MyaccountEditInsigniaShowWidget(
                         insigniaShow: receiveData.insigniaShow,
                     ),
-
-
+                    MyaccountEditInsigniaOwnWidget(
+                        insigniaOwn: receiveData.insigniaOwn,
+                    ),
                   ],
                 ),
               ),
