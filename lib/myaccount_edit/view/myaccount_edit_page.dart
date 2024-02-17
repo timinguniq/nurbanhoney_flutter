@@ -71,6 +71,7 @@ class MyaccountEditPage extends StatelessWidget {
                         insigniaShow: receiveData.insigniaShow,
                     ),
 
+
                   ],
                 ),
               ),
