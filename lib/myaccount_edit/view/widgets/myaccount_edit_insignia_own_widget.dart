@@ -7,11 +7,11 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 /// 내 정보 수정화면 소유한 휘장
 class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
   const MyaccountEditInsigniaOwnWidget({
-    required String insigniaShow,
+    required String insigniaOwn,
     super.key,
-  }) : _insigniaShow = insigniaShow;
+  }) : _insigniaOwn = insigniaOwn;
 
-  final String _insigniaShow;
+  final String _insigniaOwn;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      final insigniaShowList = _insigniaShow.split(',');
+      final insigniaOwnList = _insigniaOwn.split(',');
 
       return SizedBox(
           width: double.infinity,
@@ -33,7 +33,7 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 19, left: 16),
                 child: Text(
-                  '보이는 휘장',
+                  '보유 휘장',
                   style: subTitleStyle,
                 ),
               ),
@@ -43,7 +43,7 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var ele in insigniaShowList)
+                      for (var ele in insigniaOwnList)
                         Padding(
                           padding: const EdgeInsets.only(right: 3),
                           child: InkWell(
@@ -75,14 +75,6 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              if(insigniaShowList.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 8),
-                  child: Text(
-                    '2개 이상은 선택할 수 없습니다.',
-                    style: warnStyle,
-                  ),
-                ),
             ],
           ));
     });
