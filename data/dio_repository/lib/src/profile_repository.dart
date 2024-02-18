@@ -63,6 +63,8 @@ class ProfileRepository {
       final authDio = Dio(baseOptions);
       final response = await authDio.get('/');
 
+      log('getProfile response: ${response.data}');
+
       final result = (
         id: int.parse(response.data['id'].toString()),
         loginType: response.data['loginType'].toString(),

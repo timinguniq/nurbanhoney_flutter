@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +24,7 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      final insigniaOwnList = _insigniaOwn.split(',');
+      final insigniaOwnList = _insigniaOwn.substring(1, _insigniaOwn.length-1).split(',');
 
       return SizedBox(
           width: double.infinity,
@@ -49,9 +51,10 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
+                              log('ele17 : $ele');
                             },
                             child: CachedNetworkImage(
-                              imageUrl: ele,
+                              imageUrl: ele.trim(),
                               imageBuilder: (context, imageProvider) =>
                                   Container(
                                     width: 30,
