@@ -22,7 +22,7 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      final insigniaShowList = _insigniaShow.split(',');
+      final insigniaShowList = _insigniaShow.substring(1, _insigniaShow.length-1).split(',');
 
       return SizedBox(
           width: double.infinity,

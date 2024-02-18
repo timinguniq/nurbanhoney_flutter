@@ -51,7 +51,6 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
-                              log('ele17 : $ele');
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele.trim(),
