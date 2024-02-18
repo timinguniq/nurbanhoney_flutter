@@ -47,36 +47,38 @@ class MyaccountEditPage extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
-                child: Column(
-                  children: [
-                    const MyaccountEditTitleWidget(),
-                    ArticleCreateDivider(
-                      thickness: 0.5,
-                      color: dividerColor,
-                    ),
-                    MyaccountEditNicknameWidget(
-                      nickname: receiveData.nickname,
-                    ),
-                    ArticleCreateDivider(
-                      thickness: 0.5,
-                      color: dividerColor,
-                    ),
-                    MyaccountEditDescriptionWidget(
-                      description: receiveData.description == 'null'
-                          ? '자기소개를 입력하세요.'
-                          : receiveData.description,
-                    ),
-                    ArticleCreateDivider(
-                      thickness: 0.5,
-                      color: dividerColor,
-                    ),
-                    MyaccountEditInsigniaShowWidget(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const MyaccountEditTitleWidget(),
+                      ArticleCreateDivider(
+                        thickness: 0.5,
+                        color: dividerColor,
+                      ),
+                      MyaccountEditNicknameWidget(
+                        nickname: receiveData.nickname,
+                      ),
+                      ArticleCreateDivider(
+                        thickness: 0.5,
+                        color: dividerColor,
+                      ),
+                      MyaccountEditDescriptionWidget(
+                        description: receiveData.description == 'null'
+                            ? '자기소개를 입력하세요.'
+                            : receiveData.description,
+                      ),
+                      ArticleCreateDivider(
+                        thickness: 0.5,
+                        color: dividerColor,
+                      ),
+                      MyaccountEditInsigniaShowWidget(
                         insigniaShow: receiveData.insigniaShow,
-                    ),
-                    MyaccountEditInsigniaOwnWidget(
+                      ),
+                      MyaccountEditInsigniaOwnWidget(
                         insigniaOwn: receiveData.insigniaOwn,
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
