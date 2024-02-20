@@ -13,4 +13,8 @@ class MyaccountEditInsigniaNavigation extends _$MyaccountEditInsigniaNavigation 
   void select(String value) {
     state.add(value);
   }
+
+  void addAll(List<String> value) {
+    state.addAll(value);
+  }
 }

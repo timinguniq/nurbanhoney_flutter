@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -42,6 +43,8 @@ class MyaccountEditPage extends StatelessWidget {
           log('myaccount insignia show : ${receiveData.insigniaShow}');
           log('myaccount insignia own : ${receiveData.insigniaOwn}');
 
+          final insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',');
+          ref.read(myaccountEditInsigniaNavigationProvider.notifier).addAll(insigniaShowList);
 
           return Scaffold(
             body: SafeArea(
