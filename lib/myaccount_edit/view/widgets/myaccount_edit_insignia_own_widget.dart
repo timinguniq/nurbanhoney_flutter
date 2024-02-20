@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 소유한 휘장
+/// TODO: 만약에 테스트 해봐서 되면 여기 stateless로 바꿔서 해보기!
 class MyaccountEditInsigniaOwnWidget extends StatefulWidget {
   const MyaccountEditInsigniaOwnWidget({
     required String insigniaOwn,
