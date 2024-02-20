@@ -42,6 +42,7 @@ class MyaccountEditPage extends StatelessWidget {
           log('myaccount insignia show : ${receiveData.insigniaShow}');
           log('myaccount insignia own : ${receiveData.insigniaOwn}');
 
+
           return Scaffold(
             body: SafeArea(
               child: SizedBox(

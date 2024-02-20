@@ -5,12 +5,12 @@ part 'myaccount_edit_insignia_navigation.g.dart';
 @riverpod
 class MyaccountEditInsigniaNavigation extends _$MyaccountEditInsigniaNavigation {
   @override
-  String build() {
-    state = '';
+  List<String> build() {
+    state = <String>[];
     return state;
   }
 
   void select(String value) {
-    state = value;
+    state.add(value);
   }
 }

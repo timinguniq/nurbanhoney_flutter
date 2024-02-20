@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +25,8 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
       final insigniaShowList = _insigniaShow.substring(1, _insigniaShow.length-1).split(',');
+
+      log('insigniaShowList : $insigniaShowList');
 
       return SizedBox(
           width: double.infinity,

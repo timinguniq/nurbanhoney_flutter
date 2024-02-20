@@ -12,7 +12,7 @@ String _$myaccountEditInsigniaNavigationHash() =>
 /// See also [MyaccountEditInsigniaNavigation].
 @ProviderFor(MyaccountEditInsigniaNavigation)
 final myaccountEditInsigniaNavigationProvider = AutoDisposeNotifierProvider<
-    MyaccountEditInsigniaNavigation, String>.internal(
+    MyaccountEditInsigniaNavigation, List<String>>.internal(
   MyaccountEditInsigniaNavigation.new,
   name: r'myaccountEditInsigniaNavigationProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final myaccountEditInsigniaNavigationProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$MyaccountEditInsigniaNavigation = AutoDisposeNotifier<String>;
+typedef _$MyaccountEditInsigniaNavigation = AutoDisposeNotifier<List<String>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
