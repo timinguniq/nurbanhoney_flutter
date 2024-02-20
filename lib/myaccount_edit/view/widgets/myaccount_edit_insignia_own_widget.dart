@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 소유한 휘장
-class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
+class MyaccountEditInsigniaOwnWidget extends StatefulWidget {
   const MyaccountEditInsigniaOwnWidget({
     required String insigniaOwn,
     super.key,
@@ -15,6 +15,11 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
 
   final String _insigniaOwn;
 
+  @override
+  State<MyaccountEditInsigniaOwnWidget> createState() => _MyaccountEditInsigniaOwnWidgetState();
+}
+
+class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOwnWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
@@ -24,7 +29,7 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      final insigniaOwnList = _insigniaOwn.substring(1, _insigniaOwn.length-1).split(',');
+      final insigniaOwnList = widget._insigniaOwn.substring(1, widget._insigniaOwn.length-1).split(',');
 
       return SizedBox(
           width: double.infinity,
@@ -51,6 +56,9 @@ class MyaccountEditInsigniaOwnWidget extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
+                              setState(() {
+                                insigniaOwnList.add(ele);
+                              });
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele.trim(),

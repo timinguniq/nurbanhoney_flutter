@@ -4,17 +4,20 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/myaccount_edit/view/myaccount_edit_page.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 /// 내 정보 수정화면 보이는 휘장
-class MyaccountEditInsigniaShowWidget extends StatelessWidget {
+class MyaccountEditInsigniaShowWidget extends StatefulWidget {
   const MyaccountEditInsigniaShowWidget({
-    required String insigniaShow,
     super.key,
-  }) : _insigniaShow = insigniaShow;
+  });
 
-  final String _insigniaShow;
+  @override
+  State<MyaccountEditInsigniaShowWidget> createState() => _MyaccountEditInsigniaShowWidgetState();
+}
 
+class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaShowWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
@@ -23,8 +26,6 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
       final subTitleStyle = ref.read(myaccountEditSubTitleStyle);
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
-
-      final insigniaShowList = _insigniaShow.substring(1, _insigniaShow.length-1).split(',');
 
       log('insigniaShowList : $insigniaShowList');
 
@@ -53,6 +54,9 @@ class MyaccountEditInsigniaShowWidget extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
+                              setState(() {
+                                insigniaShowList.remove(ele);
+                              });
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele,

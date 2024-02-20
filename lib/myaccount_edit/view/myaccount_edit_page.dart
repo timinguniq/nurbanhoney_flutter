@@ -9,6 +9,8 @@ import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
+var insigniaShowList = <String>[];
+
 /// 내 정보 수정화면
 class MyaccountEditPage extends StatelessWidget {
   const MyaccountEditPage({super.key});
@@ -43,8 +45,7 @@ class MyaccountEditPage extends StatelessWidget {
           log('myaccount insignia show : ${receiveData.insigniaShow}');
           log('myaccount insignia own : ${receiveData.insigniaOwn}');
 
-          final insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',');
-          ref.read(myaccountEditInsigniaNavigationProvider.notifier).addAll(insigniaShowList);
+          insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',');
 
           return Scaffold(
             body: SafeArea(
@@ -75,9 +76,7 @@ class MyaccountEditPage extends StatelessWidget {
                         thickness: 0.5,
                         color: dividerColor,
                       ),
-                      MyaccountEditInsigniaShowWidget(
-                        insigniaShow: receiveData.insigniaShow,
-                      ),
+                      MyaccountEditInsigniaShowWidget(),
                       MyaccountEditInsigniaOwnWidget(
                         insigniaOwn: receiveData.insigniaOwn,
                       ),
