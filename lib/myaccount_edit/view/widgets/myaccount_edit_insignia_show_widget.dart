@@ -10,8 +10,11 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 /// 내 정보 수정화면 보이는 휘장
 class MyaccountEditInsigniaShowWidget extends StatefulWidget {
   const MyaccountEditInsigniaShowWidget({
+    required Function(String) insigniaShowRemove,
     super.key,
-  });
+  }): _insigniaShowRemove = insigniaShowRemove;
+
+  final Function(String) _insigniaShowRemove;
 
   @override
   State<MyaccountEditInsigniaShowWidget> createState() => _MyaccountEditInsigniaShowWidgetState();
@@ -54,9 +57,7 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
-                              setState(() {
-                                insigniaShowList.remove(ele);
-                              });
+                              widget._insigniaShowRemove(ele);
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele,

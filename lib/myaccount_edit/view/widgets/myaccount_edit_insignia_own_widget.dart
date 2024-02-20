@@ -10,10 +10,13 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 class MyaccountEditInsigniaOwnWidget extends StatefulWidget {
   const MyaccountEditInsigniaOwnWidget({
     required String insigniaOwn,
+    required Function(String) insigniaShowAdd,
     super.key,
-  }) : _insigniaOwn = insigniaOwn;
+  }) : _insigniaOwn = insigniaOwn,
+       _insigniaShowAdd = insigniaShowAdd;
 
   final String _insigniaOwn;
+  final Function(String) _insigniaShowAdd;
 
   @override
   State<MyaccountEditInsigniaOwnWidget> createState() => _MyaccountEditInsigniaOwnWidgetState();
@@ -56,9 +59,7 @@ class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOw
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
-                              setState(() {
-                                insigniaOwnList.add(ele);
-                              });
+                              widget._insigniaShowAdd(ele);
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele.trim(),

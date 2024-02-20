@@ -12,13 +12,30 @@ import 'package:preference_storage_service/preference_storage_service.dart';
 var insigniaShowList = <String>[];
 
 /// 내 정보 수정화면
-class MyaccountEditPage extends StatelessWidget {
+class MyaccountEditPage extends StatefulWidget {
   const MyaccountEditPage({super.key});
 
   static Route route() {
     return MaterialPageRoute<void>(
       builder: (_) => const MyaccountEditPage(),
     );
+  }
+
+  @override
+  State<MyaccountEditPage> createState() => _MyaccountEditPageState();
+}
+
+class _MyaccountEditPageState extends State<MyaccountEditPage> {
+  void _insigniaShowListAdd(String value) {
+    setState(() {
+      insigniaShowList.add(value);
+    });
+  }
+
+  void _insigniaShowListRemove(String value) {
+    setState(() {
+      insigniaShowList.remove(value);
+    });
   }
 
   @override
@@ -76,9 +93,12 @@ class MyaccountEditPage extends StatelessWidget {
                         thickness: 0.5,
                         color: dividerColor,
                       ),
-                      MyaccountEditInsigniaShowWidget(),
+                      MyaccountEditInsigniaShowWidget(
+                        insigniaShowRemove: _insigniaShowListRemove,
+                      ),
                       MyaccountEditInsigniaOwnWidget(
                         insigniaOwn: receiveData.insigniaOwn,
+                        insigniaShowAdd: _insigniaShowListAdd,
                       ),
                     ],
                   ),
