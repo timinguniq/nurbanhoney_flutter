@@ -60,14 +60,15 @@ class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOw
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
+                              log('insigniaOwn click ele : $ele');
                               widget._insigniaShowAdd(ele);
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele.trim(),
                               imageBuilder: (context, imageProvider) =>
                                   Container(
-                                    width: 30,
-                                    height: 30,
+                                    width: 40,
+                                    height: 40,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       image: DecorationImage(

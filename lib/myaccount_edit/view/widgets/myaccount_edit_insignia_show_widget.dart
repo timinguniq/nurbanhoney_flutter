@@ -31,7 +31,7 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      log('insigniaShowList : $insigniaShowList');
+      log('insigniaShowList : ${insigniaShowList}');
 
       return SizedBox(
           width: double.infinity,
@@ -58,14 +58,15 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
                           child: InkWell(
                             onTap: () {
                               // TODO: 클릭시 삭제
+                              log('insigniaShow click ele : $ele');
                               widget._insigniaShowRemove(ele);
                             },
                             child: CachedNetworkImage(
                               imageUrl: ele,
                               imageBuilder: (context, imageProvider) =>
                                   Container(
-                                width: 30,
-                                height: 30,
+                                width: 40,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   image: DecorationImage(

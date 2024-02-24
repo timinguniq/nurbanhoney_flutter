@@ -27,14 +27,16 @@ class MyaccountEditPage extends StatefulWidget {
 
 class _MyaccountEditPageState extends State<MyaccountEditPage> {
   void _insigniaShowListAdd(String value) {
+    log('insigniaShowListAdd value : $value');
     setState(() {
-      insigniaShowList.add(value);
+      insigniaShowList.add(value.trim());
     });
   }
 
   void _insigniaShowListRemove(String value) {
+    log('insigniaShowListRemove value : $value');
     setState(() {
-      insigniaShowList.remove(value);
+      insigniaShowList.remove(value.trim());
     });
   }
 
@@ -62,7 +64,9 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
           log('myaccount insignia show : ${receiveData.insigniaShow}');
           log('myaccount insignia own : ${receiveData.insigniaOwn}');
 
-          insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',');
+          if(insigniaShowList.isEmpty){
+            insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',');
+          }
 
           return Scaffold(
             body: SafeArea(
