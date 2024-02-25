@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,17 +12,19 @@ class MyaccountEditInsigniaOwnWidget extends StatefulWidget {
     required String insigniaOwn,
     required Function(String) insigniaShowAdd,
     super.key,
-  }) : _insigniaOwn = insigniaOwn,
-       _insigniaShowAdd = insigniaShowAdd;
+  })  : _insigniaOwn = insigniaOwn,
+        _insigniaShowAdd = insigniaShowAdd;
 
   final String _insigniaOwn;
   final Function(String) _insigniaShowAdd;
 
   @override
-  State<MyaccountEditInsigniaOwnWidget> createState() => _MyaccountEditInsigniaOwnWidgetState();
+  State<MyaccountEditInsigniaOwnWidget> createState() =>
+      _MyaccountEditInsigniaOwnWidgetState();
 }
 
-class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOwnWidget> {
+class _MyaccountEditInsigniaOwnWidgetState
+    extends State<MyaccountEditInsigniaOwnWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
@@ -33,7 +34,9 @@ class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOw
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      final insigniaOwnList = widget._insigniaOwn.substring(1, widget._insigniaOwn.length-1).split(',');
+      final insigniaOwnList = widget._insigniaOwn
+          .substring(1, widget._insigniaOwn.length - 1)
+          .split(',');
 
       return SizedBox(
           width: double.infinity,
@@ -54,37 +57,37 @@ class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOw
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      if(insigniaOwnList.isNotEmpty)
                       for (var ele in insigniaOwnList)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 3),
-                          child: InkWell(
-                            onTap: () {
-                              // TODO: 클릭시 삭제
-                              log('insigniaOwn click ele : $ele');
-                              widget._insigniaShowAdd(ele);
-                            },
-                            child: CachedNetworkImage(
-                              imageUrl: ele.trim(),
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
-                                      ),
+                        if (ele != '')
+                          Padding(
+                            padding: const EdgeInsets.only(right: 3),
+                            child: InkWell(
+                              onTap: () {
+                                // TODO: 클릭시 삭제
+                                log('insigniaOwn click ele : $ele');
+                                widget._insigniaShowAdd(ele);
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: ele.trim(),
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                              placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                                ),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
                             ),
                           ),
-                        ),
                     ],
                   ),
                 ),

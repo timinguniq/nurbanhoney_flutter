@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,15 +12,17 @@ class MyaccountEditInsigniaShowWidget extends StatefulWidget {
   const MyaccountEditInsigniaShowWidget({
     required Function(String) insigniaShowRemove,
     super.key,
-  }): _insigniaShowRemove = insigniaShowRemove;
+  }) : _insigniaShowRemove = insigniaShowRemove;
 
   final Function(String) _insigniaShowRemove;
 
   @override
-  State<MyaccountEditInsigniaShowWidget> createState() => _MyaccountEditInsigniaShowWidgetState();
+  State<MyaccountEditInsigniaShowWidget> createState() =>
+      _MyaccountEditInsigniaShowWidgetState();
 }
 
-class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaShowWidget> {
+class _MyaccountEditInsigniaShowWidgetState
+    extends State<MyaccountEditInsigniaShowWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
@@ -33,7 +34,7 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
 
       log('insigniaShowList : ${insigniaShowList}');
 
-      for(var ele in insigniaShowList){
+      for (var ele in insigniaShowList) {
         log('insigniaShowList ele : $ele');
       }
 
@@ -56,42 +57,42 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      if(insigniaShowList.isNotEmpty)
                       for (var ele in insigniaShowList)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 3),
-                          child: InkWell(
-                            onTap: () {
-                              // TODO: 클릭시 삭제
-                              log('insigniaShow click ele : $ele');
-                              widget._insigniaShowRemove(ele);
-                            },
-                            child: CachedNetworkImage(
-                              imageUrl: ele,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                        if (ele != '')
+                          Padding(
+                            padding: const EdgeInsets.only(right: 3),
+                            child: InkWell(
+                              onTap: () {
+                                // TODO: 클릭시 삭제
+                                log('insigniaShow click ele : $ele');
+                                widget._insigniaShowRemove(ele);
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: ele,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
                             ),
                           ),
-                        ),
                     ],
                   ),
                 ),
               ),
-              if(insigniaShowList.isNotEmpty)
+              if (insigniaShowList.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 8),
                   child: Text(
