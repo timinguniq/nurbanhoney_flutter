@@ -93,14 +93,16 @@ class _MyaccountEditInsigniaShowWidgetState
                   ),
                 ),
               ),
-              if (insigniaShowList.length >= 2)
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 8),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 8),
+                child: Visibility(
+                  visible: insigniaShowList.length >= 3,
                   child: Text(
                     '2개 이상은 선택할 수 없습니다.',
                     style: warnStyle,
                   ),
                 ),
+              ),
 
             ],
           ));
