@@ -36,7 +36,7 @@ class _MyaccountEditInsigniaShowWidgetState
 
       return SizedBox(
           width: double.infinity,
-          height: 110,
+          height: 120,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
