@@ -33,6 +33,10 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
 
       log('insigniaShowList : ${insigniaShowList}');
 
+      for(var ele in insigniaShowList){
+        log('insigniaShowList ele : $ele');
+      }
+
       return SizedBox(
           width: double.infinity,
           height: 110,
@@ -52,6 +56,7 @@ class _MyaccountEditInsigniaShowWidgetState extends State<MyaccountEditInsigniaS
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
+                      if(insigniaShowList.isNotEmpty)
                       for (var ele in insigniaShowList)
                         Padding(
                           padding: const EdgeInsets.only(right: 3),

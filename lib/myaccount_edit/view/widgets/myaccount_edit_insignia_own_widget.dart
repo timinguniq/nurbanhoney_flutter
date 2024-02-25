@@ -54,6 +54,7 @@ class _MyaccountEditInsigniaOwnWidgetState extends State<MyaccountEditInsigniaOw
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
+                      if(insigniaOwnList.isNotEmpty)
                       for (var ele in insigniaOwnList)
                         Padding(
                           padding: const EdgeInsets.only(right: 3),
