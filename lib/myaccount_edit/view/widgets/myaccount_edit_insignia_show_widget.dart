@@ -93,8 +93,7 @@ class _MyaccountEditInsigniaShowWidgetState
                   ),
                 ),
               ),
-
-              if (insigniaShowList.isNotEmpty)
+              if (insigniaShowList.length >= 2)
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 8),
                   child: Text(
@@ -102,6 +101,7 @@ class _MyaccountEditInsigniaShowWidgetState
                     style: warnStyle,
                   ),
                 ),
+
             ],
           ));
     });
