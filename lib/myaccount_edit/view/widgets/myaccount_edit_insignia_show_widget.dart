@@ -34,10 +34,6 @@ class _MyaccountEditInsigniaShowWidgetState
 
       log('insigniaShowList : ${insigniaShowList}');
 
-      for (var ele in insigniaShowList) {
-        log('insigniaShowList ele : $ele');
-      }
-
       return SizedBox(
           width: double.infinity,
           height: 110,
