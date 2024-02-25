@@ -32,6 +32,10 @@ class _MyaccountEditInsigniaShowWidgetState
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
+      if(insigniaShowList.contains('')){
+        insigniaShowList.remove('');
+      }
+
       log('insigniaShowList : $insigniaShowList');
 
       return SizedBox(
@@ -96,7 +100,7 @@ class _MyaccountEditInsigniaShowWidgetState
               Padding(
                 padding: const EdgeInsets.only(left: 16, top: 8),
                 child: Visibility(
-                  visible: insigniaShowList.length >= 3,
+                  visible: insigniaShowList.length >= 2,
                   child: Text(
                     '2개 이상은 선택할 수 없습니다.',
                     style: warnStyle,
