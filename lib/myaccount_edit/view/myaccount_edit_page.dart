@@ -65,6 +65,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
           log('myaccount insignia own : ${receiveData.insigniaOwn}');
 
           if(insigniaShowList.isEmpty){
+            insigniaShowList.clear();
             insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',').toSet();
           }
 
