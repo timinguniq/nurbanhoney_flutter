@@ -32,7 +32,7 @@ class _MyaccountEditInsigniaShowWidgetState
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      log('insigniaShowList : ${insigniaShowList}');
+      log('insigniaShowList : $insigniaShowList');
 
       return SizedBox(
           width: double.infinity,
