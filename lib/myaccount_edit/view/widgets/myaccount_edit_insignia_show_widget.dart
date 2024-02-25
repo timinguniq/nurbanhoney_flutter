@@ -84,10 +84,16 @@ class _MyaccountEditInsigniaShowWidgetState
                               ),
                             ),
                           ),
+                      if(insigniaShowList.contains(''))
+                        const SizedBox(
+                          width: 40,
+                          height: 40,
+                        )
                     ],
                   ),
                 ),
               ),
+
               if (insigniaShowList.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 8),
