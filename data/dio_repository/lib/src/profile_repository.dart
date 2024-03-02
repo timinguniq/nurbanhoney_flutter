@@ -16,6 +16,8 @@ typedef ProfileType = ({
   int myCommentCount
 });
 
+
+
 typedef ProfileArticleType = ({
   int id,
   int board,
