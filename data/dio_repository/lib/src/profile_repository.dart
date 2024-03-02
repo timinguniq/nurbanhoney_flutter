@@ -16,12 +16,6 @@ typedef ProfileType = ({
   int myCommentCount
 });
 
-typedef ProfileEditType = ({
-  String nickname,
-  String description,
-  String insigniaShow,
-});
-
 typedef ProfileArticleType = ({
   int id,
   int board,
@@ -82,6 +76,45 @@ class ProfileRepository {
         insigniaOwn: response.data['insigniaOwn'].toString(),
         myArticleCount: int.parse(response.data['myArticleCount'].toString()),
         myCommentCount: int.parse(response.data['myCommentCount'].toString())
+      );
+      log('getProfile result: ${result.toString()}');
+
+      final futureValue = Future.value(result);
+      return futureValue;
+    } catch (e) {
+      log('getProfile error : $e');
+      throw Exception(e);
+    }
+  }
+
+  // getProfileEdit
+  Future<String> profileEdit({
+    required String token,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/profile',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.get('/');
+
+      log('getProfile response: ${response.data}');
+
+      final result = (
+      id: int.parse(response.data['id'].toString()),
+      loginType: response.data['loginType'].toString(),
+      badge: response.data['badge'].toString(),
+      nickname: response.data['nickname'].toString(),
+      description: response.data['description'].toString(),
+      point: int.parse(response.data['point'].toString()),
+      insigniaShow: response.data['insigniaShow'].toString(),
+      insigniaOwn: response.data['insigniaOwn'].toString(),
+      myArticleCount: int.parse(response.data['myArticleCount'].toString()),
+      myCommentCount: int.parse(response.data['myCommentCount'].toString())
       );
       log('getProfile result: ${result.toString()}');
 
