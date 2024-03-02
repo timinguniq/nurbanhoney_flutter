@@ -90,19 +90,22 @@ class ProfileRepository {
   // getProfileEdit
   Future<String> profileEdit({
     required String token,
+    required String nickname,
+    required String description,
+    required String insignia,
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile',
+        baseUrl: '${DioApi.mainApi}/profile/edit',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.get('/');
+      final response = await authDio.patch('/');
 
-      log('getProfile response: ${response.data}');
+      log('profileEdit response: ${response.data}');
 
       final result = (
       id: int.parse(response.data['id'].toString()),
