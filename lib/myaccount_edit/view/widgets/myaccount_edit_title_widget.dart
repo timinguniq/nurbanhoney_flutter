@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
@@ -17,6 +18,9 @@ class MyaccountEditTitleWidget extends StatelessWidget {
       final subTitleStyle = ref.read(myaccountEditSubTitleStyle);
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
+
+      final myaccountEditConfirm = ref.watch(myaccountEditProvider);
+
 
       return SizedBox(
         width: double.infinity,
@@ -56,6 +60,11 @@ class MyaccountEditTitleWidget extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   log('저장 버튼 클릭');
+                  log('myaccountEditConfirm : $myaccountEditConfirm');
+                  // 만일 nickname과 description가 빈 스트링이 아니라면 저장
+                  if(myaccountEditConfirm){
+
+                  }
                 },
                 child: Padding(
                   padding:
