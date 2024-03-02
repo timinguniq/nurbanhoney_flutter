@@ -95,6 +95,8 @@ class ProfileRepository {
     required String insignia,
   }) async {
     try {
+      log('profileEdit insignia: $insignia');
+
       final baseOptions = BaseOptions(
         baseUrl: '${DioApi.mainApi}/profile/edit',
         headers: {'Authorization': 'Bearer $token'},
@@ -103,7 +105,13 @@ class ProfileRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.patch('/');
+      final response = await authDio.patch('/',
+          data: {
+            'nickname': nickname,
+            'description': description,
+            'insignia': insignia,
+          },
+      );
 
       log('profileEdit response: ${response.data}');
 

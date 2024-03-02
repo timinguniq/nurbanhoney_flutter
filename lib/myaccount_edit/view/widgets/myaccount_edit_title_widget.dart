@@ -74,15 +74,40 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                 onTap: () async {
                   log('저장 버튼 클릭');
                   log('myaccountEditConfirm : $myaccountEditConfirm');
-                  log('insigniaShowList : $insigniaShowList');
+                  log('insigniaShowList : ${insigniaShowList.toString()}');
                   // 만일 nickname과 description가 빈 스트링이 아니라면 저장
                   if(myaccountEditConfirm){
-                    await profileRepository.profileEdit(
+                    final result = await profileRepository.profileEdit(
                         token: token,
                         nickname: nickname,
                         description: description,
                         insignia: insigniaShowList.toString(),
                     );
+                    log('profileEdit result : $result');
+                    if(result == 'profile_updated') {
+                      Fluttertoast.showToast(
+                        msg: '프로필 수정이 완료되었습니다.',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      if(context.mounted){
+                        Navigator.of(context).pop();
+                      }
+                    }else{
+                      Fluttertoast.showToast(
+                        msg: '프로필 수정에 실패했습니다.',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    }
                   }else{
                     Fluttertoast.showToast(
                       msg: '닉네임과 자기소개를 입력해주세요.',
