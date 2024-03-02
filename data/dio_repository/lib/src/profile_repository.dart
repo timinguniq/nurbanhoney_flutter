@@ -16,7 +16,11 @@ typedef ProfileType = ({
   int myCommentCount
 });
 
-
+typedef ProfileEditType = ({
+  String nickname,
+  String description,
+  String insigniaShow,
+});
 
 typedef ProfileArticleType = ({
   int id,
