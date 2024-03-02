@@ -107,27 +107,22 @@ class ProfileRepository {
 
       log('profileEdit response: ${response.data}');
 
-      final result = (
-      id: int.parse(response.data['id'].toString()),
-      loginType: response.data['loginType'].toString(),
-      badge: response.data['badge'].toString(),
-      nickname: response.data['nickname'].toString(),
-      description: response.data['description'].toString(),
-      point: int.parse(response.data['point'].toString()),
-      insigniaShow: response.data['insigniaShow'].toString(),
-      insigniaOwn: response.data['insigniaOwn'].toString(),
-      myArticleCount: int.parse(response.data['myArticleCount'].toString()),
-      myCommentCount: int.parse(response.data['myCommentCount'].toString())
-      );
-      log('getProfile result: ${result.toString()}');
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
 
-      final futureValue = Future.value(result);
+      log('profileEdit error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
       return futureValue;
     } catch (e) {
-      log('getProfile error : $e');
+      log('profileEdit error : $e');
       throw Exception(e);
     }
   }
+
 
   Future<List<ProfileArticleType>> getMyaccountArticle({
     required String token,
