@@ -10,6 +10,7 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
 var insigniaShowList = <String>{};
+var isFirst = true;
 
 /// 내 정보 수정화면
 class MyaccountEditPage extends StatefulWidget {
@@ -64,10 +65,11 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
           log('myaccount insignia show : ${receiveData.insigniaShow}');
           log('myaccount insignia own : ${receiveData.insigniaOwn}');
 
-          if(insigniaShowList.isEmpty){
+          if(insigniaShowList.isEmpty && isFirst){
             insigniaShowList.clear();
             insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',').toSet();
             log('insigniaShowList 1 : $insigniaShowList');
+            isFirst = false;
           }
 
           return Scaffold(
