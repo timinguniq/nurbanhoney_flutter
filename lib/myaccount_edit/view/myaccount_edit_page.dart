@@ -60,6 +60,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
 
       return profileProvider.when(
         data: (data) {
+          // TODO: setState 될 떄 nickname하고 description이 초기화되는 문제 해결해야 됨.
           final receiveData = data;
 
           log('myaccount insignia show : ${receiveData.insigniaShow}');
