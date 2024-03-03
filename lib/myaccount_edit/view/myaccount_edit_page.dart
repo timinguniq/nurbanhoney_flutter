@@ -68,6 +68,12 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
           if(insigniaShowList.isEmpty && isFirst){
             insigniaShowList.clear();
             insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',').toSet();
+
+            Future.delayed(const Duration(milliseconds: 500), () {
+              ref.read(myaccountEditNicknameNavigationProvider.notifier).select(receiveData.nickname);
+              ref.read(myaccountEditDescriptionNavigationProvider.notifier).select(receiveData.description);
+            });
+
             log('insigniaShowList 1 : $insigniaShowList');
             isFirst = false;
           }

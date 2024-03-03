@@ -63,7 +63,6 @@ class _MyaccountEditInsigniaOwnWidgetState
                             padding: const EdgeInsets.only(right: 3),
                             child: InkWell(
                               onTap: () {
-                                // TODO: 클릭시 삭제
                                 log('insigniaOwn click ele : $ele');
                                 widget._insigniaShowAdd(ele);
                               },
