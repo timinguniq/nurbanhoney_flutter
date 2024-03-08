@@ -58,6 +58,10 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
+      String nickname = ref.watch(myaccountEditNicknameNavigationProvider);
+      String description = ref.watch(myaccountEditDescriptionNavigationProvider);
+
+
       return profileProvider.when(
         data: (data) {
           // TODO: setState 될 떄 nickname하고 description이 초기화되는 문제 해결해야 됨.
@@ -74,6 +78,9 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
               ref.read(myaccountEditNicknameNavigationProvider.notifier).select(receiveData.nickname);
               ref.read(myaccountEditDescriptionNavigationProvider.notifier).select(receiveData.description);
             });
+
+            nickname = receiveData.nickname;
+            description = receiveData.description;
 
             log('insigniaShowList 1 : $insigniaShowList');
             isFirst = false;
@@ -93,7 +100,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
                         color: dividerColor,
                       ),
                       MyaccountEditNicknameWidget(
-                        nickname: receiveData.nickname,
+                        nickname: nickname,
                       ),
                       ArticleCreateDivider(
                         thickness: 0.5,
@@ -102,7 +109,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
                       MyaccountEditDescriptionWidget(
                         description: receiveData.description == 'null'
                             ? '자기소개를 입력하세요.'
-                            : receiveData.description,
+                            : description,
                       ),
                       ArticleCreateDivider(
                         thickness: 0.5,
