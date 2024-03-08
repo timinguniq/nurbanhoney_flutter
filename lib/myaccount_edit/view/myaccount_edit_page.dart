@@ -27,6 +27,13 @@ class MyaccountEditPage extends StatefulWidget {
 }
 
 class _MyaccountEditPageState extends State<MyaccountEditPage> {
+  @override
+  void initState() {
+    super.initState();
+    insigniaShowList.clear();
+    isFirst = true;
+  }
+
   void _insigniaShowListAdd(String value) {
     log('insigniaShowListAdd value : $value');
     setState(() {
@@ -65,6 +72,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
       return profileProvider.when(
         data: (data) {
           // TODO: setState 될 떄 nickname하고 description이 초기화되는 문제 해결해야 됨.
+          // TODO: 지금 그냥 이상함. 수정해야 됨.
           final receiveData = data;
 
           log('myaccount insignia show : ${receiveData.insigniaShow}');
@@ -143,4 +151,5 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
 
     });
   }
+
 }
