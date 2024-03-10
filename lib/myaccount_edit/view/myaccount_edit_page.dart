@@ -65,9 +65,8 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
-      String nickname = ref.watch(myaccountEditNicknameNavigationProvider);
-      String description = ref.watch(myaccountEditDescriptionNavigationProvider);
-
+      String nickname = "";
+      String description = "";
 
       return profileProvider.when(
         data: (data) {
@@ -93,6 +92,9 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
             log('insigniaShowList 1 : $insigniaShowList');
             isFirst = false;
           }
+
+          nickname = ref.watch(myaccountEditNicknameNavigationProvider);
+          description = ref.watch(myaccountEditDescriptionNavigationProvider);
 
           return Scaffold(
             body: SafeArea(
