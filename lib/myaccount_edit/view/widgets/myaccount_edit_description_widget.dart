@@ -46,11 +46,13 @@ class MyaccountEditDescriptionWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16),
                 child: TextField(
                   controller: _controller,
+                  maxLength: 100,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
                     hintText: '자기소개를 입력하세요.',
                     hintStyle: subValueStyle,
+                    counterText: '',
                   ),
                   style: subValueStyle,
                   onChanged: (value){

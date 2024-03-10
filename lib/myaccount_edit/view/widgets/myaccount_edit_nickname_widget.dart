@@ -46,11 +46,13 @@ class MyaccountEditNicknameWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16),
               child: TextField(
                 controller: _controller,
+                maxLength: 8,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.zero,
                   hintText: '닉네임을 입력하세요.',
                   hintStyle: subValueStyle,
+                  counterText: '',
                 ),
                 style: subValueStyle,
                 onChanged: (value){
