@@ -79,7 +79,10 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
 
           if(insigniaShowList.isEmpty && isFirst){
             insigniaShowList.clear();
-            insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1).split(',').toSet();
+            insigniaShowList = receiveData.insigniaShow.substring(1, receiveData.insigniaShow.length-1)
+                .split(',')
+                .map((e) => e.trim())
+                .toSet();
 
             Future.delayed(const Duration(milliseconds: 500), () {
               ref.read(myaccountEditNicknameNavigationProvider.notifier).select(receiveData.nickname);

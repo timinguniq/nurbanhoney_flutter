@@ -128,9 +128,12 @@ class MyaccountDashboardView extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Text(
-            description,
-            style: introduceStyle,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              description,
+              style: introduceStyle,
+            ),
           ),
           const SizedBox(
             height: 38,
