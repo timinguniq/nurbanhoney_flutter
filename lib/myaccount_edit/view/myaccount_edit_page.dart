@@ -91,11 +91,10 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
 
             log('insigniaShowList 1 : $insigniaShowList');
             isFirst = false;
+          }else{
+            nickname = ref.read(myaccountEditNicknameNavigationProvider);
+            description = ref.read(myaccountEditDescriptionNavigationProvider);
           }
-
-          nickname = ref.watch(myaccountEditNicknameNavigationProvider);
-          description = ref.watch(myaccountEditDescriptionNavigationProvider);
-
           return Scaffold(
             body: SafeArea(
               child: SizedBox(

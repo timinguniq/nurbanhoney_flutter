@@ -24,6 +24,9 @@ class MyaccountEditDescriptionWidget extends StatelessWidget {
       final subValueStyle = ref.read(myaccountEditSubValueStyle);
       final warnStyle = ref.read(myaccountEditWarnStyle);
 
+      //String nickname = ref.watch(myaccountEditNicknameNavigationProvider);
+      //String description = ref.watch(myaccountEditDescriptionNavigationProvider);
+
       _controller.text = _description;
 
       return SizedBox(
