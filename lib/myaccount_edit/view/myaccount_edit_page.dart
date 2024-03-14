@@ -35,14 +35,12 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
   }
 
   void _insigniaShowListAdd(String value) {
-    log('insigniaShowListAdd value : $value');
     setState(() {
       insigniaShowList.add(value.trim());
     });
   }
 
   void _insigniaShowListRemove(String value) {
-    log('insigniaShowListRemove value : $value');
     setState(() {
       insigniaShowList.remove(value.trim());
     });
@@ -70,8 +68,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
 
       return profileProvider.when(
         data: (data) {
-          // TODO: setState 될 떄 nickname하고 description이 초기화되는 문제 해결해야 됨.
-          // TODO: 지금 그냥 이상함. 수정해야 됨.
+          // TODO: 아직도 뭔가 이상한데 수정해야 됨.(휘장 이미지가 안나옴)
           final receiveData = data;
 
           log('myaccount insignia show : ${receiveData.insigniaShow}');
