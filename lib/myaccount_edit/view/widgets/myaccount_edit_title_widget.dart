@@ -34,7 +34,6 @@ class MyaccountEditTitleWidget extends StatelessWidget {
       final nickname = ref.watch(myaccountEditNicknameNavigationProvider);
       final description = ref.watch(myaccountEditDescriptionNavigationProvider);
 
-
       return SizedBox(
         width: double.infinity,
         height: 48,
