@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -94,7 +95,12 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                         fontSize: 16.0,
                       );
                       if(context.mounted){
-                        Navigator.of(context).pop();
+                        Future.delayed(const Duration(milliseconds: 1000), (){
+                          Navigator.of(context).pushAndRemoveUntil(
+                              HomePage.route(),
+                              (route) => false,
+                          );
+                        });
                       }
                     }else{
                       Fluttertoast.showToast(
