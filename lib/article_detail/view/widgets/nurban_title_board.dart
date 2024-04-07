@@ -1,4 +1,3 @@
-
 // 너반꿀 디테일 보드(제목, 작가, 작성일, 손실액)
 import 'dart:developer';
 
@@ -24,15 +23,15 @@ class NurbanTitleBoard extends StatelessWidget {
 
       // TextStyle
       final articleDetailNurbanTitleTextStyle =
-      ref.read(articleDetailNurbanTitleStyle);
+          ref.read(articleDetailNurbanTitleStyle);
       final articleDetailNurbanAuthorTextStyle =
-      ref.read(articleDetailNurbanAuthorStyle);
+          ref.read(articleDetailNurbanAuthorStyle);
       final articleDetailNurbanElementTextStyle =
-      ref.read(articleDetailNurbanElementStyle);
+          ref.read(articleDetailNurbanElementStyle);
       final articleDetailNurbanLossCutTitleTextStyle =
-      ref.read(articleDetailNurbanLossCutTitleStyle);
+          ref.read(articleDetailNurbanLossCutTitleStyle);
       final articleDetailNurbanLossCutValueTextStyle =
-      ref.read(articleDetailNurbanLossCutValueStyle);
+          ref.read(articleDetailNurbanLossCutValueStyle);
 
       final fConvertToInsignia = ref.read(convertToInsignia);
 
@@ -79,8 +78,10 @@ class NurbanTitleBoard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                     const SizedBox(
                       width: 8,
@@ -100,8 +101,10 @@ class NurbanTitleBoard extends StatelessWidget {
                           height: 21,
                           child: CachedNetworkImage(
                             imageUrl: ele,
-                            placeholder: (context, url) => const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),

@@ -12,42 +12,42 @@ abstract class NurbanhoneyTextStyle {
   static const headline1 = TextStyle(
     fontSize: 30,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 28 | Color: white
   static const headline2 = TextStyle(
     fontSize: 28,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 26 | Color: darkBlue
   static const headline3 = TextStyle(
     fontSize: 26,
     color: NurbanhoneyColors.darkBlue,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 24 | Color: white
   static const headline4 = TextStyle(
     fontSize: 24,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14| Color: white
   static const headline5 = TextStyle(
     fontSize: 14,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: darkGrey
   static const subtitle1 = TextStyle(
     fontSize: 14,
     color: NurbanhoneyColors.darkGrey,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: F6B748
@@ -57,7 +57,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: F6B748
@@ -67,7 +67,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorBABABA,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 222222
@@ -77,7 +77,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.darkGrey,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 6F6F6F
@@ -87,7 +87,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color6F6F6F,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 16 | Color: 212124
@@ -97,7 +97,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w600,
     color: NurbanhoneyColors.color212124,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 212124
@@ -107,7 +107,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w600,
     color: NurbanhoneyColors.color212124,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 4D5159
@@ -117,7 +117,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color4D5159,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 868B94
@@ -127,7 +127,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color868B94,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 4D5159
@@ -137,7 +137,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color4D5159,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -147,7 +147,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: FFFFFF
@@ -157,7 +157,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 212124
@@ -167,7 +167,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color212124,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 212124
@@ -177,7 +177,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color212124,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 868B94
@@ -187,7 +187,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color868B94,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 868B94
@@ -197,7 +197,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color868B94,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -207,7 +207,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: F6B748
@@ -217,7 +217,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 22 | Color: 1E1E1E
@@ -227,7 +227,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -237,7 +237,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: FFFFFF
@@ -247,7 +247,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: D2D2D2
@@ -257,7 +257,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.colorD2D2D2,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: FFFFFF
@@ -267,7 +267,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: FFFFFF
@@ -277,7 +277,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: FFFFFF
@@ -287,7 +287,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w600,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: FFFFFF
@@ -297,7 +297,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color505050,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 18 | Color: 1E1E1E
@@ -307,7 +307,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 16 | Color: 1E1E1E
@@ -317,7 +317,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -327,7 +327,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -337,7 +337,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 4F4F4F
@@ -347,7 +347,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color4F4F4F,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 4F4F4F
@@ -357,7 +357,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color4F4F4F,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 1E1E1E
@@ -377,7 +377,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.black,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 16 | Color: 1E1E1E
@@ -387,7 +387,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -397,7 +397,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w600,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 18 | Color: 858585
@@ -407,7 +407,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color858585,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 858585
@@ -417,7 +417,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color858585,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 858585
@@ -427,7 +427,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color858585,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: C4C4C4
@@ -437,7 +437,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorC4C4C4,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 808080
@@ -447,7 +447,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color808080,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: F6B748
@@ -457,7 +457,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 1E1E1E
@@ -467,7 +467,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: 121214
@@ -477,7 +477,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color121214,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 121214
@@ -487,7 +487,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color121214,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 18 | Color: 1E1E1E
@@ -497,7 +497,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: FFFFFF
@@ -507,7 +507,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.white,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 18 | Color: 1E1E1E
@@ -520,7 +520,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -530,7 +530,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 16 | Color: 1E1E1E
@@ -540,7 +540,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -550,7 +550,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -560,7 +560,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -570,7 +570,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -580,7 +580,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -590,7 +590,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 10 | Color: 1E1E1E
@@ -600,7 +600,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 18 | Color: 1E1E1E
@@ -610,7 +610,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -620,7 +620,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: F6B748
@@ -630,7 +630,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 16 | Color: 505050
@@ -640,7 +640,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color505050,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 18 | Color: 1E1E1E
@@ -650,7 +650,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: F6B748
@@ -660,7 +660,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w600,
     color: NurbanhoneyColors.colorF6B748,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 14 | Color: 1E1E1E
@@ -670,7 +670,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w500,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 16 | Color: 1E1E1E
@@ -680,7 +680,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w400,
     color: NurbanhoneyColors.color1E1E1E,
-    height: 1.1,
+    height: 1.2,
   );
 
   /// Font size: 12 | Color: FF0000
@@ -690,7 +690,7 @@ abstract class NurbanhoneyTextStyle {
     fontFamily: _primaryFontFamily,
     fontWeight: FontWeight.w300,
     color: NurbanhoneyColors.colorFF0000,
-    height: 1.1,
+    height: 1.2,
   );
 
 }
