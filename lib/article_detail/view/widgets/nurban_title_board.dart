@@ -143,12 +143,14 @@ class NurbanTitleBoard extends StatelessWidget {
                 height: 12,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
                     width: 16,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                     child: Text(
                       '손실액',
                       style: articleDetailNurbanLossCutTitleTextStyle,
@@ -166,7 +168,7 @@ class NurbanTitleBoard extends StatelessWidget {
                     width: 8,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                     child: Text(
                       data.lossCut.toString(),
                       style: articleDetailNurbanLossCutValueTextStyle,
