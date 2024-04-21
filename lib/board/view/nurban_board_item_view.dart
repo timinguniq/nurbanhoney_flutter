@@ -85,6 +85,8 @@ class NurbanBoardItemView extends StatelessWidget {
                         ]
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
                           _author,
