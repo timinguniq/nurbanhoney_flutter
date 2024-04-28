@@ -22,12 +22,23 @@ class CommentDashboardEmptyWidget extends StatelessWidget {
         height: 280,
         color: Colors.white,
         child: Center(
-          child: Text(
-            textAlign: TextAlign.center,
-            '댓글이 없습니다.\n첫 댓글을 작성 해 보세요.',
-            style: commentEmptyTextStyle,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                textAlign: TextAlign.center,
+                '댓글이 없습니다.',
+                style: commentEmptyTextStyle,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                textAlign: TextAlign.center,
+                '첫 댓글을 작성 해 보세요.',
+                style: commentEmptyTextStyle,
+              )
+            ],
           ),
-        )
+        ),
       );
     });
   }
