@@ -67,6 +67,8 @@ class NurbanRankTabElement extends StatelessWidget {
                 height: 8,
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
                 children: [
                   SizedBox(
                     width: 14,
@@ -76,9 +78,12 @@ class NurbanRankTabElement extends StatelessWidget {
                   const SizedBox(
                     width: 4,
                   ),
-                  Text(
-                    _rankLossCut,
-                    style: rankTabMoneyStyle,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1.5),
+                    child: Text(
+                      _rankLossCut,
+                      style: rankTabMoneyStyle,
+                    ),
                   ),
                 ],
               ),
