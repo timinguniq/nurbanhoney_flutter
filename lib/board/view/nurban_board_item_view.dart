@@ -69,20 +69,27 @@ class NurbanBoardItemView extends StatelessWidget {
                       ],
                     ),
                     Row(
-                        children:[
-                          SizedBox(
-                            width: 14,
-                            height: 14,
-                            child: Assets.images.home.nurbanRankTabMoney.image(),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children:[
+                        SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: Assets.images.home.nurbanRankTabMoney.image(),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 1.5),
+                          child: Text(
+                            textAlign: TextAlign.center,
                             _lossCut,
                             style: lossCutStyle,
                           ),
-                        ]
+                        ),
+
+                      ]
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
