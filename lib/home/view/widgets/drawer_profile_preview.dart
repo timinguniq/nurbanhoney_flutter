@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
+import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
@@ -67,8 +68,7 @@ class DrawerProfilePreview extends StatelessWidget {
               nickname: nickname,
               onTap: (){
                 log('edit profile clicked');
-
-                // TODO: 아직 edit 페이지가 없음 나중에 edit 페이지로 이동.
+                Navigator.of(context).push(MyaccountEditPage.route());
               },
               drawerProfileTextStyle: drawerProfileTextStyle,
             )
