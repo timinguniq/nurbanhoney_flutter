@@ -8,13 +8,11 @@ import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class NurbanRankTabView extends StatelessWidget {
-  const NurbanRankTabView({
-    required VoidCallback? onTap,
-    required int? rankLength,
-    Key? key
-  }) : _onTap = onTap,
-       _rankLength = rankLength,
-       super(key: key);
+  const NurbanRankTabView(
+      {required VoidCallback? onTap, required int? rankLength, Key? key})
+      : _onTap = onTap,
+        _rankLength = rankLength,
+        super(key: key);
 
   final VoidCallback? _onTap;
   final int? _rankLength;
@@ -27,7 +25,7 @@ class NurbanRankTabView extends StatelessWidget {
       final rankTabTitleStyle = ref.watch(rankTabTitle);
       final rankTabWholeStyle = ref.watch(rankTabWhole);
 
-      final getRankTab = ref.watch(getRankTabProvider((offset: 0,limit: 3)));
+      final getRankTab = ref.watch(getRankTabProvider((offset: 0, limit: 3)));
 
       return getRankTab.when(
         data: (data) {
@@ -55,10 +53,10 @@ class NurbanRankTabView extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    SizedBox(
-                      height: 20,
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           '랭킹',
                           style: rankTabTitleStyle,
@@ -114,7 +112,7 @@ class NurbanRankTabView extends StatelessWidget {
         loading: () {
           log('getRankTab loading');
           return const Center(
-              child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
           );
         },
         error: (error, stackTrace) {
@@ -122,12 +120,12 @@ class NurbanRankTabView extends StatelessWidget {
           return const Text('error');
         },
       );
-
     });
   }
 
-  void exampleGetRankTab(WidgetRef ref, int offset, int limit){
-    final getRankTab = ref.watch(getRankTabProvider((offset: offset,limit: limit)));
+  void exampleGetRankTab(WidgetRef ref, int offset, int limit) {
+    final getRankTab =
+        ref.watch(getRankTabProvider((offset: offset, limit: limit)));
     log('getRankTab: $getRankTab');
     getRankTab.when(
       data: (data) {
