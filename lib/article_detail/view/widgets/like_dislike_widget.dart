@@ -37,6 +37,7 @@ class LikeDislikeWidget extends StatelessWidget {
       return InkWell(
         onTap: _onTap,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
               width: 16,
@@ -50,18 +51,8 @@ class LikeDislikeWidget extends StatelessWidget {
               width: 8,
             ),
             Text(
-              _title,
+              '$_title $_count',
               style: _textStyle,
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-            SizedBox(
-              height: 12,
-              child: Text(
-                _count.toString(),
-                style: _textStyle,
-              ),
             ),
           ],
         ),

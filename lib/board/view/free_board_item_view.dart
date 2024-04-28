@@ -66,6 +66,8 @@ class FreeBoardItemView extends StatelessWidget {
                   style: contentStyle,
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
                   children: [
                     Text(
                       _author,

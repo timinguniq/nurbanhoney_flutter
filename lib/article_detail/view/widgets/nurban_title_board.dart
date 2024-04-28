@@ -115,6 +115,8 @@ class NurbanTitleBoard extends StatelessWidget {
                 height: 7,
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
                 children: [
                   const SizedBox(
                     width: 16,
