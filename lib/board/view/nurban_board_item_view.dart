@@ -57,6 +57,8 @@ class NurbanBoardItemView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.ideographic,
                       children: [
                         _badge,
                         const SizedBox(
@@ -65,7 +67,7 @@ class NurbanBoardItemView extends StatelessWidget {
                         Text(
                           _title,
                           style: titleStyle,
-                        )
+                        ),
                       ],
                     ),
                     Row(
@@ -88,7 +90,6 @@ class NurbanBoardItemView extends StatelessWidget {
                             style: lossCutStyle,
                           ),
                         ),
-
                       ]
                     ),
                     Row(

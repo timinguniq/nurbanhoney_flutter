@@ -16,7 +16,7 @@ class FreeBoardBadge extends StatelessWidget {
           color: badgeBackgroundColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
           child: Text(
             '자게',
             style: badgeTitleStyle,

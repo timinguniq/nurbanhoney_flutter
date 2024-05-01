@@ -16,7 +16,7 @@ class NurbanBoardBadge extends StatelessWidget {
           color: badgeBackgroundColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
           child: Text(
             '너반꿀',
             style: badgeTitleStyle,
