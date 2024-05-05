@@ -30,13 +30,7 @@ class _AppViewState extends State<AppView> {
       builder: (_, WidgetRef ref, __){
         final standard = ref.watch(standardTheme);
         final authenticationProvider = ref.watch(authenticationServiceProvider);
-        // TODO : 여기에 딜레이 걸어서 화면 변화 테스트해보기.
-        /*
-        Timer(const Duration(seconds: 5), (){
-          /// 사실상 필요 없으나 예시코드.
-          ref.read(authenticationServiceProvider.notifier).state = AuthenticationStatus.authenticated;
-        });
-        */
+        
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: standard,
