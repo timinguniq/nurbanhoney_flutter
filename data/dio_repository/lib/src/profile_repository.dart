@@ -282,5 +282,25 @@ class ProfileRepository {
     }
   }
 
+  // 개인정보 처리방침 가져오는 메소드
+  Future<String> myaccountPrivacy() async {
+    try {
+      final response = await dio.get(
+        '${DioApi.mainApi}/information/privacy',
+      );
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('myaccountPrivacy error : $e');
+      throw Exception(e);
+    }
+  }
 
 }

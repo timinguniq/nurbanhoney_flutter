@@ -96,9 +96,9 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       // 이용약관
-      final terms = ref.watch(getInformationProvider).value ?? '';
-     // 개인정보 처리방침
-
+      final terms = ref.watch(getTermsProvider).value ?? '';
+      // 개인정보 처리방침
+      final privacy = ref.watch(getPrivacyProvider).value ?? '';
 
       return Scaffold(
         body: Padding(
@@ -219,7 +219,6 @@ class _LoginPageState extends State<LoginPage> {
                 textStyle: noticeStyle,
                 highlightTextStyle: noticeHighlightStyle,
                 termsOfUseOnTap: () async {
-
                   log('terms of use click');
                   _policyPopup(
                     context: context,
@@ -231,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                   log('privacy policy click');
                   _policyPopup(
                     context: context,
-                    content: 'privacy policy click',
+                    content: privacy,
                     confirmColor: primaryColor,
                   );
                 },
