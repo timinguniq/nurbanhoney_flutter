@@ -26,8 +26,6 @@ final getLoginProvider = FutureProvider.autoDispose.family<LoginType, (String, S
   return await dioRepository.getLogin(loginType: records.$1, key: records.$2, password: records.$3);
 });
 
-
-
 final dioRepositoryProvider = Provider<DioRepository>((ref) {
   return DioRepository();
 });

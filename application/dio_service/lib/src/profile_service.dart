@@ -27,6 +27,11 @@ final getProfileCommentProvider =
   );
 });
 
+final getInformationProvider = FutureProvider.autoDispose<Future<String>>((ref) {
+  final profileRepository = ref.watch(profileRepositoryProvider);
+  return profileRepository.myaccountTerms();
+});
+
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
   return ProfileRepository();
 });
