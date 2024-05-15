@@ -261,5 +261,37 @@ class ProfileRepository {
     }
   }
 
+  Future<String> myaccountTerms() async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/profile/withdrawal',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.get(
+        '/',
+      );
+
+      log('withdrawal response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('withdrawal error: $error');
+
+      final futureValue = error != null
+          ? Future.value(error.toString())
+          : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('withdrawal error : $e');
+      throw Exception(e);
+    }
+  }
+
 
 }
