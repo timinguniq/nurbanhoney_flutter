@@ -97,7 +97,8 @@ class _LoginPageState extends State<LoginPage> {
 
       // 이용약관
       final terms = ref.watch(getInformationProvider).value ?? '';
-     // 개인정보 처리방침 TODO:
+     // 개인정보 처리방침
+
 
       return Scaffold(
         body: Padding(

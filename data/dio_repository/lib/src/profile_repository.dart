@@ -261,19 +261,15 @@ class ProfileRepository {
     }
   }
 
+  // 이용약관 가져오는 메소드
   Future<String> myaccountTerms() async {
     try {
       final response = await dio.get(
         '${DioApi.mainApi}/information/terms',
       );
 
-      log('myaccountTerms response: ${response.data}');
-
       final result = response.data['result'].toString();
       final error = response.data['error'];
-
-      log('myaccountTerms result: $result');
-      log('myaccountTerms error: $error');
 
       final futureValue = error != null
           ? Future.value(error.toString())
