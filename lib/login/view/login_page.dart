@@ -95,6 +95,10 @@ class _LoginPageState extends State<LoginPage> {
         });
       }
 
+      // 이용약관
+      final terms = ref.watch(getInformationProvider).value ?? '';
+     // 개인정보 처리방침 TODO:
+
       return Scaffold(
         body: Padding(
           padding: EdgeInsets.only(
@@ -213,11 +217,12 @@ class _LoginPageState extends State<LoginPage> {
                 text5: '동의로 간주됩니다.',
                 textStyle: noticeStyle,
                 highlightTextStyle: noticeHighlightStyle,
-                termsOfUseOnTap: () {
+                termsOfUseOnTap: () async {
+
                   log('terms of use click');
                   _policyPopup(
                     context: context,
-                    content: 'terms of use click',
+                    content: terms,
                     confirmColor: primaryColor,
                   );
                 },

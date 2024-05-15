@@ -272,6 +272,7 @@ class ProfileRepository {
       final result = response.data['result'].toString();
       final error = response.data['error'];
 
+      log('myaccountTerms result: $result');
       log('myaccountTerms error: $error');
 
       final futureValue = error != null

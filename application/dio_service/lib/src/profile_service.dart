@@ -27,9 +27,9 @@ final getProfileCommentProvider =
   );
 });
 
-final getInformationProvider = FutureProvider.autoDispose<Future<String>>((ref) {
+final getInformationProvider = FutureProvider.autoDispose<String>((ref) async {
   final profileRepository = ref.watch(profileRepositoryProvider);
-  return profileRepository.myaccountTerms();
+  return await profileRepository.myaccountTerms();
 });
 
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
