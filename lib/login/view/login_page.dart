@@ -222,6 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                   log('terms of use click');
                   _policyPopup(
                     title: '이용약관',
+                    titleTextStyle: titleStyle,
                     context: context,
                     content: terms,
                     confirmColor: primaryColor,
@@ -231,6 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                   log('privacy policy click');
                   _policyPopup(
                     title: '개인정보 처리방침',
+                    titleTextStyle: titleStyle,
                     context: context,
                     content: privacy,
                     confirmColor: primaryColor,
@@ -265,6 +267,7 @@ class _LoginPageState extends State<LoginPage> {
   // 이용약관과 개인정보 처리방침 팝업
   void _policyPopup({
     required String title,
+    required TextStyle titleTextStyle,
     required BuildContext context,
     required String content,
     required Color confirmColor,
@@ -277,9 +280,12 @@ class _LoginPageState extends State<LoginPage> {
             content: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text(title),
+                  Text(
+                    title,
+                    style: titleTextStyle,
+                  ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Text(content),
                 ],
