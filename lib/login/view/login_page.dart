@@ -221,6 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                 termsOfUseOnTap: () async {
                   log('terms of use click');
                   _policyPopup(
+                    title: '이용약관',
                     context: context,
                     content: terms,
                     confirmColor: primaryColor,
@@ -229,6 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                 privacyPolicyOnTap: () {
                   log('privacy policy click');
                   _policyPopup(
+                    title: '개인정보 처리방침',
                     context: context,
                     content: privacy,
                     confirmColor: primaryColor,
