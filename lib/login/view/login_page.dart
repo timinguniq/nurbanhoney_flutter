@@ -262,6 +262,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // 이용약관과 개인정보 처리방침 팝업
   void _policyPopup({
+    required String title,
     required BuildContext context,
     required String content,
     required Color confirmColor,
@@ -271,7 +272,17 @@ class _LoginPageState extends State<LoginPage> {
         barrierDismissible: true,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text(content),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(title),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(content),
+                ],
+              ),
+            ),
             insetPadding: const EdgeInsets.fromLTRB(10, 80, 10, 80),
             actions: [
               TextButton(
