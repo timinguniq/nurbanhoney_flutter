@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:android_id/android_id.dart';
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         _selectedIndex = 0;
         break;
     }
-    
+
     Future.delayed(const Duration(milliseconds: 10), () {
       switch (widget._homeAppbarStatus) {
         case HomeAppbarStatus.whole:
