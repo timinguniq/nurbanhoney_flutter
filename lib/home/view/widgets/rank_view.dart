@@ -33,6 +33,7 @@ class RankView extends StatelessWidget {
           for (var element in receiveData) {
             log('RankView data id: ${element.id}');
             log('RankView data board: ${element.totalLossCut}');
+            log('RankView data nickname: ${element.nickname}');
             log('RankView data thumbnail: ${element.totalLikeCount}');
           }
           return SingleChildScrollView(
@@ -46,7 +47,7 @@ class RankView extends StatelessWidget {
                           rank: i + 1,
                         ),
                         title: '',
-                        lossCut: '',
+                        lossCut: '100',
                         author: receiveData[i].nickname,
                         date: formattingCreatedAt(''),
                         likeCount: '',

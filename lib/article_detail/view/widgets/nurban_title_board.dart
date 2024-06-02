@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:share_service/share_service.dart';
@@ -34,6 +35,8 @@ class NurbanTitleBoard extends StatelessWidget {
           ref.read(articleDetailNurbanLossCutValueStyle);
 
       final fConvertToInsignia = ref.read(convertToInsignia);
+
+      var f = NumberFormat('###,###,###,###');
 
       return nurbanArticle.when(
         data: (data) {
@@ -145,18 +148,14 @@ class NurbanTitleBoard extends StatelessWidget {
                 height: 12,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
                     width: 16,
                   ),
-                  SizedBox(
-                    height: 15,
-                    child: Text(
-                      '손실액',
-                      style: articleDetailNurbanLossCutTitleTextStyle,
-                    ),
+                  Text(
+                    '손실액',
+                    style: articleDetailNurbanLossCutTitleTextStyle,
                   ),
                   const SizedBox(
                     width: 4,
@@ -169,12 +168,9 @@ class NurbanTitleBoard extends StatelessWidget {
                   const SizedBox(
                     width: 8,
                   ),
-                  SizedBox(
-                    height: 15,
-                    child: Text(
-                      data.lossCut.toString(),
-                      style: articleDetailNurbanLossCutValueTextStyle,
-                    ),
+                  Text(
+                    '${f.format(int.parse(data.lossCut))}원',
+                    style: articleDetailNurbanLossCutValueTextStyle,
                   ),
                 ],
               ),

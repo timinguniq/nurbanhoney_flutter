@@ -43,6 +43,7 @@ dependencies:
   uuid: ^4.0.0
   google_mobile_ads: ^4.0.0
   android_id: ^0.3.6
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

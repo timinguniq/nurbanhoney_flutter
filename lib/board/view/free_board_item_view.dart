@@ -50,8 +50,7 @@ class FreeBoardItemView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.ideographic,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _badge,
                     const SizedBox(
