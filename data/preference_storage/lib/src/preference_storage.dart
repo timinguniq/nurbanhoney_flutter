@@ -47,7 +47,7 @@ class PreferenceStorage {
   /// get device_id
   String getDeviceId() => _plugin.getString(_prefDeviceId) ?? '';
 
-  /// set device id
+  /// set device_id
   Future<void> setDeviceId(String deviceId) =>
       _plugin.setString(_prefDeviceId, deviceId);
 }

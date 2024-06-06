@@ -1,3 +1,4 @@
+import 'package:android_id/android_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -14,9 +15,14 @@ void main() async {
     nativeAppKey: kakaoNativeAppKey,
   );
 
+  const androidIdPlugin = AndroidId();
 
-  runApp(const ProviderScope(
-    child: App(),
+  final String androidId = await androidIdPlugin.getId() ?? '';
+
+  runApp(ProviderScope(
+    child: App(
+      deviceId: androidId,
+    ),
   ));
 }
 
