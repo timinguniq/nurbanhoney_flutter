@@ -6,13 +6,14 @@ import 'package:nurbanhoney/config/config.dart';
 
 import 'app/app.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
 
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,
   );
+
 
   runApp(const ProviderScope(
     child: App(),

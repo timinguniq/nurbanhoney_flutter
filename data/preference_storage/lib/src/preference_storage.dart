@@ -20,6 +20,9 @@ class PreferenceStorage {
   /// user id key
   static const _prefUserId = '__pref_user_id__';
 
+  /// device id key
+  static const _prefDeviceId = '__pref_device_id__';
+
   /// get user token
   String getToken() => _plugin.getString(_prefAuthToken) ?? _prefEmptyStr;
 
@@ -41,4 +44,10 @@ class PreferenceStorage {
   Future<void> setUserId(int value) =>
       _plugin.setInt(_prefUserId, value);
 
+  /// get device_id
+  String getDeviceId() => _plugin.getString(_prefDeviceId) ?? '';
+
+  /// set device id
+  Future<void> setDeviceId(String deviceId) =>
+      _plugin.setString(_prefDeviceId, deviceId);
 }
