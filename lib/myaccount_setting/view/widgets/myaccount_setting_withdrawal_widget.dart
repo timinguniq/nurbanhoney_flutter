@@ -84,7 +84,7 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
                 child: SizedBox(
                   width: 22,
                   height: 33,
-                  child: Assets.images.articleDetail.backKey.image(),
+                  child: Assets.images.myaccount.myaccountProgressArrow.image(),
                 ),
               ),
             ),

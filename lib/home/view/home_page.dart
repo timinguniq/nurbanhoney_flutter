@@ -15,7 +15,7 @@ import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatelessWidget {
   const HomePage({
     required HomeBottomStatus homeBottomStatus,
     required HomeAppbarStatus homeAppbarStatus,
@@ -40,56 +40,10 @@ class HomePage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final prefStorageProvider = ref.watch(preferenceStorageProvider);
-    final prefStorage = prefStorageProvider.asData?.value;
-    final token = prefStorage?.getToken() ?? '__empty__';
-
-    final profileProvider = ref.watch(getProfileProvider(token));
-
-    return profileProvider.when(
-      data: (data) {
-        final receiveData = data;
-        final myUserId = receiveData.id;
-
-        final List<Widget> _widgetOptions = <Widget>[
-          HomeBodyView(),
-          HoneyRankBodyView(),
-          MyaccountBodyView(
-            userId: myUserId,
-          ),
-        ];
-
-        return HomeView(
-          homeBottomStatus: _homeBottomStatus,
-          homeAppbarStatus: _homeAppbarStatus,
-          widgetOptions: _widgetOptions,
-        );
-      },
-      loading: () {
-        log('homepage_view loading');
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-      error: (error, stackTrace) {
-        log('homepage_view error: $error');
-
-        /// Token 없을 때 처리
-        if (token == '__empty__') {
-          Future.delayed(const Duration(milliseconds: 100), () {
-            Navigator.of(context).push(
-              LoginPage.route(),
-            );
-          });
-
-          return const Center(
-            child: Text('로그인이 필요합니다.'),
-          );
-        }
-        //
-        return const Text('error');
-      },
+  Widget build(BuildContext context) {
+    return HomeView(
+      homeBottomStatus: _homeBottomStatus,
+      homeAppbarStatus: _homeAppbarStatus,
     );
   }
 }
@@ -98,16 +52,13 @@ class HomeView extends ConsumerStatefulWidget {
   const HomeView({
     required HomeBottomStatus homeBottomStatus,
     required HomeAppbarStatus homeAppbarStatus,
-    required List<Widget> widgetOptions,
     Key? key,
   })  : _homeBottomStatus = homeBottomStatus,
         _homeAppbarStatus = homeAppbarStatus,
-        _widgetOptions = widgetOptions,
         super(key: key);
 
   final HomeBottomStatus _homeBottomStatus;
   final HomeAppbarStatus _homeAppbarStatus;
-  final List<Widget> _widgetOptions;
 
   @override
   ConsumerState<HomeView> createState() => _HomeViewState();
@@ -115,15 +66,13 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   int _selectedIndex = 0;
-/*
+
   final List<Widget> _widgetOptions = <Widget>[
     HomeBodyView(),
     HoneyRankBodyView(),
-    MyaccountBodyView(
-      userId: _userId,
-    ),
+    MyaccountBodyView(),
   ];
-*/
+
   @override
   void initState() {
     super.initState();
@@ -237,7 +186,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
             ),
       endDrawer: const DrawerProfile(),
-      body: widget._widgetOptions.elementAt(_selectedIndex),
+      body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: _selectedIndex != 2
           ? FloatingActionButton(
               onPressed: () {

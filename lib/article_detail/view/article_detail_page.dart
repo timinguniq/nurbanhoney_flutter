@@ -59,7 +59,6 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
       final androidId = prefStorage?.getDeviceId();
 
 
-
       return Scaffold(
         appBar: ArticleDetailAppBar(
           board: widget._board,

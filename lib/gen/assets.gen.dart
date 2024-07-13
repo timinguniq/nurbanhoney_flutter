@@ -12,13 +12,24 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// Directory path: assets/images/article_create
   $AssetsImagesArticleCreateGen get articleCreate =>
       const $AssetsImagesArticleCreateGen();
+
+  /// Directory path: assets/images/article_detail
   $AssetsImagesArticleDetailGen get articleDetail =>
       const $AssetsImagesArticleDetailGen();
+
+  /// Directory path: assets/images/home
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
+
+  /// Directory path: assets/images/login
   $AssetsImagesLoginGen get login => const $AssetsImagesLoginGen();
+
+  /// Directory path: assets/images/myaccount
   $AssetsImagesMyaccountGen get myaccount => const $AssetsImagesMyaccountGen();
+
+  /// Directory path: assets/images/splash
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 }
 
@@ -176,6 +187,10 @@ class $AssetsImagesMyaccountGen {
   AssetGenImage get myaccountEditCancel =>
       const AssetGenImage('assets/images/myaccount/myaccount_edit_cancel.png');
 
+  /// File path: assets/images/myaccount/myaccount_progress_arrow.png
+  AssetGenImage get myaccountProgressArrow => const AssetGenImage(
+      'assets/images/myaccount/myaccount_progress_arrow.png');
+
   /// File path: assets/images/myaccount/myaccount_setting.png
   AssetGenImage get myaccountSetting =>
       const AssetGenImage('assets/images/myaccount/myaccount_setting.png');
@@ -187,6 +202,7 @@ class $AssetsImagesMyaccountGen {
         myaccountCommentActive,
         myaccountCommentInactive,
         myaccountEditCancel,
+        myaccountProgressArrow,
         myaccountSetting
       ];
 }
@@ -209,9 +225,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,
