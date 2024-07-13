@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:nurbanhoney/home/home.dart';
 
 class MyaccountBodyView extends StatelessWidget {
-  const MyaccountBodyView({super.key});
+  const MyaccountBodyView({
+    super.key,
+    required this.userId,
+  });
+
+  final int userId;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        AppbarDivider(),
+        const AppbarDivider(),
         Expanded(
-          child: MyaccountView(),
+          child: MyaccountView(
+            userId: userId,
+          ),
         ),
       ],
     );

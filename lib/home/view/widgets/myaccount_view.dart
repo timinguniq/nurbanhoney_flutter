@@ -16,8 +16,15 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
+/// {myaccount_view}
 class MyaccountView extends StatelessWidget {
-  const MyaccountView({super.key});
+  MyaccountView({
+    super.key,
+    required this.userId,
+  });
+
+  final int userId;
+  var isMine = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,10 @@ class MyaccountView extends StatelessWidget {
       return profileProvider.when(
         data: (data) {
           final receiveData = data;
+          final myUserId = receiveData.id;
+          isMine = myUserId == userId;
 
+          log('myaccount_view isMine : $isMine');
           log('myaccount_view whole : $receiveData');
           log('myaccount_view id: ${receiveData.id}');
           log('myaccount_view loginType: ${receiveData.loginType}');
