@@ -10,6 +10,8 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
+import '../../../common/common.dart';
+
 class FreeTitleBoard extends StatelessWidget {
   const FreeTitleBoard({required int articleId, Key? key})
       : _articleId = articleId,
@@ -59,55 +61,14 @@ class FreeTitleBoard extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              SizedBox(
-                width: double.infinity,
-                height: 21,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: data.badge,
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 21,
-                        height: 21,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      data.nickname,
-                      style: articleDetailFreeAuthorTextStyle,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    for (var ele in insigniaList)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: SizedBox(
-                          width: 21,
-                          height: 21,
-                          child: CachedNetworkImage(
-                            imageUrl: ele,
-                            placeholder: (context, url) => const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+              UserInfo(
+                onTap: () {
+                  log('UserInfo clicked');
+                },
+                badge: data.badge,
+                nickname: data.nickname,
+                authorTextStyle: articleDetailFreeAuthorTextStyle,
+                insigniaList: insigniaList,
               ),
               const SizedBox(
                 height: 7,
