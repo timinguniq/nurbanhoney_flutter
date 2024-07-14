@@ -71,63 +71,6 @@ class NurbanTitleBoard extends StatelessWidget {
                 authorTextStyle: articleDetailNurbanAuthorTextStyle,
                 insigniaList: insigniaList,
               ),
-              /*
-              SizedBox(
-                width: double.infinity,
-                height: 21,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: data.badge,
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 21,
-                        height: 21,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      data.nickname,
-                      style: articleDetailNurbanAuthorTextStyle,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    for (var ele in insigniaList)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: SizedBox(
-                          width: 21,
-                          height: 21,
-                          child: CachedNetworkImage(
-                            imageUrl: ele,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-               */
               const SizedBox(
                 height: 7,
               ),
