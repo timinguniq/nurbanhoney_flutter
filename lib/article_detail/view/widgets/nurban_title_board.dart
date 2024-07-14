@@ -10,6 +10,8 @@ import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:share_service/share_service.dart';
 
+import 'package:nurbanhoney/common/common.dart';
+
 class NurbanTitleBoard extends StatelessWidget {
   const NurbanTitleBoard({required int articleId, Key? key})
       : _articleId = articleId,
@@ -60,6 +62,16 @@ class NurbanTitleBoard extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
+              UserInfo(
+                onTap: () {
+                  log('UserInfo clicked');
+                },
+                badge: data.badge,
+                nickname: data.nickname,
+                authorTextStyle: articleDetailNurbanAuthorTextStyle,
+                insigniaList: insigniaList,
+              ),
+              /*
               SizedBox(
                 width: double.infinity,
                 height: 21,
@@ -114,6 +126,8 @@ class NurbanTitleBoard extends StatelessWidget {
                   ],
                 ),
               ),
+
+               */
               const SizedBox(
                 height: 7,
               ),
