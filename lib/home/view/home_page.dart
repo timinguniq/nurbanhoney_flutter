@@ -19,10 +19,9 @@ class HomePage extends StatelessWidget {
   const HomePage({
     required HomeBottomStatus homeBottomStatus,
     required HomeAppbarStatus homeAppbarStatus,
-    Key? key,
+    super.key,
   })  : _homeBottomStatus = homeBottomStatus,
-        _homeAppbarStatus = homeAppbarStatus,
-        super(key: key);
+        _homeAppbarStatus = homeAppbarStatus;
 
   final HomeBottomStatus _homeBottomStatus;
   final HomeAppbarStatus _homeAppbarStatus;
