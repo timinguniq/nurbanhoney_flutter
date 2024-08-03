@@ -11,6 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
 
+  
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,
   );
