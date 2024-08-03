@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +22,14 @@ class HomePageRefactor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const HomeViewRefactor();
   }
 }
 
 class HomeViewRefactor extends ConsumerStatefulWidget {
   const HomeViewRefactor({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ConsumerState<HomeViewRefactor> createState() => _HomeViewRefactorState();
@@ -61,131 +63,97 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
     final myaccountTitleTextStyle = ref.read(myaccountTitleStyle);
 
     final homeBottomNavigation = ref.watch(homeBottomNavigationProvider);
-    return Scaffold(
-      extendBody: true,
-      appBar: _selectedIndex != 2
-          ? PreferredSize(
-        preferredSize: const Size.fromHeight(52),
-        child: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Row(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          appBar: AppBar(title: Text('Tab View With Tabbar')),
+          body: Column(
             children: [
-              SizedBox(
-                width: 30,
-                height: 25,
-                child: Assets.images.home.nurbanSymbol.image(),
-              ),
-              const SizedBox(width: 12),
-              SizedBox(
-                width: 55,
-                height: 20,
-                child: Assets.images.home.nurbanChar.image(),
-              ),
-            ],
-          ),
-          /*
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        log('toolbar clicked');
-                      },
-                      icon: SizedBox(
-                        width: 20,
-                        height: 15,
-                        child: Assets.images.home.homeToolbar.image(),
+              const TabBar(
+                  indicatorColor: Colors.white,
+                  labelStyle: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                  indicatorWeight: 3,
+                  tabs: [
+                    Tab(
+                      text: 'List',
+                      height: 50,
+                    ),
+                    Tab(
+                      text: 'Grid',
+                      height: 50,
+                    ),
+                    Tab(
+                      text: 'Box',
+                      height: 50,
+                    ),
+                  ]),
+              Expanded(
+                  child: TabBarView(children: [
+                    ListView.builder(
+                        key: const PageStorageKey("LIST_VIEW"),
+                        itemCount: 1000,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: Text(
+                                "List View $index",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.accents[index % 15],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          );
+                        }),
+                    GridView.builder(
+                        key: const PageStorageKey("GRID_VIEW"),
+                        itemCount: 1000,
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                        ),
+                        itemBuilder: ((context, index) {
+                          List<int> _number = [
+                            Random().nextInt(255),
+                            Random().nextInt(255),
+                            Random().nextInt(255)
+                          ];
+                          return Container(
+                            color: Color.fromRGBO(
+                                _number[0], _number[1], _number[2], 1),
+                            child: Center(
+                                child: Text(
+                                  "Grid View $index",
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          );
+                        })),
+                    Container(
+                      width: 10,
+                      color: const Color.fromRGBO(91, 91, 91, 1),
+                      child: const Center(
+                        child: Text(
+                          'Box',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 56,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ],
-
-                   */
-        ),
-      )
-          : PreferredSize(
-        preferredSize: const Size.fromHeight(52),
-        child: Padding(
-          padding:
-          EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Center(
-            child: Text(
-              '마이페이지',
-              style: myaccountTitleTextStyle,
-            ),
-          ),
-        ),
-      ),
-      endDrawer: const DrawerProfile(),
-      //body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: _selectedIndex != 2
-          ? FloatingActionButton(
-          onPressed: () {
-            if (authenticationProvider ==
-                AuthenticationStatus.authenticated) {
-              //Navigator.of(context).push(BoardPage.routeName);
-              Navigator.of(context).push(ArticleCreatePage.route());
-            } else {
-              Navigator.of(context).push(LoginPage.route());
-            }
-          },
-          backgroundColor: floatButtonColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: SizedBox(
-            width: 32,
-            height: 32,
-            child: Assets.images.home.floatingButton.image(),
-          )
-      )
-          : null,
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Assets.images.home.naviHomeInactive.image(),
-            ),
-            activeIcon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Assets.images.home.naviHomeActive.image(),
-            ),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Assets.images.home.naviRankInactive.image(),
-            ),
-            activeIcon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Assets.images.home.naviRankActive.image(),
-            ),
-            label: '꿀랭킹',
-          ),
-          BottomNavigationBarItem(
-            icon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Assets.images.home.naviMyaccountInactive.image(),
-            ),
-            activeIcon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Assets.images.home.naviMyaccountActive.image(),
-            ),
-            label: '내 정보',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: floatButtonColor,
-        onTap: _onItemTapped,
-      ),
+                  ]))
+            ],
+          )),
     );
   }
 }
