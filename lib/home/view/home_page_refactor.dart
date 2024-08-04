@@ -58,10 +58,11 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
 
   @override
   Widget build(BuildContext context) {
-    final tabSelectColor = ref.read(colorF6B748);
+    final tabSelectedColor = ref.read(colorF6B748);
+    final tabUnselectedColor = ref.read(color212124);
     final authenticationProvider = ref.watch(authenticationServiceProvider);
 
-    final myaccountTitleTextStyle = ref.read(myaccountTitleStyle);
+    final homeTabTextStyle = ref.read(homeTabStyle);
 
     final homeBottomNavigation = ref.watch(homeBottomNavigationProvider);
     return DefaultTabController(
@@ -71,14 +72,9 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
             child: Column(
           children: [
             TabBar(
-                indicatorColor: tabSelectColor,
-                unselectedLabelColor: Colors.black,
-                labelStyle: TextStyle(
-                    color: tabSelectColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                ),
-                //labelColor: tabSelectColor,
+                indicatorColor: tabSelectedColor,
+                unselectedLabelColor:tabUnselectedColor,
+                labelStyle: homeTabTextStyle,
                 indicatorWeight: 2,
                 tabs: const [
                   Tab(
