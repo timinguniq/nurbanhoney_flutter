@@ -693,4 +693,14 @@ abstract class NurbanhoneyTextStyle {
     height: 1.0,
   );
 
+  /// Font size: 20 | Color: FF
+  static const homeTab = TextStyle(
+    fontSize: 20,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.colorF6B748,
+    height: 1.0,
+  );
+
 }

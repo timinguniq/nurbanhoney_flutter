@@ -37,6 +37,7 @@ class HomeViewRefactor extends ConsumerStatefulWidget {
 
 class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
   int _selectedIndex = 0;
+
 /*
   final List<Widget> _widgetOptions = <Widget>[
     HomeBodyView(),
@@ -57,7 +58,7 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
 
   @override
   Widget build(BuildContext context) {
-    final floatButtonColor = ref.read(colorF6B748);
+    final tabSelectColor = ref.read(colorF6B748);
     final authenticationProvider = ref.watch(authenticationServiceProvider);
 
     final myaccountTitleTextStyle = ref.read(myaccountTitleStyle);
@@ -66,77 +67,90 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          body: SafeArea(
+        body: SafeArea(
             child: Column(
-              children: [
-                const TabBar(
-                    indicatorColor: Colors.white,
-                    labelStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                    indicatorWeight: 2,
-                    tabs: [
-                      Tab(
-                        text: '주식',
-                        height: 50,
+          children: [
+            TabBar(
+                indicatorColor: tabSelectColor,
+                unselectedLabelColor: Colors.black,
+                labelStyle: TextStyle(
+                    color: tabSelectColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                ),
+                //labelColor: tabSelectColor,
+                indicatorWeight: 2,
+                tabs: const [
+                  Tab(
+                    text: '주식',
+                    height: 50,
+                  ),
+                  Tab(
+                    text: '코인',
+                    height: 50,
+                  ),
+                ],
+            ),
+            Expanded(
+                child: TabBarView(children: [
+              ListView.builder(
+                  key: const PageStorageKey("LIST_VIEW"),
+                  itemCount: 1000,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Text(
+                          "List View $index",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.accents[index % 15],
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      Tab(
-                        text: '코인',
-                        height: 50,
-                      ),
-                    ]),
-                Expanded(
-                    child: TabBarView(children: [
-                      ListView.builder(
-                          key: const PageStorageKey("LIST_VIEW"),
-                          itemCount: 1000,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              width: MediaQuery.of(context).size.width,
-                              child: Center(
-                                child: Text(
-                                  "List View $index",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.accents[index % 15],
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            );
-                          }),
-                      GridView.builder(
-                          key: const PageStorageKey("GRID_VIEW"),
-                          itemCount: 1000,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                          ),
-                          itemBuilder: ((context, index) {
-                            List<int> _number = [
-                              Random().nextInt(255),
-                              Random().nextInt(255),
-                              Random().nextInt(255)
-                            ];
-                            return Container(
-                              color:
-                              Color.fromRGBO(_number[0], _number[1], _number[2], 1),
-                              child: Center(
-                                  child: Text(
-                                    "Grid View $index",
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            );
-                          })),
-                    ]))
-              ],
-            )),
-          ),
+                    );
+                  }),
+              GridView.builder(
+                  key: const PageStorageKey("GRID_VIEW"),
+                  itemCount: 1000,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemBuilder: ((context, index) {
+                    List<int> _number = [
+                      Random().nextInt(255),
+                      Random().nextInt(255),
+                      Random().nextInt(255)
+                    ];
+                    return Container(
+                      color:
+                          Color.fromRGBO(_number[0], _number[1], _number[2], 1),
+                      child: Center(
+                          child: Text(
+                        "Grid View $index",
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    );
+                  })),
+            ]))
+          ],
+        )),
+      ),
     );
+  }
+}
+
+class HomePageTab extends StatelessWidget {
+  const HomePageTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

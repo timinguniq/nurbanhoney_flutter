@@ -281,3 +281,7 @@ final myaccountEditSubValueStyle = Provider<TextStyle>((ref) {
 final myaccountEditWarnStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.myaccountEditWarn;
 });
+
+final homeTabStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.homeTab;
+});
