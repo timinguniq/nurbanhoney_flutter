@@ -77,3 +77,7 @@ final colorBBBBBB = Provider<Color>((ref) {
 final color808080 = Provider<Color>((ref) {
   return NurbanhoneyColors.color808080;
 });
+
+final color212124 = Provider<Color>((ref) {
+  return NurbanhoneyColors.color212124;
+});

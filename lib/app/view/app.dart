@@ -54,10 +54,15 @@ class _AppViewState extends State<AppView> {
         setDeviceId(ref, widget._deviceId);
 
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: standard,
-          onGenerateRoute: (_) => SplashPage.route(),
-          home: authenticationProvider == AuthenticationStatus.authenticated
+            debugShowCheckedModeBanner: false,
+            theme: standard,
+            onGenerateRoute: (_) => SplashPage.route(),
+            home: authenticationProvider == AuthenticationStatus.authenticated
+                ? const HomePageRefactor()
+                : const HomePageRefactor()
+
+            /*
+          authenticationProvider == AuthenticationStatus.authenticated
               ? const HomePage(
                   homeBottomStatus: HomeBottomStatus.home,
                   homeAppbarStatus: HomeAppbarStatus.whole,
@@ -66,10 +71,9 @@ class _AppViewState extends State<AppView> {
                   homeBottomStatus: HomeBottomStatus.home,
                   homeAppbarStatus: HomeAppbarStatus.whole,
                 )
-        );
+           */
+            );
       },
     );
   }
-
 }
-
