@@ -285,3 +285,7 @@ final myaccountEditWarnStyle = Provider<TextStyle>((ref) {
 final homeTabStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.homeTab;
 });
+
+final rankTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTitle;
+});

@@ -6,10 +6,14 @@ class HomeStockTabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         children: [
-          RankPage(),
+          const SizedBox(height: 17),
+
+          RankPage(
+            title: '이번주 손실액 Top3',
+          ),
         ],
       ),
     );
