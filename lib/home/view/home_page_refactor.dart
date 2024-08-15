@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney/home/view/widgets/drawer_profile.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -38,13 +39,11 @@ class HomeViewRefactor extends ConsumerStatefulWidget {
 class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
   int _selectedIndex = 0;
 
-/*
-  final List<Widget> _widgetOptions = <Widget>[
-    HomeBodyView(),
-    HoneyRankBodyView(),
-    MyaccountBodyView(),
+  final List<Widget> _widgetOptions = const <Widget>[
+    HomeStockTabPage(),
+    HomeCoinTabPage(),
   ];
-*/
+
   @override
   void initState() {
     super.initState();
@@ -89,51 +88,8 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
             ),
             Expanded(
                 child: TabBarView(children: [
-              ListView.builder(
-                  key: const PageStorageKey("LIST_VIEW"),
-                  itemCount: 1000,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: Text(
-                          "List View $index",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.accents[index % 15],
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    );
-                  }),
-              GridView.builder(
-                  key: const PageStorageKey("GRID_VIEW"),
-                  itemCount: 1000,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
-                  itemBuilder: ((context, index) {
-                    List<int> _number = [
-                      Random().nextInt(255),
-                      Random().nextInt(255),
-                      Random().nextInt(255)
-                    ];
-                    return Container(
-                      color:
-                          Color.fromRGBO(_number[0], _number[1], _number[2], 1),
-                      child: Center(
-                          child: Text(
-                        "Grid View $index",
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    );
-                  })),
+                  _widgetOptions[0],
+                  _widgetOptions[1],
             ]))
           ],
         )),
