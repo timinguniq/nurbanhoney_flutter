@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nurbanhoney/common/common.dart';
 
 class HomeStockTabPage extends StatelessWidget {
   const HomeStockTabPage({super.key});
@@ -6,7 +7,11 @@ class HomeStockTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text('HomeStockTabPage'),
+      body: Column(
+        children: [
+          RankPage(),
+        ],
+      ),
     );
   }
 }
