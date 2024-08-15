@@ -71,26 +71,26 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
             child: Column(
           children: [
             TabBar(
-                indicatorColor: tabSelectedColor,
-                unselectedLabelColor:tabUnselectedColor,
-                labelStyle: homeTabTextStyle,
-                indicatorWeight: 2,
-                tabs: const [
-                  Tab(
-                    text: '주식',
-                    height: 50,
-                  ),
-                  Tab(
-                    text: '코인',
-                    height: 50,
-                  ),
-                ],
+              indicatorColor: tabSelectedColor,
+              unselectedLabelColor: tabUnselectedColor,
+              labelStyle: homeTabTextStyle,
+              indicatorWeight: 2,
+              tabs: const [
+                Tab(
+                  text: '주식',
+                  height: 50,
+                ),
+                Tab(
+                  text: '코인',
+                  height: 50,
+                ),
+              ],
             ),
             Expanded(
                 child: TabBarView(children: [
-                  _widgetOptions[0],
-                  _widgetOptions[1],
-            ]))
+              _widgetOptions[0],
+              _widgetOptions[1],
+            ])),
           ],
         )),
       ),
