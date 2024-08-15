@@ -81,7 +81,6 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
                     text: '주식',
                     height: 50,
                   ),
-                  
                   Tab(
                     text: '코인',
                     height: 50,
