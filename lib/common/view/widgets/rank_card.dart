@@ -9,14 +9,12 @@ class RankCard extends ConsumerWidget {
   const RankCard({
     required this.badge,
     required this.nickname,
-    required this.authorTextStyle,
     required this.insigniaList,
     super.key,
   });
 
   final String badge;
   final String nickname;
-  final TextStyle authorTextStyle;
   final List<String> insigniaList;
 
   @override

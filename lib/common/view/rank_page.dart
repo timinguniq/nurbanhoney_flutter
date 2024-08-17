@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
@@ -32,6 +33,8 @@ class _RankPageState extends ConsumerState<RankPage> {
   @override
   Widget build(BuildContext context) {
     final titleStyle = ref.read(rankTitleStyle);
+    final primaryColor = ref.read(colorF6B748);
+    final greyColor = ref.read(colorC4C4C4);
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -55,15 +58,16 @@ class _RankPageState extends ConsumerState<RankPage> {
 
             const SizedBox(height: 24),
 
-            SizedBox(
-              height: 300,
-              child: Stack(
-                children: [
-                  sliderWidget(),
-                  sliderIndicator(),
-                ],
-              ),
-            ),
+            Column(
+              children: [
+                sliderWidget(),
+                sliderIndicator(
+                  selectColor: primaryColor,
+                  unselectColor: greyColor,
+                ),
+              ],
+            )
+
           ],
         ));
   }
@@ -75,14 +79,13 @@ class _RankPageState extends ConsumerState<RankPage> {
         (imgLink) {
           return Builder(
             builder: (context) {
-              return SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Image(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                    imgLink,
-                  ),
-                ),
+              // 랭크 데이터 받아서 테스트 해봐야 될듯
+              // final rank =
+
+              return RankCard(
+                badge: '',
+                nickname: 'nickname',
+                insigniaList: [],
               );
             },
           );
@@ -101,7 +104,10 @@ class _RankPageState extends ConsumerState<RankPage> {
     );
   }
 
-  Widget sliderIndicator() {
+  Widget sliderIndicator({
+    required Color selectColor,
+    required Color unselectColor,
+  }) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
@@ -116,8 +122,9 @@ class _RankPageState extends ConsumerState<RankPage> {
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color:
-                    Colors.white.withOpacity(_current == entry.key ? 0.9 : 0.4),
+                color: _current == entry.key
+                  ? selectColor
+                  : unselectColor,
               ),
             ),
           );
