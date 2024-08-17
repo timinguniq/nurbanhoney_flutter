@@ -43,12 +43,18 @@ class _RankPageState extends ConsumerState<RankPage> {
                   width: 12,
                   height: 26,
                 ),
+
+                const SizedBox(width: 8),
+
                 Text(
                   widget.title,
                   style: titleStyle,
                 ),
               ],
             ),
+
+            const SizedBox(height: 24),
+
             SizedBox(
               height: 300,
               child: Stack(
@@ -85,8 +91,7 @@ class _RankPageState extends ConsumerState<RankPage> {
       options: CarouselOptions(
         height: 300,
         viewportFraction: 1.0,
-        autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 4),
+        autoPlay: false,
         onPageChanged: (index, reason) {
           setState(() {
             _current = index;
