@@ -21,6 +21,8 @@ class RankCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authorTextStyle = ref.read(articleDetailNurbanAuthorStyle);
 
+    log('badge: $badge, nickname: $nickname, insigniaList: $insigniaList');
+
     return Column(
       children: [
         Row(
@@ -28,15 +30,18 @@ class RankCard extends ConsumerWidget {
             /// TOOD(me): 1위 만들어야됨.
 
             //
-            UserInfo(
-              onTap: () {
-                log('UserInfo clicked');
-              },
-              badge: badge,
-              nickname: nickname,
-              authorTextStyle: authorTextStyle,
-              insigniaList: insigniaList,
-            )
+            Expanded(
+              child: UserInfo(
+                onTap: () {
+                  log('UserInfo clicked');
+                },
+                badge: badge,
+                nickname: nickname,
+                authorTextStyle: authorTextStyle,
+                insigniaList: insigniaList,
+              ),
+            ),
+
           ],
         ),
 

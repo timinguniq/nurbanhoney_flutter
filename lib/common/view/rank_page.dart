@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:share_service/share_service.dart';
 
 class RankPage extends ConsumerStatefulWidget {
   const RankPage({
@@ -73,34 +77,61 @@ class _RankPageState extends ConsumerState<RankPage> {
   }
 
   Widget sliderWidget() {
-    return CarouselSlider(
-      carouselController: _controller,
-      items: imageList.map(
-        (imgLink) {
-          return Builder(
-            builder: (context) {
-              // 랭크 데이터 받아서 테스트 해봐야 될듯
-              // final rank =
 
-              return RankCard(
-                badge: '',
-                nickname: 'nickname',
-                insigniaList: [],
-              );
+    final getRankTab = ref.watch(getRankTabProvider((offset: 0, limit: 3)));
+
+    final fConvertToInsignia = ref.read(convertToInsignia);
+
+    return getRankTab.when(
+      data: (data) {
+        final receiveData = data;
+        log('getRankTab data: $data');
+        log('getRankTab data receiveData : $receiveData');
+        for (var element in receiveData) {
+          log('getRankTab data id: ${element.id}');
+          log('getRankTab data userId: ${element.userId}');
+          log('getRankTab data badge: ${element.badge}');
+          log('getRankTab data nickname: ${element.nickname}');
+          log('getRankTab data insignia: ${element.insignia}');
+        }
+
+        return CarouselSlider(
+          carouselController: _controller,
+          items: data.map(
+              (ele) {
+                log('insigniaList before');
+                // 휘장 리스트
+                List<String> insigniaList = fConvertToInsignia(ele.insignia.toString());
+                log('insigniaList after');
+                return RankCard(
+                  badge: ele.badge,
+                  nickname: ele.nickname,
+                  insigniaList: insigniaList,
+                );
+            }
+          ).toList(),
+          options: CarouselOptions(
+            height: 100,
+            viewportFraction: 1.0,
+            autoPlay: false,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
             },
-          );
-        },
-      ).toList(),
-      options: CarouselOptions(
-        height: 300,
-        viewportFraction: 1.0,
-        autoPlay: false,
-        onPageChanged: (index, reason) {
-          setState(() {
-            _current = index;
-          });
-        },
-      ),
+          ),
+        );
+      },
+      loading: () {
+        log('getRankTab loading');
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+      error: (error, stackTrace) {
+        log('getRankTab error: $error');
+        return const Text('error');
+      },
     );
   }
 
