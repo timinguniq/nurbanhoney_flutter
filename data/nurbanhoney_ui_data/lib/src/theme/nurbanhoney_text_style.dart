@@ -712,4 +712,14 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.color212124,
     height: 1.0,
   );
+
+  /// Font size: 16 | Color: 212124
+  static const rankNumber = TextStyle(
+    fontSize: 10,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.white,
+    height: 1.0,
+  );
 }

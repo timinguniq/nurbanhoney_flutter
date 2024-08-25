@@ -97,15 +97,19 @@ class _RankPageState extends ConsumerState<RankPage> {
 
         return CarouselSlider(
           carouselController: _controller,
-          items: data.map(
+          items: receiveData.map(
               (ele) {
                 log('insigniaList before');
                 // 휘장 리스트
                 List<String> insigniaList = fConvertToInsignia(ele.insignia.toString());
                 log('insigniaList after');
+
                 return RankCard(
+                  rankNumber: '1위',
                   badge: ele.badge,
                   nickname: ele.nickname,
+                  totalLossCut: ele.totalLossCut.toString(),
+                  totalLikeCount: ele.totalLossCut.toString(),
                   insigniaList: insigniaList,
                 );
             }

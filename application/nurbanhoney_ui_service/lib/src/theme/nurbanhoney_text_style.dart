@@ -289,3 +289,7 @@ final homeTabStyle = Provider<TextStyle>((ref) {
 final rankTitleStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.rankTitle;
 });
+
+final rankNumberStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankNumber;
+});
