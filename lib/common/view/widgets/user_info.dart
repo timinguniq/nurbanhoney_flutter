@@ -26,13 +26,9 @@ class UserInfo extends StatelessWidget {
     return InkWell(
       onTap: _onTap,
       child: SizedBox(
-        width: double.infinity,
         height: 21,
         child: Row(
           children: [
-            const SizedBox(
-              width: 16,
-            ),
             CachedNetworkImage(
               imageUrl: _badge,
               imageBuilder: (context, imageProvider) => Container(

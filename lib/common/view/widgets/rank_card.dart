@@ -30,11 +30,16 @@ class RankCard extends ConsumerWidget {
     final rankNumberTextStyle = ref.read(rankNumberStyle);
     log('badge: $badge, nickname: $nickname, insigniaList: $insigniaList');
 
+    final rankLossCutTitleTextStyle = ref.read(rankLossCutTitleStyle);
+    final rankLossCutValueTextStyle = ref.read(rankLossCutValueStyle);
+
+    final colorLossCut = ref.read(color3C54D3);
+    final colorLike = ref.read(colorF6B748);
+
     return Column(
       children: [
         Row(
           children: [
-            /// TOOD(me): 1위 만들어야됨.
             Container(
               width: 24,
               height: 24,
@@ -50,17 +55,16 @@ class RankCard extends ConsumerWidget {
               ),
             ),
 
-            //
-            Expanded(
-              child: UserInfo(
-                onTap: () {
-                  log('UserInfo clicked');
-                },
-                badge: badge,
-                nickname: nickname,
-                authorTextStyle: authorTextStyle,
-                insigniaList: insigniaList,
-              ),
+            const SizedBox(width: 8),
+
+            UserInfo(
+              onTap: () {
+                log('UserInfo clicked');
+              },
+              badge: badge,
+              nickname: nickname,
+              authorTextStyle: authorTextStyle,
+              insigniaList: insigniaList,
             ),
           ],
         ),
@@ -70,14 +74,49 @@ class RankCard extends ConsumerWidget {
 
         Row(
           children: [
-            /// TODO: 손실 표시
+            Container(
+              decoration: BoxDecoration(
+                color: colorLossCut,
+                borderRadius: BorderRadius.circular(30)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Text(
+                  '손실',
+                  style: rankLossCutTitleTextStyle,
+                ),
+              ),
+            ),
 
+            const SizedBox(width: 8),
 
-            /// TODO: 실제 손실액 표시
+            Text(
+              '-${totalLossCut}원',
+              style: rankLossCutValueTextStyle,
+            ),
 
-            /// TODO: 추천 표시
+            const SizedBox(width: 12),
 
-            /// TODO: 실제 추천액 표시
+            Container(
+              decoration: BoxDecoration(
+                  color: colorLike,
+                  borderRadius: BorderRadius.circular(30)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Text(
+                  '추천',
+                  style: rankLossCutTitleTextStyle,
+                ),
+              ),
+            ),
+
+            const SizedBox(width: 8),
+
+            Text(
+              '$totalLikeCount',
+              style: rankLossCutValueTextStyle,
+            ),
           ],
         ),
       ],

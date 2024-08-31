@@ -26,19 +26,12 @@ class _RankPageState extends ConsumerState<RankPage> {
 
   final CarouselSliderController _controller = CarouselSliderController();
 
-  List imageList = [
-    "https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_1280.jpg",
-    "https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014_1280.jpg",
-    "https://cdn.pixabay.com/photo/2012/03/01/00/55/flowers-19830_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/06/19/20/13/sunset-815270_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/01/08/05/24/sunflower-1127174_1280.jpg",
-  ];
-
   @override
   Widget build(BuildContext context) {
     final titleStyle = ref.read(rankTitleStyle);
     final primaryColor = ref.read(colorF6B748);
     final greyColor = ref.read(colorC4C4C4);
+    final dividerColor = ref.read(colorBBBBBB);
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -62,16 +55,18 @@ class _RankPageState extends ConsumerState<RankPage> {
 
             const SizedBox(height: 24),
 
-            Column(
-              children: [
-                sliderWidget(),
-                sliderIndicator(
-                  selectColor: primaryColor,
-                  unselectColor: greyColor,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: [
+                  sliderWidget(),
+                  sliderIndicator(
+                    selectColor: primaryColor,
+                    unselectColor: greyColor,
+                  ),
+                ],
+              ),
             )
-
           ],
         ));
   }
@@ -113,9 +108,10 @@ class _RankPageState extends ConsumerState<RankPage> {
             }
           ).toList(),
           options: CarouselOptions(
-            height: 100,
+            height: 85,
             viewportFraction: 1.0,
             autoPlay: false,
+            enableInfiniteScroll: false,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
@@ -164,8 +160,8 @@ class _RankPageState extends ConsumerState<RankPage> {
               return GestureDetector(
                 onTap: () => _controller.animateToPage(entry.key),
                 child: Container(
-                  width: 12,
-                  height: 12,
+                  width: 8,
+                  height: 8,
                   margin:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                   decoration: BoxDecoration(

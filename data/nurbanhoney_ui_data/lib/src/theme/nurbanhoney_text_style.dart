@@ -722,4 +722,27 @@ abstract class NurbanhoneyTextStyle {
     color: NurbanhoneyColors.white,
     height: 1.0,
   );
+
+  /// Font size: 12 | Color: FFFFFF
+  static const rankLossCutTitle = TextStyle(
+    fontSize: 12,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.white,
+    height: 1.0,
+  );
+
+  /// Font size: 16 | Color: 4D5159
+  static const rankLossCutValue = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.color4D5159,
+    height: 1.0,
+  );
+
+
+
 }

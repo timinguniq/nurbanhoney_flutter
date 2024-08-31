@@ -293,3 +293,11 @@ final rankTitleStyle = Provider<TextStyle>((ref) {
 final rankNumberStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.rankNumber;
 });
+
+final rankLossCutTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankLossCutTitle;
+});
+
+final rankLossCutValueStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankLossCutValue;
+});
