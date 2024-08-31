@@ -37,8 +37,6 @@ class HomeViewRefactor extends ConsumerStatefulWidget {
 }
 
 class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
-  int _selectedIndex = 0;
-
   final List<Widget> _widgetOptions = const <Widget>[
     HomeStockTabPage(),
     HomeCoinTabPage(),
@@ -47,12 +45,6 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override

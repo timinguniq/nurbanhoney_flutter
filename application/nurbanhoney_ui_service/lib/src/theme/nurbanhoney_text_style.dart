@@ -285,3 +285,19 @@ final myaccountEditWarnStyle = Provider<TextStyle>((ref) {
 final homeTabStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.homeTab;
 });
+
+final rankTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankTitle;
+});
+
+final rankNumberStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankNumber;
+});
+
+final rankLossCutTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankLossCutTitle;
+});
+
+final rankLossCutValueStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.rankLossCutValue;
+});

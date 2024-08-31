@@ -44,6 +44,7 @@ dependencies:
   google_mobile_ads: ^4.0.0
   android_id: ^0.3.6
   intl: ^0.18.1
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
     - assets/images/article_detail/
     - assets/images/article_create/
     - assets/images/myaccount/
+    - assets/images/common/
 
 flutter_gen:
   line_length: 80

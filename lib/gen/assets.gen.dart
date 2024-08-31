@@ -20,6 +20,9 @@ class $AssetsImagesGen {
   $AssetsImagesArticleDetailGen get articleDetail =>
       const $AssetsImagesArticleDetailGen();
 
+  /// Directory path: assets/images/common
+  $AssetsImagesCommonGen get common => const $AssetsImagesCommonGen();
+
   /// Directory path: assets/images/home
   $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
 
@@ -65,6 +68,17 @@ class $AssetsImagesArticleDetailGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [backKey, deleteIcon, lossCutIcon];
+}
+
+class $AssetsImagesCommonGen {
+  const $AssetsImagesCommonGen();
+
+  /// File path: assets/images/common/rank_icon.png
+  AssetGenImage get rankIcon =>
+      const AssetGenImage('assets/images/common/rank_icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [rankIcon];
 }
 
 class $AssetsImagesHomeGen {
