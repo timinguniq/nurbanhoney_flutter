@@ -72,6 +72,7 @@ class RankCard extends ConsumerWidget {
           children: [
             /// TODO: 손실 표시
 
+
             /// TODO: 실제 손실액 표시
 
             /// TODO: 추천 표시

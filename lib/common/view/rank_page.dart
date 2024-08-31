@@ -77,10 +77,8 @@ class _RankPageState extends ConsumerState<RankPage> {
   }
 
   Widget sliderWidget() {
-
-    final getRankTab = ref.watch(getRankTabProvider((offset: 0, limit: 3)));
-
-    final fConvertToInsignia = ref.read(convertToInsignia);
+   final fConvertToInsignia = ref.read(convertToInsignia);
+   final getRankTab = ref.watch(getRankTabProvider((offset: 0, limit: 3)));
 
     return getRankTab.when(
       data: (data) {
@@ -143,28 +141,55 @@ class _RankPageState extends ConsumerState<RankPage> {
     required Color selectColor,
     required Color unselectColor,
   }) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: imageList.asMap().entries.map((entry) {
-          return GestureDetector(
-            onTap: () => _controller.animateToPage(entry.key),
-            child: Container(
-              width: 12,
-              height: 12,
-              margin:
+    final getRankTab = ref.watch(getRankTabProvider((offset: 0, limit: 3)));
+
+    return getRankTab.when(
+      data: (data) {
+        final receiveData = data;
+        log('getRankTab data: $data');
+        log('getRankTab data receiveData : $receiveData');
+        for (var element in receiveData) {
+          log('getRankTab data id: ${element.id}');
+          log('getRankTab data userId: ${element.userId}');
+          log('getRankTab data badge: ${element.badge}');
+          log('getRankTab data nickname: ${element.nickname}');
+          log('getRankTab data insignia: ${element.insignia}');
+        }
+
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: receiveData.asMap().entries.map((entry) {
+              return GestureDetector(
+                onTap: () => _controller.animateToPage(entry.key),
+                child: Container(
+                  width: 12,
+                  height: 12,
+                  margin:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _current == entry.key
-                  ? selectColor
-                  : unselectColor,
-              ),
-            ),
-          );
-        }).toList(),
-      ),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _current == entry.key
+                        ? selectColor
+                        : unselectColor,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
+      loading: () {
+        log('getRankTab loading');
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+      error: (error, stackTrace) {
+        log('getRankTab error: $error');
+        return const Text('error');
+      },
     );
   }
 }
