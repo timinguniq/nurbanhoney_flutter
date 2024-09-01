@@ -31,7 +31,6 @@ class _RankPageState extends ConsumerState<RankPage> {
     final titleStyle = ref.read(rankTitleStyle);
     final primaryColor = ref.read(colorF6B748);
     final greyColor = ref.read(colorC4C4C4);
-    final dividerColor = ref.read(colorBBBBBB);
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
