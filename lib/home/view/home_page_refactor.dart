@@ -12,6 +12,10 @@ import 'package:nurbanhoney/home/view/widgets/drawer_profile.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
+import 'package:nurbanhoney/stock/stock.dart';
+import 'package:nurbanhoney/coin/coin.dart';
+
+
 class HomePageRefactor extends StatelessWidget {
   const HomePageRefactor({super.key});
 
@@ -38,8 +42,8 @@ class HomeViewRefactor extends ConsumerStatefulWidget {
 
 class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
   final List<Widget> _widgetOptions = const <Widget>[
-    HomeStockTabPage(),
-    HomeCoinTabPage(),
+    StockTabPage(),
+    CoinTabPage(),
   ];
 
   @override
@@ -87,14 +91,5 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
         )),
       ),
     );
-  }
-}
-
-class HomePageTab extends StatelessWidget {
-  const HomePageTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
