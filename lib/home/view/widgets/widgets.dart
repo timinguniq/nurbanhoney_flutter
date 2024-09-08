@@ -18,3 +18,4 @@ export 'myaccount_tab_article_view.dart';
 export 'myaccount_tab_comment_view.dart';
 export 'myaccount_article_item_view.dart';
 export 'myaccount_comment_item_view.dart';
+export 'home_stock_tab_bottom_sheet_view.dart';
