@@ -156,6 +156,7 @@ class HomeBodyView extends StatelessWidget {
           log('getBoardAll data likeCount: ${element.likeCount}');
           log('getBoardAll data createdAt: ${element.createdAt}');
           log('getBoardAll data nickname: ${element.nickname}');
+          log('getBoardAll data badge: ${element.badge}');
         }
       },
       loading: () {

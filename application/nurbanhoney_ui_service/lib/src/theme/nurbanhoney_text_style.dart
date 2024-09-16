@@ -301,3 +301,19 @@ final rankLossCutTitleStyle = Provider<TextStyle>((ref) {
 final rankLossCutValueStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.rankLossCutValue;
 });
+
+final stockTabLossCutStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.stockTabItemLossCut;
+});
+
+final stockTabTitleStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.stockTabItemTitle;
+});
+
+final stockTabContentStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.stockTabItemContent;
+});
+
+final stockTabLikeStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.stockTabItemLike;
+});

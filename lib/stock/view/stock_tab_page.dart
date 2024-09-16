@@ -24,6 +24,7 @@ class StockTabPage extends ConsumerWidget {
     final getNurbanAll =
       ref.watch(getNurbanAllProvider((0, -1, 100)));
     final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
+    final fConvertToInsignia = ref.read(convertToInsignia);
 
     return getNurbanAll.when(
       data: (data) {
@@ -40,7 +41,9 @@ class StockTabPage extends ConsumerWidget {
           log('getNurbanAll data likeCount: ${element.likeCount}');
           log('getNurbanAll data createdAt: ${element.createdAt}');
           log('getNurbanAll data nickname: ${element.nickname}');
+          log('getNurbanAll data badge: ${element.badge}');
         }
+
         return Scaffold(
           body: SingleChildScrollView(
             child: Column(
@@ -61,28 +64,32 @@ class StockTabPage extends ConsumerWidget {
                 for (var element in receiveData)
                   Column(
                     children: [
-                      NurbanBoardItemView(
-                        badge: const NurbanBoardBadge(),
-                        title: element.title,
-                        lossCut: element.lossCut,
-                        author: element.nickname,
-                        date: formattingCreatedAt(element.createdAt),
-                        likeCount: element.likeCount,
-                        thumbnail: CachedNetworkImage(
-                          imageUrl: element.thumbnail ?? '',
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              Assets.images.home.nurbanSymbol.image(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: StockListItem(
+                          title: element.title,
+                          lossCut: element.lossCut,
+                          author: element.nickname,
+                          badge: element.badge,
+                          insigniaList: fConvertToInsignia(element.insignia),
+                          date: formattingCreatedAt(element.createdAt),
+                          likeCount: element.likeCount,
+                          thumbnail: CachedNetworkImage(
+                            imageUrl: element.thumbnail ?? '',
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Assets.images.home.nurbanSymbol.image(),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(ArticleDetailPage.route(
+                              board: element.board,
+                              articleId: element.id,
+                            ));
+                          },
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(ArticleDetailPage.route(
-                            board: element.board,
-                            articleId: element.id,
-                          ));
-                        },
                       ),
                       const AppbarDivider(),
                     ],

@@ -73,12 +73,16 @@ class $AssetsImagesArticleDetailGen {
 class $AssetsImagesCommonGen {
   const $AssetsImagesCommonGen();
 
+  /// File path: assets/images/common/option_icon.png
+  AssetGenImage get optionIcon =>
+      const AssetGenImage('assets/images/common/option_icon.png');
+
   /// File path: assets/images/common/rank_icon.png
   AssetGenImage get rankIcon =>
       const AssetGenImage('assets/images/common/rank_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [rankIcon];
+  List<AssetGenImage> get values => [optionIcon, rankIcon];
 }
 
 class $AssetsImagesHomeGen {
