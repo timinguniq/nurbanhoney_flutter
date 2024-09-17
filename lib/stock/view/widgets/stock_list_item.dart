@@ -13,17 +13,19 @@ class StockListItem extends StatelessWidget {
     required String title,
     required String content,
     required String lossCut,
+    required String commentCount,
+    required String thumbnail,
     required String author,
     required String badge,
     required List<String> insigniaList,
     required String date,
     required String likeCount,
-    required String thumbnail,
     required VoidCallback onTap,
     super.key,
   })  : _title = title,
         _content = content,
         _lossCut = lossCut,
+        _commentCount = commentCount,
         _author = author,
         _badge = badge,
         _insigniaList = insigniaList,
@@ -35,6 +37,7 @@ class StockListItem extends StatelessWidget {
   final String _title;
   final String _content;
   final String _lossCut;
+  final String _commentCount;
   final String _author;
   final String _badge;
   final List<String> _insigniaList;
@@ -115,14 +118,27 @@ class StockListItem extends StatelessWidget {
             const SizedBox(height: 8),
 
             /// 썸네일
-            CachedNetworkImage(
-              imageUrl: _thumbnail,
-              progressIndicatorBuilder:
-                  (context, url, downloadProgress) =>
-                  CircularProgressIndicator(
-                      value: downloadProgress.progress),
-              errorWidget: (context, url, error) =>
-                  Assets.images.home.nurbanSymbol.image(),
+            SizedBox(
+              width: double.infinity,
+              height: 100,
+              child: CachedNetworkImage(
+                imageUrl: _thumbnail,
+                progressIndicatorBuilder:
+                    (context, url, downloadProgress) =>
+                    CircularProgressIndicator(
+                        value: downloadProgress.progress),
+                errorWidget: (context, url, error) =>
+                    Assets.images.home.nurbanSymbol.image(),
+                imageBuilder: (context, imageProvider) =>
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+              ),
             ),
 
 
@@ -131,5 +147,14 @@ class StockListItem extends StatelessWidget {
         )
       );
     });
+  }
+}
+
+class UserAction extends StatelessWidget {
+  const UserAction({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

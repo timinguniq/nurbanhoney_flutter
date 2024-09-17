@@ -69,13 +69,14 @@ class StockTabPage extends ConsumerWidget {
                         child: StockListItem(
                           title: element.title,
                           content: element.content,
+                          thumbnail: element.thumbnail ?? '',
                           lossCut: element.lossCut,
+                          commentCount: element.commentCount.toString(),
                           author: element.nickname,
                           badge: element.badge,
                           insigniaList: fConvertToInsignia(element.insignia),
                           date: formattingCreatedAt(element.createdAt),
                           likeCount: element.likeCount,
-                          thumbnail: element.thumbnail ?? '',
                           onTap: () {
                             Navigator.of(context).push(ArticleDetailPage.route(
                               board: element.board,
