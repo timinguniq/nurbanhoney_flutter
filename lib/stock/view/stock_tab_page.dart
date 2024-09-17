@@ -67,6 +67,7 @@ class StockTabPage extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: StockListItem(
+                          id: element.id,
                           title: element.title,
                           content: element.content,
                           thumbnail: element.thumbnail ?? '',
