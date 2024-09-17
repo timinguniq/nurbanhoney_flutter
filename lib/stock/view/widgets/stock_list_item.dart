@@ -141,8 +141,11 @@ class StockListItem extends StatelessWidget {
               ),
             ),
 
-
-
+            /// 유저 액션(댓글, 좋아요)
+            UserAction(
+              commentCount: _commentCount,
+              likeCount: _likeCount,
+            ),
           ],
         )
       );
@@ -151,10 +154,18 @@ class StockListItem extends StatelessWidget {
 }
 
 class UserAction extends StatelessWidget {
-  const UserAction({super.key});
+  const UserAction({
+    required String commentCount,
+    required String likeCount,
+    super.key,
+  }): _commentCount = commentCount,
+      _likeCount = likeCount;
+
+  final String _commentCount;
+  final String _likeCount;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Text('$_commentCount 댓글 $_likeCount 좋아요');
   }
 }
