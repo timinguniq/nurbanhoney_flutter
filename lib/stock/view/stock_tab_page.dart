@@ -68,21 +68,14 @@ class StockTabPage extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: StockListItem(
                           title: element.title,
+                          content: element.content,
                           lossCut: element.lossCut,
                           author: element.nickname,
                           badge: element.badge,
                           insigniaList: fConvertToInsignia(element.insignia),
                           date: formattingCreatedAt(element.createdAt),
                           likeCount: element.likeCount,
-                          thumbnail: CachedNetworkImage(
-                            imageUrl: element.thumbnail ?? '',
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                            errorWidget: (context, url, error) =>
-                                Assets.images.home.nurbanSymbol.image(),
-                          ),
+                          thumbnail: element.thumbnail ?? '',
                           onTap: () {
                             Navigator.of(context).push(ArticleDetailPage.route(
                               board: element.board,

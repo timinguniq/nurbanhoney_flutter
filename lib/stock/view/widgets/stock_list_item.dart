@@ -6,22 +6,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
-import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class StockListItem extends StatelessWidget {
   const StockListItem({
     required String title,
+    required String content,
     required String lossCut,
     required String author,
     required String badge,
     required List<String> insigniaList,
     required String date,
     required String likeCount,
-    required CachedNetworkImage thumbnail,
+    required String thumbnail,
     required VoidCallback onTap,
     super.key,
   })  : _title = title,
+        _content = content,
         _lossCut = lossCut,
         _author = author,
         _badge = badge,
@@ -32,13 +33,14 @@ class StockListItem extends StatelessWidget {
         _onTap = onTap;
 
   final String _title;
+  final String _content;
   final String _lossCut;
   final String _author;
   final String _badge;
   final List<String> _insigniaList;
   final String _date;
   final String _likeCount;
-  final CachedNetworkImage _thumbnail;
+  final String _thumbnail;
   final VoidCallback _onTap;
 
   @override
@@ -55,6 +57,7 @@ class StockListItem extends StatelessWidget {
       return InkWell(
         onTap: _onTap,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +88,43 @@ class StockListItem extends StatelessWidget {
               ],
             ),
 
+            const SizedBox(height: 12),
+
             /// 손실액
+            Text(
+              '-$_lossCut원',
+              style: lossCutStyle,
+            ),
+
+            const SizedBox(height: 8),
+
+            /// 타이틀
+            Text(
+              _title,
+              style: titleStyle,
+            ),
+
+            const SizedBox(height: 8),
+
+            /// 내용
+            Text(
+              _content,
+              style: contentStyle,
+            ),
+
+            const SizedBox(height: 8),
+
+            /// 썸네일
+            CachedNetworkImage(
+              imageUrl: _thumbnail,
+              progressIndicatorBuilder:
+                  (context, url, downloadProgress) =>
+                  CircularProgressIndicator(
+                      value: downloadProgress.progress),
+              errorWidget: (context, url, error) =>
+                  Assets.images.home.nurbanSymbol.image(),
+            ),
+
 
 
           ],
