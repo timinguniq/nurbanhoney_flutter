@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeCoinTabPage extends StatelessWidget {
-  const HomeCoinTabPage({super.key});
+class CoinTabPage extends StatelessWidget {
+  const CoinTabPage({super.key});
 
   @override
   Widget build(BuildContext context) {

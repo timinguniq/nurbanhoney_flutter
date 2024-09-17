@@ -743,6 +743,45 @@ abstract class NurbanhoneyTextStyle {
     height: 1.0,
   );
 
+  /// Font size: 16 | Color: 3C54D3
+  static const stockTabItemLossCut = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color3C54D3,
+    height: 1.0,
+  );
+
+  /// Font size: 16 | Color: 212124
+  static const stockTabItemTitle = TextStyle(
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w600,
+    color: NurbanhoneyColors.color212124,
+    height: 1.0,
+  );
+
+  /// Font size: 14 | Color: 212124
+  static const stockTabItemContent = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color212124,
+    height: 1.0,
+  );
+
+  /// Font size: 14 | Color: 5E5D68
+  static const stockTabItemLike = TextStyle(
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+    fontWeight: FontWeight.w500,
+    color: NurbanhoneyColors.color5E5D68,
+    height: 1.0,
+  );
 
 
 }

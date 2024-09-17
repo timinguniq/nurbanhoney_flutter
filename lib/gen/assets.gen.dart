@@ -73,12 +73,25 @@ class $AssetsImagesArticleDetailGen {
 class $AssetsImagesCommonGen {
   const $AssetsImagesCommonGen();
 
+  /// File path: assets/images/common/comment_icon.png
+  AssetGenImage get commentIcon =>
+      const AssetGenImage('assets/images/common/comment_icon.png');
+
+  /// File path: assets/images/common/like_icon.png
+  AssetGenImage get likeIcon =>
+      const AssetGenImage('assets/images/common/like_icon.png');
+
+  /// File path: assets/images/common/option_icon.png
+  AssetGenImage get optionIcon =>
+      const AssetGenImage('assets/images/common/option_icon.png');
+
   /// File path: assets/images/common/rank_icon.png
   AssetGenImage get rankIcon =>
       const AssetGenImage('assets/images/common/rank_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [rankIcon];
+  List<AssetGenImage> get values =>
+      [commentIcon, likeIcon, optionIcon, rankIcon];
 }
 
 class $AssetsImagesHomeGen {
