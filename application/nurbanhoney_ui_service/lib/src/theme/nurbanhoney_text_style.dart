@@ -317,3 +317,7 @@ final stockTabContentStyle = Provider<TextStyle>((ref) {
 final stockTabLikeStyle = Provider<TextStyle>((ref) {
   return NurbanhoneyTextStyle.stockTabItemLike;
 });
+
+final articleCreateStyle = Provider<TextStyle>((ref) {
+  return NurbanhoneyTextStyle.articleCreate;
+});
