@@ -8,7 +8,6 @@ import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
-/// TODO: 내의견 등록하기 아래 바텀 시트
 class StockTabBottomSheetView extends StatelessWidget {
   const StockTabBottomSheetView({super.key});
 
@@ -22,7 +21,6 @@ class StockTabBottomSheetView extends StatelessWidget {
 
       return InkWell(
         onTap: () {
-          log('내의견 등록하기 클릭');
           if (authenticationProvider ==
               AuthenticationStatus.authenticated) {
             Navigator.of(context).push(ArticleCreatePage.route());
