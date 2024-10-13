@@ -1,4 +1,6 @@
-class StockTabViewmodel extends BaseViewmodel {
+import 'package:nurbanhoney/common/common.dart';
+
+class StockTabViewmodel extends BaseViewModel {
   const StockTabViewmodel({super.key});
 
   @override
