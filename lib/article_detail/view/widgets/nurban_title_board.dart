@@ -62,14 +62,17 @@ class NurbanTitleBoard extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              UserInfo(
-                onTap: () {
-                  log('UserInfo clicked');
-                },
-                badge: data.badge,
-                nickname: data.nickname,
-                authorTextStyle: articleDetailNurbanAuthorTextStyle,
-                insigniaList: insigniaList,
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: UserInfo(
+                  onTap: () {
+                    log('UserInfo clicked');
+                  },
+                  badge: data.badge,
+                  nickname: data.nickname,
+                  authorTextStyle: articleDetailNurbanAuthorTextStyle,
+                  insigniaList: insigniaList,
+                ),
               ),
               const SizedBox(
                 height: 7,

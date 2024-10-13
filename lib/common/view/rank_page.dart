@@ -97,7 +97,7 @@ class _RankPageState extends ConsumerState<RankPage> {
                 log('insigniaList after');
 
                 return RankCard(
-                  rankNumber: '1위',
+                  rankNumber: '${ele.id}위',
                   badge: ele.badge,
                   nickname: ele.nickname,
                   totalLossCut: ele.totalLossCut.toString(),
