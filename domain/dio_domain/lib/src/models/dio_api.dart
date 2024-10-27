@@ -1,3 +1,3 @@
 class DioApi{
-  static final mainApi = 'http://15.165.203.187:8128';
+  static final mainApi = 'http://13.125.209.157:8128';
 }
