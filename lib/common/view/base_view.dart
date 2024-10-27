@@ -22,7 +22,7 @@ class BaseView<T extends BaseViewModel> extends StatelessWidget {
         builder: (context, viewModel, child) {
           return LoadingIndicator(
             height: loadingIndicatorHeight,
-            isLoading: viewModel.isLoading,
+            isBusy: viewModel.isBusy,
             child: builder(context, viewModel),
           );
         },
