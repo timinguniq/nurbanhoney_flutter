@@ -7,6 +7,7 @@ class CoinTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Text('HomeCoinTabPage'),
+      
     );
   }
 }
