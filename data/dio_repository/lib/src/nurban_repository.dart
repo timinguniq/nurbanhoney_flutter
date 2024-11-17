@@ -82,14 +82,21 @@ class NurbanRepository {
     required int limit,
   }) async {
     try {
-      final response = await dio.get(
+      //var headers = {'Content-Type': 'application/json, charset=utf-8'};
+    log('getNurbanAll flag: $flag');
+    final response = await dio.get(
         '${DioApi.mainApi}/board/nurban',
         queryParameters: {
           'flag': flag,
           'articleId': articleId,
           'limit': limit,
         },
+        //options: Options(
+        //  headers: headers,
+        //)
       );
+      log('getNurbanAll response: ${response.data}');
+
       final result = <BoardAllType>[];
       for(int i = 0; i < response.data.length ; i++) {
         log('getNurbanAll response: ${response.data[i]}');
@@ -113,6 +120,15 @@ class NurbanRepository {
 
       final futureValue = Future.value(result);
       return futureValue;
+    } on DioException catch (e) {
+      print('DioException: ${e.message}');
+      if (e.response != null) {
+        // You can inspect the response if it exists
+        print('Error response: ${e.response?.data}');
+      } else {
+        print('Request failed: ${e.requestOptions}');
+      }
+      throw Exception(e);
     } catch (e) {
       log('getNurbanAll error : $e');
       throw Exception(e);

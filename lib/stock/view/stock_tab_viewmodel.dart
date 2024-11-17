@@ -50,21 +50,44 @@ class StockTabViewModel extends BaseViewModel {
 
     final nextPage = isRefresh ? firstPage : _currentStockPage + 1;
 
-    final getNurbanAll = ref.read(getNurbanAllProvider((0, nextPage, 10)));
+    log('articleId : $nextPage');
+    final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
+    //final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10);
 
-    final list = getNurbanAll.asData?.valueOrNull ?? [];
+    //final getNurbanAll = ref.read(getNurbanAllProvider((0, nextPage, 10)));
+    //final list = getNurbanAll.asData?.valueOrNull ?? [];
 
-    if(list.isNotEmpty){
+    nurbanAll.when(
+      data: (data) {
+        log('StockTabViewModel data: $data');
+        //_updateStockList(data, nextPage, isRefresh);
+        _stockList = isRefresh
+            ? data
+            : _stockList + data;
+        _currentStockPage = nextPage;
+        _hasNextPage = data.length >= scrollThresholdCount;
+        _updateFetchState(DataFetchSuccess());
+      },
+      loading: () {
+        log('StockTabViewModel loading');
+      },
+      error: (error, stackTrace) {
+        log('StockTabViewModel error: $error');
+        _updateFetchState(DataFetchError('error'));
+      },
+    );
+    /*
+    if(nurbanList.isNotEmpty){
       _stockList = isRefresh
-          ? list
-          : _stockList + list;
+          ? nurbanList
+          : _stockList + nurbanList;
       _currentStockPage = nextPage;
-      _hasNextPage = list.length >= scrollThresholdCount;
+      _hasNextPage = nurbanList.length >= scrollThresholdCount;
       _updateFetchState(DataFetchSuccess());
     }else{
       _updateFetchState(DataFetchError('error'));
     }
-
+*/
   }
 
 }
