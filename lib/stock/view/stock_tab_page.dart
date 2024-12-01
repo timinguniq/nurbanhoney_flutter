@@ -25,75 +25,8 @@ class StockTabPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dividerColor = ref.read(colorBBBBBB);
 
-    /// TODO: 여기 주식 데이터 받아서 표시해야 됨.
-    final getNurbanAll = ref.watch(getNurbanAllProvider((0, -1, 100)));
     final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
     final fConvertToInsignia = ref.read(convertToInsignia);
-
-    return getNurbanAll.when(
-      data: (data) {
-        final receiveData = data;
-        log('getNurbanAll data: $data');
-        log('getNurbanAll data receiveData : $receiveData');
-        for (var element in receiveData) {
-          log('getNurbanAll data id: ${element.id}');
-          log('getNurbanAll data board: ${element.board}');
-          log('getNurbanAll data thumbnail: ${element.thumbnail}');
-          log('getNurbanAll data title: ${element.title}');
-          log('getNurbanAll data content: ${element.content}');
-          log('getNurbanAll data commentCount: ${element.commentCount}');
-          log('getNurbanAll data likeCount: ${element.likeCount}');
-          log('getNurbanAll data createdAt: ${element.createdAt}');
-          log('getNurbanAll data nickname: ${element.nickname}');
-        }
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              for (var element in receiveData)
-                Column(
-                  children: [
-                    NurbanBoardItemView(
-                      badge: const NurbanBoardBadge(),
-                      title: element.title,
-                      lossCut: element.lossCut,
-                      author: element.nickname,
-                      date: formattingCreatedAt(element.createdAt),
-                      likeCount: element.likeCount,
-                      thumbnail: CachedNetworkImage(
-                        imageUrl: element.thumbnail ?? '',
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                            CircularProgressIndicator(
-                                value: downloadProgress.progress),
-                        errorWidget: (context, url, error) =>
-                            Assets.images.home.nurbanSymbol.image(),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(ArticleDetailPage.route(
-                          board: element.board,
-                          articleId: element.id,
-                        ));
-                      },
-                    ),
-                    const AppbarDivider(),
-                  ],
-                ),
-            ],
-          ),
-        );
-      },
-      loading: () {
-        log('getNurbanAll loading');
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-      error: (error, stackTrace) {
-        log('getNurbanAll error: $error');
-        return const Text('error');
-      },
-    );
-
     return BaseView<StockTabViewModel>(
       viewModel: StockTabViewModel(ref),
       builder: (context, viewModel) {

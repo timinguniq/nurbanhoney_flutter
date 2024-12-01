@@ -36,8 +36,8 @@ dependencies:
     path: data/dio_repository
   share_service:
     path: application/share_service
-  kakao_flutter_sdk: ^1.4.3
-  kakao_flutter_sdk_user: ^1.4.3
+  kakao_flutter_sdk: ^1.9.6
+  kakao_flutter_sdk_user: ^1.9.6
   cached_network_image: ^3.2.3
   image_picker: ^1.0.4
   uuid: ^4.0.0

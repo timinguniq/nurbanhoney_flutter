@@ -18,6 +18,7 @@ class StockTabViewModel extends BaseViewModel {
   void _updateFetchState(DataFetchStatus value) {
     isBusy = value is DataFetching || value is DataFetchingMore || value is DataRefetching;
     _fetchState = value;
+    log('_updateFetchState isBusy: $isBusy');
     notifyListeners();
   }
 
@@ -51,12 +52,13 @@ class StockTabViewModel extends BaseViewModel {
     final nextPage = isRefresh ? firstPage : _currentStockPage + 1;
 
     log('articleId : $nextPage');
-    final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
-    //final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10);
+    //final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
+    final nurbanRepository = ref.read(nurbanRepositoryProvider);
+    final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10);
 
     //final getNurbanAll = ref.read(getNurbanAllProvider((0, nextPage, 10)));
     //final list = getNurbanAll.asData?.valueOrNull ?? [];
-
+/*
     nurbanAll.when(
       data: (data) {
         log('StockTabViewModel data: $data');
@@ -70,13 +72,14 @@ class StockTabViewModel extends BaseViewModel {
       },
       loading: () {
         log('StockTabViewModel loading');
+        _updateFetchState(DataRefetching());
       },
       error: (error, stackTrace) {
         log('StockTabViewModel error: $error');
         _updateFetchState(DataFetchError('error'));
       },
     );
-    /*
+ */
     if(nurbanList.isNotEmpty){
       _stockList = isRefresh
           ? nurbanList
@@ -87,7 +90,6 @@ class StockTabViewModel extends BaseViewModel {
     }else{
       _updateFetchState(DataFetchError('error'));
     }
-*/
   }
 
 }
