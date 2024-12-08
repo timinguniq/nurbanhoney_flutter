@@ -23,7 +23,7 @@ class StockListItem extends StatelessWidget {
     required String likeCount,
     required VoidCallback onTap,
     super.key,
-  }) : _id = id,
+  })  : _id = id,
         _title = title,
         _content = content,
         _lossCut = lossCut,
@@ -61,106 +61,100 @@ class StockListItem extends StatelessWidget {
       var f = NumberFormat('###,###,###,###');
 
       return InkWell(
-          onTap: _onTap,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  UserInfo(
-                    onTap: () {
-                      log('UserInfo clicked');
-                    },
-                    badge: _badge,
-                    nickname: _author,
-                    authorTextStyle: authorStyle,
-                    insigniaList: _insigniaList,
-                  ),
-
-                  InkWell(
-                    onTap: () {
-                      log('delete clicked');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, top: 3, bottom: 3),
-                      child: SizedBox(
-                        width: 6,
-                        height: 20,
-                        child: Assets.images.common.optionIcon.image(),
-                      ),
+        onTap: _onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                UserInfo(
+                  onTap: () {
+                    log('UserInfo clicked');
+                  },
+                  badge: _badge,
+                  nickname: _author,
+                  authorTextStyle: authorStyle,
+                  insigniaList: _insigniaList,
+                ),
+                InkWell(
+                  onTap: () {
+                    log('delete clicked');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 3, bottom: 3),
+                    child: SizedBox(
+                      width: 6,
+                      height: 20,
+                      child: Assets.images.common.optionIcon.image(),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-              /// 손실액
-              Text(
-                '-${f.format(int.parse(_lossCut))}원',
-                style: lossCutStyle,
-              ),
+            /// 손실액
+            Text(
+              '-${f.format(int.parse(_lossCut))}원',
+              style: lossCutStyle,
+            ),
 
-              const SizedBox(height: 8),
+            const SizedBox(height: 8),
 
-              /// 타이틀
-              Text(
-                _title,
-                style: titleStyle,
-              ),
+            /// 타이틀
+            Text(
+              _title,
+              style: titleStyle,
+            ),
 
-              const SizedBox(height: 8),
+            const SizedBox(height: 8),
 
-              /// 내용
-              Text(
-                _content,
-                style: contentStyle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+            /// 내용
+            Text(
+              _content,
+              style: contentStyle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
 
-              const SizedBox(height: 8),
+            const SizedBox(height: 8),
 
-              /// 썸네일
-              SizedBox(
-                width: double.infinity,
-                height: 100,
-                child: CachedNetworkImage(
-                  imageUrl: _thumbnail,
-                  progressIndicatorBuilder:
-                      (context, url, downloadProgress) =>
-                      CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                  errorWidget: (context, url, error) =>
-                      Assets.images.home.nurbanSymbol.image(),
-                  imageBuilder: (context, imageProvider) =>
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+            /// 썸네일
+            SizedBox(
+              width: double.infinity,
+              height: 100,
+              child: CachedNetworkImage(
+                imageUrl: _thumbnail,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) =>
+                    Assets.images.home.nurbanSymbol.image(),
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
+            ),
 
-              const SizedBox(height: 20),
+            const SizedBox(height: 20),
+            /// 유저 액션(댓글, 좋아요)
+            UserAction(
+              articleId: _id,
+              commentCount: _commentCount,
+              likeCount: _likeCount,
+              textStyle: likeStyle,
+            ),
 
-              /// 유저 액션(댓글, 좋아요)
-              UserAction(
-                articleId: _id,
-                commentCount: _commentCount,
-                likeCount: _likeCount,
-                textStyle: likeStyle,
-              ),
-
-              const SizedBox(height: 16),
-            ],
-          )
+            const SizedBox(height: 16),
+          ],
+        ),
       );
     });
   }
@@ -173,7 +167,7 @@ class UserAction extends StatelessWidget {
     required String likeCount,
     required TextStyle textStyle,
     super.key,
-  }) : _articleId = articleId,
+  })  : _articleId = articleId,
         _commentCount = commentCount,
         _likeCount = likeCount,
         _textStyle = textStyle;

@@ -7,10 +7,7 @@ import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
-import 'package:nurbanhoney/board/view/nurban_board_item_view.dart';
-import 'package:nurbanhoney/board/view/widgets/nurban_board_badge.dart';
 import 'package:nurbanhoney/common/common.dart';
-import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney/stock/stock.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -30,8 +27,6 @@ class StockTabPage extends ConsumerWidget {
     return BaseView<StockTabViewModel>(
       viewModel: StockTabViewModel(ref),
       builder: (context, viewModel) {
-        //final status = viewModel.fetchState;
-        //final stockList = viewModel.stockList;
         return RefreshIndicator(
           onRefresh: () async => viewModel.fetch(isRefresh: true),
           child: Builder(
@@ -41,7 +36,9 @@ class StockTabPage extends ConsumerWidget {
               log('isBusy: ${viewModel.isBusy}');
               if (viewModel.fetchState is DataFetching) return const SizedBox();
 
-              if (viewModel.fetchState is DataRefetching) return const SizedBox();
+              if (viewModel.fetchState is DataRefetching) {
+                return const SizedBox();
+              }
 
               if (viewModel.fetchState is DataFetchError) {
                 final error = (viewModel.fetchState as DataFetchError).error;
@@ -54,8 +51,7 @@ class StockTabPage extends ConsumerWidget {
               }
 
               return Scaffold(
-                body: SingleChildScrollView(
-                  child: Column(
+                body: Column(
                     children: [
                       const SizedBox(height: 17),
                       const RankPage(
@@ -66,39 +62,57 @@ class StockTabPage extends ConsumerWidget {
                         thickness: 1,
                         color: dividerColor,
                       ),
-                      for (var element in viewModel.stockList)
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: StockListItem(
-                                id: element.id,
-                                title: element.title,
-                                content: element.content,
-                                thumbnail: element.thumbnail ?? '',
-                                lossCut: element.lossCut,
-                                commentCount: element.commentCount.toString(),
-                                author: element.nickname,
-                                badge: element.badge,
-                                insigniaList:
-                                    fConvertToInsignia(element.insignia),
-                                date: formattingCreatedAt(element.createdAt),
-                                likeCount: element.likeCount,
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(ArticleDetailPage.route(
-                                    board: element.board,
-                                    articleId: element.id,
-                                  ));
-                                },
-                              ),
-                            ),
-                            const AppbarDivider(),
-                          ],
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: viewModel.stockList.length,
+                          itemBuilder: (_, index) {
+                            final item = viewModel.stockList[index];
+
+                            log('viewModel.isBusy: ${viewModel.isBusy}');
+                            log('viewModel.hasNextPage: ${viewModel.hasNextPage}');
+                            log('viewModel index: $index');
+
+                            if (!viewModel.isBusy &&
+                                viewModel.hasNextPage &&
+                                index == viewModel.stockList.length - 10) {
+                              Future(() =>
+                                  unawaited(viewModel.fetch(isRefresh: false)));
+                            }
+
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: StockListItem(
+                                    id: item.id,
+                                    title: item.title,
+                                    content: item.content,
+                                    thumbnail: item.thumbnail ?? '',
+                                    lossCut: item.lossCut,
+                                    commentCount: item.commentCount.toString(),
+                                    author: item.nickname,
+                                    badge: item.badge,
+                                    insigniaList:
+                                        fConvertToInsignia(item.insignia),
+                                    date: formattingCreatedAt(item.createdAt),
+                                    likeCount: item.likeCount,
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(ArticleDetailPage.route(
+                                        board: item.board,
+                                        articleId: item.id,
+                                      ));
+                                    },
+                                  ),
+                                ),
+                                const AppbarDivider(),
+                              ],
+                            );
+                          },
                         ),
+                      ),
                     ],
-                  ),
                 ),
                 bottomSheet: const StockTabBottomSheetView(),
               );

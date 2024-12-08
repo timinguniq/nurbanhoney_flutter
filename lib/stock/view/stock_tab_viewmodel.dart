@@ -24,15 +24,15 @@ class StockTabViewModel extends BaseViewModel {
 
   // state --------------------//
 
-  final firstPage = -1;
+  final firstArticleId = -1;
   
-  int _currentStockPage = 0;
+  int _currentStockArticleId = 0;
 
   bool _hasNextPage = false;
 
   bool get hasNextPage => _hasNextPage;
 
-  int scrollThresholdCount = 20;
+  int scrollThresholdCount = 10;
 
   // followerList --------------------//
 
@@ -43,49 +43,29 @@ class StockTabViewModel extends BaseViewModel {
   // fetch
   Future<void> fetch({required bool isRefresh}) async {
     if (isRefresh) {
-      _currentStockPage = 0;
+      _currentStockArticleId = 0;
       _updateFetchState(DataRefetching());
     } else {
       _updateFetchState(DataFetchingMore());
     }
 
-    final nextPage = isRefresh ? firstPage : _currentStockPage + 1;
+    final nextPage = isRefresh ? firstArticleId : _currentStockArticleId;
 
     log('articleId : $nextPage');
     //final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
     final nurbanRepository = ref.read(nurbanRepositoryProvider);
     final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10);
 
-    //final getNurbanAll = ref.read(getNurbanAllProvider((0, nextPage, 10)));
-    //final list = getNurbanAll.asData?.valueOrNull ?? [];
-/*
-    nurbanAll.when(
-      data: (data) {
-        log('StockTabViewModel data: $data');
-        //_updateStockList(data, nextPage, isRefresh);
-        _stockList = isRefresh
-            ? data
-            : _stockList + data;
-        _currentStockPage = nextPage;
-        _hasNextPage = data.length >= scrollThresholdCount;
-        _updateFetchState(DataFetchSuccess());
-      },
-      loading: () {
-        log('StockTabViewModel loading');
-        _updateFetchState(DataRefetching());
-      },
-      error: (error, stackTrace) {
-        log('StockTabViewModel error: $error');
-        _updateFetchState(DataFetchError('error'));
-      },
-    );
- */
     if(nurbanList.isNotEmpty){
       _stockList = isRefresh
           ? nurbanList
           : _stockList + nurbanList;
-      _currentStockPage = nextPage;
+
+      _currentStockArticleId = nurbanList.last.id;
       _hasNextPage = nurbanList.length >= scrollThresholdCount;
+      log('StockTabViewModel _currentStockArticleId: $_currentStockArticleId');
+      log('StockTabViewModel _hasNextPage: $_hasNextPage');
+
       _updateFetchState(DataFetchSuccess());
     }else{
       _updateFetchState(DataFetchError('error'));
