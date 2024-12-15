@@ -13,7 +13,7 @@ dependencies:
     path: domain/authentication_domain
   flutter:
     sdk: flutter
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.2.8
   flutter_material_pickers: ^3.6.0
   flutter_riverpod: ^2.0.2
   cupertino_icons: ^1.0.2
@@ -27,7 +27,7 @@ dependencies:
     path: application/preference_storage_service
   preference_storage:
     path: data/preference_storage
-  dio: ^5.2.0
+  dio: ^5.7.0
   dio_domain:
     path: domain/dio_domain
   dio_service:
@@ -36,8 +36,8 @@ dependencies:
     path: data/dio_repository
   share_service:
     path: application/share_service
-  kakao_flutter_sdk: ^1.4.3
-  kakao_flutter_sdk_user: ^1.4.3
+  kakao_flutter_sdk: ^1.9.6
+  kakao_flutter_sdk_user: ^1.9.6
   cached_network_image: ^3.2.3
   image_picker: ^1.0.4
   uuid: ^4.0.0
@@ -45,6 +45,12 @@ dependencies:
   android_id: ^0.3.6
   intl: ^0.18.1
   carousel_slider: ^5.0.0
+  provider: ^6.1.2
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.4
+  json_serializable: ^6.8.0
+  http: ^1.2.2
+  retrofit: ^4.4.1
 
 dev_dependencies:
   flutter_test:
