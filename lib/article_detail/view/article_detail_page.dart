@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
+import 'package:nurbanhoney/config/config.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -57,7 +58,6 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
       final prefStorage = prefStorageProvider.asData?.value;
 
       final androidId = prefStorage?.getDeviceId();
-
 
       return Scaffold(
         appBar: ArticleDetailAppBar(
@@ -137,8 +137,8 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
     _bannerAd = BannerAd(
         size: AdSize.banner,
         adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-9818502417467314/8723806743'
-            : 'ca-app-pub-3940256099942544/2934735716',
+            ? banner1key
+            : banner1key,
         listener: BannerAdListener(
           onAdLoaded: (Ad ad) {
             log('$BannerAd loaded.');
