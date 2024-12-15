@@ -58,6 +58,7 @@ class StockListItem extends StatelessWidget {
       final contentStyle = ref.read(stockTabContentStyle);
       final likeStyle = ref.read(stockTabLikeStyle);
       log('lossCut : $_lossCut');
+      log('content: $_content');
       var f = NumberFormat('###,###,###,###');
 
       return InkWell(
