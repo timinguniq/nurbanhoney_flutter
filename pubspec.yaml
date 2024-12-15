@@ -41,7 +41,7 @@ dependencies:
   cached_network_image: ^3.2.3
   image_picker: ^1.0.4
   uuid: ^4.0.0
-  google_mobile_ads: ^4.0.0
+  google_mobile_ads: ^5.2.0
   android_id: ^0.3.6
   intl: ^0.18.1
   carousel_slider: ^5.0.0
