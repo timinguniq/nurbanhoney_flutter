@@ -10,6 +10,7 @@ import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney/stock/stock.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
 part 'stock_tab_viewmodel.dart';
@@ -70,6 +71,7 @@ class StockTabPage extends ConsumerWidget {
                             log('viewModel.isBusy: ${viewModel.isBusy}');
                             log('viewModel.hasNextPage: ${viewModel.hasNextPage}');
                             log('viewModel index: $index');
+                            log('item myRating : ${item.myRating}');
 
                             if (!viewModel.isBusy &&
                                 viewModel.hasNextPage &&
@@ -104,6 +106,7 @@ class StockTabPage extends ConsumerWidget {
                                         articleId: item.id,
                                       ));
                                     },
+                                    myRating: item.myRating,
                                   ),
                                 ),
                                 const AppbarDivider(),

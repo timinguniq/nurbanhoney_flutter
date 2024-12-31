@@ -7,28 +7,41 @@ import 'package:dio_repository/dio_repository.dart';
 import 'package:mime/mime.dart';
 
 typedef NurbanArticle = ({
-  int id, String uuid, String thumbnail,
-  String title, String lossCut, String content,
-  int count, int commentCount,
-  int likeCount, int dislikeCount,
+  int id,
+  String uuid,
+  String thumbnail,
+  String title,
+  String lossCut,
+  String content,
+  int count,
+  int commentCount,
+  int likeCount,
+  int dislikeCount,
   String updatedAt,
-  int userId, String badge,
-  String nickname, String insignia,
+  int userId,
+  String badge,
+  String nickname,
+  String insignia,
   String myRating,
 });
 
 typedef NurbanComment = ({
-  int id, String content,
-  int userId, String badge,
-  String nickname, String insignia
+  int id,
+  String content,
+  int userId,
+  String badge,
+  String nickname,
+  String insignia
 });
 
 class NurbanRepository {
   /// constructor
   NurbanRepository._privateConstructor();
-  static final NurbanRepository _instance = NurbanRepository._privateConstructor();
 
-  factory NurbanRepository(){
+  static final NurbanRepository _instance =
+      NurbanRepository._privateConstructor();
+
+  factory NurbanRepository() {
     return _instance;
   }
 
@@ -47,8 +60,8 @@ class NurbanRepository {
       );
 
       log('getNurbanArticle response: ${response.data}');
-      final records =
-        (id: int.parse(response.data['id'].toString()),
+      final records = (
+        id: int.parse(response.data['id'].toString()),
         uuid: response.data['uuid'].toString(),
         thumbnail: response.data['thumbnail'].toString(),
         title: response.data['title'].toString(),
@@ -63,7 +76,8 @@ class NurbanRepository {
         badge: response.data['badge'].toString(),
         nickname: response.data['nickname'].toString(),
         insignia: response.data['insignia'].toString(),
-        myRating: response.data['myRating'].toString());
+        myRating: response.data['myRating'].toString()
+      );
 
       log('getNurbanArticle response: ${response.data.toString()}');
 
@@ -80,39 +94,47 @@ class NurbanRepository {
     required int flag,
     required int articleId,
     required int limit,
+    required String? token,
   }) async {
     try {
       //var headers = {'Content-Type': 'application/json, charset=utf-8'};
-    log('getNurbanAll flag: $flag');
-    final response = await dio.get(
-        '${DioApi.mainApi}/board/nurban',
+      log('getNurbanAll flag: $flag');
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.get(
+        '/',
         queryParameters: {
           'flag': flag,
           'articleId': articleId,
           'limit': limit,
         },
-        //options: Options(
-        //  headers: headers,
-        //)
       );
       log('getNurbanAll response: ${response.data}');
 
       final result = <BoardAllType>[];
-      for(int i = 0; i < response.data.length ; i++) {
+      for (int i = 0; i < response.data.length; i++) {
         log('getNurbanAll response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        board: 1,
-        thumbnail: response.data[i]['thumbnail'].toString(),
-        title: response.data[i]['title'].toString(),
-        lossCut: response.data[i]['lossCut'].toString(),
-        content: response.data[i]['content'].toString(),
-        commentCount: int.parse(response.data[i]['commentCount'].toString()),
-        likeCount: response.data[i]['likeCount'].toString(),
-        createdAt: response.data[i]['createdAt'].toString(),
-        nickname: response.data[i]['user']['nickname'].toString(),
-        badge: response.data[i]['user']['badge'].toString(),
-        insignia: response.data[i]['user']['insignia'].toString());
+        final records = (
+          id: int.parse(response.data[i]['id'].toString()),
+          board: 1,
+          thumbnail: response.data[i]['thumbnail'].toString(),
+          title: response.data[i]['title'].toString(),
+          lossCut: response.data[i]['lossCut'].toString(),
+          content: response.data[i]['content'].toString(),
+          commentCount: int.parse(response.data[i]['commentCount'].toString()),
+          likeCount: response.data[i]['likeCount'].toString(),
+          createdAt: response.data[i]['createdAt'].toString(),
+          nickname: response.data[i]['user']['nickname'].toString(),
+          badge: response.data[i]['user']['badge'].toString(),
+          insignia: response.data[i]['user']['insignia'].toString(),
+          myRating: response.data[i]['myRating'].toString()
+        );
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
@@ -149,7 +171,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.post('/',
+      final response = await authDio.post(
+        '/',
         data: {'articleId': articleId},
       );
 
@@ -160,9 +183,8 @@ class NurbanRepository {
 
       log('nurbanLikeCreate error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -185,7 +207,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.delete('/',
+      final response = await authDio.delete(
+        '/',
         data: {'articleId': articleId},
       );
 
@@ -196,9 +219,8 @@ class NurbanRepository {
 
       log('nurbanLikeDelete error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -221,7 +243,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.post('/',
+      final response = await authDio.post(
+        '/',
         data: {'articleId': articleId},
       );
 
@@ -232,9 +255,8 @@ class NurbanRepository {
 
       log('nurbanDislikeCreate error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -257,7 +279,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.delete('/',
+      final response = await authDio.delete(
+        '/',
         data: {'articleId': articleId},
       );
 
@@ -268,9 +291,8 @@ class NurbanRepository {
 
       log('nurbanDislikeDelete error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -309,11 +331,11 @@ class NurbanRepository {
       log('nurbanImage filename: ${image.path.split('/').last}');
 
       //final authDio = Dio(baseOptions);
-      final response = await Dio().post('${DioApi.mainApi}/board/nurban/article/upload/image',
+      final response = await Dio().post(
+        '${DioApi.mainApi}/board/nurban/article/upload/image',
         data: formData,
         options: options,
       );
-
 
       log('nurbanImageUpload response: ${response.data}');
 
@@ -322,9 +344,8 @@ class NurbanRepository {
 
       log('nurbanImageUpload error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -347,7 +368,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.delete('/',
+      final response = await authDio.delete(
+        '/',
         data: {'uuid': uuid},
       );
 
@@ -358,9 +380,8 @@ class NurbanRepository {
 
       log('nurbanImageDelete error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -387,7 +408,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.post('/',
+      final response = await authDio.post(
+        '/',
         data: {
           'title': title,
           'uuid': uuid,
@@ -404,9 +426,8 @@ class NurbanRepository {
 
       log('nurbanArticleCreate error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -423,23 +444,24 @@ class NurbanRepository {
   }) async {
     try {
       final response = await dio.get(
-          '${DioApi.mainApi}/board/nurban/article/comment',
-          queryParameters: {
-            'articleId': articleId,
-            'commentId': commentId,
-            'limit': limit,
-          },
+        '${DioApi.mainApi}/board/nurban/article/comment',
+        queryParameters: {
+          'articleId': articleId,
+          'commentId': commentId,
+          'limit': limit,
+        },
       );
       final result = <NurbanComment>[];
-      for(int i = 0; i < response.data.length ; i++) {
+      for (int i = 0; i < response.data.length; i++) {
         log('getNurbanComments response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        content: response.data[i]['content'].toString(),
-        userId: int.parse(response.data[i]['user']['userId'].toString()),
-        badge: response.data[i]['user']['badge'].toString(),
-        nickname: response.data[i]['user']['nickname'].toString(),
-        insignia: response.data[i]['user']['insignia'].toString());
+        final records = (
+          id: int.parse(response.data[i]['id'].toString()),
+          content: response.data[i]['content'].toString(),
+          userId: int.parse(response.data[i]['user']['userId'].toString()),
+          badge: response.data[i]['user']['badge'].toString(),
+          nickname: response.data[i]['user']['nickname'].toString(),
+          insignia: response.data[i]['user']['insignia'].toString()
+        );
         result.add(records);
       }
       log('getNurbanComments response: ${response.data.toString()}');
@@ -467,7 +489,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.post('/',
+      final response = await authDio.post(
+        '/',
         data: {
           'articleId': articleId,
           'content': content,
@@ -481,9 +504,8 @@ class NurbanRepository {
 
       log('nurbanCommentCreate error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -507,7 +529,8 @@ class NurbanRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.delete('/',
+      final response = await authDio.delete(
+        '/',
         data: {
           'id': commentId,
           'articleId': articleId,
@@ -521,9 +544,8 @@ class NurbanRepository {
 
       log('nurbanCommentDelete error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -531,5 +553,4 @@ class NurbanRepository {
       throw Exception(e);
     }
   }
-
 }

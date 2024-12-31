@@ -111,7 +111,8 @@ class FreeRepository {
         createdAt: response.data[i]['createdAt'].toString(),
         nickname: response.data[i]['user']['nickname'].toString(),
         badge: response.data[i]['user']['badge'].toString(),
-        insignia: response.data[i]['user']['insignia'].toString());
+        insignia: response.data[i]['user']['insignia'].toString(),
+        myRating: response.data[i]['user']['myRating'].toString());
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }

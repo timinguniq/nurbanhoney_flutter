@@ -166,7 +166,9 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       });
 
                       Future.delayed(const Duration(seconds: 1), (){
-                        Navigator.of(context).pop();
+                        if(context.mounted){
+                          Navigator.of(context).pop();
+                        }
                       });
                     }
                   } else {
@@ -233,7 +235,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
 
 const List<StateModel> usStates = <StateModel>[
   StateModel('너반꿀', 'Nurban'),
-  StateModel('자유', 'Free'),
+  StateModel('코인', 'Free'),
 ];
 StateModel selectedUsState = usStates[0];
 

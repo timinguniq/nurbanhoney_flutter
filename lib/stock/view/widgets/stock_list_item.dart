@@ -1,12 +1,16 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_repository/dio_repository.dart';
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 
 class StockListItem extends StatelessWidget {
   const StockListItem({
@@ -22,6 +26,7 @@ class StockListItem extends StatelessWidget {
     required String date,
     required String likeCount,
     required VoidCallback onTap,
+    required String myRating,
     super.key,
   })  : _id = id,
         _title = title,
@@ -34,7 +39,8 @@ class StockListItem extends StatelessWidget {
         _date = date,
         _likeCount = likeCount,
         _thumbnail = thumbnail,
-        _onTap = onTap;
+        _onTap = onTap,
+        _myRating = myRating;
 
   final int _id;
   final String _title;
@@ -48,6 +54,7 @@ class StockListItem extends StatelessWidget {
   final String _likeCount;
   final String _thumbnail;
   final VoidCallback _onTap;
+  final String _myRating;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +66,16 @@ class StockListItem extends StatelessWidget {
       final likeStyle = ref.read(stockTabLikeStyle);
       log('lossCut : $_lossCut');
       log('content: $_content');
+
+      final preferenceStorage = ref.watch(preferenceStorageProvider);
+      final storage = preferenceStorage.asData?.value;
+      final token = storage?.getToken() ?? '__empty__';
+
+      final nurbanRepository = ref.read(nurbanRepositoryProvider);
+
       var f = NumberFormat('###,###,###,###');
+
+
 
       return InkWell(
         onTap: _onTap,
@@ -151,6 +167,9 @@ class StockListItem extends StatelessWidget {
               commentCount: _commentCount,
               likeCount: _likeCount,
               textStyle: likeStyle,
+              myRating: _myRating,
+              token: token,
+              nurbanRepository: nurbanRepository,
             ),
 
             const SizedBox(height: 16),
@@ -161,22 +180,46 @@ class StockListItem extends StatelessWidget {
   }
 }
 
-class UserAction extends StatelessWidget {
+class UserAction extends StatefulWidget {
   const UserAction({
     required int articleId,
     required String commentCount,
     required String likeCount,
     required TextStyle textStyle,
+    required String myRating,
+    required String token,
+    required NurbanRepository nurbanRepository,
     super.key,
   })  : _articleId = articleId,
         _commentCount = commentCount,
         _likeCount = likeCount,
-        _textStyle = textStyle;
+        _textStyle = textStyle,
+        _myRating = myRating,
+        _token = token,
+        _nurbanRepository = nurbanRepository;
 
   final int _articleId;
   final String _commentCount;
   final String _likeCount;
   final TextStyle _textStyle;
+  final String _myRating;
+  final String _token;
+  final NurbanRepository _nurbanRepository;
+
+  @override
+  State<UserAction> createState() => _UserActionState();
+}
+
+class _UserActionState extends State<UserAction> {
+  var myRating = '';
+  var likeCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    myRating = widget._myRating;
+    likeCount = int.parse(widget._likeCount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,8 +240,8 @@ class UserAction extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                f.format(int.parse(_commentCount)),
-                style: _textStyle,
+                f.format(int.parse(widget._commentCount)),
+                style: widget._textStyle,
               ),
             ],
           ),
@@ -208,8 +251,42 @@ class UserAction extends StatelessWidget {
 
         /// 좋아요
         InkWell(
-          onTap: () {
+          onTap: () async {
             log('like clicked');
+            if(widget._token == '__empty__'){
+              Fluttertoast.showToast(
+                  msg: "로그인을 해주세요.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  textColor: Colors.white,
+                  fontSize: 16.0
+              );
+              return;
+            }
+            log('myRating : $myRating');
+            log('widget._myRating : ${widget._myRating}');
+
+            var result = myRating == 'like'
+                ? await widget._nurbanRepository.nurbanLikeDelete(
+                token: widget._token, articleId: widget._articleId)
+                : await widget._nurbanRepository.nurbanLikeCreate(
+                token: widget._token, articleId: widget._articleId);
+
+            log('like result : $result');
+
+            setState(() {
+              if (myRating == 'like') {
+                myRating = 'null';
+              } else if (widget._myRating == 'dislike') {
+                myRating = 'like';
+              } else {
+                myRating = 'like';
+              }
+              likeCount = int.parse(result);
+
+            });
+
           },
           child: Row(
             children: [
@@ -220,8 +297,8 @@ class UserAction extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                f.format(int.parse(_likeCount)),
-                style: _textStyle,
+                f.format(likeCount),
+                style: widget._textStyle,
               ),
             ],
           ),

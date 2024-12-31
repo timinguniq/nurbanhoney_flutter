@@ -62,12 +62,21 @@ class $AssetsImagesArticleDetailGen {
   AssetGenImage get deleteIcon =>
       const AssetGenImage('assets/images/article_detail/delete_icon.png');
 
+  /// File path: assets/images/article_detail/dislike_icon.png
+  AssetGenImage get dislikeIcon =>
+      const AssetGenImage('assets/images/article_detail/dislike_icon.png');
+
+  /// File path: assets/images/article_detail/like_icon.png
+  AssetGenImage get likeIcon =>
+      const AssetGenImage('assets/images/article_detail/like_icon.png');
+
   /// File path: assets/images/article_detail/loss_cut_icon.png
   AssetGenImage get lossCutIcon =>
       const AssetGenImage('assets/images/article_detail/loss_cut_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [backKey, deleteIcon, lossCutIcon];
+  List<AssetGenImage> get values =>
+      [backKey, deleteIcon, dislikeIcon, likeIcon, lossCutIcon];
 }
 
 class $AssetsImagesCommonGen {
