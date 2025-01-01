@@ -20,6 +20,7 @@ class StockListItem extends StatelessWidget {
     required String lossCut,
     required String commentCount,
     required String thumbnail,
+    required String authorId,
     required String author,
     required String badge,
     required List<String> insigniaList,
@@ -33,6 +34,7 @@ class StockListItem extends StatelessWidget {
         _content = content,
         _lossCut = lossCut,
         _commentCount = commentCount,
+        _authorId = authorId,
         _author = author,
         _badge = badge,
         _insigniaList = insigniaList,
@@ -47,6 +49,7 @@ class StockListItem extends StatelessWidget {
   final String _content;
   final String _lossCut;
   final String _commentCount;
+  final String _authorId;
   final String _author;
   final String _badge;
   final List<String> _insigniaList;
@@ -70,12 +73,13 @@ class StockListItem extends StatelessWidget {
       final preferenceStorage = ref.watch(preferenceStorageProvider);
       final storage = preferenceStorage.asData?.value;
       final token = storage?.getToken() ?? '__empty__';
+      final userId = storage?.getUserId().toString();
+
+      log('userId: $userId');
 
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
 
       var f = NumberFormat('###,###,###,###');
-
-
 
       return InkWell(
         onTap: _onTap,
@@ -94,19 +98,21 @@ class StockListItem extends StatelessWidget {
                   authorTextStyle: authorStyle,
                   insigniaList: _insigniaList,
                 ),
-                InkWell(
-                  onTap: () {
-                    log('delete clicked');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 3, bottom: 3),
-                    child: SizedBox(
-                      width: 6,
-                      height: 20,
-                      child: Assets.images.common.optionIcon.image(),
+                if (_authorId == userId)
+                  InkWell(
+                    onTap: () {
+                      log('delete clicked');
+                    },
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 3, bottom: 3),
+                      child: SizedBox(
+                        width: 6,
+                        height: 20,
+                        child: Assets.images.common.optionIcon.image(),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
 
@@ -161,6 +167,7 @@ class StockListItem extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
+
             /// 유저 액션(댓글, 좋아요)
             UserAction(
               articleId: _id,
@@ -253,15 +260,14 @@ class _UserActionState extends State<UserAction> {
         InkWell(
           onTap: () async {
             log('like clicked');
-            if(widget._token == '__empty__'){
+            if (widget._token == '__empty__') {
               Fluttertoast.showToast(
                   msg: "로그인을 해주세요.",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
                   textColor: Colors.white,
-                  fontSize: 16.0
-              );
+                  fontSize: 16.0);
               return;
             }
             log('myRating : $myRating');
@@ -269,9 +275,9 @@ class _UserActionState extends State<UserAction> {
 
             var result = myRating == 'like'
                 ? await widget._nurbanRepository.nurbanLikeDelete(
-                token: widget._token, articleId: widget._articleId)
+                    token: widget._token, articleId: widget._articleId)
                 : await widget._nurbanRepository.nurbanLikeCreate(
-                token: widget._token, articleId: widget._articleId);
+                    token: widget._token, articleId: widget._articleId);
 
             log('like result : $result');
 
@@ -284,9 +290,7 @@ class _UserActionState extends State<UserAction> {
                 myRating = 'like';
               }
               likeCount = int.parse(result);
-
             });
-
           },
           child: Row(
             children: [

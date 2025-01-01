@@ -24,6 +24,7 @@ class StockTabPage extends ConsumerWidget {
 
     final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
     final fConvertToInsignia = ref.read(convertToInsignia);
+
     return BaseView<StockTabViewModel>(
       viewModel: StockTabViewModel(ref),
       builder: (context, viewModel) {
@@ -93,6 +94,7 @@ class StockTabPage extends ConsumerWidget {
                                     thumbnail: item.thumbnail ?? '',
                                     lossCut: item.lossCut,
                                     commentCount: item.commentCount.toString(),
+                                    authorId: item.authorId,
                                     author: item.nickname,
                                     badge: item.badge,
                                     insigniaList:
