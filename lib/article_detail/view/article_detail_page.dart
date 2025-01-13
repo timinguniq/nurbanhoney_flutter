@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -59,73 +60,94 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
 
       final androidId = prefStorage?.getDeviceId();
 
-      return Scaffold(
-        appBar: ArticleDetailAppBar(
-          board: widget._board,
-          appBarTitleStyle: appBarTitleStyle,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              ArticleDetailDivider(
-                thickness: 0.5,
-                color: thinDividerColor,
-              ),
-              // TitleBoard
-              widget._board == 1
-                  ? NurbanTitleBoard(
-                      articleId: widget._articleId,
-                    )
-                  : widget._board == 2
-                      ? FreeTitleBoard(
-                          articleId: widget._articleId,
-                        )
-                      : FreeTitleBoard(
-                          articleId: widget._articleId,
-                        ),
-              ArticleDetailDivider(
-                thickness: 0.5,
-                color: thinDividerColor,
-              ),
-              // Content
-              widget._board == 1
-                  ? NurbanContentBoard(
-                      articleId: widget._articleId,
-                    )
-                  : widget._board == 2
-                      ? FreeContentBoard(
-                          articleId: widget._articleId,
-                        )
-                      : FreeContentBoard(
-                          articleId: widget._articleId,
-                        ),
-              // 광고 banner
-              if(_bannerAdIsLoaded && _bannerAd != null)
-                Container(
-                  alignment: Alignment.center,
-                  width: _bannerAd!.size.width.toDouble(),
-                  height: _bannerAd!.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
-                ),
-              //
-              ArticleDetailDivider(
-                thickness: 0.5,
-                color: thinDividerColor,
-              ),
-              LikeDislikeBoard(
-                articleId: widget._articleId,
-              ),
-              ArticleDetailDivider(
-                thickness: 8,
-                color: thickDividerColor,
-              ),
-              ArticleDetailCommentPage(
-                articleId: widget._articleId,
-              ),
+      final nurbanArticle = ref.watch(getNurbanArticleProvider(widget._articleId));
 
-            ],
-          ),
-        ),
+      return nurbanArticle.when(
+        data: (data) {
+          return Scaffold(
+            appBar: ArticleDetailAppBar(
+              board: widget._board,
+              articleId: widget._articleId,
+              appBarTitleStyle: appBarTitleStyle,
+              authorId: data.userId,
+              uuid: data.uuid,
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ArticleDetailDivider(
+                    thickness: 0.5,
+                    color: thinDividerColor,
+                  ),
+                  // TitleBoard
+                  widget._board == 1
+                      ? NurbanTitleBoard(
+                    articleId: widget._articleId,
+                  )
+                      : widget._board == 2
+                      ? FreeTitleBoard(
+                    articleId: widget._articleId,
+                  )
+                      : FreeTitleBoard(
+                    articleId: widget._articleId,
+                  ),
+                  ArticleDetailDivider(
+                    thickness: 0.5,
+                    color: thinDividerColor,
+                  ),
+                  // Content
+                  widget._board == 1
+                      ? NurbanContentBoard(
+                    articleId: widget._articleId,
+                  )
+                      : widget._board == 2
+                      ? FreeContentBoard(
+                    articleId: widget._articleId,
+                  )
+                      : FreeContentBoard(
+                    articleId: widget._articleId,
+                  ),
+                  // 광고 banner
+                  if(_bannerAdIsLoaded && _bannerAd != null)
+                    Container(
+                      alignment: Alignment.center,
+                      width: _bannerAd!.size.width.toDouble(),
+                      height: _bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                  //
+                  ArticleDetailDivider(
+                    thickness: 0.5,
+                    color: thinDividerColor,
+                  ),
+                  LikeDislikeBoard(
+                    articleId: widget._articleId,
+                  ),
+                  ArticleDetailDivider(
+                    thickness: 8,
+                    color: thickDividerColor,
+                  ),
+                  ArticleDetailCommentPage(
+                    articleId: widget._articleId,
+                  ),
+
+                ],
+              ),
+            ),
+          );
+
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        error: (error, stackTrace) {
+          log('nurbanArticle error: $error');
+          //Navigator.of(context).pop();
+          /// TODO: 서버에서 에러 처리하고 팝업 띄우고 뒤로가기 처리
+          return Text('data fetch error: error=$error');
+        },
       );
     });
   }

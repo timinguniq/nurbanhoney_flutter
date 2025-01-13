@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:navigation_domain/navigation_domain.dart';
+import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -67,6 +69,8 @@ class StockListItem extends StatelessWidget {
       final titleStyle = ref.read(stockTabTitleStyle);
       final contentStyle = ref.read(stockTabContentStyle);
       final likeStyle = ref.read(stockTabLikeStyle);
+      final deleteTextStyle = ref.watch(articleDetailCommentDeleteStyle);
+
       log('lossCut : $_lossCut');
       log('content: $_content');
 
@@ -98,21 +102,6 @@ class StockListItem extends StatelessWidget {
                   authorTextStyle: authorStyle,
                   insigniaList: _insigniaList,
                 ),
-                if (_authorId == userId)
-                  InkWell(
-                    onTap: () {
-                      log('delete clicked');
-                    },
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, top: 3, bottom: 3),
-                      child: SizedBox(
-                        width: 6,
-                        height: 20,
-                        child: Assets.images.common.optionIcon.image(),
-                      ),
-                    ),
-                  ),
               ],
             ),
 
@@ -185,6 +174,7 @@ class StockListItem extends StatelessWidget {
       );
     });
   }
+
 }
 
 class UserAction extends StatefulWidget {

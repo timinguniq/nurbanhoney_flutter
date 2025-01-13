@@ -158,6 +158,47 @@ class NurbanRepository {
     }
   }
 
+  /// 너반꿀 아티클 삭제
+  Future<String> nurbanArticleDelete({
+    required String token,
+    required int articleId,
+    required String uuid,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/nurban/article',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.delete(
+        '/',
+        data: {
+          'id': articleId,
+          'uuid': uuid,
+        },
+      );
+
+      log('nurbanArticleDelete response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanArticleDelete error: $error');
+
+      final futureValue =
+      error != null ? Future.value(error.toString()) : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanArticleDelete error : $e');
+      throw Exception(e);
+    }
+  }
+
+
   /// 아티클 좋아요 생성
   Future<String> nurbanLikeCreate({
     required String token,
