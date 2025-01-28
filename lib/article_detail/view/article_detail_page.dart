@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/config/config.dart';
@@ -146,6 +148,19 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
           log('nurbanArticle error: $error');
           //Navigator.of(context).pop();
           /// TODO: 서버에서 에러 처리하고 팝업 띄우고 뒤로가기 처리
+
+          final errorMessage = error.toString();
+          if(errorMessage.contains('404')){
+            Fluttertoast.showToast(
+              msg: "글이 존재하지 않습니다.",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+            Navigator.of(context).pop();
+          }
           return Text('data fetch error: error=$error');
         },
       );
