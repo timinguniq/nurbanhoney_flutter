@@ -1,2 +1,2 @@
-export 'coint_tab_bottom_sheet_view.dart';
-export 'coint_list_item.dart';
+export 'coin_tab_bottom_sheet_view.dart';
+export 'coin_list_item.dart';
