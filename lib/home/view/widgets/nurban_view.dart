@@ -28,7 +28,7 @@ class NurbanView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
       final getNurbanAll =
-          ref.watch(getNurbanAllProvider((_flag, _articleId, _limit)));
+          ref.watch(getNurbanAllProvider((_flag, _articleId, _limit, null)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
       return getNurbanAll.when(

@@ -10,6 +10,7 @@ import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney/stock/stock.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
 part 'stock_tab_viewmodel.dart';
@@ -23,6 +24,7 @@ class StockTabPage extends ConsumerWidget {
 
     final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
     final fConvertToInsignia = ref.read(convertToInsignia);
+
     return BaseView<StockTabViewModel>(
       viewModel: StockTabViewModel(ref),
       builder: (context, viewModel) {
@@ -30,9 +32,6 @@ class StockTabPage extends ConsumerWidget {
           onRefresh: () async => viewModel.fetch(isRefresh: true),
           child: Builder(
             builder: (context) {
-              log('status: ${viewModel.fetchState}');
-              log('stockList: ${viewModel.stockList}');
-              log('isBusy: ${viewModel.isBusy}');
               if (viewModel.fetchState is DataFetching) return const SizedBox();
 
               if (viewModel.fetchState is DataRefetching) {
@@ -70,6 +69,7 @@ class StockTabPage extends ConsumerWidget {
                             log('viewModel.isBusy: ${viewModel.isBusy}');
                             log('viewModel.hasNextPage: ${viewModel.hasNextPage}');
                             log('viewModel index: $index');
+                            log('item myRating : ${item.myRating}');
 
                             if (!viewModel.isBusy &&
                                 viewModel.hasNextPage &&
@@ -82,7 +82,8 @@ class StockTabPage extends ConsumerWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
+                                      horizontal: 16,
+                                  ),
                                   child: StockListItem(
                                     id: item.id,
                                     title: item.title,
@@ -90,6 +91,7 @@ class StockTabPage extends ConsumerWidget {
                                     thumbnail: item.thumbnail ?? '',
                                     lossCut: item.lossCut,
                                     commentCount: item.commentCount.toString(),
+                                    authorId: item.authorId,
                                     author: item.nickname,
                                     badge: item.badge,
                                     insigniaList:
@@ -103,6 +105,7 @@ class StockTabPage extends ConsumerWidget {
                                         articleId: item.id,
                                       ));
                                     },
+                                    myRating: item.myRating,
                                   ),
                                 ),
                                 const AppbarDivider(),
@@ -111,6 +114,7 @@ class StockTabPage extends ConsumerWidget {
                           },
                         ),
                       ),
+                      const SizedBox(height: 80),
                     ],
                 ),
                 bottomSheet: const StockTabBottomSheetView(),

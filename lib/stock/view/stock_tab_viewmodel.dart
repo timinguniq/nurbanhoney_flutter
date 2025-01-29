@@ -52,9 +52,15 @@ class StockTabViewModel extends BaseViewModel {
     final nextPage = isRefresh ? firstArticleId : _currentStockArticleId;
 
     log('articleId : $nextPage');
+
+    final preferenceStorage = ref.watch(preferenceStorageProvider);
+    final storage = preferenceStorage.asData?.value;
+    final token = storage?.getToken();
+    log('token: $token');
+
     //final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
     final nurbanRepository = ref.read(nurbanRepositoryProvider);
-    final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10);
+    final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10, token: token);
 
     if(nurbanList.isNotEmpty){
       _stockList = isRefresh

@@ -6,7 +6,7 @@ import 'package:dio_domain/dio_domain.dart';
 
 typedef BoardAllType = ({int id, int board, String? thumbnail,
   String title, String lossCut, String content, int commentCount, String likeCount, String createdAt,
-  String nickname, String badge, String insignia});
+  String authorId ,String nickname, String badge, String insignia, String myRating});
 
 typedef LoginType = ({String token, String userId});
 
@@ -72,9 +72,11 @@ class DioRepository {
         commentCount: int.parse(response.data[i]['commentCount'].toString()),
         likeCount: response.data[i]['likeCount'].toString(),
         createdAt: response.data[i]['createdAt'].toString(),
+        authorId: response.data[i]['user']['userId'].toString(),
         nickname: response.data[i]['user']['nickname'].toString(),
         badge: response.data[i]['user']['badge'].toString(),
-        insignia: response.data[i]['user']['insignia'].toString());
+        insignia: response.data[i]['user']['insignia'].toString(),
+        myRating: response.data[i]['user']['myRating'].toString());
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
@@ -142,9 +144,11 @@ class DioRepository {
         commentCount: int.parse(response.data[i]['commentCount'].toString()),
         likeCount: response.data[i]['likeCount'].toString(),
         createdAt: response.data[i]['createdAt'].toString(),
+        authorId: response.data[i]['user']['userId'].toString(),
         nickname: response.data[i]['user']['nickname'].toString(),
         badge: response.data[i]['user']['badge'].toString(),
-        insignia: response.data[i]['user']['insignia'].toString());
+        insignia: response.data[i]['user']['insignia'].toString(),
+        myRating: response.data[i]['user']['myRating'].toString());
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
