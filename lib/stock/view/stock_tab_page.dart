@@ -32,9 +32,6 @@ class StockTabPage extends ConsumerWidget {
           onRefresh: () async => viewModel.fetch(isRefresh: true),
           child: Builder(
             builder: (context) {
-              log('status: ${viewModel.fetchState}');
-              log('stockList: ${viewModel.stockList}');
-              log('isBusy: ${viewModel.isBusy}');
               if (viewModel.fetchState is DataFetching) return const SizedBox();
 
               if (viewModel.fetchState is DataRefetching) {
