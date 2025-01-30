@@ -25,8 +25,8 @@ class CoinTabPage extends ConsumerWidget {
     final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
     final fConvertToInsignia = ref.read(convertToInsignia);
 
-    return BaseView<StockTabViewModel>(
-      viewModel: StockTabViewModel(ref),
+    return BaseView<CoinTabViewModel>(
+      viewModel: CoinTabViewModel(ref),
       builder: (context, viewModel) {
         return RefreshIndicator(
           onRefresh: () async => viewModel.fetch(isRefresh: true),

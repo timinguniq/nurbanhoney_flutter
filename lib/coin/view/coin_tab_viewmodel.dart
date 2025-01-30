@@ -1,7 +1,7 @@
 part of 'coin_tab_page.dart';
 
-class CointTabViewModel extends BaseViewModel {
-  CointTabViewModel(
+class CoinTabViewModel extends BaseViewModel {
+  CoinTabViewModel(
       this.ref,
       ): _fetchState = DataFetching(){
     unawaited(fetch(isRefresh: true));
