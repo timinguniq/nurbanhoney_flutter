@@ -26,7 +26,7 @@ class CoinTabViewModel extends BaseViewModel {
 
   final firstArticleId = -1;
 
-  int _currentStockArticleId = 0;
+  int _currentCoinArticleId = 0;
 
   bool _hasNextPage = false;
 
@@ -36,20 +36,20 @@ class CoinTabViewModel extends BaseViewModel {
 
   // followerList --------------------//
 
-  List<BoardAllType> _stockList = [];
+  List<BoardAllType> _coinList = [];
 
-  List<BoardAllType> get stockList => _stockList;
+  List<BoardAllType> get coinList => _coinList;
 
   // fetch
   Future<void> fetch({required bool isRefresh}) async {
     if (isRefresh) {
-      _currentStockArticleId = 0;
+      _currentCoinArticleId = 0;
       _updateFetchState(DataRefetching());
     } else {
       _updateFetchState(DataFetchingMore());
     }
 
-    final nextPage = isRefresh ? firstArticleId : _currentStockArticleId;
+    final nextPage = isRefresh ? firstArticleId : _currentCoinArticleId;
 
     log('articleId : $nextPage');
 
@@ -59,21 +59,27 @@ class CoinTabViewModel extends BaseViewModel {
     log('token: $token');
 
     //final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
-    final nurbanRepository = ref.read(nurbanRepositoryProvider);
-    final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10, token: token);
+    final freeRepository = ref.read(freeRepositoryProvider);
+    final coinList = await freeRepository.getFreeAll(flag: 0, articleId: nextPage, limit: 10, token: token);
 
-    if(nurbanList.isNotEmpty){
-      _stockList = isRefresh
-          ? nurbanList
-          : _stockList + nurbanList;
+    try{
+      if(coinList.isEmpty){
+        _coinList = [];
+        _updateFetchState(DataFetchSuccess());
+        return;
+      }
+      _coinList = isRefresh
+          ? coinList
+          : _coinList + coinList;
 
-      _currentStockArticleId = nurbanList.last.id;
-      _hasNextPage = nurbanList.length >= scrollThresholdCount;
-      log('StockTabViewModel _currentStockArticleId: $_currentStockArticleId');
-      log('StockTabViewModel _hasNextPage: $_hasNextPage');
+      _currentCoinArticleId = coinList.last.id;
+      _hasNextPage = coinList.length >= scrollThresholdCount;
+      log('CoinTabViewModel _currentCoinArticleId: $_currentCoinArticleId');
+      log('CoinTabViewModel _hasNextPage: $_hasNextPage');
 
       _updateFetchState(DataFetchSuccess());
-    }else{
+    }catch(e){
+      log('error: $e');
       _updateFetchState(DataFetchError('error'));
     }
   }

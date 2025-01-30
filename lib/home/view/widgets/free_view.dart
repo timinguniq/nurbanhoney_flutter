@@ -26,8 +26,9 @@ class FreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
       // TODO: 고쳐야 됨.
+
       final getFreeAll =
-      ref.watch(getFreeAllProvider((_flag, _articleId, _limit)));
+      ref.watch(getFreeAllProvider((_flag, _articleId, _limit, null)));
       final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
 
       return getFreeAll.when(

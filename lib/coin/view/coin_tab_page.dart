@@ -62,9 +62,9 @@ class CoinTabPage extends ConsumerWidget {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: viewModel.stockList.length,
+                        itemCount: viewModel.coinList.length,
                         itemBuilder: (_, index) {
-                          final item = viewModel.stockList[index];
+                          final item = viewModel.coinList[index];
 
                           log('viewModel.isBusy: ${viewModel.isBusy}');
                           log('viewModel.hasNextPage: ${viewModel.hasNextPage}');
@@ -73,7 +73,7 @@ class CoinTabPage extends ConsumerWidget {
 
                           if (!viewModel.isBusy &&
                               viewModel.hasNextPage &&
-                              index == viewModel.stockList.length - 10) {
+                              index == viewModel.coinList.length - 10) {
                             Future(() =>
                                 unawaited(viewModel.fetch(isRefresh: false)));
                           }
