@@ -13,6 +13,8 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
+import 'package:nurbanhoney/coin/coin.dart';
+
 part 'coin_tab_viewmodel.dart';
 
 class CoinTabPage extends ConsumerWidget {
@@ -84,7 +86,7 @@ class CoinTabPage extends ConsumerWidget {
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16,
                                 ),
-                                child: StockListItem(
+                                child: CoinListItem(
                                   id: item.id,
                                   title: item.title,
                                   content: item.content,

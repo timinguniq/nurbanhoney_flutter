@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
+import 'package:mime/mime.dart';
 
 typedef FreeArticle = ({
   int id,
@@ -131,7 +133,7 @@ class FreeRepository {
           nickname: response.data[i]['user']['nickname'].toString(),
           badge: response.data[i]['user']['badge'].toString(),
           insignia: response.data[i]['user']['insignia'].toString(),
-          myRating: response.data[i]['user']['myRating'].toString()
+          myRating: response.data[i]['myRating'].toString()
         );
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
@@ -146,11 +148,102 @@ class FreeRepository {
     }
   }
 
+  /// 자유 이미지 업로드 생성
+  Future<String> freeImageUpload({
+    required String uuid,
+    required String token,
+    required File image,
+  }) async {
+    try {
+      log('freeImage token: $token');
+
+      Options options = Options(
+        contentType: lookupMimeType(image.path),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'multipart/form-data',
+          'Accept': "*/*",
+          'Content-Length': image.length,
+          'Connection': 'keep-alive',
+          'User-Agent': 'ClinicPlush'
+        },
+      );
+
+      final formData = FormData.fromMap({
+        'uuid': uuid,
+        'image': await MultipartFile.fromFile(image.path),
+      });
+
+      log('freeImage uuid: $uuid');
+      log('freeImage filename: ${image.path.split('/').last}');
+
+      //final authDio = Dio(baseOptions);
+      final response = await Dio().post(
+        '${DioApi.mainApi}/board/free/article/upload/image',
+        data: formData,
+        options: options,
+      );
+
+      log('nurbanImageUpload response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('nurbanImageUpload error: $error');
+
+      final futureValue =
+      error != null ? Future.value(error.toString()) : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('nurbanImageUpload e : $e');
+      throw Exception(e);
+    }
+  }
+
+  /// 자유 이미지 삭제
+  Future<String> freeImageDelete({
+    required String uuid,
+    required String token,
+  }) async {
+    try {
+      final baseOptions = BaseOptions(
+        baseUrl: '${DioApi.mainApi}/board/free/article/upload/image',
+        headers: {'Authorization': 'Bearer $token'},
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+      );
+
+      final authDio = Dio(baseOptions);
+      final response = await authDio.delete(
+        '/',
+        data: {'uuid': uuid},
+      );
+
+      log('freeImageDelete response: ${response.data}');
+
+      final result = response.data['result'].toString();
+      final error = response.data['error'];
+
+      log('freeImageDelete error: $error');
+
+      final futureValue =
+      error != null ? Future.value(error.toString()) : Future.value(result);
+
+      return futureValue;
+    } catch (e) {
+      log('freeImageDelete error : $e');
+      throw Exception(e);
+    }
+  }
+
   /// 아티클 생성
   Future<String> freeArticleCreate({
     required String token,
     required String title,
     required String uuid,
+    required int lossCut,
+    required String thumbnail,
     required String content,
   }) async {
     try {
@@ -167,6 +260,8 @@ class FreeRepository {
         data: {
           'title': title,
           'uuid': uuid,
+          'lossCut': lossCut,
+          'thumbnail': thumbnail,
           'content': content,
         },
       );

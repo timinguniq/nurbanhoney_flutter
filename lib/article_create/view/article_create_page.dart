@@ -39,31 +39,27 @@ class ArticleCreatePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ArticleCreateAppbar(),
+                const ArticleCreateAppbar(),
                 ArticleCreateDivider(
                   thickness: 0.5,
                   color: boundaryColor,
                 ),
-                ArticleCreateTitle(),
+                const ArticleCreateTitle(),
                 ArticleCreateDivider(
                   thickness: 0.5,
                   color: boundaryColor,
                 ),
-                if(selectedBoard == '너반꿀')
-                  ArticleCreateThumbnail(),
-                if(selectedBoard == '너반꿀')
-                  ArticleCreateDivider(
-                    thickness: 0.5,
-                    color: boundaryColor,
-                  ),
-                if(selectedBoard == '너반꿀')
-                  ArticleCreateLossCut(),
-                if(selectedBoard == '너반꿀')
-                  ArticleCreateDivider(
-                    thickness: 0.5,
-                    color: boundaryColor,
-                  ),
-                ArticleCreateContent(),
+                const ArticleCreateThumbnail(),
+                ArticleCreateDivider(
+                  thickness: 0.5,
+                  color: boundaryColor,
+                ),
+                const ArticleCreateLossCut(),
+                ArticleCreateDivider(
+                  thickness: 0.5,
+                  color: boundaryColor,
+                ),
+                const ArticleCreateContent(),
               ],
             ),
           ),
