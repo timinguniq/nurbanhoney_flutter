@@ -2,6 +2,7 @@
 // 자유게시판 디테일 보드(컨텐츠)
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,17 @@ class FreeContentBoard extends StatelessWidget {
             children: [
               const SizedBox(
                 height: 12,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                child: CachedNetworkImage(
+                  imageUrl: data.thumbnail,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 17),
