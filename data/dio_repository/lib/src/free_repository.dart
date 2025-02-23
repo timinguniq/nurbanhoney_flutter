@@ -192,7 +192,7 @@ class FreeRepository {
       log('nurbanImageUpload error: $error');
 
       final futureValue =
-      error != null ? Future.value(error.toString()) : Future.value(result);
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -228,7 +228,7 @@ class FreeRepository {
       log('freeImageDelete error: $error');
 
       final futureValue =
-      error != null ? Future.value(error.toString()) : Future.value(result);
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {

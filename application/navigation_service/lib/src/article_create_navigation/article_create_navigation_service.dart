@@ -28,10 +28,12 @@ final articleCreateProvider = AutoDisposeProvider<bool>((ref) {
     }else{
       result = false;
     }
-  }else if(board == '자유'){
-    // title, content
+  }else if(board == '코인'){
+    // title, content, lossCut, content
     if(title != '제목을 입력하세요.' && title.isNotEmpty
-      && content != '내용을 입력하세요.' && content.isNotEmpty){
+        && thumbnail != ''
+        && lossCut != '₩ 손실액을 입력하세요.' && lossCut.isNotEmpty
+        && content != '내용을 입력하세요.' && content.isNotEmpty){
       result = true;
     }else{
       result = false;
