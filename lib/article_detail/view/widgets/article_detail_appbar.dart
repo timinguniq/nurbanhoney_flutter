@@ -79,11 +79,11 @@ class _ArticleDetailAppBarState extends ConsumerState<ArticleDetailAppBar> {
               )
                   : widget._board == 2
                   ? Text(
-                '자유게시판',
+                '코인',
                 style: widget._appBarTitleStyle,
               )
                   : Text(
-                '자유게시판',
+                '코인',
                 style: widget._appBarTitleStyle,
               ),
             ),

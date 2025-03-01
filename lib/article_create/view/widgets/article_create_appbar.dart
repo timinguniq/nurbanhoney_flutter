@@ -141,11 +141,13 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
                       thumbnail: thumbnail,
                       content: content,
                     );
-                  } else if (board == '자유') {
+                  } else if (board == '코인') {
                     result = await freeRepository.freeArticleCreate(
                       token: token,
                       title: title,
                       uuid: uuid,
+                      lossCut: int.parse(lossCut),
+                      thumbnail: thumbnail,
                       content: content,
                     );
                   } else {

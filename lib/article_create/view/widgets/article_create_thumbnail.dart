@@ -27,11 +27,13 @@ class ArticleCreateThumbnail extends StatelessWidget {
       //final floatButtonColor = ref.read(colorF6B748);
       //final authenticationProvider = ref.watch(authenticationServiceProvider);
 
+      final board = ref.watch(articleCreateBoardNavigationProvider);
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
       final thumbnail = ref.watch(articleCreateThumbnailNavigationProvider);
       final buttonBackgroundColor = ref.read(colorF6B748);
 
       final nurbanRepository = ref.read(nurbanRepositoryProvider);
+      final freeRepository = ref.read(freeRepositoryProvider);
 
       log('thumbnail: ArticleCreateThumbnail $thumbnail');
 
@@ -68,12 +70,24 @@ class ArticleCreateThumbnail extends StatelessWidget {
                         log('fileImage: ${fileImage.path}');
                         final uuid = const Uuid().v4();
                         log('upload uuid: $uuid');
-                        final uploadImage =
-                            await nurbanRepository.nurbanImageUpload(
-                          uuid: uuid,
-                          token: token,
-                          image: fileImage,
-                        );
+                        String uploadImage = '';
+                        if(board == '너반꿀'){
+                          uploadImage =
+                          await nurbanRepository.nurbanImageUpload(
+                            uuid: uuid,
+                            token: token,
+                            image: fileImage,
+                          );
+                        }
+                        if(board == '코인'){
+                          uploadImage =
+                          await freeRepository.freeImageUpload(
+                            uuid: uuid,
+                            token: token,
+                            image: fileImage,
+                          );
+                        }
+
 
                         log('uploadImage: $uploadImage');
                         ref.read(articleCreateUuidNavigationProvider.notifier).select(uuid);
