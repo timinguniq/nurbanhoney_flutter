@@ -1,6 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
 
-import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,6 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 import 'package:nurbanhoney/stock/stock.dart';
 import 'package:nurbanhoney/coin/coin.dart';
-
 
 class HomePageRefactor extends StatelessWidget {
   const HomePageRefactor({super.key});
@@ -60,35 +58,53 @@ class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
     final homeTabTextStyle = ref.read(homeTabStyle);
 
     final homeBottomNavigation = ref.watch(homeBottomNavigationProvider);
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        body: SafeArea(
+    return GestureDetector(
+      onPanUpdate: (details) {
+        // Swiping in right direction.
+        if (details.delta.dx > 0) {
+          log('Swiping in right direction');
+        }
+
+        // Swiping in left direction.
+        if (details.delta.dx < 0) {
+          log('Swiping in left direction');
+        }
+      },
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          body: SafeArea(
             child: Column(
-          children: [
-            TabBar(
-              indicatorColor: tabSelectedColor,
-              unselectedLabelColor: tabUnselectedColor,
-              labelStyle: homeTabTextStyle,
-              indicatorWeight: 2,
-              tabs: const [
-                Tab(
-                  text: '주식',
-                  height: 50,
+              children: [
+                TabBar(
+                  indicatorColor: tabSelectedColor,
+                  unselectedLabelColor: tabUnselectedColor,
+                  labelStyle: homeTabTextStyle,
+                  indicatorWeight: 2,
+                  tabs: const [
+                    Tab(
+                      text: '주식',
+                      height: 50,
+                    ),
+                    Tab(
+                      text: '코인',
+                      height: 50,
+                    ),
+                  ],
                 ),
-                Tab(
-                  text: '코인',
-                  height: 50,
+                Expanded(
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      _widgetOptions[0],
+                      _widgetOptions[1],
+                    ],
+                  ),
                 ),
               ],
             ),
-            Expanded(
-                child: TabBarView(children: [
-              _widgetOptions[0],
-              _widgetOptions[1],
-            ])),
-          ],
-        )),
+          ),
+        ),
       ),
     );
   }
