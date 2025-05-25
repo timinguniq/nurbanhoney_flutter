@@ -95,11 +95,13 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                         fontSize: 16.0,
                       );
                       if(context.mounted){
-                        Future.delayed(const Duration(milliseconds: 1000), (){
-                          Navigator.of(context).pushAndRemoveUntil(
-                              HomePage.route(),
-                              (route) => false,
-                          );
+                        Future.delayed(const Duration(milliseconds: 500), (){
+                          if(context.mounted){
+                            Navigator.of(context).pushAndRemoveUntil(
+                              HomePageRefactor.route(),
+                                  (route) => false,
+                            );
+                          }
                         });
                       }
                     }else{
