@@ -68,7 +68,6 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
 
       return profileProvider.when(
         data: (data) {
-          // TODO: 아직도 뭔가 이상한데 수정해야 됨.(휘장 이미지가 안나옴)
           final receiveData = data;
 
           log('myaccount insignia show : ${receiveData.insigniaShow}');

@@ -64,53 +64,6 @@ class DrawerProfile extends StatelessWidget {
               const SizedBox(
                 height: 14,
               ),
-              DrawerBoardWidget(
-                title: '공지사항',
-                textStyle: drawerProfileTextStyle,
-                onTap: () {
-                  log('notice clicked');
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DrawerBoardWidget(
-                title: '인기글',
-                textStyle: drawerProfileTextStyle,
-                onTap: () {
-                  log('popular clicked');
-                  //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.popular);
-                  //Navigator.of(context).pop();
-                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
-                    homeBottomStatus: HomeBottomStatus.home,
-                    homeAppbarStatus: HomeAppbarStatus.popular,
-                  ), (route) => false);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DrawerBoardWidget(
-                title: '너반꿀 랭킹(꿀랭)',
-                textStyle: drawerProfileTextStyle,
-                onTap: () {
-                  log('nurban rank clicked');
-                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
-                    homeBottomStatus: HomeBottomStatus.rank,
-                    homeAppbarStatus: HomeAppbarStatus.whole,
-                  ), (route) => false);
-                },
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              Divider(
-                thickness: 0.5,
-                color: dividerColor,
-              ),
-              const SizedBox(
-                height: 18,
-              ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
@@ -128,25 +81,21 @@ class DrawerProfile extends StatelessWidget {
                   log('nurban board clicked');
                   //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.nurban);
                   //Navigator.of(context).pop();
-                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
-                    homeBottomStatus: HomeBottomStatus.home,
-                    homeAppbarStatus: HomeAppbarStatus.nurban,
-                  ), (route) => false);
+                  Navigator.of(context).pushAndRemoveUntil(HomePageRefactor.route(), (route) => false);
                 },
               ),
               const SizedBox(
                 height: 10,
               ),
               DrawerBoardWidget(
-                title: '자유게시판',
+                title: '코인',
                 textStyle: drawerProfileTextStyle,
                 onTap: () {
                   log('free board clicked');
                   //ref.read(homeAppbarNavigationProvider.notifier).select(HomeAppbarStatus.free);
                   //Navigator.of(context).pop();
-                  Navigator.of(context).pushAndRemoveUntil(HomePage.route(
-                    homeBottomStatus: HomeBottomStatus.home,
-                    homeAppbarStatus: HomeAppbarStatus.free,
+                  Navigator.of(context).pushAndRemoveUntil(HomePageRefactor.route(
+                    initialIndex: 1,
                   ), (route) => false);
                 },
               ),
