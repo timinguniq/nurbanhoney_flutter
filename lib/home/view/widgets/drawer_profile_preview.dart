@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
+import 'package:nurbanhoney/myaccount_setting/myaccount_setting.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
@@ -87,8 +88,8 @@ class DrawerProfilePreviewAuth extends StatelessWidget {
     required String nickname,
     required VoidCallback? onTap,
     required TextStyle drawerProfileTextStyle,
-    super.key})
-      : _thumbnail = thumbnail,
+    super.key,
+  }) : _thumbnail = thumbnail,
         _nickname = nickname,
         _onTap = onTap,
         _drawerProfileTextStyle = drawerProfileTextStyle;
@@ -100,45 +101,50 @@ class DrawerProfilePreviewAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 260,
-      height: 50,
-      child: Row(
-        children: [
-          SizedBox(
-            width: 50,
-            height: 50,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: CachedNetworkImage(
-                imageUrl: _thumbnail,
-                placeholder: (context, url) => const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+    return InkWell(
+      onTap: (){
+        // TODO: 프로필 페이지로 이동
+      },
+      child: SizedBox(
+        width: 260,
+        height: 50,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CachedNetworkImage(
+                  imageUrl: _thumbnail,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
             ),
-          ),
-          const Expanded(
-            flex: 15,
-            child: SizedBox(),
-          ),
-          Text(
-            _nickname,
-            style: _drawerProfileTextStyle,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Expanded(
-            flex: 96,
-            child: SizedBox(),
-          ),
-          InkWell(
-            onTap: _onTap,
-            child: SizedBox(
-              width: 21,
-              height: 21,
-              child: Assets.images.home.drawerProfileEdit.image(),
+            const Expanded(
+              flex: 15,
+              child: SizedBox(),
             ),
-          ),
-        ],
+            Text(
+              _nickname,
+              style: _drawerProfileTextStyle,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const Expanded(
+              flex: 96,
+              child: SizedBox(),
+            ),
+            InkWell(
+              onTap: _onTap,
+              child: SizedBox(
+                width: 21,
+                height: 21,
+                child: Assets.images.home.drawerProfileEdit.image(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
