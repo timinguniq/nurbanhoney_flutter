@@ -36,6 +36,7 @@ class ArticleDetailCommentPage extends StatelessWidget {
       return nurbanArticleComment.when(
         data: (data) {
           log('ArticleDetailCommentPage data: $data');
+
           return Column(
             children: [
               if(data.isEmpty)
