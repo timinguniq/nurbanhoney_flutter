@@ -1,4 +1,3 @@
-
 // 자유게시판 디테일 보드(제목, 작가, 작성일)
 import 'dart:developer';
 
@@ -28,15 +27,16 @@ class FreeTitleBoard extends StatelessWidget {
       final token = storage?.getToken() ?? '__empty__';
       log('like_dislike_board token: $token');
 
-      final freeArticle = ref.watch(getFreeArticleProvider((token, _articleId)));
+      final freeArticle =
+          ref.watch(getFreeArticleProvider((token, _articleId)));
 
       // TextStyle
       final articleDetailFreeTitleTextStyle =
-      ref.read(articleDetailNurbanTitleStyle);
+          ref.read(articleDetailNurbanTitleStyle);
       final articleDetailFreeAuthorTextStyle =
-      ref.read(articleDetailNurbanAuthorStyle);
+          ref.read(articleDetailNurbanAuthorStyle);
       final articleDetailFreeElementTextStyle =
-      ref.read(articleDetailNurbanElementStyle);
+          ref.read(articleDetailNurbanElementStyle);
 
       final fConvertToInsignia = ref.read(convertToInsignia);
 
@@ -45,7 +45,8 @@ class FreeTitleBoard extends StatelessWidget {
           log('freeArticle data: $data');
           // 휘장 리스트
           final insigniaList = fConvertToInsignia(data.insignia);
-          final date = formatDate(data.updatedAt.toString(), DEFAULT_DATE_FORMAT);
+          final date =
+              formatDate(data.updatedAt.toString(), DEFAULT_DATE_FORMAT);
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,14 +64,17 @@ class FreeTitleBoard extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              UserInfo(
-                onTap: () {
-                  log('UserInfo clicked');
-                },
-                badge: data.badge,
-                nickname: data.nickname,
-                authorTextStyle: articleDetailFreeAuthorTextStyle,
-                insigniaList: insigniaList,
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: UserInfo(
+                  onTap: () {
+                    log('UserInfo clicked');
+                  },
+                  badge: data.badge,
+                  nickname: data.nickname,
+                  authorTextStyle: articleDetailFreeAuthorTextStyle,
+                  insigniaList: insigniaList,
+                ),
               ),
               const SizedBox(
                 height: 7,

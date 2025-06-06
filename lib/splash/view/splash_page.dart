@@ -13,8 +13,8 @@ import 'package:preference_storage_service/preference_storage_service.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static Route route() {
     return MaterialPageRoute<void>(
@@ -30,8 +30,8 @@ class SplashPage extends StatelessWidget {
 
 class SplashView extends StatefulWidget {
   const SplashView({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   void showHome({
     required BuildContext context,
@@ -59,25 +59,17 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
+    log('SplashPage token0:');
+
     // Home page will be shown after 2 seconds
     Future.delayed(const Duration(seconds: 2), () {
-      widget.showHome(context: context);
+      if (context.mounted) widget.showHome(context: context);
     });
 
     return Consumer(
       builder: (_, WidgetRef ref, __) {
         final style = ref.read(overlayStyle);
         SystemChrome.setSystemUIOverlayStyle(style);
-
-        final preferenceStorage = ref.watch(preferenceStorageProvider);
-        final storage = preferenceStorage.asData?.value;
-        final token = storage?.getToken() ?? '__empty__';
-
-        if(token != '__empty__') {
-          Future.delayed(const Duration(seconds: 1), () {
-            ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
-          });
-        }
 
         return Scaffold(
           body: Center(

@@ -44,6 +44,22 @@ class _AppViewState extends State<AppView> {
     await prefStorage?.setDeviceId(deviceId);
   }
 
+  Future<void> setAuth(WidgetRef ref) async {
+    final preferenceStorage = ref.watch(preferenceStorageProvider);
+    final storage = preferenceStorage.asData?.value;
+    final token = storage?.getToken() ?? '__empty__';
+
+    if (token == '__empty__') {
+      ref
+          .watch(authenticationServiceProvider.notifier)
+          .set(AuthenticationStatus.unauthenticated);
+    } else {
+      ref
+          .watch(authenticationServiceProvider.notifier)
+          .set(AuthenticationStatus.authenticated);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -53,6 +69,9 @@ class _AppViewState extends State<AppView> {
 
         setDeviceId(ref, widget._deviceId);
 
+        setAuth(ref);
+
+        /// 왜 인지 모르겠지만 SplashPage로 안 감
         return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: standard,
