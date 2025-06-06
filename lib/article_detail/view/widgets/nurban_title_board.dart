@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
+import 'package:nurbanhoney/utils/utils.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:share_service/share_service.dart';
 
@@ -43,8 +44,10 @@ class NurbanTitleBoard extends StatelessWidget {
       return nurbanArticle.when(
         data: (data) {
           log('nurbanArticle data: $data');
+
           // 휘장 리스트
           List<String> insigniaList = fConvertToInsignia(data.insignia);
+          final date = formatDate(data.updatedAt.toString(), DEFAULT_DATE_FORMAT);
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +88,7 @@ class NurbanTitleBoard extends StatelessWidget {
                     width: 16,
                   ),
                   Text(
-                    data.updatedAt.toString(),
+                    date,
                     style: articleDetailNurbanElementTextStyle,
                   ),
                   const SizedBox(

@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nurbanhoney/utils/utils.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
@@ -44,6 +45,7 @@ class FreeTitleBoard extends StatelessWidget {
           log('freeArticle data: $data');
           // 휘장 리스트
           final insigniaList = fConvertToInsignia(data.insignia);
+          final date = formatDate(data.updatedAt.toString(), DEFAULT_DATE_FORMAT);
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +83,7 @@ class FreeTitleBoard extends StatelessWidget {
                     width: 16,
                   ),
                   Text(
-                    data.updatedAt.toString(),
+                    date,
                     style: articleDetailFreeElementTextStyle,
                   ),
                   const SizedBox(
