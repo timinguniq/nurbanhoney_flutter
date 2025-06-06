@@ -63,6 +63,8 @@ class DrawerProfilePreview extends StatelessWidget {
       final drawerProfileEditTextStyle = ref.read(drawerProfileEditStyle);
       final loginButtonColor = ref.read(colorF6B748);
 
+      log('authenticationProvider : $authenticationProvider');
+
       return authenticationProvider == AuthenticationStatus.authenticated
           ? DrawerProfilePreviewAuth(
               thumbnail: thumbnail,
