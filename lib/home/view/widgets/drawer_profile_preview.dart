@@ -104,6 +104,7 @@ class DrawerProfilePreviewAuth extends StatelessWidget {
     return InkWell(
       onTap: (){
         // TODO: 프로필 페이지로 이동
+        Navigator.of(context).push(MyaccountSettingPage.route());
       },
       child: SizedBox(
         width: 260,
