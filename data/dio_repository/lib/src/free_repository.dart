@@ -42,7 +42,7 @@ class FreeRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/free/article',
+        baseUrl: '${DioMainApi.mainApi}/board/free/article',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -57,7 +57,7 @@ class FreeRepository {
       );
       /*
       final response = await dio.get(
-        '${DioApi.mainApi}/board/free/article',
+        '${DioMainApi.mainApi}/board/free/article',
         queryParameters: {
           'id': articleId,
         },
@@ -101,7 +101,7 @@ class FreeRepository {
     try {
       log('getFreeAll flag: $flag');
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/free',
+        baseUrl: '${DioMainApi.mainApi}/board/free',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -179,7 +179,7 @@ class FreeRepository {
 
       //final authDio = Dio(baseOptions);
       final response = await Dio().post(
-        '${DioApi.mainApi}/board/free/article/upload/image',
+        '${DioMainApi.mainApi}/board/free/article/upload/image',
         data: formData,
         options: options,
       );
@@ -208,7 +208,7 @@ class FreeRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/free/article/upload/image',
+        baseUrl: '${DioMainApi.mainApi}/board/free/article/upload/image',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -248,7 +248,7 @@ class FreeRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/free/article',
+        baseUrl: '${DioMainApi.mainApi}/board/free/article',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
