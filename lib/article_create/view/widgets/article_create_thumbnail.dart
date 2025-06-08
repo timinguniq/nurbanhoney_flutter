@@ -130,7 +130,7 @@ class ArticleCreateThumbnail extends StatelessWidget {
     // Capture a photo.
     final XFile? photo = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 70,
+      imageQuality: 65,
     );
 
     return photo;
