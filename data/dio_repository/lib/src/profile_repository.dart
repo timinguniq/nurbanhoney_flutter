@@ -54,7 +54,7 @@ class ProfileRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile',
+        baseUrl: '${DioMainApi.mainApi}/profile',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -98,7 +98,7 @@ class ProfileRepository {
       log('profileEdit insignia: $insignia');
 
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile/edit',
+        baseUrl: '${DioMainApi.mainApi}/profile/edit',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -139,7 +139,7 @@ class ProfileRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile/myarticle',
+        baseUrl: '${DioMainApi.mainApi}/profile/myarticle',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -185,7 +185,7 @@ class ProfileRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile/mycomment',
+        baseUrl: '${DioMainApi.mainApi}/profile/mycomment',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -229,7 +229,7 @@ class ProfileRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/profile/withdrawal',
+        baseUrl: '${DioMainApi.mainApi}/profile/withdrawal',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -265,7 +265,7 @@ class ProfileRepository {
   Future<String> myaccountTerms() async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/information/terms',
+        '${DioMainApi.mainApi}/information/terms',
       );
 
       final result = response.data['result'].toString();
@@ -286,7 +286,7 @@ class ProfileRepository {
   Future<String> myaccountPrivacy() async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/information/privacy',
+        '${DioMainApi.mainApi}/information/privacy',
       );
 
       final result = response.data['result'].toString();

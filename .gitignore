@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /android/app/src/main/res/values/strings.xml
+
+/domain/lib/src/models/dio_api.dart
+/domain/lib/src/models/dio_main_api.dart

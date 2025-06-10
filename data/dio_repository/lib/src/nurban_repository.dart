@@ -53,7 +53,7 @@ class NurbanRepository {
   }) async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/board/nurban/article',
+        '${DioMainApi.mainApi}/board/nurban/article',
         queryParameters: {
           'id': articleId,
         },
@@ -100,7 +100,7 @@ class NurbanRepository {
       //var headers = {'Content-Type': 'application/json, charset=utf-8'};
       log('getNurbanAll flag: $flag');
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -166,7 +166,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -206,7 +206,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/like',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -242,7 +242,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/like',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/like',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -278,7 +278,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/dislike',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/dislike',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -314,7 +314,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/dislike',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/dislike',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -374,7 +374,7 @@ class NurbanRepository {
 
       //final authDio = Dio(baseOptions);
       final response = await Dio().post(
-        '${DioApi.mainApi}/board/nurban/article/upload/image',
+        '${DioMainApi.mainApi}/board/nurban/article/upload/image',
         data: formData,
         options: options,
       );
@@ -403,7 +403,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/upload/image',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/upload/image',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -443,7 +443,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -486,7 +486,7 @@ class NurbanRepository {
   }) async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/board/nurban/article/comment',
+        '${DioMainApi.mainApi}/board/nurban/article/comment',
         queryParameters: {
           'articleId': articleId,
           'commentId': commentId,
@@ -524,7 +524,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/comment',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/comment',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
@@ -564,7 +564,7 @@ class NurbanRepository {
   }) async {
     try {
       final baseOptions = BaseOptions(
-        baseUrl: '${DioApi.mainApi}/board/nurban/article/comment',
+        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/comment',
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),

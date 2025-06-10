@@ -21,7 +21,7 @@ class RankRepository {
   }) async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/rank/popup',
+        '${DioMainApi.mainApi}/rank/popup',
         queryParameters: {
           'offset': offset, 'limit': limit,
         },
@@ -54,7 +54,7 @@ class RankRepository {
   Future<List<({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>> getRanks() async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/rank',
+        '${DioMainApi.mainApi}/rank',
       );
       final result = <({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>[];
       for(int i = 0; i < response.data.length ; i++) {

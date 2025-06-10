@@ -23,7 +23,7 @@ class DioRepository {
 
   Future<List<({int id, int type, String name, String address})>> getBoard() async {
     try {
-      final response = await dio.get('${DioApi.mainApi}/board');
+      final response = await dio.get('${DioMainApi.mainApi}/board');
       final result = <({int id, int type, String name, String address})>[];
       for(int i = 0; i < response.data.length ; i++) {
         log('getBoard response: ${response.data[i]}');
@@ -52,7 +52,7 @@ class DioRepository {
   }) async {
     try {
       final response = await dio.get(
-          '${DioApi.mainApi}/board/all',
+          '${DioMainApi.mainApi}/board/all',
           queryParameters: {
             'flag': flag,
             'articleId': articleId,
@@ -98,7 +98,7 @@ class DioRepository {
     try {
       var result = (token: '', userId: '');
       final response = await dio.post(
-        '${DioApi.mainApi}/login',
+        '${DioMainApi.mainApi}/login',
         data: {
           'loginType': loginType,
           'key': key,
@@ -125,7 +125,7 @@ class DioRepository {
   }) async {
     try {
       final response = await dio.get(
-        '${DioApi.mainApi}/board/popular',
+        '${DioMainApi.mainApi}/board/popular',
         queryParameters: {
           'articleId': articleId,
           'limit': limit,
