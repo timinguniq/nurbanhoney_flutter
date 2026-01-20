@@ -6,7 +6,7 @@ allprojects {
     }
     tasks.withType(JavaCompile).configureEach {
         javaCompiler = javaToolchains.compilerFor {
-            languageVersion = JavaLanguageVersion.of(23)
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 }
