@@ -71,11 +71,9 @@ class StockTabViewModel extends BaseViewModel {
       _hasNextPage = nurbanList.length >= scrollThresholdCount;
       log('StockTabViewModel _currentStockArticleId: $_currentStockArticleId');
       log('StockTabViewModel _hasNextPage: $_hasNextPage');
-
-      _updateFetchState(DataFetchSuccess());
-    }else{
-      _updateFetchState(DataFetchError('error'));
     }
+
+    _updateFetchState(DataFetchSuccess());
   }
 
 }
