@@ -384,10 +384,12 @@ class NurbanRepository {
       final result = response.data['result'].toString();
       final error = response.data['error'];
 
+      final thumbnailUrl = '${DioMainApi.mainApi}$result';
+
       log('nurbanImageUpload error: $error');
 
       final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
+          error != null ? Future.value(error.toString()) : Future.value(thumbnailUrl);
 
       return futureValue;
     } catch (e) {

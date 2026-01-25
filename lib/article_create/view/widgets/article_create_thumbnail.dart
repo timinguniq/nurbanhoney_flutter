@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
@@ -78,13 +79,22 @@ class ArticleCreateThumbnail extends StatelessWidget {
                             token: token,
                             image: fileImage,
                           );
-                        }
-                        if(board == '코인'){
+                        }else if(board == '코인'){
                           uploadImage =
                           await freeRepository.freeImageUpload(
                             uuid: uuid,
                             token: token,
                             image: fileImage,
+                          );
+                        }else{
+                          Fluttertoast.showToast(
+                            msg: '위에 게시판을 선택해주세요!',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            //backgroundColor: ref.read(color000000),
+                            //textColor: ref.read(colorFFFFFF),
+                            fontSize: 16.0,
                           );
                         }
 
