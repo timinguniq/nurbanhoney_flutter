@@ -37,10 +37,13 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () async {
-                final prefStorageProvider = ref.watch(preferenceStorageProvider);
+                final prefStorageProvider =
+                    ref.watch(preferenceStorageProvider);
                 final prefStorage = prefStorageProvider.asData?.value;
                 await prefStorage?.setEmptyToken();
-                ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.unauthenticated);
+                ref
+                    .watch(authenticationServiceProvider.notifier)
+                    .set(AuthenticationStatus.unauthenticated);
 
                 Fluttertoast.showToast(
                   msg: '로그아웃 되었습니다.',
@@ -52,14 +55,14 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
                   fontSize: 16.0,
                 );
 
-                if(context.mounted){
-                  Future.delayed(const Duration(milliseconds: 1000), () {
+                Future.delayed(const Duration(milliseconds: 1000), () {
+                  if (context.mounted) {
                     Navigator.of(context).pushAndRemoveUntil(
-                      HomePage.route(),
+                      HomePageRefactor.route(),
                       (route) => false,
                     );
-                  });
-                }
+                  }
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
