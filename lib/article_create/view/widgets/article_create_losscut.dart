@@ -16,9 +16,6 @@ class ArticleCreateLossCut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, WidgetRef ref, __) {
-      //final floatButtonColor = ref.read(colorF6B748);
-      //final authenticationProvider = ref.watch(authenticationServiceProvider);
-
       final lossCutTextStyle = ref.read(articleCreateLossCutStyle);
 
       return SizedBox(
@@ -34,13 +31,16 @@ class ArticleCreateLossCut extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
                   hintText: '₩ 손실액을 입력하세요.',
                   hintStyle: lossCutTextStyle,
                 ),
                 style: lossCutTextStyle,
-                onChanged: (value){
-                  ref.read(articleCreateLossCutNavigationProvider.notifier).select(value);
+                onChanged: (value) {
+                  ref
+                      .read(articleCreateLossCutNavigationProvider.notifier)
+                      .select(value);
                 },
               ),
             ),
@@ -50,7 +50,6 @@ class ArticleCreateLossCut extends StatelessWidget {
           ],
         ),
       );
-
     });
   }
 }
