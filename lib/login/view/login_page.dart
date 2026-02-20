@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:authentication_domain/authentication_domain.dart';
@@ -8,12 +9,15 @@ import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
+
+import '../../config/src/secret.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,8 +32,17 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+const List<String> scopes = <String>[
+  'https://www.googleapis.com/auth/contacts.readonly',
+];
+
 class _LoginPageState extends State<LoginPage> {
   var isFirst = true;
+  GoogleSignInAccount? _currentUser;
+  bool _isAuthorized = false; // has granted permissions?
+  String _contactText = '';
+  String _errorMessage = '';
+  String _serverAuthCode = '';
 
   @override
   void initState() {
@@ -61,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       final key = ref.watch(keyServiceProvider);
       final password = ref.watch(passwordServiceProvider);
 
-      final sLoginType = switch(loginType){
+      final sLoginType = switch (loginType) {
         LoginTypeStatus.kakao => 'kakao',
         LoginTypeStatus.naver => 'naver',
         LoginTypeStatus.google => 'google',
@@ -72,13 +85,14 @@ class _LoginPageState extends State<LoginPage> {
 
       final token = getLogin.asData?.value.token;
       final userId = getLogin.asData?.value.userId;
-      if(token != null){
+      if (token != null) {
         log('token : $token');
         log('userId: $userId');
-        WidgetsBinding.instance
-            .addPostFrameCallback((_) async {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
           // 상태 바꾸는 코드
-          ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.authenticated);
+          ref
+              .watch(authenticationServiceProvider.notifier)
+              .set(AuthenticationStatus.authenticated);
           log('Widget token : $token');
           log('prefStorage : $prefStorage');
           // token 저장하는 코드
@@ -86,12 +100,26 @@ class _LoginPageState extends State<LoginPage> {
           // userId 저장하는 코드.
           setLoginUserId(prefStorage: prefStorage, userId: int.parse(userId!));
 
-          if(context.mounted){
-            if(Navigator.of(context).canPop()&&isFirst){
+          if (context.mounted) {
+            if (Navigator.of(context).canPop() && isFirst) {
               Navigator.of(context).pop();
               isFirst = false;
             }
           }
+        });
+      }
+
+      if (_currentUser?.authentication.idToken != null) {
+        /// 구글 로그인 성공
+        Future.delayed(const Duration(milliseconds: 500), () {
+          ref
+              .watch(loginTypeServiceProvider.notifier)
+              .set(LoginTypeStatus.google);
+          ref
+              .watch(keyServiceProvider.notifier)
+              .set(_currentUser!.authentication.idToken!);
+          ref.watch(passwordServiceProvider.notifier).set(null);
+          _currentUser = null;
         });
       }
 
@@ -155,8 +183,12 @@ class _LoginPageState extends State<LoginPage> {
                       return;
                     } else {
                       /// 카카오 로그인 성공
-                      ref.watch(loginTypeServiceProvider.notifier).set(LoginTypeStatus.kakao);
-                      ref.watch(keyServiceProvider.notifier).set(kakaoAccessToken);
+                      ref
+                          .watch(loginTypeServiceProvider.notifier)
+                          .set(LoginTypeStatus.kakao);
+                      ref
+                          .watch(keyServiceProvider.notifier)
+                          .set(kakaoAccessToken);
                       ref.watch(passwordServiceProvider.notifier).set(null);
                     }
                   },
@@ -196,13 +228,9 @@ class _LoginPageState extends State<LoginPage> {
                   textStyle: kakaoStyle,
                   backgroundColor: whiteColor,
                   elevation: 2,
-                  onTap: () {
+                  onTap: () async {
                     log('google login click');
-                    _devPopup(
-                      context: context,
-                      content: '구글 로그인 개발 중입니다.',
-                      confirmColor: primaryColor,
-                    );
+                    await googleLogin();
                   },
                 ),
               ),
@@ -253,14 +281,14 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> setLoginToken({
     required PreferenceStorage prefStorage,
     required String token,
-  }) async{
+  }) async {
     await prefStorage.setToken(token);
   }
 
   Future<void> setLoginUserId({
     required PreferenceStorage prefStorage,
     required int userId,
-  }) async{
+  }) async {
     await prefStorage.setUserId(userId);
   }
 
@@ -376,6 +404,57 @@ class _LoginPageState extends State<LoginPage> {
     return accessToken;
   }
 
+  // 구글 로그인
+  Future<void> googleLogin() async {
+    // #docregion Setup
+    final GoogleSignIn signIn = GoogleSignIn.instance;
+    await signIn.initialize(serverClientId: webClientId).then((
+      _,
+    ) {
+      signIn.authenticationEvents
+          .listen(_handleAuthenticationEvent)
+          .onError(_handleAuthenticationError);
+
+      /// This example always uses the stream-based approach to determining
+      /// which UI state to show, rather than using the future returned here,
+      /// if any, to conditionally skip directly to the signed-in state.
+      signIn.attemptLightweightAuthentication();
+    });
+    // #enddocregion Setup
+  }
+
+  Future<void> _handleAuthenticationEvent(
+    GoogleSignInAuthenticationEvent event,
+  ) async {
+    // #docregion CheckAuthorization
+    final GoogleSignInAccount? user = // ...
+        // #enddocregion CheckAuthorization
+        switch (event) {
+      GoogleSignInAuthenticationEventSignIn() => event.user,
+      GoogleSignInAuthenticationEventSignOut() => null,
+    };
+
+    // Check for existing authorization.
+    // #docregion CheckAuthorization
+    final GoogleSignInClientAuthorization? authorization =
+        await user?.authorizationClient.authorizationForScopes(scopes);
+    // #enddocregion CheckAuthorization
+
+    setState(() {
+      _currentUser = user;
+      _isAuthorized = authorization != null;
+      _errorMessage = '';
+    });
+  }
+
+  Future<void> _handleAuthenticationError(Object e) async {
+    setState(() {
+      _currentUser = null;
+      _isAuthorized = false;
+      _errorMessage = 'Unknown error: $e';
+    });
+  }
+
   Future<void> getLogin(
       WidgetRef ref, String loginType, String key, String? password) async {
     ref.listen(
@@ -412,5 +491,4 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
-
 }
