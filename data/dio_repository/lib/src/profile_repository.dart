@@ -105,12 +105,13 @@ class ProfileRepository {
       );
 
       final authDio = Dio(baseOptions);
-      final response = await authDio.patch('/',
-          data: {
-            'nickname': nickname,
-            'description': description,
-            'insignia': insignia,
-          },
+      final response = await authDio.patch(
+        '/',
+        data: {
+          'nickname': nickname,
+          'description': description,
+          'insignia': insignia,
+        },
       );
 
       log('profileEdit response: ${response.data}');
@@ -120,9 +121,8 @@ class ProfileRepository {
 
       log('profileEdit error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -130,7 +130,6 @@ class ProfileRepository {
       throw Exception(e);
     }
   }
-
 
   Future<List<ProfileArticleType>> getMyaccountArticle({
     required String token,
@@ -147,24 +146,25 @@ class ProfileRepository {
 
       final authDio = Dio(baseOptions);
       final response = await authDio.get(
-          '/',
-          queryParameters: {
-            'offset': offset,
-            'limit': limit,
-          },
+        '/',
+        queryParameters: {
+          'offset': offset,
+          'limit': limit,
+        },
       );
 
       final result = <ProfileArticleType>[];
-      for(int i = 0; i < response.data.length ; i++) {
+      for (int i = 0; i < response.data.length; i++) {
         log('getBoardAll response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        board: int.parse(response.data[i]['board'].toString()),
-        thumbnail: response.data[i]['thumbnail'].toString(),
-        title: response.data[i]['title'].toString(),
-        count: int.parse(response.data[i]['count'].toString()),
-        commentCount: int.parse(response.data[i]['commentCount'].toString()),
-        createdAt: response.data[i]['createdAt'].toString());
+        final records = (
+          id: int.parse(response.data[i]['id'].toString()),
+          board: int.parse(response.data[i]['board'].toString()),
+          thumbnail: response.data[i]['thumbnail'].toString(),
+          title: response.data[i]['title'].toString(),
+          count: int.parse(response.data[i]['count'].toString()),
+          commentCount: int.parse(response.data[i]['commentCount'].toString()),
+          createdAt: response.data[i]['createdAt'].toString()
+        );
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
@@ -201,15 +201,17 @@ class ProfileRepository {
       );
 
       final result = <ProfileCommentType>[];
-      for(int i = 0; i < response.data.length ; i++) {
+      for (int i = 0; i < response.data.length; i++) {
         log('Mycomment response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        board: int.parse(response.data[i]['board'].toString()),
-        title: response.data[i]['location']['title'].toString(),
-        content: response.data[i]['content'].toString(),
-        createdAt: response.data[i]['createdAt'].toString(),
-        articleId: int.parse(response.data[i]['location']['articleId'].toString()));
+        final records = (
+          id: int.parse(response.data[i]['id'].toString()),
+          board: int.parse(response.data[i]['board'].toString()),
+          title: response.data[i]['location']['title'].toString(),
+          content: response.data[i]['content'].toString(),
+          createdAt: response.data[i]['createdAt'].toString(),
+          articleId:
+              int.parse(response.data[i]['location']['articleId'].toString())
+        );
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);
       }
@@ -250,9 +252,8 @@ class ProfileRepository {
 
       log('withdrawal error: $error');
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -271,10 +272,10 @@ class ProfileRepository {
       final result = response.data['result'].toString();
       final error = response.data['error'];
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
+      log('result: $result');
       return futureValue;
     } catch (e) {
       log('myaccountTerms error : $e');
@@ -292,9 +293,8 @@ class ProfileRepository {
       final result = response.data['result'].toString();
       final error = response.data['error'];
 
-      final futureValue = error != null
-          ? Future.value(error.toString())
-          : Future.value(result);
+      final futureValue =
+          error != null ? Future.value(error.toString()) : Future.value(result);
 
       return futureValue;
     } catch (e) {
@@ -302,5 +302,4 @@ class ProfileRepository {
       throw Exception(e);
     }
   }
-
 }
