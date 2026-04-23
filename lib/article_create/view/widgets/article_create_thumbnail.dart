@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -67,26 +69,30 @@ class ArticleCreateThumbnail extends StatelessWidget {
                       ),
                       onPressed: () async {
                         final xFileImage = await _getImage();
-                        final fileImage = convertToXFileToFile(xFileImage!);
-                        log('fileImage: ${fileImage.path}');
+                        if (xFileImage == null) return;
+                        final originalFile = convertToXFileToFile(xFileImage);
+                        log('originalFile: ${originalFile.path} '
+                            '(${await originalFile.length()} bytes)');
+                        final fileImage = await _compressImage(originalFile);
+                        log('fileImage: ${fileImage.path} '
+                            '(${await fileImage.length()} bytes)');
                         final uuid = const Uuid().v4();
                         log('upload uuid: $uuid');
                         String uploadImage = '';
-                        if(board == '너반꿀'){
+                        if (board == '너반꿀') {
                           uploadImage =
-                          await nurbanRepository.nurbanImageUpload(
+                              await nurbanRepository.nurbanImageUpload(
                             uuid: uuid,
                             token: token,
                             image: fileImage,
                           );
-                        }else if(board == '코인'){
-                          uploadImage =
-                          await freeRepository.freeImageUpload(
+                        } else if (board == '코인') {
+                          uploadImage = await freeRepository.freeImageUpload(
                             uuid: uuid,
                             token: token,
                             image: fileImage,
                           );
-                        }else{
+                        } else {
                           Fluttertoast.showToast(
                             msg: '위에 게시판을 선택해주세요!',
                             toastLength: Toast.LENGTH_SHORT,
@@ -98,10 +104,14 @@ class ArticleCreateThumbnail extends StatelessWidget {
                           );
                         }
 
-
                         log('uploadImage: $uploadImage');
-                        ref.read(articleCreateUuidNavigationProvider.notifier).select(uuid);
-                        ref.read(articleCreateThumbnailNavigationProvider.notifier).select(uploadImage);
+                        ref
+                            .read(articleCreateUuidNavigationProvider.notifier)
+                            .select(uuid);
+                        ref
+                            .read(articleCreateThumbnailNavigationProvider
+                                .notifier)
+                            .select(uploadImage);
                       },
                       child: const Text(
                         '이미지 선택',
@@ -119,8 +129,10 @@ class ArticleCreateThumbnail extends StatelessWidget {
                     height: 200,
                     child: CachedNetworkImage(
                       imageUrl: thumbnail,
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -140,11 +152,55 @@ class ArticleCreateThumbnail extends StatelessWidget {
     // Capture a photo.
     final XFile? photo = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 65,
     );
 
     return photo;
   }
 
   File convertToXFileToFile(XFile xFile) => File(xFile.path);
+
+  Future<File> _compressImage(File file) async {
+    final bytes = await file.readAsBytes();
+    final codec = await ui.instantiateImageCodec(bytes);
+    final frame = await codec.getNextFrame();
+    final originalWidth = frame.image.width;
+    final originalHeight = frame.image.height;
+    frame.image.dispose();
+    codec.dispose();
+
+    const maxDimension = 500;
+    int targetWidth = originalWidth;
+    int targetHeight = originalHeight;
+
+    if (originalWidth > maxDimension || originalHeight > maxDimension) {
+      if (originalWidth >= originalHeight) {
+        targetWidth = maxDimension;
+        targetHeight = (originalHeight * maxDimension / originalWidth).round();
+      } else {
+        targetHeight = maxDimension;
+        targetWidth = (originalWidth * maxDimension / originalHeight).round();
+      }
+    }
+
+    final dir = file.parent.path;
+    final name = const Uuid().v4();
+    final targetPath = '$dir/compressed_$name.jpg';
+
+    final compressed = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 75,
+      minWidth: targetWidth,
+      minHeight: targetHeight,
+      format: CompressFormat.jpeg,
+    );
+
+    if (compressed == null) return file;
+
+    final compressedFile = File(compressed.path);
+    final originalSize = await file.length();
+    final compressedSize = await compressedFile.length();
+
+    return compressedSize < originalSize ? compressedFile : file;
+  }
 }
