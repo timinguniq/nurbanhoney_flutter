@@ -8,8 +8,8 @@ import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 class ArticleCreatePage extends StatelessWidget {
   const ArticleCreatePage({super.key});
 
-  static Route route() {
-    return MaterialPageRoute<void>(
+  static Route<bool> route() {
+    return MaterialPageRoute<bool>(
       builder: (_) => const ArticleCreatePage(),
     );
   }

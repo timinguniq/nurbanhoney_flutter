@@ -169,7 +169,7 @@ class _ArticleCreateAppbarState extends State<ArticleCreateAppbar> {
 
                       Future.delayed(const Duration(seconds: 1), (){
                         if(context.mounted){
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(true);
                         }
                       });
                     }

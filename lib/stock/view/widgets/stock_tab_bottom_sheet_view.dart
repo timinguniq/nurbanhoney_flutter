@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,9 @@ import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 
 class StockTabBottomSheetView extends StatelessWidget {
-  const StockTabBottomSheetView({super.key});
+  const StockTabBottomSheetView({super.key, this.onArticleCreated});
+
+  final Future<void> Function()? onArticleCreated;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,14 @@ class StockTabBottomSheetView extends StatelessWidget {
       final authenticationProvider = ref.watch(authenticationServiceProvider);
 
       return InkWell(
-        onTap: () {
+        onTap: () async {
           if (authenticationProvider ==
               AuthenticationStatus.authenticated) {
-            Navigator.of(context).push(ArticleCreatePage.route());
+            final created = await Navigator.of(context)
+                .push<bool>(ArticleCreatePage.route());
+            if (created == true) {
+              await onArticleCreated?.call();
+            }
           } else {
             Navigator.of(context).push(LoginPage.route());
           }

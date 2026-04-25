@@ -117,7 +117,9 @@ class StockTabPage extends ConsumerWidget {
                       const SizedBox(height: 80),
                     ],
                 ),
-                bottomSheet: const StockTabBottomSheetView(),
+                bottomSheet: StockTabBottomSheetView(
+                  onArticleCreated: () => viewModel.fetch(isRefresh: true),
+                ),
               );
             },
           ),
