@@ -13,10 +13,8 @@ import 'package:preference_storage_service/preference_storage_service.dart';
 
 /// 내 정보 셋팅화면 탈퇴하기
 class MyaccountSettingWithdrawalWidget extends StatelessWidget {
-  const MyaccountSettingWithdrawalWidget({
-    required int userId,
-    super.key
-  }): _userId = userId;
+  const MyaccountSettingWithdrawalWidget({required int userId, super.key})
+      : _userId = userId;
 
   final int _userId;
 
@@ -44,7 +42,8 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
               onTap: () async {
                 //Navigator.of(context).pop();
                 log('탈퇴하기');
-                final prefStorageProvider = ref.watch(preferenceStorageProvider);
+                final prefStorageProvider =
+                    ref.watch(preferenceStorageProvider);
                 final prefStorage = prefStorageProvider.asData?.value;
                 final token = prefStorage?.getToken() ?? '__empty__';
 
@@ -54,9 +53,11 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
                 );
 
                 log('탈퇴하기 result: $result');
-                if(result == 'profile_withdrawal'){
+                if (result == 'profile_withdrawal') {
                   await prefStorage?.setEmptyToken();
-                  ref.watch(authenticationServiceProvider.notifier).set(AuthenticationStatus.unauthenticated);
+                  ref
+                      .watch(authenticationServiceProvider.notifier)
+                      .set(AuthenticationStatus.unauthenticated);
 
                   Fluttertoast.showToast(
                     msg: '탈퇴 되었습니다.',
@@ -71,11 +72,11 @@ class MyaccountSettingWithdrawalWidget extends StatelessWidget {
                   // 탈퇴 성공
                   Future.delayed(const Duration(milliseconds: 1000), () {
                     Navigator.of(context).pushAndRemoveUntil(
-                      HomePage.route(),
+                      HomePageRefactor.route(),
                       (route) => false,
                     );
                   });
-                }else{
+                } else {
                   // 탈퇴 실패
                 }
               },

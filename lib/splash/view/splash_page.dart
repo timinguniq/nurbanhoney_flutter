@@ -1,15 +1,11 @@
 import 'dart:developer';
 
-import 'package:authentication_domain/authentication_domain.dart';
-import 'package:authentication_service/authentication_service.dart';
-import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
-import 'package:preference_storage_service/preference_storage_service.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({
@@ -37,7 +33,7 @@ class SplashView extends StatefulWidget {
     required BuildContext context,
   }) {
     Navigator.of(context).pushAndRemoveUntil<void>(
-      HomePage.route(),
+      HomePageRefactor.route(),
       (route) => false,
     );
   }
