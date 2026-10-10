@@ -33,4 +33,53 @@ void main() {
       expect(formatDate('not-a-date', DEFAULT_DATE_FORMAT), '');
     });
   });
+
+  group('formatRelativeTime', () {
+    final now = DateTime(2026, 10, 10, 14, 30);
+
+    test('1분 미만이면 방금 전이다', () {
+      expect(formatRelativeTime('2026-10-10T14:29:30', now: now), '방금 전');
+    });
+
+    test('1시간 미만이면 분 단위다', () {
+      expect(formatRelativeTime('2026-10-10T14:00:00', now: now), '30분 전');
+    });
+
+    test('하루 미만이면 시간 단위다', () {
+      expect(formatRelativeTime('2026-10-10T12:30:00', now: now), '2시간 전');
+    });
+
+    test('7일 미만이면 일 단위다', () {
+      expect(formatRelativeTime('2026-10-08T14:30:00', now: now), '2일 전');
+    });
+
+    test('7일 이상이면 날짜를 점으로 구분해 보여준다', () {
+      expect(formatRelativeTime('2026-10-01T14:30:00', now: now), '2026.10.01');
+    });
+
+    test('미래 시각은 방금 전으로 본다', () {
+      expect(formatRelativeTime('2026-10-10T15:00:00', now: now), '방금 전');
+    });
+
+    test('파싱할 수 없는 문자열이면 빈 문자열이다', () {
+      expect(formatRelativeTime('', now: now), '');
+      expect(formatRelativeTime('not-a-date', now: now), '');
+    });
+  });
+
+  group('formatWeekRange', () {
+    test('그 날이 속한 주의 월요일과 일요일을 M.d 로 보여준다', () {
+      expect(formatWeekRange(DateTime(2025, 10, 10)), '10.6 – 10.12');
+      expect(formatWeekRange(DateTime(2026, 10, 10)), '10.5 – 10.11');
+    });
+
+    test('월요일과 일요일도 같은 주로 본다', () {
+      expect(formatWeekRange(DateTime(2025, 10, 6)), '10.6 – 10.12');
+      expect(formatWeekRange(DateTime(2025, 10, 12)), '10.6 – 10.12');
+    });
+
+    test('해가 바뀌는 주도 처리한다', () {
+      expect(formatWeekRange(DateTime(2025, 12, 31)), '12.29 – 1.4');
+    });
+  });
 }

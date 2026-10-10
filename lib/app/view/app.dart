@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_domain/navigation_domain.dart';
 import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney/splash/splash.dart';
-import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:nurbanhoney/theme/theme.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
 class App extends StatelessWidget {
@@ -64,7 +64,6 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (_, WidgetRef ref, __) {
-        final standard = ref.watch(standardTheme);
         final authenticationProvider = ref.watch(authenticationServiceProvider);
 
         setDeviceId(ref, widget._deviceId);
@@ -74,7 +73,8 @@ class _AppViewState extends State<AppView> {
         /// 왜 인지 모르겠지만 SplashPage로 안 감
         return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: standard,
+            theme: NbkTheme.light,
+            themeMode: ThemeMode.light,
             onGenerateRoute: (_) => SplashPage.route(),
             home: authenticationProvider == AuthenticationStatus.authenticated
                 ? const HomePageRefactor()
