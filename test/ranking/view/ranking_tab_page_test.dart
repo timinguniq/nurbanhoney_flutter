@@ -106,6 +106,8 @@ void main() {
       expect(find.text('4'), findsOneWidget);
       expect(find.text('-5,400,000원'), findsOneWidget);
       expect(find.text('-430,000원'), findsOneWidget);
+      expect(find.text(Strings.recommend('54')), findsOneWidget);
+      expect(find.text(Strings.recommend('3')), findsOneWidget);
       expect(find.byIcon(Icons.workspace_premium), findsOneWidget);
     });
 
@@ -115,6 +117,7 @@ void main() {
 
       expect(find.text(Strings.rankLabel(5)), findsOneWidget);
       expect(find.text('유저5'), findsNWidgets(2));
+      expect(find.text('-430,000원'), findsNWidgets(2));
       expect(find.byType(MyRankBar), findsOneWidget);
 
       await tester.tap(find.text(Strings.myRank));
@@ -272,6 +275,16 @@ void main() {
 
       expect(calls, 2);
       expect(find.byType(PodiumColumn), findsNWidgets(3));
+    });
+
+    testWidgets('정확히 3명이면 시상대만 있고 띠와 행은 없다', (tester) async {
+      await tester.pumpWidget(_app(ranks: _five.take(3).toList(), myUserId: 99));
+      await _pumpFrames(tester);
+
+      expect(find.byType(PodiumColumn), findsNWidgets(3));
+      expect(find.text('유저3'), findsOneWidget);
+      expect(find.byType(SectionBand), findsNothing);
+      expect(find.byType(RankRow), findsNothing);
     });
 
     testWidgets('3명보다 적으면 있는 칸만 채우고 띠와 행은 없다', (tester) async {

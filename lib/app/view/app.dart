@@ -3,7 +3,6 @@ import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/home/home.dart';
-import 'package:nurbanhoney/splash/splash.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
@@ -70,13 +69,12 @@ class _AppViewState extends State<AppView> {
 
         setAuth(ref);
 
-        /// 왜 인지 모르겠지만 SplashPage로 안 감
+        /// 스플래시는 네이티브(Android Theme.SplashScreen, iOS LaunchScreen)가 그린다.
         return MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: nbkNavigatorKey,
             theme: NbkTheme.light,
             themeMode: ThemeMode.light,
-            onGenerateRoute: (_) => SplashPage.route(),
             home: authenticationProvider == AuthenticationStatus.authenticated
                 ? const HomePageRefactor()
                 : const HomePageRefactor()

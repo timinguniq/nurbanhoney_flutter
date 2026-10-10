@@ -81,3 +81,8 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // 네이티브 스플래시(Theme.SplashScreen). Android 12 미만에도 같은 아이콘 스플래시를 그린다.
+    implementation "androidx.core:core-splashscreen:1.0.1"
+}

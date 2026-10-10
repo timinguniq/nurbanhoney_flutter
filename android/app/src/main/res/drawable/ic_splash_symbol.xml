@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 너반꿀 심볼(lib/widgets/nbk_symbol.dart 의 NbkSymbol 과 같은 모양): 모서리가 둥근 육각형 안의 물방울.
+     Android 12+ 스플래시 아이콘(windowSplashScreenAnimatedIcon)용. 288dp 중 가운데 160dp 에 그린다. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+    <!-- 육각형: 작은 육각형을 둥근 join 으로 두껍게 그려 모서리를 둥글린다 -->
+    <path
+        android:fillColor="#F6B748"
+        android:strokeColor="#F6B748"
+        android:strokeWidth="25.6"
+        android:strokeLineJoin="round"
+        android:pathData="M144,76.8 L202.2,110.4 L202.2,177.6 L144,211.2 L85.8,177.6 L85.8,110.4 Z" />
+    <!-- 물방울: 위가 뾰족하고 아래가 둥글다 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M144,105.6 C148.8,124.8 168,140.8 168,155.2 A24,24 0 0 1 120,155.2 C120,140.8 139.2,124.8 144,105.6 Z" />
+</vector>
