@@ -1,0 +1,7 @@
+name = "verifier"
+description = "회귀·아키텍처 검증. 구현 후 관련 테스트를 돌린 다음 호출한다. 코드를 고치지 않는다."
+sandbox_mode = "workspace-write"
+developer_instructions = """
+docs/agents/verifier.md 를 먼저 읽고, 그 문서의 절차·판정 기준·출력 형식을 그대로 따른다.
+그 문서가 이 역할의 기준이다. 이 파일과 내용이 다르면 그 문서를 따른다.
+"""

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Git pre-commit 훅: 커밋 대상 작업 트리의 tool/commit_gate.sh 를 실행한다.
+# 훅 파일의 위치가 아니라 git 이 알려주는 작업 트리 루트를 기준으로 삼는다(worktree 지원).
+set -u
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [ -z "$root" ]; then
+  echo "[pre-commit] ✗ 커밋 대상 작업 트리의 루트를 찾을 수 없습니다." >&2
+  exit 1
+fi
+
+gate="$root/tool/commit_gate.sh"
+if [ ! -f "$gate" ]; then
+  echo "[pre-commit] ✗ 커밋 대상 작업 트리에 게이트가 없습니다: $gate" >&2
+  exit 1
+fi
+
+exec bash "$gate" --pre-commit

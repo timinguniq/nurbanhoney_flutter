@@ -1,0 +1,7 @@
+# Claude Code 가 만드는 worktree 에 복사할 gitignore 대상 파일 (.gitignore 문법).
+# tool/verify_copy.sh 도 이 목록으로 검증용 복제본에 secret 을 복사한다.
+/lib/config/*
+/lib/firebase_options.dart
+/domain/dio_domain/lib/src/models/dio_main_api.dart
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist

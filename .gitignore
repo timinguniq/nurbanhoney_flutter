@@ -51,3 +51,11 @@ app.*.map.json
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
+
+# Harness: 교차 검증 보고서·파이썬 캐시·Claude Code worktree (docs/harness.md)
+/.harness/
+__pycache__/
+/.claude/worktrees/
+
+# Claude Code 개인 권한 설정(사용자별)
+/.claude/settings.local.json
