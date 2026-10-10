@@ -194,17 +194,33 @@ void main() {
       ));
       await _open(tester);
 
+      final container = ProviderScope.containerOf(tester.element(find.byType(MyaccountSettingPage)));
+      final auth = container.listen(authenticationServiceProvider, (_, __) {});
+      addTearDown(auth.close);
+
       await tester.tap(find.text(Strings.logout));
       await _pumpFrames(tester);
 
-      // 진행 중: 프로필 수정 행을 눌러도 아무 화면도 열리지 않는다.
+      // 진행 중: 프로필 수정 행을 눌러도 아무 화면도 열리지 않고, 토큰이 지워지기 전엔 인증 상태도 그대로다.
       await tester.tap(find.text(Strings.profileEdit), warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 500));
       expect(find.byType(MyaccountSettingPage), findsOneWidget);
       expect(find.byType(MyaccountEditPage), findsNothing);
+      expect(container.read(authenticationServiceProvider), AuthenticationStatus.authenticated);
+
+      // 그 사이 다른 route(다이얼로그)가 위에 떠도 완료되면 설정 화면까지 닫힌다.
+      final pageContext = tester.element(find.byType(MyaccountSettingPage));
+      showDialog<void>(
+        context: pageContext,
+        builder: (_) => const AlertDialog(title: Text('열린 다이얼로그')),
+      );
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.text('열린 다이얼로그'), findsOneWidget);
 
       gate.complete();
       await tester.pumpAndSettle();
+      expect(container.read(authenticationServiceProvider), AuthenticationStatus.unauthenticated);
+      expect(find.text('열린 다이얼로그'), findsNothing);
       expect(find.byType(MyaccountSettingPage), findsNothing);
       expect(find.text('열기'), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));

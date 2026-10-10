@@ -106,6 +106,19 @@ abstract class Strings {
   static const withdrawCheckbox = '위 내용을 확인했어요';
   static const withdrawAction = '탈퇴';
 
+  // 프로필 수정
+  static const profileEditTitle = '프로필 수정';
+  static const badgeAutoNote = '프로필 배지는 활동에 따라 자동으로 바뀌어요';
+  static const nicknameLabel = '닉네임';
+  static const nicknameHint = '닉네임을 입력해 주세요';
+  static const nicknameAvailable = '사용할 수 있는 닉네임이에요';
+  static const nicknameRequired = '닉네임을 입력해 주세요.';
+  static const introLabel = '소개';
+  static const introHint = '자기 소개를 입력해 주세요';
+  static const shownInsigniaLabel = '닉네임 옆에 보이는 휘장';
+  static const shownInsigniaFull = '최대 2개까지 보일 수 있어요. 바꾸려면 먼저 하나를 빼 주세요.';
+  static String ownedInsigniaLabel(int count) => '보유 휘장 $count';
+
   // 앱 정보
   static const appInfo = '앱 정보';
   static const terms = '이용약관';
@@ -173,6 +186,8 @@ abstract class Strings {
   static const toastCommentEmpty = '댓글 내용을 입력해 주세요.';
   static const toastCommentCreateFailed = '댓글을 등록하지 못했어요. 다시 시도해 주세요.';
   static const toastReactionFailed = '반응을 반영하지 못했어요. 다시 시도해 주세요.';
+  static const toastProfileSaved = '프로필이 저장되었습니다.';
+  static const toastProfileSaveFailed = '프로필을 저장하지 못했어요.';
   static const toastLoggedOut = '로그아웃 되었습니다.';
   static const toastWithdrawn = '탈퇴가 완료되었습니다.';
   static const toastWithdrawFailed = '탈퇴하지 못했어요. 다시 시도해 주세요.';
