@@ -58,11 +58,16 @@ class StockTabViewModel extends BaseViewModel {
     final token = storage?.getToken();
     log('token: $token');
 
-    //final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
-    final nurbanRepository = ref.read(nurbanRepositoryProvider);
-    final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10, token: token);
+    try {
+      final nurbanRepository = ref.read(nurbanRepositoryProvider);
+      final nurbanList = await nurbanRepository.getNurbanAll(flag: 0, articleId: nextPage, limit: 10, token: token);
 
-    if(nurbanList.isNotEmpty){
+      if (nurbanList.isEmpty) {
+        if (isRefresh) _stockList = [];
+        _hasNextPage = false;
+        _updateFetchState(DataFetchSuccess());
+        return;
+      }
       _stockList = isRefresh
           ? nurbanList
           : _stockList + nurbanList;
@@ -71,9 +76,13 @@ class StockTabViewModel extends BaseViewModel {
       _hasNextPage = nurbanList.length >= scrollThresholdCount;
       log('StockTabViewModel _currentStockArticleId: $_currentStockArticleId');
       log('StockTabViewModel _hasNextPage: $_hasNextPage');
-    }
 
-    _updateFetchState(DataFetchSuccess());
+      _updateFetchState(DataFetchSuccess());
+    } catch (e) {
+      log('error: $e');
+      // 오류 문자열은 ErrorState 의 오류 코드(errorCodeOf)를 만드는 데만 쓰고 화면에 그대로 보이지 않는다.
+      _updateFetchState(DataFetchError(e.toString()));
+    }
   }
 
 }

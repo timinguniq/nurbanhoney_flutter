@@ -82,7 +82,8 @@
 ### 4단계 — 화면별 구현 (화면마다 커밋 1개, 각 커밋 전 교차 검증)
 공통: 화면 안의 `ref.read(colorXXXX)`·`ref.read(xxxStyle)`(`nurbanhoney_ui_service`)와 `Fluttertoast` 를 모두 토큰·`NbkToast` 로 바꾼다. 문구는 `Strings` 에 추가해 쓴다. 각 화면에 로딩 스켈레톤·빈 상태·에러 상태.
 
-1. **홈** (`lib/stock`, `lib/coin`, `lib/home/view/widgets/home_tab_view.dart`)
+1. **홈** — **완료(커밋 아래 참조)**. `BoardTabView`(공용 UI, ViewModel 상태를 받음) + `PostListItem` + `Top3Section`(+`Top3Card`) + `DashedBox`(lib/widgets) + `startLossCutCreate`. `StockTabPage`/`CoinTabPage` 는 `ConsumerStatefulWidget` 이 ViewModel 을 한 번 만들고 `ListenableBuilder` 로 그린다(BaseView 미사용). ViewModel.fetch 는 try/catch 로 `DataFetchError(e.toString())`. 좋아요 로컬 상태는 BoardTabView 의 `_likeOverrides`(새로고침 세대 기록, 새로고침 중 끝난 좋아요는 유지) — 리뷰 4회 반복으로 잡은 경쟁 조건. `BoardPost` 레코드 typedef 로 data 레이어 import 회피. 삭제: stock/coin_list_item, rank_page, rank_card. 테스트 `test/home/view/widgets/*`(23개). 원래 계획:
+   (원래 계획) **홈** (`lib/stock`, `lib/coin`, `lib/home/view/widgets/home_tab_view.dart`)
    - `StockTabPage`/`CoinTabPage` 의 UI 를 하나의 `BoardTabView`(가칭)로 공유하고 ViewModel 2개는 그대로. `StockListItem`/`CoinListItem`(99% 중복) → `PostListItem` 하나로. `AuthorInfo.small` + `formatRelativeTime(createdAt)` + `LossAmount(list)` + `listTitle` 1줄 + `listBody` 2줄 + `NbkThumbnail`(있을 때만) + `ReactionButton.like(selected: myRating == 'like')` + `CommentCount`.
    - Top3: `RankPage`(carousel) → 가로 스크롤 카드(폭 236, 간격 10) `Top3Section`. 헤더 '이번 주 손실 Top 3'(`Icons.emoji_events_outlined` honeyDeep) + '전체보기 ›' → `ref.read(homeBottomNavigationProvider.notifier).select(HomeBottomStatus.rank)`. 버그 수정: `totalLikeCount` 에 `totalLossCut` 이 들어가던 것(`rank_page.dart:107`), 콤마. 비면 점선 박스 안내.
    - 상태: `DataFetching`/`DataRefetching` → `Shimmer(Top3CardSkeleton×2 + PostItemSkeleton×2)`; 빈 목록 → `EmptyState('아직 {주식|코인} 손절 인증이 없어요', cta '첫 글 쓰기')`, 이때 FAB 숨김; `DataFetchError` → `ErrorState(errorCode: errorCodeOf(e))` + `isNetworkError` 면 상단 `OfflineBanner`, FAB 숨김. `StockTabViewModel.fetch` 에 try/catch 추가(승인됨).

@@ -28,9 +28,18 @@ abstract class Strings {
   // 홈
   static const lossCutCta = '손절 인증하기';
   static String thisWeek(String range) => '이번 주 · $range';
+  static const top3Title = '이번 주 손실 Top 3';
+  static const top3Empty = '$rankingEmptyTitle.\n$rankingEmptyMessage';
+  static const top3Error = '랭킹을 불러오지 못했어요';
+  static String rankLabel(int rank) => '$rank위';
+  static String homeEmptyTitle(String board) => '아직 $board 손절 인증이 없어요';
+  static const homeEmptyMessage = '오늘의 손실을 기록하고 위로를 받아 보세요.\n손실액이 클수록 랭킹이 올라갑니다.';
+  static const firstPostCta = '첫 글 쓰기';
 
   // 랭킹
   static const rankingTitle = '손실 랭킹';
+  static const rankingEmptyTitle = '아직 이번 주 랭킹이 없어요';
+  static const rankingEmptyMessage = '첫 손절 인증이 1위가 됩니다.';
 
   // 내 계정
   static const accountLoggedOutTitle = '로그인하면 내 손절 기록이 모여요';
@@ -81,6 +90,7 @@ abstract class Strings {
   // 토스트
   static const toastLoginRequired = '로그인 후 이용할 수 있어요.';
   static const toastNetworkError = '네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
+  static const toastLikeFailed = '좋아요를 반영하지 못했어요. 다시 시도해 주세요.';
   static const toastCommentDeleted = '댓글이 삭제되었습니다.';
   static const toastCommentDeleteFailed = '댓글을 삭제하지 못했어요. 다시 시도해 주세요.';
 }

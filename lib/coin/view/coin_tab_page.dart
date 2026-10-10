@@ -5,127 +5,41 @@ import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/home/home.dart';
-import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
-import 'package:share_service/share_service.dart';
-
-import 'package:nurbanhoney/coin/coin.dart';
 
 part 'coin_tab_viewmodel.dart';
 
-class CoinTabPage extends ConsumerWidget {
+/// 홈 코인 탭. 목록 상태는 [CoinTabViewModel](레거시 ChangeNotifier, 유지 결정) 이 갖고 UI 는 [BoardTabView] 가 그린다.
+class CoinTabPage extends ConsumerStatefulWidget {
   const CoinTabPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final dividerColor = ref.read(colorBBBBBB);
+  ConsumerState<CoinTabPage> createState() => _CoinTabPageState();
+}
 
-    final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
-    final fConvertToInsignia = ref.read(convertToInsignia);
+class _CoinTabPageState extends ConsumerState<CoinTabPage> {
+  late final CoinTabViewModel _viewModel = CoinTabViewModel(ref);
 
-    return BaseView<CoinTabViewModel>(
-      viewModel: CoinTabViewModel(ref),
-      builder: (context, viewModel) {
-        return RefreshIndicator(
-          onRefresh: () async => viewModel.fetch(isRefresh: true),
-          child: Builder(
-            builder: (context) {
-              if (viewModel.fetchState is DataFetching) return const SizedBox();
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
+  }
 
-              if (viewModel.fetchState is DataRefetching) {
-                return const SizedBox();
-              }
-
-              if (viewModel.fetchState is DataFetchError) {
-                final error = (viewModel.fetchState as DataFetchError).error;
-                return Text('data fetch error: error=${error.toString()}');
-              }
-
-              if (viewModel.fetchState is DataFetchError) {
-                final error = (viewModel.fetchState as DataFetchError).error;
-                return Text('data fetch error: error=$error');
-              }
-
-              return Scaffold(
-                body: Column(
-                  children: [
-                    const SizedBox(height: 17),
-                    const RankPage(
-                      title: '이번주 손실액 Top3',
-                    ),
-                    const SizedBox(height: 12),
-                    Divider(
-                      thickness: 1,
-                      color: dividerColor,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: viewModel.coinList.length,
-                        itemBuilder: (_, index) {
-                          final item = viewModel.coinList[index];
-
-                          log('viewModel.isBusy: ${viewModel.isBusy}');
-                          log('viewModel.hasNextPage: ${viewModel.hasNextPage}');
-                          log('viewModel index: $index');
-                          log('item myRating : ${item.myRating}');
-
-                          if (!viewModel.isBusy &&
-                              viewModel.hasNextPage &&
-                              index == viewModel.coinList.length - 10) {
-                            Future(() =>
-                                unawaited(viewModel.fetch(isRefresh: false)));
-                          }
-
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: CoinListItem(
-                                  id: item.id,
-                                  title: item.title,
-                                  content: item.content,
-                                  thumbnail: item.thumbnail ?? '',
-                                  lossCut: item.lossCut,
-                                  commentCount: item.commentCount.toString(),
-                                  authorId: item.authorId,
-                                  author: item.nickname,
-                                  badge: item.badge,
-                                  insigniaList:
-                                  fConvertToInsignia(item.insignia),
-                                  date: formattingCreatedAt(item.createdAt),
-                                  likeCount: item.likeCount,
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(ArticleDetailPage.route(
-                                      board: item.board,
-                                      articleId: item.id,
-                                    ));
-                                  },
-                                  myRating: item.myRating,
-                                ),
-                              ),
-                              const AppbarDivider(),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                floatingActionButton: LossCutFab(
-                  board: 2,
-                  onCreated: () => viewModel.fetch(isRefresh: true),
-                ),
-              );
-            },
-          ),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: _viewModel,
+      builder: (_, __) => BoardTabView(
+        board: 2,
+        fetchState: _viewModel.fetchState,
+        items: _viewModel.coinList,
+        hasNextPage: _viewModel.hasNextPage,
+        onRefresh: () => _viewModel.fetch(isRefresh: true),
+        onLoadMore: () => unawaited(_viewModel.fetch(isRefresh: false)),
+      ),
     );
   }
 }

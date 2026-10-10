@@ -58,13 +58,13 @@ class CoinTabViewModel extends BaseViewModel {
     final token = storage?.getToken();
     log('token: $token');
 
-    //final nurbanAll = ref.watch(getNurbanAllProvider((0, nextPage, 10)));
-    final freeRepository = ref.read(freeRepositoryProvider);
-    final coinList = await freeRepository.getFreeAll(flag: 0, articleId: nextPage, limit: 10, token: token);
+    try {
+      final freeRepository = ref.read(freeRepositoryProvider);
+      final coinList = await freeRepository.getFreeAll(flag: 0, articleId: nextPage, limit: 10, token: token);
 
-    try{
-      if(coinList.isEmpty){
-        _coinList = [];
+      if (coinList.isEmpty) {
+        if (isRefresh) _coinList = [];
+        _hasNextPage = false;
         _updateFetchState(DataFetchSuccess());
         return;
       }
@@ -78,9 +78,10 @@ class CoinTabViewModel extends BaseViewModel {
       log('CoinTabViewModel _hasNextPage: $_hasNextPage');
 
       _updateFetchState(DataFetchSuccess());
-    }catch(e){
+    } catch (e) {
       log('error: $e');
-      _updateFetchState(DataFetchError('error'));
+      // 오류 문자열은 ErrorState 의 오류 코드(errorCodeOf)를 만드는 데만 쓰고 화면에 그대로 보이지 않는다.
+      _updateFetchState(DataFetchError(e.toString()));
     }
   }
 

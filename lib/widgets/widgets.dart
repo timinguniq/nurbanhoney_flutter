@@ -2,6 +2,7 @@ export 'author_info.dart';
 export 'comment_count.dart';
 export 'confirm_dialog.dart';
 export 'confirm_sheet.dart';
+export 'dashed_box.dart';
 export 'empty_state.dart';
 export 'error_state.dart';
 export 'insignia_image.dart';

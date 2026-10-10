@@ -64,6 +64,18 @@ void main() {
       expect(find.text('비어 있음'), findsOneWidget);
     });
 
+    testWidgets('여러 페이지의 항목을 offset 순서 그대로 위에서 아래로 보여준다', (tester) async {
+      await tester.pumpWidget(
+        _host([const AsyncData([1, 2, 3]), const AsyncData([4, 5])]),
+      );
+      await tester.pump();
+
+      final tops = [for (var i = 1; i <= 5; i++) tester.getTopLeft(find.text('항목 $i')).dy];
+      for (var i = 1; i < tops.length; i++) {
+        expect(tops[i], greaterThan(tops[i - 1]), reason: '항목 ${i + 1} 은 항목 $i 아래에 있어야 한다');
+      }
+    });
+
     testWidgets('중간 페이지가 실패하면 그 앞 항목만 보여주고 실패한 페이지를 다시 시도한다', (tester) async {
       final retried = <int>[];
       await tester.pumpWidget(_host(

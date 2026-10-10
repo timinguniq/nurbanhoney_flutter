@@ -5,126 +5,41 @@ import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/home/home.dart';
-import 'package:nurbanhoney/stock/stock.dart';
-import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
-import 'package:share_service/share_service.dart';
 
 part 'stock_tab_viewmodel.dart';
 
-class StockTabPage extends ConsumerWidget {
+/// 홈 주식 탭. 목록 상태는 [StockTabViewModel](레거시 ChangeNotifier, 유지 결정) 이 갖고 UI 는 [BoardTabView] 가 그린다.
+class StockTabPage extends ConsumerStatefulWidget {
   const StockTabPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final dividerColor = ref.read(colorBBBBBB);
+  ConsumerState<StockTabPage> createState() => _StockTabPageState();
+}
 
-    final formattingCreatedAt = ref.read(funcFormattingToCreatedAt);
-    final fConvertToInsignia = ref.read(convertToInsignia);
+class _StockTabPageState extends ConsumerState<StockTabPage> {
+  late final StockTabViewModel _viewModel = StockTabViewModel(ref);
 
-    return BaseView<StockTabViewModel>(
-      viewModel: StockTabViewModel(ref),
-      builder: (context, viewModel) {
-        return RefreshIndicator(
-          onRefresh: () async => viewModel.fetch(isRefresh: true),
-          child: Builder(
-            builder: (context) {
-              if (viewModel.fetchState is DataFetching) return const SizedBox();
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
+  }
 
-              if (viewModel.fetchState is DataRefetching) {
-                return const SizedBox();
-              }
-
-              if (viewModel.fetchState is DataFetchError) {
-                final error = (viewModel.fetchState as DataFetchError).error;
-                return Text('data fetch error: error=${error.toString()}');
-              }
-
-              if (viewModel.fetchState is DataFetchError) {
-                final error = (viewModel.fetchState as DataFetchError).error;
-                return Text('data fetch error: error=$error');
-              }
-
-              return Scaffold(
-                body: Column(
-                    children: [
-                      const SizedBox(height: 17),
-                      const RankPage(
-                        title: '이번주 손실액 Top3',
-                      ),
-                      const SizedBox(height: 12),
-                      Divider(
-                        thickness: 1,
-                        color: dividerColor,
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: viewModel.stockList.length,
-                          itemBuilder: (_, index) {
-                            final item = viewModel.stockList[index];
-
-                            log('viewModel.isBusy: ${viewModel.isBusy}');
-                            log('viewModel.hasNextPage: ${viewModel.hasNextPage}');
-                            log('viewModel index: $index');
-                            log('item myRating : ${item.myRating}');
-
-                            if (!viewModel.isBusy &&
-                                viewModel.hasNextPage &&
-                                index == viewModel.stockList.length - 10) {
-                              Future(() =>
-                                  unawaited(viewModel.fetch(isRefresh: false)));
-                            }
-
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                  ),
-                                  child: StockListItem(
-                                    id: item.id,
-                                    title: item.title,
-                                    content: item.content,
-                                    thumbnail: item.thumbnail ?? '',
-                                    lossCut: item.lossCut,
-                                    commentCount: item.commentCount.toString(),
-                                    authorId: item.authorId,
-                                    author: item.nickname,
-                                    badge: item.badge,
-                                    insigniaList:
-                                        fConvertToInsignia(item.insignia),
-                                    date: formattingCreatedAt(item.createdAt),
-                                    likeCount: item.likeCount,
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(ArticleDetailPage.route(
-                                        board: item.board,
-                                        articleId: item.id,
-                                      ));
-                                    },
-                                    myRating: item.myRating,
-                                  ),
-                                ),
-                                const AppbarDivider(),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                ),
-                floatingActionButton: LossCutFab(
-                  board: 1,
-                  onCreated: () => viewModel.fetch(isRefresh: true),
-                ),
-              );
-            },
-          ),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: _viewModel,
+      builder: (_, __) => BoardTabView(
+        board: 1,
+        fetchState: _viewModel.fetchState,
+        items: _viewModel.stockList,
+        hasNextPage: _viewModel.hasNextPage,
+        onRefresh: () => _viewModel.fetch(isRefresh: true),
+        onLoadMore: () => unawaited(_viewModel.fetch(isRefresh: false)),
+      ),
     );
   }
 }
