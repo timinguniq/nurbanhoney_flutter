@@ -26,6 +26,7 @@
 | `5985dbf` | [Refactor] 랭킹 탭 — **4단계 8번** | verifier 2회 후 PASS, code-reviewer 3회 후 PASS, mutation 5/8(생존 3건 보강은 스플래시 커밋에 포함). 보고서 `.harness/reports/*-ranking*-snapshot.md` |
 | `bfc6dce` | [Refactor] 스플래시 네이티브 교체 — **4단계 9번** | verifier PASS, code-reviewer PASS, mutation PASS(랭킹 생존 3건 모두 kill). `flutter build apk --debug` 성공. 보고서 `.harness/reports/*-splash-snapshot.md` |
 | `ce4d9b9` | [Refactor] 레거시 테마 패키지·미사용 Provider·BaseView·에셋·의존성 제거 — **5단계 1차** | verifier·code-reviewer FAIL(FlutterGen package 경로 회귀)→반영 후 둘 다 PASS. 보고서 `.harness/reports/*-stage5{a,b}-snapshot.md` |
+| `939a155` | [Update] 패키지 warning 정리 — **5단계 2차** | verifier PASS, code-reviewer PASS(테스트 변경 없어 mutation 생략). 이 트리에서 `flutter build apk --debug` 성공, `flutter analyze` warning 0. 보고서 `.harness/reports/*-stage5c-snapshot.md` |
 
 ### 작업 트리
 
@@ -120,9 +121,9 @@
 
 ### 5단계 — 문구·피드백 통일·정리
 - **1차(`ce4d9b9`) 완료**: 레거시 테마 패키지(`data/nurbanhoney_ui_data`·`application/nurbanhoney_ui_service`) 삭제, `navigation_service` 는 `homeBottomNavigationProvider` 만 남기고 미사용 Provider 삭제, `navigation_domain` 의 `HomeAppbarStatus`·`MyaccountTabStatus` 삭제, `dio_service` 의 key/loginType/password 서비스 삭제, `lib/common` 의 `BaseView`·`LoadingIndicator` 삭제(`BaseViewModel`·`DataFetchStatus`·정책 다이얼로그 유지), 미사용 에셋 삭제 + `lib/gen/assets.gen.dart` 재생성, `fluttertoast`·`flutter_material_pickers`·`carousel_slider`·`provider` 의존성 제거, `docs/architecture.md` 패키지 표·테마 설명 갱신, 패키지 안 `build/` ignore. `nurbanCommentIdProvider` 는 `getNurbanCommentsProvider` 가 써서 유지. `lib/app/view/app.dart` 의 주석 처리된 `HomePage` 분기(`HomeAppbarStatus` 언급)는 AGENTS.md 의 "손대지 않는" 영역이라 그대로 둠.
-- **2차 완료(커밋 아래 참조)**: 패키지 warning 정리 — `data/dio_repository` 의 try 블록 안 `return futureValue` → `return await futureValue`(31곳, 동작 동일), 빈 패키지 테스트의 unused import 제거, `share_service`·`dio_repository`·`dio_domain`·`share_repository` pubspec 에 `publish_to: none`. `flutter analyze` warning 0.
+- **2차(`939a155`) 완료**: 패키지 warning 정리 — `data/dio_repository` 의 try 블록 안 `return futureValue` → `return await futureValue`(31곳, 동작 동일), 빈 패키지 테스트의 unused import 제거, `share_service`·`dio_repository`·`dio_domain`·`share_repository` pubspec 에 `publish_to: none`. `flutter analyze` warning 0.
 - 문구: `Strings` 밖에 남은 한글 리터럴은 `lib/utils` 의 형식 단위('만원'·'분 전' 등), assert·log 메시지, `loss_amount_field` 의 '원' 접미사뿐이다(화면 문구 아님). 토스트 문구는 `docs/redesign-spec.md` 5단계 표대로 각 화면 커밋에서 적용됨.
-- 최종 확인: `grep -rn "Color(0x\|fontSize:" lib --include='*.dart' | grep -v lib/theme/` 0건, `flutter analyze` warning 0, `flutter build apk --debug`(2차 커밋 뒤 재실행 결과는 §1 표에 기록).
+- 최종 확인: `grep -rn "Color(0x\|fontSize:" lib --include='*.dart' | grep -v lib/theme/` 0건, `flutter analyze` warning 0, `flutter build apk --debug` 성공(2차 커밋 트리). 리디자인 1~5단계 작업은 여기서 끝났고, 남은 것은 아래 '사용자에게 남은 질문' 뿐이다.
 
 ### 사용자에게 남은 질문 (최종 보고에 포함)
 1. 랭킹 집계 기준(주간? 월~일?) — API 에 기간이 없어 클라이언트에서 '이번 주' 를 계산함.
