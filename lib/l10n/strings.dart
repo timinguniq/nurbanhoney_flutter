@@ -40,7 +40,7 @@ abstract class Strings {
 
   // 로그인
   static const loginTitle = '손절도 인증하면\n위로가 됩니다';
-  static const loginDescription = '글 작성·추천·댓글은 로그인 후 이용할 수 있어요.\n둘러보기는 로그인 없이도 가능합니다.';
+  static const loginDescription = '글 작성·추천·댓글은 로그인 후 이용할 수 있어요.\n둘러보기는 로그인 없이 가능합니다.';
   static const providerKakao = '카카오';
   static const providerNaver = '네이버';
   static const providerGoogle = 'Google';

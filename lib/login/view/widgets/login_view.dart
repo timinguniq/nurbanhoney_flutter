@@ -7,7 +7,8 @@ import 'package:nurbanhoney/login/view/widgets/social_login_button.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 
-/// 로그인 화면 UI(상태는 밖에서 받는다). X(48) / 로고 + 제목 + 설명 / (실패 카드) / 소셜 버튼 3개 / 안내.
+/// 로그인 화면 UI(상태는 밖에서 받는다). X(48, 왼쪽 8) / 로고 + 제목 + 설명(남는 공간 가운데) /
+/// (실패 카드) / 소셜 버튼 3개 / 안내. 하단 블록은 좌우 20 여백으로 가로를 채운다.
 /// [inProgress] 가 있으면 그 버튼에 스피너, 나머지 버튼과 X 는 흐려지고 설명이 '…로그인하고 있어요' 로 바뀐다.
 /// [failed] 가 있으면 버튼 위에 실패 카드가 뜨고 그 버튼 라벨이 '…로 다시 로그인' 이 된다.
 class LoginView extends StatelessWidget {
@@ -47,7 +48,7 @@ class LoginView extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.all(NbkSpacing.xs),
+                padding: const EdgeInsets.symmetric(horizontal: NbkSpacing.sm, vertical: NbkSpacing.xs),
                 child: Opacity(
                   opacity: busy ? _dimmedOpacity : 1,
                   child: NbkIconButton(
@@ -61,7 +62,8 @@ class LoginView extends StatelessWidget {
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: NbkSpacing.xxxl),
+                  // 아래 여백만큼 블록이 가운데보다 조금 위에 놓인다(디자인).
+                  padding: const EdgeInsets.fromLTRB(NbkSpacing.xxxl, 0, NbkSpacing.xxxl, NbkSpacing.xxl),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -87,10 +89,10 @@ class LoginView extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(
-                NbkSpacing.screen,
-                NbkSpacing.lg,
-                NbkSpacing.screen,
                 NbkSpacing.xl,
+                NbkSpacing.lg,
+                NbkSpacing.xl,
+                NbkSpacing.xxl,
               ),
               child: Column(
                 children: [

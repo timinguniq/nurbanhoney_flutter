@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/login/view/widgets/widgets.dart';
 import 'package:nurbanhoney/theme/theme.dart';
+import 'package:nurbanhoney/widgets/widgets.dart';
 
 Widget _view({
   LoginTypeStatus? inProgress,
@@ -98,12 +99,69 @@ void main() {
       expect(privacy, 1);
     });
 
+    testWidgets('버튼 3개와 실패 카드는 좌우 20 여백으로 화면 너비를 채운다', (tester) async {
+      await tester.pumpWidget(_view(failed: LoginTypeStatus.kakao));
+      final width = tester.view.physicalSize.width / tester.view.devicePixelRatio;
+
+      final buttons = find.byType(SocialLoginButton);
+      expect(buttons, findsNWidgets(3));
+      for (var i = 0; i < 3; i++) {
+        final rect = tester.getRect(buttons.at(i));
+        expect(rect.left, NbkSpacing.xl, reason: '$i번째 버튼 왼쪽');
+        expect(rect.right, width - NbkSpacing.xl, reason: '$i번째 버튼 오른쪽');
+        expect(rect.height, NbkSize.buttonLg, reason: '$i번째 버튼 높이');
+      }
+      // 버튼 사이 간격 10
+      expect(
+        tester.getRect(buttons.at(1)).top - tester.getRect(buttons.at(0)).bottom,
+        NbkSpacing.sm + NbkSpacing.xxs,
+      );
+
+      final card = tester.getRect(find.byType(LoginFailureCard));
+      expect(card.left, NbkSpacing.xl);
+      expect(card.right, width - NbkSpacing.xl);
+    });
+
     testWidgets('X 를 누르면 onClose 가 불린다', (tester) async {
       var closed = 0;
       await tester.pumpWidget(_view(onClose: () => closed++));
 
       await tester.tap(find.byIcon(Icons.close));
       expect(closed, 1);
+    });
+
+    testWidgets('390×844 에서 중앙 블록은 아래 24 여백만큼 가운데보다 위에, 안내는 바닥에서 24 위에 놓인다', (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(_view());
+
+      // design/login.png 문구 그대로
+      expect(
+        find.text('글 작성·추천·댓글은 로그인 후 이용할 수 있어요.\n둘러보기는 로그인 없이 가능합니다.'),
+        findsOneWidget,
+      );
+
+      final close = tester.getRect(find.byType(NbkIconButton));
+      final logo = tester.getRect(find.byType(NbkLogo));
+      final description = tester.getRect(find.text(Strings.loginDescription));
+      final kakao = tester.getRect(find.byType(SocialLoginButton).first);
+      final notice = tester.getRect(find.byType(LoginNotice));
+
+      // X 행(위아래 4) 아래부터 하단 블록(위 여백 16) 위까지가 중앙 영역. 블록은 그 안에서 아래 24 여백을 두고 가운데.
+      final topGap = logo.top - (close.bottom + 4);
+      final bottomGap = (kakao.top - 16) - description.bottom;
+      expect(bottomGap - topGap, moreOrLessEquals(24, epsilon: 0.5));
+      expect(notice.bottom, 844 - 24);
+    });
+
+    testWidgets('X 는 48 터치 영역으로 왼쪽 8·위 4 에 놓인다', (tester) async {
+      await tester.pumpWidget(_view());
+
+      final button = tester.getRect(find.byType(NbkIconButton));
+      expect(button.size, const Size(NbkSize.iconButton, NbkSize.iconButton));
+      expect(button.left, NbkSpacing.sm);
+      expect(button.top, NbkSpacing.xs);
     });
   });
 }

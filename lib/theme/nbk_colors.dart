@@ -27,6 +27,9 @@ abstract class NbkColors {
 
   static const danger = Color(0xFFD93025);
   static const dangerTint = Color(0xFFFDECEA);
+
+  /// 실패 인라인 알림 카드 테두리
+  static const dangerLine = Color(0xFFF5C6C2);
   static const dangerText = Color(0xFFB3261E);
   static const success = Color(0xFF1E8E5A);
 

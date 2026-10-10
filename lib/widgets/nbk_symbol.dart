@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 
 /// 너반꿀 심볼: 모서리가 둥근 육각형 안의 물방울. 래스터 에셋 대신 그려서 어느 크기에서도 선명하다.
+/// 육각형은 상자 높이의 5/6 (72 상자에 60) 이고 나머지는 여백이다(디자인 `design/login.png`).
 class NbkSymbol extends StatelessWidget {
   const NbkSymbol({
     this.size = NbkSize.symbolSm,
@@ -28,12 +29,16 @@ class NbkSymbol extends StatelessWidget {
 class _NbkSymbolPainter extends CustomPainter {
   const _NbkSymbolPainter({required this.color, required this.dropColor});
 
+  /// 상자 높이 대비 육각형 높이
+  static const _hexagonRatio = 5 / 6;
+
   final Color color;
   final Color dropColor;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final s = size.shortestSide;
+    // 육각형 높이(꼭짓점 사이). 상자보다 작게 그려 주변에 여백을 둔다.
+    final s = size.shortestSide * _hexagonRatio;
     final center = Offset(size.width / 2, size.height / 2);
 
     // 꼭짓점이 위아래로 향하는 육각형. 작은 육각형을 둥근 join 으로 두껍게 그려 모서리를 둥글린다.
@@ -60,9 +65,9 @@ class _NbkSymbolPainter extends CustomPainter {
     canvas.drawPath(hexagon, stroke);
 
     // 물방울: 위가 뾰족하고 아래가 둥글다.
-    final dropRadius = s * 0.15;
-    final tip = center + Offset(0, -s * 0.24);
-    final bottom = center + Offset(0, s * 0.07);
+    final dropRadius = s * 0.145;
+    final tip = center + Offset(0, -s * 0.21);
+    final bottom = center + Offset(0, s * 0.085);
     final drop = Path()
       ..moveTo(tip.dx, tip.dy)
       ..cubicTo(

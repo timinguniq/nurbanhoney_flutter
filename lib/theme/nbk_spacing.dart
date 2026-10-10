@@ -113,6 +113,9 @@ abstract class NbkSize {
   /// 빈 상태·오류 상태 아이콘 타일 안의 아이콘
   static const stateIcon = 44.0;
 
+  /// 인라인 알림 카드(로그인 실패) 아이콘
+  static const alertIcon = 20.0;
+
   /// 다이얼로그 아이콘 타일
   static const dialogIconTile = 48.0;
 

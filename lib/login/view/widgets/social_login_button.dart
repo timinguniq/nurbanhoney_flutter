@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 
-/// 소셜 로그인 버튼(높이 52, 모서리 12). 아이콘은 왼쪽 18px 에 고정하고 글자는 가운데.
+/// 소셜 로그인 버튼(높이 52, 모서리 12). 부모가 너비를 정해 주지 않아도 가로로 꽉 채우고,
+/// 아이콘은 왼쪽 20px 에 고정하고 글자는 가운데.
 /// [loading] 이면 라벨 대신 스피너, [dimmed] 면 흐리게(opacity 0.4) 하고 누르지 못한다.
 class SocialLoginButton extends StatelessWidget {
   const SocialLoginButton({
@@ -58,12 +59,13 @@ class SocialLoginButton extends StatelessWidget {
         child: InkWell(
           onTap: loading || dimmed ? null : onPressed,
           child: SizedBox(
+            width: double.infinity,
             height: NbkSize.buttonLg,
             child: Stack(
               alignment: Alignment.center,
               children: [
                 Positioned(
-                  left: NbkSize.iconSm,
+                  left: NbkSpacing.xl,
                   child: icon.image(width: NbkSize.iconSm, height: NbkSize.iconSm),
                 ),
                 if (loading)
