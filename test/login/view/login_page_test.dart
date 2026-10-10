@@ -155,6 +155,25 @@ void main() {
       expect(find.byType(LoginPage), findsOneWidget);
     });
 
+    testWidgets('서버가 빈 토큰을 주면 서버 실패로 처리하고 저장하지 않는다', (tester) async {
+      await tester.pumpWidget(_app(
+        kakaoKey: () async => 'kakao-access',
+        serverLogin: (_, __) async => (token: '', userId: '42'),
+      ));
+      await _open(tester);
+      final container = ProviderScope.containerOf(tester.element(find.byType(LoginPage)));
+      final auth = container.listen(authenticationServiceProvider, (_, __) {});
+      addTearDown(auth.close);
+
+      await tester.tap(find.text(Strings.loginWith(Strings.providerKakao)));
+      await _pumpFrames(tester, 6);
+
+      expect(find.text(Strings.loginFailedServerReason), findsOneWidget);
+      expect(container.read(authenticationServiceProvider), AuthenticationStatus.unauthenticated);
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getString('__pref_auth_token__'), isNull);
+    });
+
     testWidgets('서버 로그인이 실패하면 서버 원인으로 실패 카드를 보여주고 인증 상태는 그대로다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',

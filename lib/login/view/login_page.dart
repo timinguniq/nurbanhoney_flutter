@@ -47,7 +47,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   LoginTypeStatus? _inProgress;
   LoginTypeStatus? _failed;
   String? _failureReason;
-  var _done = false;
 
   /// 진행 중인 서버 로그인 구독. 결과를 한 번 처리하면 닫는다.
   ProviderSubscription<AsyncValue<({String token, String userId})>>? _serverLogin;
@@ -132,8 +131,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   /// 서버 토큰을 저장소에 쓴 뒤에만 인증 상태를 바꾸고 닫는다. 저장소가 아직 준비 전이면 기다리고,
   /// 저장에 실패하면 실패 카드로 돌아간다(저장 없이 인증 상태만 바꾸면 다음 실행에서 로그아웃된 채 시작한다).
   Future<void> _succeed(LoginTypeStatus type, ({String token, String userId}) login) async {
-    if (_done) return;
-    _done = true;
     try {
       final storage = await ref.read(preferenceStorageProvider.future);
       try {
@@ -150,7 +147,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
     } catch (e) {
       log('login storage error: $e');
-      _done = false;
       if (mounted) _fail(type, Strings.loginFailedStorageReason);
       return;
     }

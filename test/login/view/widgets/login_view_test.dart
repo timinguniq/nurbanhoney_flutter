@@ -61,6 +61,18 @@ void main() {
       await tester.tap(find.byIcon(Icons.close), warnIfMissed: false);
       expect(signIns, isEmpty);
       expect(closed, 0);
+
+      // 나머지 버튼과 X 는 0.4 로 흐려진다.
+      final googleOpacity = tester.widget<Opacity>(find.ancestor(
+        of: find.text(Strings.loginWith(Strings.providerGoogle)),
+        matching: find.byType(Opacity),
+      ).first);
+      expect(googleOpacity.opacity, 0.4);
+      final closeOpacity = tester.widget<Opacity>(find.ancestor(
+        of: find.byIcon(Icons.close),
+        matching: find.byType(Opacity),
+      ).first);
+      expect(closeOpacity.opacity, 0.4);
     });
 
     testWidgets('실패하면 실패 카드를 띄우고 그 버튼 라벨이 다시 로그인으로 바뀐다', (tester) async {

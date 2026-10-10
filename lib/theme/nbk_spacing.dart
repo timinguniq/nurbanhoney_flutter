@@ -146,4 +146,7 @@ abstract class NbkSize {
   static const insigniaTile = Size(84, 64);
   static const insigniaGridTileHeight = 64.0;
   static const adBanner = Size(320, 50);
+
+  /// 글 상세 첨부 이미지 최대 폭(업로드 시 500px 로 압축되므로 더 키우지 않는다)
+  static const detailImageMaxWidth = 500.0;
 }

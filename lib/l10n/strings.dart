@@ -100,6 +100,15 @@ abstract class Strings {
   static const appVersion = '앱 버전';
   static const errorPolicyLoad = '내용을 불러오지 못했어요';
 
+  // 글 상세
+  static const lossLabel = '손실액';
+  static const commentsHeader = '댓글';
+  static const commentHint = '댓글을 입력해주세요';
+  static const emptyCommentsTitle = '아직 댓글이 없어요';
+  static const emptyCommentsMessage = '첫 위로를 남겨 보세요.';
+  static const deleteArticleTitle = '이 글을 삭제할까요?';
+  static const deleteArticleMessage = '삭제한 글과 달린 댓글은 되돌릴 수 없어요. 랭킹에 반영된 손실액도 함께 빠집니다.';
+
   // 반응
   static const like = '좋아요';
   static const dislike = '싫어요';
@@ -118,6 +127,12 @@ abstract class Strings {
   static const toastNetworkError = '네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
   static const toastNaverNotReady = '네이버 로그인은 준비 중이에요.';
   static const toastLikeFailed = '좋아요를 반영하지 못했어요. 다시 시도해 주세요.';
+  static const toastArticleNotFound = '글이 존재하지 않습니다.';
+  static const toastArticleDeleted = '글이 삭제되었습니다.';
+  static const toastArticleDeleteFailed = '글을 삭제하지 못했어요. 다시 시도해 주세요.';
+  static const toastCommentEmpty = '댓글 내용을 입력해 주세요.';
+  static const toastCommentCreateFailed = '댓글을 등록하지 못했어요. 다시 시도해 주세요.';
+  static const toastReactionFailed = '반응을 반영하지 못했어요. 다시 시도해 주세요.';
   static const toastCommentDeleted = '댓글이 삭제되었습니다.';
   static const toastCommentDeleteFailed = '댓글을 삭제하지 못했어요. 다시 시도해 주세요.';
 }

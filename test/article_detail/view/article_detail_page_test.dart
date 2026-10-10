@@ -1,0 +1,459 @@
+import 'package:dio_repository/dio_repository.dart';
+import 'package:dio_service/dio_service.dart';
+import 'package:flutter/material.dart';
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:nurbanhoney/article_detail/article_detail.dart';
+import 'package:nurbanhoney/l10n/strings.dart';
+import 'package:nurbanhoney/login/login.dart';
+import 'package:nurbanhoney/theme/theme.dart';
+import 'package:nurbanhoney/widgets/widgets.dart';
+import 'package:preference_storage/preference_storage.dart';
+import 'package:preference_storage_service/preference_storage_service.dart';
+
+/// 좋아요·싫어요·댓글·글 삭제만 흉내 내는 저장소. 호출을 기록하고 가짜 댓글 목록을 고친다.
+class _FakeNurbanRepository implements NurbanRepository {
+  _FakeNurbanRepository({
+    this.comments = const [],
+    this.articleDeleteResult = 'nurbanboard_deleted',
+    this.likeCreateResult = '36',
+    this.commentCreateThrows = false,
+  });
+
+  List<NurbanComment> comments;
+  final calls = <String>[];
+  final String articleDeleteResult;
+
+  /// 숫자가 아니면 서버 오류 문자열을 흉내 낸다
+  final String likeCreateResult;
+  final bool commentCreateThrows;
+
+  @override
+  Future<String> nurbanLikeCreate({required String token, required int articleId}) async {
+    calls.add('likeCreate');
+    return likeCreateResult;
+  }
+
+  @override
+  Future<String> nurbanLikeDelete({required String token, required int articleId}) async {
+    calls.add('likeDelete');
+    return '34';
+  }
+
+  @override
+  Future<String> nurbanDislikeCreate({required String token, required int articleId}) async {
+    calls.add('dislikeCreate');
+    return '4';
+  }
+
+  @override
+  Future<String> nurbanDislikeDelete({required String token, required int articleId}) async {
+    calls.add('dislikeDelete');
+    return '2';
+  }
+
+  @override
+  Future<String> nurbanCommentCreate({
+    required String token,
+    required int articleId,
+    required String content,
+  }) async {
+    calls.add('commentCreate:$content');
+    if (commentCreateThrows) throw Exception('connection error');
+    comments = [...comments, _comment(99, content: content, userId: 7)];
+    return 'nurbancomment_posted';
+  }
+
+  @override
+  Future<String> nurbanCommentDelete({
+    required String token,
+    required int commentId,
+    required int articleId,
+  }) async {
+    calls.add('commentDelete:$commentId');
+    comments = comments.where((c) => c.id != commentId).toList();
+    return 'nurbancomment_deleted';
+  }
+
+  @override
+  Future<String> nurbanArticleDelete({
+    required String token,
+    required int articleId,
+    required String uuid,
+  }) async {
+    calls.add('articleDelete:$uuid');
+    return articleDeleteResult;
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+NurbanArticle _article({int userId = 1, String thumbnail = ''}) => (
+      id: 10,
+      uuid: 'uuid-10',
+      thumbnail: thumbnail,
+      title: '삼전 물타기 실패했습니다',
+      lossCut: '1250000',
+      content: '7만전자에서 물 타고 6만전자에서 또 탔는데',
+      count: 123,
+      commentCount: 2,
+      likeCount: 35,
+      dislikeCount: 3,
+      updatedAt: '2026-10-10T14:30:00',
+      userId: userId,
+      badge: '',
+      nickname: '삼전홀더',
+      insignia: '[]',
+      myRating: 'null',
+    );
+
+FreeArticle _reactions({String myRating = 'null', int likes = 35, int dislikes = 3}) => (
+      id: 10,
+      uuid: 'uuid-10',
+      title: '',
+      content: '',
+      count: 0,
+      commentCount: 0,
+      likeCount: likes,
+      dislikeCount: dislikes,
+      updatedAt: '',
+      userId: 1,
+      badge: '',
+      nickname: '',
+      insignia: '[]',
+      myRating: myRating,
+    );
+
+NurbanComment _comment(int id, {String content = '', int userId = 2}) => (
+      id: id,
+      content: content.isEmpty ? '위로 $id' : content,
+      userId: userId,
+      badge: '',
+      nickname: '존버실패',
+      insignia: '[]',
+    );
+
+Widget _app({
+  NurbanArticle? article,
+  Object? articleError,
+  FreeArticle? reactions,
+  required _FakeNurbanRepository repository,
+  List<bool?>? popped,
+}) {
+  return ProviderScope(
+    overrides: [
+      preferenceStorageProvider.overrideWith(
+        (ref) async => PreferenceStorage(plugin: await SharedPreferences.getInstance()),
+      ),
+      getNurbanArticleProvider.overrideWith((ref, id) async {
+        if (articleError != null) throw articleError;
+        return article!;
+      }),
+      getFreeArticleProvider.overrideWith((ref, r) async => reactions ?? _reactions()),
+      getNurbanCommentsProvider.overrideWith((ref, id) async => repository.comments),
+      nurbanRepositoryProvider.overrideWithValue(repository),
+    ],
+    child: MaterialApp(
+      navigatorKey: nbkNavigatorKey,
+      theme: NbkTheme.light,
+      home: Builder(
+        builder: (context) => Scaffold(
+          body: TextButton(
+            onPressed: () async {
+              final result = await Navigator.of(context).push(
+                ArticleDetailPage.route(board: 1, articleId: 10),
+              );
+              popped?.add(result);
+            },
+            child: const Text('열기'),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// 상세 화면을 열고 route 전환 애니메이션과 Provider 로딩이 끝날 때까지 돌린다.
+Future<void> _open(WidgetTester tester) async {
+  await tester.tap(find.text('열기'));
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 500));
+  await tester.pump(const Duration(milliseconds: 500));
+  await _pumpFrames(tester);
+}
+
+Future<void> _pumpFrames(WidgetTester tester, [int frames = 4]) async {
+  for (var i = 0; i < frames; i++) {
+    await tester.pump();
+  }
+}
+
+void main() {
+  setUp(() {
+    SharedPreferences.setMockInitialValues({
+      '__pref_auth_token__': 'token-1',
+      '__pref_user_id__': 7,
+    });
+    // AdMob 은 자체 코덱의 플랫폼 채널을 쓰므로 '성공(null)' 봉투([0, 0])만 그대로 돌려준다(광고는 로드되지 않는다).
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMessageHandler(
+      'plugins.flutter.io/google_mobile_ads',
+      (_) async => ByteData.sublistView(Uint8List.fromList([0, 0])),
+    );
+  });
+  tearDown(NbkToast.hide);
+
+  group('ArticleDetailPage', () {
+    testWidgets('제목·작성자·손실액·본문·반응·댓글을 보여주고 남의 글이면 더보기가 없다', (tester) async {
+      final repository = _FakeNurbanRepository(comments: [_comment(1), _comment(2)]);
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      expect(find.text('삼전 물타기 실패했습니다'), findsOneWidget);
+      expect(find.text('삼전홀더'), findsOneWidget);
+      expect(find.text('2026.10.10 14:30 · ${Strings.views('123')}'), findsOneWidget);
+      expect(find.text('-1,250,000원'), findsOneWidget);
+      expect(find.text(Strings.boardStock), findsOneWidget);
+      expect(find.text('${Strings.like} 35'), findsOneWidget);
+      expect(find.text('${Strings.dislike} 3'), findsOneWidget);
+      expect(find.text('위로 1'), findsOneWidget);
+      expect(find.text('위로 2'), findsOneWidget);
+      expect(find.text('${Strings.commentsHeader} 2'), findsOneWidget);
+      expect(find.byIcon(Icons.more_vert), findsNothing);
+      expect(find.text(Strings.myPost), findsNothing);
+      expect(find.byType(NbkThumbnail), findsNothing);
+    });
+
+    testWidgets('내 글이면 내 글 필과 더보기를 보여주고 확인 시트를 거쳐 삭제한 뒤 true 로 닫힌다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      final popped = <bool?>[];
+      await tester.pumpWidget(_app(article: _article(userId: 7), repository: repository, popped: popped));
+      await _open(tester);
+
+      expect(find.text(Strings.myPost), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
+      expect(find.text(Strings.deleteArticleTitle), findsOneWidget);
+
+      await tester.tap(find.text(Strings.delete));
+      await tester.pumpAndSettle();
+
+      expect(repository.calls, ['articleDelete:uuid-10']);
+      expect(popped, [true]);
+      expect(find.text(Strings.toastArticleDeleted), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('글 삭제에 실패하면 오류 토스트를 띄우고 화면은 그대로다', (tester) async {
+      final repository = _FakeNurbanRepository(articleDeleteResult: 'error');
+      final popped = <bool?>[];
+      await tester.pumpWidget(_app(article: _article(userId: 7), repository: repository, popped: popped));
+      await _open(tester);
+
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(Strings.delete));
+      await _pumpFrames(tester, 6);
+
+      expect(repository.calls, ['articleDelete:uuid-10']);
+      expect(popped, isEmpty);
+      expect(find.byType(ArticleDetailPage), findsOneWidget);
+      expect(find.text(Strings.toastArticleDeleteFailed), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('없는 글(404)이면 토스트를 띄우고 false 로 바로 닫힌다', (tester) async {
+      final popped = <bool?>[];
+      await tester.pumpWidget(_app(
+        articleError: Exception('status code of 404'),
+        repository: _FakeNurbanRepository(),
+        popped: popped,
+      ));
+      await _open(tester);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ArticleDetailPage), findsNothing);
+      expect(find.text(Strings.toastArticleNotFound), findsOneWidget);
+      expect(popped, [false]);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('그 밖의 오류면 앱바는 유지하고 오류 상태를 보여준다', (tester) async {
+      await tester.pumpWidget(_app(
+        articleError: Exception('connection error'),
+        repository: _FakeNurbanRepository(),
+      ));
+      await _open(tester);
+
+      expect(find.byType(ErrorState), findsOneWidget);
+      expect(find.text(Strings.boardStock), findsOneWidget);
+    });
+
+    testWidgets('좋아요를 누르면 저장소를 부르고 돌려받은 수로 바꾸며, 싫어요 상태였다면 싫어요 수가 하나 준다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(
+        article: _article(),
+        reactions: _reactions(myRating: 'dislike', likes: 35, dislikes: 3),
+        repository: repository,
+      ));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.like} 35'));
+      await _pumpFrames(tester);
+
+      expect(repository.calls, ['likeCreate']);
+      expect(find.text('${Strings.like} 36'), findsOneWidget);
+      expect(find.text('${Strings.dislike} 2'), findsOneWidget);
+    });
+
+    testWidgets('이미 좋아요한 글의 좋아요를 다시 누르면 취소한다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(
+        article: _article(),
+        reactions: _reactions(myRating: 'like'),
+        repository: repository,
+      ));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.like} 35'));
+      await _pumpFrames(tester);
+
+      expect(repository.calls, ['likeDelete']);
+      expect(find.text('${Strings.like} 34'), findsOneWidget);
+    });
+
+    testWidgets('반응 응답이 숫자가 아니면 오류 토스트를 띄우고 상태를 유지하며 다시 누를 수 있다', (tester) async {
+      final repository = _FakeNurbanRepository(likeCreateResult: 'error');
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.like} 35'));
+      await _pumpFrames(tester);
+      expect(find.text(Strings.toastReactionFailed), findsOneWidget);
+      expect(find.text('${Strings.like} 35'), findsOneWidget);
+
+      await tester.tap(find.text('${Strings.like} 35'));
+      await _pumpFrames(tester);
+      expect(repository.calls, ['likeCreate', 'likeCreate']);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('비로그인 상태에서 반응을 누르면 로그인 안내 토스트만 띄운다', (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.dislike} 3'));
+      await _pumpFrames(tester);
+
+      expect(repository.calls, isEmpty);
+      expect(find.text(Strings.toastLoginRequired), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('키보드가 올라오면 댓글 입력 바가 키보드 위로 올라간다', (tester) async {
+      await tester.pumpWidget(_app(article: _article(), repository: _FakeNurbanRepository()));
+      await _open(tester);
+      final before = tester.getRect(find.byType(TextField)).bottom;
+
+      tester.view.viewInsets = const FakeViewPadding(bottom: 300 * 3);
+      tester.view.devicePixelRatio = 3;
+      addTearDown(tester.view.reset);
+      await _pumpFrames(tester);
+
+      final field = tester.getRect(find.byType(TextField));
+      final screen = tester.view.physicalSize.height / tester.view.devicePixelRatio;
+      expect(field.bottom, lessThanOrEqualTo(screen - 300));
+      expect(field.bottom, lessThan(before));
+      expect(find.text(Strings.register), findsOneWidget);
+    });
+
+    testWidgets('댓글이 없으면 말풍선 빈 상태를 보여준다', (tester) async {
+      await tester.pumpWidget(_app(article: _article(), repository: _FakeNurbanRepository()));
+      await _open(tester);
+
+      expect(find.text(Strings.emptyCommentsTitle), findsOneWidget);
+      expect(find.byIcon(Icons.chat_bubble_outline), findsOneWidget);
+    });
+
+    testWidgets('댓글을 입력해 등록하면 저장소를 부르고 입력을 비우고 목록을 다시 받는다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.enterText(find.byType(TextField), '같이 울어요');
+      await tester.pump();
+      expect(find.text('6/60'), findsOneWidget);
+
+      await tester.tap(find.text(Strings.register));
+      await _pumpFrames(tester, 6);
+
+      expect(repository.calls, ['commentCreate:같이 울어요']);
+      expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, isEmpty);
+      expect(find.text('같이 울어요'), findsOneWidget);
+    });
+
+    testWidgets('댓글 등록이 예외로 실패하면 오류 토스트를 띄우고 입력을 유지한다', (tester) async {
+      final repository = _FakeNurbanRepository(commentCreateThrows: true);
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.enterText(find.byType(TextField), '같이 울어요');
+      await tester.tap(find.text(Strings.register));
+      await _pumpFrames(tester, 6);
+
+      expect(find.text(Strings.toastCommentCreateFailed), findsOneWidget);
+      expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, '같이 울어요');
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('빈 댓글을 등록하면 안내 토스트만 띄운다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.tap(find.text(Strings.register));
+      await _pumpFrames(tester);
+
+      expect(repository.calls, isEmpty);
+      expect(find.text(Strings.toastCommentEmpty), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('비로그인 상태에서 댓글을 등록하면 로그인 화면으로 보낸다', (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.enterText(find.byType(TextField), '안녕');
+      await tester.tap(find.text(Strings.register));
+      await tester.pumpAndSettle();
+
+      expect(repository.calls, isEmpty);
+      expect(find.byType(LoginPage), findsOneWidget);
+    });
+
+    testWidgets('내 댓글의 휴지통은 확인 시트를 거쳐 삭제하고 목록을 다시 받는다', (tester) async {
+      final repository = _FakeNurbanRepository(comments: [_comment(1, userId: 7), _comment(2)]);
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      expect(find.byIcon(Icons.delete_outline), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.delete_outline));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(Strings.delete));
+      await _pumpFrames(tester, 6);
+
+      expect(repository.calls, ['commentDelete:1']);
+      expect(find.text('위로 1'), findsNothing);
+      expect(find.text('위로 2'), findsOneWidget);
+      expect(find.text(Strings.toastCommentDeleted), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+    });
+  });
+}
