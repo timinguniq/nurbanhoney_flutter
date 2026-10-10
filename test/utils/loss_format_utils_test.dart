@@ -23,6 +23,11 @@ void main() {
       expect(formatLossAmount(15000, compact: true), '-1만원');
     });
 
+    test('compact 의 경계는 정확히 1만 원과 1억 원이다', () {
+      expect(formatLossAmount(10000, compact: true), '-1만원');
+      expect(formatLossAmount(99999999, compact: true), '-9,999만원');
+    });
+
     test('compact 는 만 원 미만의 끝자리를 버린다', () {
       expect(formatLossAmount(12485000, compact: true), '-1,248만원');
     });

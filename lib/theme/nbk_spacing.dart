@@ -40,9 +40,12 @@ abstract class NbkRadius {
   static const dialog = 20.0;
   static const emptyTile = 28.0;
   static const avatarSm = 6.0;
+  static const avatarComment = 8.0;
   static const avatarMd = 10.0;
   static const avatarLg = 16.0;
   static const avatarXl = 24.0;
+  static const skeleton = 8.0;
+  static const dialogIconTile = 12.0;
 
   /// 칩·필
   static const pill = 999.0;
@@ -99,7 +102,30 @@ abstract class NbkSize {
   static const insigniaSmImage = 38.0;
   static const insigniaMdBox = Size(40, 22);
   static const insigniaMdImage = 46.0;
+  static const insigniaTileBox = Size(80, 40);
   static const insigniaTileImage = 84.0;
+
+  /// 심볼(육각 꿀 아이콘)
+  static const symbolSm = 28.0;
+  static const symbolLg = 72.0;
+  static const symbolTile = 44.0;
+
+  /// 빈 상태·오류 상태 아이콘 타일 안의 아이콘
+  static const stateIcon = 44.0;
+
+  /// 다이얼로그 아이콘 타일
+  static const dialogIconTile = 48.0;
+
+  /// 하단 탭바 아이콘·내용 높이·최소 하단 여백
+  static const tabIcon = 26.0;
+  static const bottomTabContent = 56.0;
+  static const bottomTabMinInset = 24.0;
+
+  /// 반응 버튼 안쪽 아이콘
+  static const reactionIcon = 20.0;
+
+  /// 오류 상태 [다시 시도] 버튼 최소 폭
+  static const retryButtonMinWidth = 240.0;
 
   /// 순위 박스(Top3 카드)
   static const rankBox = 26.0;

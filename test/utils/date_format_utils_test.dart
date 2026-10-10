@@ -57,6 +57,13 @@ void main() {
       expect(formatRelativeTime('2026-10-01T14:30:00', now: now), '2026.10.01');
     });
 
+    test('정확히 1분·1시간·1일·7일 전은 큰 단위로 올라간다', () {
+      expect(formatRelativeTime('2026-10-10T14:29:00', now: now), '1분 전');
+      expect(formatRelativeTime('2026-10-10T13:30:00', now: now), '1시간 전');
+      expect(formatRelativeTime('2026-10-09T14:30:00', now: now), '1일 전');
+      expect(formatRelativeTime('2026-10-03T14:30:00', now: now), '2026.10.03');
+    });
+
     test('미래 시각은 방금 전으로 본다', () {
       expect(formatRelativeTime('2026-10-10T15:00:00', now: now), '방금 전');
     });

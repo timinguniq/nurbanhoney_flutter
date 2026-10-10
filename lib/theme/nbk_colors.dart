@@ -40,6 +40,9 @@ abstract class NbkColors {
   static const thumbPlaceholder = Color(0xFFEEF0F3);
   static const bg = Color(0xFFFFFFFF);
 
+  /// 스켈레톤 위로 흐르는 하이라이트
+  static const skeletonHighlight = Color(0xFFFAFBFC);
+
   /// 어두운 배경(토스트·text1 버튼·danger 버튼) 위 글자
   static const onDark = Color(0xFFFFFFFF);
 

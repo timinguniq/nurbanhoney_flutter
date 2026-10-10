@@ -37,11 +37,52 @@ void main() {
       expect(formatter.formatEditUpdate(_value('1'), _value('')).text, '');
     });
 
-    test('최대 자릿수를 넘기면 이전 값을 유지한다', () {
+    test('최대 자릿수를 넘기면 넘친 자리를 잘라낸다', () {
       const limited = ThousandsInputFormatter(maxDigits: 3);
       final old = _value('123');
       final result = limited.formatEditUpdate(old, _value('1234'));
       expect(result.text, '123');
+      expect(limited.formatEditUpdate(_value(''), _value('98765')).text, '987');
+    });
+
+    test('조합 중 넘긴 자릿수는 조합이 끝날 때 잘라내고 조합 상태를 남기지 않는다', () {
+      const limited = ThousandsInputFormatter(maxDigits: 3);
+      const composing = TextEditingValue(
+        text: '1234',
+        selection: TextSelection.collapsed(offset: 4),
+        composing: TextRange(start: 0, end: 4),
+      );
+      expect(limited.formatEditUpdate(_value('123'), composing), composing);
+
+      final committed = limited.formatEditUpdate(composing, _value('1234'));
+      expect(committed.text, '123');
+      expect(committed.composing.isValid, isFalse);
+    });
+
+    test('최대 자릿수와 같은 길이까지는 받아들인다', () {
+      const limited = ThousandsInputFormatter(maxDigits: 3);
+      final result = limited.formatEditUpdate(_value('12'), _value('123'));
+      expect(result.text, '123');
+    });
+
+    test('IME 조합 중인 입력은 조합 범위를 지우지 않고 그대로 둔다', () {
+      const composing = TextEditingValue(
+        text: '1234',
+        selection: TextSelection.collapsed(offset: 4),
+        composing: TextRange(start: 0, end: 4),
+      );
+      final result = formatter.formatEditUpdate(_value('123'), composing);
+      expect(result, composing);
+    });
+
+    test('조합이 끝나면 콤마를 붙인다', () {
+      const composing = TextEditingValue(
+        text: '1234',
+        selection: TextSelection.collapsed(offset: 4),
+        composing: TextRange(start: 0, end: 4),
+      );
+      final result = formatter.formatEditUpdate(composing, _value('1234'));
+      expect(result.text, '1,234');
     });
   });
 }
