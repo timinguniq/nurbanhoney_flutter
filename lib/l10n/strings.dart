@@ -1,3 +1,5 @@
+import 'package:dio_domain/dio_domain.dart';
+
 /// 사용자에게 보이는 문구. 화면 코드에 문자열 리터럴을 두지 않고 여기서 가져다 쓴다.
 abstract class Strings {
   static const appName = '너반꿀';
@@ -35,6 +37,30 @@ abstract class Strings {
   static String homeEmptyTitle(String board) => '아직 $board 손절 인증이 없어요';
   static const homeEmptyMessage = '오늘의 손실을 기록하고 위로를 받아 보세요.\n손실액이 클수록 랭킹이 올라갑니다.';
   static const firstPostCta = '첫 글 쓰기';
+
+  // 로그인
+  static const loginTitle = '손절도 인증하면\n위로가 됩니다';
+  static const loginDescription = '글 작성·추천·댓글은 로그인 후 이용할 수 있어요.\n둘러보기는 로그인 없이도 가능합니다.';
+  static const providerKakao = '카카오';
+  static const providerNaver = '네이버';
+  static const providerGoogle = 'Google';
+  static String providerName(LoginTypeStatus type) => switch (type) {
+        LoginTypeStatus.naver => providerNaver,
+        LoginTypeStatus.google => providerGoogle,
+        LoginTypeStatus.kakao || LoginTypeStatus.init => providerKakao,
+      };
+  static String loginWith(String provider) => '$provider로 로그인';
+  static String loginRetryWith(String provider) => '$provider로 다시 로그인';
+  static String loginInProgress(String provider) => '$provider 계정으로 로그인하고 있어요…';
+  static String loginFailedTitle(String provider) => '$provider 로그인에 실패했어요';
+  static const loginFailedKakaoReason = '카카오톡 앱에서 로그인을 취소했거나 네트워크가 끊겼어요. 다시 시도해 주세요.';
+  static const loginFailedGoogleReason = 'Google 로그인을 취소했거나 네트워크가 끊겼어요. 다시 시도해 주세요.';
+  static const loginFailedServerReason = '서버에 로그인하지 못했어요. 잠시 후 다시 시도해 주세요.';
+  static const loginFailedStorageReason = '로그인 정보를 저장하지 못했어요. 다시 시도해 주세요.';
+  static const loginNoticeSignup = '별도 회원가입 없이 첫 로그인으로 가입됩니다.';
+  static const loginNoticeAgreePrefix = '로그인 시 ';
+  static const loginNoticeAgreeJoin = '과 ';
+  static const loginNoticeAgreeSuffix = '에 동의하게 됩니다.';
 
   // 랭킹
   static const rankingTitle = '손실 랭킹';
@@ -90,6 +116,7 @@ abstract class Strings {
   // 토스트
   static const toastLoginRequired = '로그인 후 이용할 수 있어요.';
   static const toastNetworkError = '네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
+  static const toastNaverNotReady = '네이버 로그인은 준비 중이에요.';
   static const toastLikeFailed = '좋아요를 반영하지 못했어요. 다시 시도해 주세요.';
   static const toastCommentDeleted = '댓글이 삭제되었습니다.';
   static const toastCommentDeleteFailed = '댓글을 삭제하지 못했어요. 다시 시도해 주세요.';

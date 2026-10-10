@@ -1,82 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:nurbanhoney/l10n/strings.dart';
+import 'package:nurbanhoney/theme/theme.dart';
 
+/// 로그인 화면 하단 안내. '이용약관'·'개인정보 처리방침' 은 밑줄 링크다.
 class LoginNotice extends StatelessWidget {
-  const LoginNotice(
-      {required String text1,
-      required String text2,
-      required String text3,
-      required String text4,
-      required String text5,
-      required TextStyle textStyle,
-      required TextStyle highlightTextStyle,
-      required VoidCallback? termsOfUseOnTap,
-      required VoidCallback? privacyPolicyOnTap,
-      super.key})
-      : _text1 = text1,
-        _text2 = text2,
-        _text3 = text3,
-        _text4 = text4,
-        _text5 = text5,
-        _textStyle = textStyle,
-        _highlightTextStyle = highlightTextStyle,
-        _termsOfUseOnTap = termsOfUseOnTap,
-        _privacyPolicyOnTap = privacyPolicyOnTap;
+  const LoginNotice({required this.onTerms, required this.onPrivacy, super.key});
 
-  final String _text1;
-  final String _text2;
-  final String _text3;
-  final String _text4;
-  final String _text5;
-  final TextStyle _textStyle;
-  final TextStyle _highlightTextStyle;
-  final VoidCallback? _termsOfUseOnTap;
-  final VoidCallback? _privacyPolicyOnTap;
+  /// null 이면 링크가 눌리지 않는다
+  final VoidCallback? onTerms;
+  final VoidCallback? onPrivacy;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _text1,
-              style: _textStyle,
-            ),
-            InkWell(
-              onTap: _termsOfUseOnTap,
-              child: Text(
-                _text2,
-                style: _highlightTextStyle,
-              ),
-            ),
-            Text(
-              _text3,
-              style: _textStyle,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 2,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: _privacyPolicyOnTap,
-              child: Text(
-                _text4,
-                style: _highlightTextStyle,
-              ),
-            ),
-            Text(
-              _text5,
-              style: _textStyle,
-            ),
-          ],
-        ),
-      ],
+    final linkStyle = NbkTypography.caption.copyWith(
+      color: NbkColors.text2,
+      fontWeight: FontWeight.w500,
+      decoration: TextDecoration.underline,
+    );
+
+    return Text.rich(
+      TextSpan(
+        style: NbkTypography.caption,
+        children: [
+          const TextSpan(text: '${Strings.loginNoticeSignup}\n${Strings.loginNoticeAgreePrefix}'),
+          _link(Strings.terms, linkStyle, onTerms),
+          const TextSpan(text: Strings.loginNoticeAgreeJoin),
+          _link(Strings.privacy, linkStyle, onPrivacy),
+          const TextSpan(text: Strings.loginNoticeAgreeSuffix),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  InlineSpan _link(String text, TextStyle style, VoidCallback? onTap) {
+    return WidgetSpan(
+      alignment: PlaceholderAlignment.baseline,
+      baseline: TextBaseline.alphabetic,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Text(text, style: style),
+      ),
     );
   }
 }
