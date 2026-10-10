@@ -25,6 +25,7 @@
 | `1ba9313` | [Refactor] 프로필 수정 — **4단계 7번** | verifier PASS, code-reviewer 2회 후 PASS, mutation 실행(생존 변이 보강은 5985dbf 에 포함) |
 | `5985dbf` | [Refactor] 랭킹 탭 — **4단계 8번** | verifier 2회 후 PASS, code-reviewer 3회 후 PASS, mutation 5/8(생존 3건 보강은 스플래시 커밋에 포함). 보고서 `.harness/reports/*-ranking*-snapshot.md` |
 | `bfc6dce` | [Refactor] 스플래시 네이티브 교체 — **4단계 9번** | verifier PASS, code-reviewer PASS, mutation PASS(랭킹 생존 3건 모두 kill). `flutter build apk --debug` 성공. 보고서 `.harness/reports/*-splash-snapshot.md` |
+| `ce4d9b9` | [Refactor] 레거시 테마 패키지·미사용 Provider·BaseView·에셋·의존성 제거 — **5단계 1차** | verifier·code-reviewer FAIL(FlutterGen package 경로 회귀)→반영 후 둘 다 PASS. 보고서 `.harness/reports/*-stage5{a,b}-snapshot.md` |
 
 ### 작업 트리
 
@@ -117,12 +118,11 @@
 9. **스플래시** — **완료(커밋 아래 참조)**. Flutter `lib/splash` 삭제 + `app.dart` 의 splash import·`onGenerateRoute` 제거(`home:` 이 있어 원래도 SplashPage 는 표시되지 않았음). Android: `androidx.core:core-splashscreen:1.0.1` + `Theme.SplashScreen`(흰 배경 + `@drawable/ic_splash_symbol` 벡터, 12 미만도 같은 아이콘) + `MainActivity.installSplashScreen()`; `launch_background.xml` 삭제. iOS: `LaunchImage` 1x/2x/3x(96·192·288px)를 `NbkSymbol` 로 그려 교체(일회성 생성기는 실행 후 삭제), storyboard image 96×96. 확인: `flutter build apk --debug`. iOS 빌드는 미실행. 원래 계획:
    (원래 계획) **스플래시** — Flutter `lib/splash` 삭제 + `app.dart` 의 `onGenerateRoute: SplashPage.route()` 제거. Android: `androidx.core:core-splashscreen` 의존성 + `Theme.SplashScreen` 스타일(`windowSplashScreenBackground` 흰색, `windowSplashScreenAnimatedIcon` 심볼) + `MainActivity` 에서 `installSplashScreen()`(Kotlin) + 12 미만은 `launch_background.xml` 에 bitmap. iOS: `LaunchScreen.storyboard` 의 LaunchImage 를 심볼 PNG 로 교체. **심볼 PNG 가 없다**: `NbkSymbol` 과 같은 모양의 래스터/벡터 자원을 만들어야 한다(옵션: Android 는 VectorDrawable XML 로 육각형+물방울 path 작성, iOS 는 PDF/PNG 1x/2x/3x. 사용자에게 고해상도 심볼 파일이 있는지 질문).
 
-### 5단계 — 문구·피드백 통일·정리 (별도 커밋 여러 개 가능)
-- 남은 문자열 리터럴을 `Strings` 로 이동, 토스트 표(`docs/redesign-spec.md` 5단계) 적용. `Fluttertoast` 사용처 0 → `fluttertoast` 의존성 제거.
-- 레거시 제거: `lib/common/view/{base_view,rank_page}.dart` 는 ViewModel 유지 결정 때문에 `base_view`·`loading_indicator`·`base_viewmodel` 은 남길 수 있음(검토). `rank_card`, `user_info`, `lib/board/`(nurban/free board item·badge), `lib/home/view/widgets/myaccount_*`, `rank_view`, `appbar_divider`(→ `Divider`), `lib/myaccount_*` 레거시 위젯, `assets/images/*` 중 미사용 PNG(탭 아이콘, drawer 아이콘 등) + `lib/gen/assets.gen.dart` 재생성(`dart run build_runner build`), `carousel_slider`·`flutter_material_pickers` 의존성 제거, `data/nurbanhoney_ui_data`·`application/nurbanhoney_ui_service` 패키지 삭제(루트 pubspec 의 path 의존성 제거, `pubspec.lock` 갱신) → `docs/architecture.md` 패키지 표·테마 설명 갱신, `tool/dep_guard.py` 는 pubspec name 으로 자동 수집하므로 수정 불필요.
-- `HomeAppbarStatus`/`homeAppbarNavigationProvider`(application/navigation_service): 글 작성 앱바가 쓰던 것. 글 작성 재작성 후 참조 0 이면 삭제(생성 파일 `*.g.dart` 재생성 필요: `(cd application/navigation_service && dart run build_runner build --delete-conflicting-outputs)`).
-- 패키지 warning 정리(사용자 승인): `data/dio_repository` 의 `return futureValue` → `return await futureValue`(동작 동일), `rank_repository.dart` unused import, 각 패키지 빈 테스트의 unused import, `application/share_service/pubspec.yaml`·`data/dio_repository/pubspec.yaml` 에 `publish_to: none`.
-- 최종 확인: `grep -rn "Color(0x\|fontSize:" lib --include='*.dart' | grep -v "lib/theme/"` 결과 0, `flutter analyze` warning 0(전체), 디버그 빌드, 바뀐 화면 목록·남은 질문 보고.
+### 5단계 — 문구·피드백 통일·정리
+- **1차(`ce4d9b9`) 완료**: 레거시 테마 패키지(`data/nurbanhoney_ui_data`·`application/nurbanhoney_ui_service`) 삭제, `navigation_service` 는 `homeBottomNavigationProvider` 만 남기고 미사용 Provider 삭제, `navigation_domain` 의 `HomeAppbarStatus`·`MyaccountTabStatus` 삭제, `dio_service` 의 key/loginType/password 서비스 삭제, `lib/common` 의 `BaseView`·`LoadingIndicator` 삭제(`BaseViewModel`·`DataFetchStatus`·정책 다이얼로그 유지), 미사용 에셋 삭제 + `lib/gen/assets.gen.dart` 재생성, `fluttertoast`·`flutter_material_pickers`·`carousel_slider`·`provider` 의존성 제거, `docs/architecture.md` 패키지 표·테마 설명 갱신, 패키지 안 `build/` ignore. `nurbanCommentIdProvider` 는 `getNurbanCommentsProvider` 가 써서 유지. `lib/app/view/app.dart` 의 주석 처리된 `HomePage` 분기(`HomeAppbarStatus` 언급)는 AGENTS.md 의 "손대지 않는" 영역이라 그대로 둠.
+- **2차 완료(커밋 아래 참조)**: 패키지 warning 정리 — `data/dio_repository` 의 try 블록 안 `return futureValue` → `return await futureValue`(31곳, 동작 동일), 빈 패키지 테스트의 unused import 제거, `share_service`·`dio_repository`·`dio_domain`·`share_repository` pubspec 에 `publish_to: none`. `flutter analyze` warning 0.
+- 문구: `Strings` 밖에 남은 한글 리터럴은 `lib/utils` 의 형식 단위('만원'·'분 전' 등), assert·log 메시지, `loss_amount_field` 의 '원' 접미사뿐이다(화면 문구 아님). 토스트 문구는 `docs/redesign-spec.md` 5단계 표대로 각 화면 커밋에서 적용됨.
+- 최종 확인: `grep -rn "Color(0x\|fontSize:" lib --include='*.dart' | grep -v lib/theme/` 0건, `flutter analyze` warning 0, `flutter build apk --debug`(2차 커밋 뒤 재실행 결과는 §1 표에 기록).
 
 ### 사용자에게 남은 질문 (최종 보고에 포함)
 1. 랭킹 집계 기준(주간? 월~일?) — API 에 기간이 없어 클라이언트에서 '이번 주' 를 계산함.

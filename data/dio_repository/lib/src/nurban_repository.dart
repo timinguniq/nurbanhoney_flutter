@@ -82,7 +82,7 @@ class NurbanRepository {
       log('getNurbanArticle response: ${response.data.toString()}');
 
       final futureValue = Future.value(records);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getNurbanArticle error : $e');
       throw Exception(e);
@@ -142,7 +142,7 @@ class NurbanRepository {
       log('getNurbanAll response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } on DioException catch (e) {
       print('DioException: ${e.message}');
       if (e.response != null) {
@@ -191,13 +191,12 @@ class NurbanRepository {
       final futureValue =
       error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanArticleDelete error : $e');
       throw Exception(e);
     }
   }
-
 
   /// 아티클 좋아요 생성
   Future<String> nurbanLikeCreate({
@@ -228,7 +227,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanLikeCreate error : $e');
       throw Exception(e);
@@ -264,7 +263,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanLikeDelete error : $e');
       throw Exception(e);
@@ -300,7 +299,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanDislikeCreate error : $e');
       throw Exception(e);
@@ -336,7 +335,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanDislikeDelete error : $e');
       throw Exception(e);
@@ -391,7 +390,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(thumbnailUrl);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanImageUpload e : $e');
       throw Exception(e);
@@ -427,7 +426,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanImageDelete error : $e');
       throw Exception(e);
@@ -473,7 +472,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanArticleCreate error : $e');
       throw Exception(e);
@@ -511,7 +510,7 @@ class NurbanRepository {
       log('getNurbanComments response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getNurbanComments error : $e');
       throw Exception(e);
@@ -551,7 +550,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanCommentCreate error : $e');
       throw Exception(e);
@@ -591,7 +590,7 @@ class NurbanRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanCommentDelete error : $e');
       throw Exception(e);

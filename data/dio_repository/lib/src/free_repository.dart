@@ -84,7 +84,7 @@ class FreeRepository {
       log('getFreeArticle response: ${response.data.toString()}');
 
       final futureValue = Future.value(records);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getFreeArticle error : $e');
       throw Exception(e);
@@ -141,7 +141,7 @@ class FreeRepository {
       log('getFreeAll response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getFreeAll error : $e');
       throw Exception(e);
@@ -196,7 +196,7 @@ class FreeRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(thumbnailUrl);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanImageUpload e : $e');
       throw Exception(e);
@@ -232,7 +232,7 @@ class FreeRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('freeImageDelete error : $e');
       throw Exception(e);
@@ -278,7 +278,7 @@ class FreeRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('nurbanFreeCreate error : $e');
       throw Exception(e);

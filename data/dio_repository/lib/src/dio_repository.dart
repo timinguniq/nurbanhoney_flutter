@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
 
-
 typedef BoardAllType = ({int id, int board, String? thumbnail,
   String title, String lossCut, String content, int commentCount, String likeCount, String createdAt,
   String authorId ,String nickname, String badge, String insignia, String myRating});
@@ -38,7 +37,7 @@ class DioRepository {
       log('getBoard response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getBoard error : $e');
       throw Exception(e);
@@ -83,7 +82,7 @@ class DioRepository {
       log('getBoardAll response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getBoardAll error : $e');
       throw Exception(e);
@@ -111,7 +110,7 @@ class DioRepository {
       log('getLogin response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getBoardAll error : $e');
       throw Exception(e);
@@ -155,7 +154,7 @@ class DioRepository {
       log('getPopularAll response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getPopularAll error : $e');
       throw Exception(e);

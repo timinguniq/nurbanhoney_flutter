@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
-import 'package:dio_repository/dio_repository.dart';
 
 class RankRepository {
   /// constructor
@@ -43,7 +42,7 @@ class RankRepository {
       log('getRankTab response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getRankTab error : $e');
       throw Exception(e);
@@ -73,7 +72,7 @@ class RankRepository {
       log('getRanks response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getRanks error : $e');
       throw Exception(e);

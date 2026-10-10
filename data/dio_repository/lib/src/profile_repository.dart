@@ -80,7 +80,7 @@ class ProfileRepository {
       log('getProfile result: ${result.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getProfile error : $e');
       throw Exception(e);
@@ -124,7 +124,7 @@ class ProfileRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('profileEdit error : $e');
       throw Exception(e);
@@ -171,7 +171,7 @@ class ProfileRepository {
       log('getBoardAll response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('getBoardAll error : $e');
       throw Exception(e);
@@ -218,7 +218,7 @@ class ProfileRepository {
       log('Mycomment response: ${response.data.toString()}');
 
       final futureValue = Future.value(result);
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('Mycomment error : $e');
       throw Exception(e);
@@ -255,7 +255,7 @@ class ProfileRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('withdrawal error : $e');
       throw Exception(e);
@@ -276,7 +276,7 @@ class ProfileRepository {
           error != null ? Future.value(error.toString()) : Future.value(result);
 
       log('result: $result');
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('myaccountTerms error : $e');
       throw Exception(e);
@@ -296,7 +296,7 @@ class ProfileRepository {
       final futureValue =
           error != null ? Future.value(error.toString()) : Future.value(result);
 
-      return futureValue;
+      return await futureValue;
     } catch (e) {
       log('myaccountPrivacy error : $e');
       throw Exception(e);
