@@ -29,8 +29,8 @@ abstract class Strings {
 
   // 홈
   static const lossCutCta = '손절 인증하기';
-  static String thisWeek(String range) => '이번 주 · $range';
-  static const top3Title = '이번 주 손실 Top 3';
+  static String thisMonth(String range) => '이번 달 · $range';
+  static const top3Title = '이번 달 손실 Top 3';
   static const top3Empty = '$rankingEmptyTitle.\n$rankingEmptyMessage';
   static const top3Error = '랭킹을 불러오지 못했어요';
   static String rankLabel(int rank) => '$rank위';
@@ -64,11 +64,11 @@ abstract class Strings {
 
   // 랭킹
   static const rankingTitle = '손실 랭킹';
-  static const rankingEmptyTitle = '아직 이번 주 랭킹이 없어요';
+  static const rankingEmptyTitle = '아직 이번 달 랭킹이 없어요';
   static const rankingEmptyMessage = '첫 손절 인증이 1위가 됩니다.';
   static const myRank = '내 순위';
   static const myRankLoginCta = '로그인하고 내 순위 확인하기';
-  static const myRankNone = '아직 이번 주 기록이 없어요';
+  static const myRankNone = '아직 이번 달 기록이 없어요';
 
   // 내 계정
   static const accountLoggedOutTitle = '로그인하면 내 손절 기록이 모여요';
@@ -85,7 +85,7 @@ abstract class Strings {
   static const statComments = '댓글';
   static const statPoints = '포인트';
   static const pointsRuleTitle = '포인트 안내';
-  static const pointsRulePlaceholder = '[포인트 적립·사용 규칙 — 기획 확인 후 채움]';
+  static const pointsRule = '글을 쓰거나 댓글을 달면 포인트가 쌓여요.\n포인트를 쓰는 곳은 따로 없고, 많이 모으면 휘장을 받아요.';
   static const myArticles = '내 글';
   static const myComments = '내 댓글';
   static const emptyMyArticlesTitle = '아직 쓴 글이 없어요';

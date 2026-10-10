@@ -97,7 +97,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
               const Text(Strings.pointsRuleTitle, style: NbkTypography.title),
               const SizedBox(height: NbkSpacing.sm),
               Text(
-                Strings.pointsRulePlaceholder,
+                Strings.pointsRule,
                 style: NbkTypography.body.copyWith(color: NbkColors.text2),
               ),
             ],

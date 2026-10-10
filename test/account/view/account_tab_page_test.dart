@@ -161,6 +161,18 @@ void main() {
       expect(find.text(Strings.accountLoggedOutTitle), findsNothing);
     });
 
+    testWidgets('포인트 옆 도움말을 누르면 적립·사용 규칙 안내 시트를 보여준다', (tester) async {
+      await tester.pumpWidget(_app(auth: AuthenticationStatus.authenticated, profile: _profile()));
+      await _pumpFrames(tester);
+
+      await tester.tap(find.byIcon(Icons.help_outline));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(find.text(Strings.pointsRuleTitle), findsOneWidget);
+      expect(find.text(Strings.pointsRule), findsOneWidget);
+    });
+
     testWidgets('로그아웃으로 인증 상태가 바뀌면 프로필 대신 비로그인 카드로 바뀐다', (tester) async {
       await tester.pumpWidget(_app(
         auth: AuthenticationStatus.authenticated,

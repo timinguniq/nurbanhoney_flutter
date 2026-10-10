@@ -27,7 +27,7 @@ class _HomeTabViewState extends State<HomeTabView> {
             padding: const EdgeInsets.only(right: NbkSpacing.md),
             child: Center(
               child: Text(
-                Strings.thisWeek(formatWeekRange(DateTime.now())),
+                Strings.thisMonth(formatMonthRange(DateTime.now())),
                 style: NbkTypography.caption,
               ),
             ),

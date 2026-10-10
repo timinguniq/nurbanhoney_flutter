@@ -68,6 +68,10 @@
 | 글 작성 [완료] 버튼 | **시안**을 따른다: 아무것도 입력하지 않았거나 사진 업로드 중일 때만 비활성, 그 외엔 활성이고 누르면 누락 항목 인라인 오류 + 토스트 '아직 입력하지 않은 항목이 N개 있어요.' |
 | warning 범위 | `lib/` 뿐 아니라 **패키지 warning 도 정리**(동작 불변 범위: `return await`, 빈 테스트 unused import, pubspec `publish_to: none`). 5단계 별도 커밋 |
 | 하네스 | 미커밋이던 하네스를 먼저 커밋(`c77ced4`). `.claude/settings.local.json` 은 gitignore |
+| 랭킹 기간 | **월 단위**(사용자 답, 2026-10-10). 기간 필은 `formatMonthRange`(그 달 1일~말일), 홈 Top3 제목·랭킹 빈 상태·내 순위 문구는 '이번 달'. `formatWeekRange` 삭제 |
+| 포인트 | 글·댓글을 쓰면 적립, 사용처 없음, 많이 모으면 휘장 획득(사용자 답). 내 계정 포인트 도움말 시트 `Strings.pointsRule` |
+| 스플래시 심볼 | `NbkSymbol` 로 그린 벡터(Android)·PNG(iOS) 그대로 둔다(사용자 답) |
+| 업로드 진행률 | `onSendProgress` 는 Dio 의 클라이언트 콜백이라 서버 변경 없이 앱(`data/dio_repository` 업로드 메서드 시그니처)만 바꾸면 된다. 구현 여부는 사용자 결정 대기 |
 
 ### 시안을 따르기로 한 명세 차이 (기본값, 사용자에게 보고함)
 - ErrorState [다시 시도] 는 text1(검정) 채움 + 흰 글자(`NbkButtonVariant.dark`).
@@ -125,13 +129,13 @@
 - 문구: `Strings` 밖에 남은 한글 리터럴은 `lib/utils` 의 형식 단위('만원'·'분 전' 등), assert·log 메시지, `loss_amount_field` 의 '원' 접미사뿐이다(화면 문구 아님). 토스트 문구는 `docs/redesign-spec.md` 5단계 표대로 각 화면 커밋에서 적용됨.
 - 최종 확인: `grep -rn "Color(0x\|fontSize:" lib --include='*.dart' | grep -v lib/theme/` 0건, `flutter analyze` warning 0, `flutter build apk --debug` 성공(2차 커밋 트리). 리디자인 1~5단계 작업은 여기서 끝났고, 남은 것은 아래 '사용자에게 남은 질문' 뿐이다.
 
-### 사용자에게 남은 질문 (최종 보고에 포함)
-1. 랭킹 집계 기준(주간? 월~일?) — API 에 기간이 없어 클라이언트에서 '이번 주' 를 계산함.
-2. 포인트 적립·사용 규칙 — 바텀시트 내용.
-3. 프로필 API 에 가입일 추가 여부(내 정보 '가입일' 표시용).
-4. 내 글 목록(`/profile/myarticle`)에 `lossCut` 이 없어 시안의 `-430,000원` 을 표시할 수 없음 — API 추가 여부.
-5. 이미지 업로드 진행률 — 저장소에 `onSendProgress` 콜백을 추가해도 되는지(규칙 3 과 충돌).
-6. 네이티브 스플래시용 고해상도 심볼 파일 유무.
+### 사용자 질문과 답 (2026-10-10)
+1. 랭킹 집계 기준 → **월 단위**. 반영: 기간 필·문구를 '이번 달' 로(커밋 아래 참조).
+2. 포인트 규칙 → 글·댓글 작성 시 적립, 사용처 없음, 많이 모으면 휘장. 반영: 포인트 안내 시트 문구.
+3. 프로필 가입일 → 서버가 `createdAt` 으로 **추가 예정**. 반영 예정: 프로필 응답에 `createdAt` 이 오면 내 정보의 로그인 수단 행 캡션에 '닉네임 · 가입일' 표시, 없으면 닉네임만.
+4. 내 글 `lossCut` → 서버가 **추가 예정**. 반영 예정: `/profile/myarticle` 항목에 `lossCut` 이 오면 내 글 아이템에 손실액 캡션 표시, 없으면 지금처럼.
+5. 업로드 진행률 → 사용자 질문 "앱에서만 추가하면 되는가?" 에 답: 서버 변경 없이 앱만 바꾸면 된다. 구현은 사용자 결정 대기.
+6. 고해상도 심볼 → 그대로 둔다.
 
 ### 이번 세션에서 추가로 배운 것
 - 루트 `dart run build_runner build` 전체 실행은 멈춘다: json_serializable 이 쓰는 analyzer(언어 3.9)가 SDK 3.13 문법에서 `visitDotShorthandPropertyAccess` 예외를 내고 빌드가 116/132 에서 정지한다(리디자인 전부터 있던 dev 의존성 버전 문제). 에셋만 다시 만들 때는 `dart run build_runner build --delete-conflicting-outputs --build-filter lib/gen/assets.gen.dart` 로 FlutterGen 만 돌린다. `pubspec.yaml` 의 `flutter_gen.assets.output` 키는 FlutterGen 5.10 에서 `outputs` 로 바뀌어 있어 고쳤고, `fonts.enabled: false` 로 `fonts.gen.dart` 생성을 막았다. 설정에 있던 `package_parameter_enabled: true` 는 루트 앱에서 켜면 `packages/nurbanhoney/...` 경로를 요청해 로그인 심볼이 안 뜬다(교차 검증이 잡음) → `false` 로 바꾸고 `test/gen/assets_gen_test.dart` 가 번들에서 실제로 읽히는지 확인한다.

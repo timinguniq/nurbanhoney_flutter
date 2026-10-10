@@ -4,7 +4,7 @@ import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 
 /// 하단 고정 '내 순위' 바(honeyTint, 모서리 14). [rank] 가 있으면 '27위 닉네임 손실액 ›',
-/// 비로그인이면 '로그인하고 내 순위 확인하기', 순위 밖이면 '아직 이번 주 기록이 없어요'.
+/// 비로그인이면 '로그인하고 내 순위 확인하기', 순위 밖이면 '아직 이번 달 기록이 없어요'.
 class MyRankBar extends StatelessWidget {
   const MyRankBar({
     required this.loggedIn,

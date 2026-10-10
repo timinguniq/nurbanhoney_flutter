@@ -16,7 +16,7 @@ import 'package:share_service/share_service.dart';
 
 /// 랭킹 탭: 기간 필 상단바 → 시상대(1~3위) → 띠 → 4위 이하 행 → 하단 고정 '내 순위' 바.
 /// [getRankProvider] 가 전체를 한 번에 주므로 페이지네이션은 없다. 순위는 응답 순서(index + 1)다.
-/// '이번 주' 기간은 클라이언트에서 월~일로 계산한다(서버 집계 기준은 남은 질문).
+/// 집계 기준은 월 단위라 기간 필은 클라이언트에서 그 달 1일~말일로 계산한다.
 class RankingTabPage extends ConsumerWidget {
   const RankingTabPage({super.key});
 
@@ -57,7 +57,7 @@ class RankingTabPage extends ConsumerWidget {
             padding: const EdgeInsets.only(right: NbkSpacing.md),
             child: Center(
               child: NbkPill(
-                label: Strings.thisWeek(formatWeekRange(DateTime.now())),
+                label: Strings.thisMonth(formatMonthRange(DateTime.now())),
                 icon: Icons.calendar_today_outlined,
               ),
             ),

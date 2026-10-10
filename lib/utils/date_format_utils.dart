@@ -24,12 +24,11 @@ String formatRelativeTime(String dateString, {DateTime? now}) {
   return DateFormat(dotDateFormat).format(date.toLocal());
 }
 
-/// [date] 가 속한 주(월~일)를 `M.d – M.d` 로 보여준다. 예: 2025-10-10 → `10.6 – 10.12`
-String formatWeekRange(DateTime date) {
-  final monday =
-      DateTime(date.year, date.month, date.day - (date.weekday - DateTime.monday));
-  final sunday = DateTime(monday.year, monday.month, monday.day + 6);
-  return '${monday.month}.${monday.day} – ${sunday.month}.${sunday.day}';
+/// [date] 가 속한 달(1일~말일)을 `M.d – M.d` 로 보여준다. 예: 2025-10-10 → `10.1 – 10.31`.
+/// 랭킹·Top3 집계 기준이 월 단위라 기간 필에 쓴다.
+String formatMonthRange(DateTime date) {
+  final lastDay = DateTime(date.year, date.month + 1, 0).day;
+  return '${date.month}.1 – ${date.month}.$lastDay';
 }
 
 /// Formats a date string from "YYYY-MM-DDT..." format to "YYYY.MM.DD"

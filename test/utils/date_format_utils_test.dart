@@ -74,19 +74,16 @@ void main() {
     });
   });
 
-  group('formatWeekRange', () {
-    test('그 날이 속한 주의 월요일과 일요일을 M.d 로 보여준다', () {
-      expect(formatWeekRange(DateTime(2025, 10, 10)), '10.6 – 10.12');
-      expect(formatWeekRange(DateTime(2026, 10, 10)), '10.5 – 10.11');
+  group('formatMonthRange', () {
+    test('그 달의 1일과 말일을 M.d 로 보여준다', () {
+      expect(formatMonthRange(DateTime(2025, 10, 10)), '10.1 – 10.31');
+      expect(formatMonthRange(DateTime(2026, 4, 1)), '4.1 – 4.30');
+      expect(formatMonthRange(DateTime(2025, 12, 31)), '12.1 – 12.31');
     });
 
-    test('월요일과 일요일도 같은 주로 본다', () {
-      expect(formatWeekRange(DateTime(2025, 10, 6)), '10.6 – 10.12');
-      expect(formatWeekRange(DateTime(2025, 10, 12)), '10.6 – 10.12');
-    });
-
-    test('해가 바뀌는 주도 처리한다', () {
-      expect(formatWeekRange(DateTime(2025, 12, 31)), '12.29 – 1.4');
+    test('2월은 윤년을 따른다', () {
+      expect(formatMonthRange(DateTime(2024, 2, 10)), '2.1 – 2.29');
+      expect(formatMonthRange(DateTime(2025, 2, 10)), '2.1 – 2.28');
     });
   });
 }

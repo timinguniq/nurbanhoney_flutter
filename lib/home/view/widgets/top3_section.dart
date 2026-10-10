@@ -9,7 +9,7 @@ import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 import 'package:share_service/share_service.dart';
 
-/// 홈 '이번 주 손실 Top 3': 헤더('전체보기' → 랭킹 탭) + 가로 스크롤 카드(폭 236, 간격 10).
+/// 홈 '이번 달 손실 Top 3': 헤더('전체보기' → 랭킹 탭) + 가로 스크롤 카드(폭 236, 간격 10).
 /// 순위는 응답 순서(index + 1)다. 비면 점선 박스 안내, 실패하면 점선 박스 안에 [다시 시도].
 class Top3Section extends ConsumerWidget {
   const Top3Section({super.key});

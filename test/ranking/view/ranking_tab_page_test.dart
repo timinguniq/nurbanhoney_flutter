@@ -12,6 +12,7 @@ import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/login/login.dart';
 import 'package:nurbanhoney/ranking/ranking.dart';
 import 'package:nurbanhoney/theme/theme.dart';
+import 'package:nurbanhoney/utils/date_format_utils.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
@@ -98,6 +99,7 @@ void main() {
       await _pumpFrames(tester);
 
       expect(find.byType(PodiumColumn), findsNWidgets(3));
+      expect(find.text(Strings.thisMonth(formatMonthRange(DateTime.now()))), findsOneWidget);
       expect(find.text('-1,248만원'), findsOneWidget);
       expect(find.text('-890만원'), findsOneWidget);
       expect(find.text('-612만원'), findsOneWidget);
