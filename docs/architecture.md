@@ -15,8 +15,8 @@ lib/          화면: nurbanhoney 앱 자체(루트 패키지 `nurbanhoney`), �
 | 레이어 | 패키지 |
 |---|---|
 | domain | `authentication_domain`, `dio_domain`, `navigation_domain` |
-| data | `authentication_repository`, `dio_repository`, `nurbanhoney_ui_data`, `preference_storage`, `share_repository` |
-| application | `authentication_service`, `dio_service`, `navigation_service`, `nurbanhoney_ui_service`, `preference_storage_service`, `share_service` |
+| data | `authentication_repository`, `dio_repository`, `preference_storage`, `share_repository` |
+| application | `authentication_service`, `dio_service`, `navigation_service`, `preference_storage_service`, `share_service` |
 | app | `nurbanhoney` (루트, `lib/`) |
 
 대부분의 도메인은 세 패키지 세트로 나뉜다: `domain/<이름>_domain`(모델) + `data/<이름>_repository`(입출력) +
@@ -40,7 +40,7 @@ lib/          화면: nurbanhoney 앱 자체(루트 패키지 `nurbanhoney`), �
 | application | app 레이어(`package:nurbanhoney/...`) | `import 'package:nurbanhoney/common/common.dart';` |
 | 모든 레이어 | 패키지 `lib/` 밖으로 나가는 상대 경로 import | `import '../../data/x/lib/x.dart';` |
 
-허용되는 예: data → domain, data → `flutter`(예: `nurbanhoney_ui_data` 의 색·글꼴), application → data·domain,
+허용되는 예: data → domain, data → `flutter`(예: `preference_storage` 의 SharedPreferences), application → data·domain,
 lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/pubspec.yaml`, `application/*/pubspec.yaml` 의
 `name` 으로 자동으로 만든다. 패키지를 추가하면 따로 등록할 필요가 없다.
 
@@ -81,8 +81,9 @@ lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/p
     widgets/           # 기능 전용 위젯
 ```
 
-공용 구성 요소는 `lib/common/`, 날짜 형식 등 유틸리티는 `lib/utils/` 에 있다. 테마(`standardTheme` Provider)는
-`nurbanhoney_ui_service` 가 제공하고, 색·글꼴은 `nurbanhoney_ui_data` 에 있다.
+공용 구성 요소는 `lib/common/`(정책 다이얼로그, `BaseViewModel`, `DataFetchStatus`)과 `lib/widgets/`, 날짜·손실액 형식 등
+유틸리티는 `lib/utils/` 에 있다. 테마·색·글꼴·간격 토큰은 `lib/theme/nbk_*.dart`(`NbkTheme.light`, `NbkColors`,
+`NbkTypography`, `NbkSpacing` 등)에 있고, 화면 문구는 `lib/l10n/strings.dart` 의 `Strings` 에 모은다.
 
 ## 백엔드
 

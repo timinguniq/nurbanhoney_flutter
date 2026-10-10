@@ -24,6 +24,7 @@
 | `e38a8be` | [Refactor] 내 정보(설정) — **4단계 6번** | verifier PASS, code-reviewer 3회 후 PASS, mutation 재실행(생존 변이 보강은 1ba9313 에 포함) |
 | `1ba9313` | [Refactor] 프로필 수정 — **4단계 7번** | verifier PASS, code-reviewer 2회 후 PASS, mutation 실행(생존 변이 보강은 5985dbf 에 포함) |
 | `5985dbf` | [Refactor] 랭킹 탭 — **4단계 8번** | verifier 2회 후 PASS, code-reviewer 3회 후 PASS, mutation 5/8(생존 3건 보강은 스플래시 커밋에 포함). 보고서 `.harness/reports/*-ranking*-snapshot.md` |
+| `bfc6dce` | [Refactor] 스플래시 네이티브 교체 — **4단계 9번** | verifier PASS, code-reviewer PASS, mutation PASS(랭킹 생존 3건 모두 kill). `flutter build apk --debug` 성공. 보고서 `.harness/reports/*-splash-snapshot.md` |
 
 ### 작업 트리
 
@@ -132,6 +133,8 @@
 6. 네이티브 스플래시용 고해상도 심볼 파일 유무.
 
 ### 이번 세션에서 추가로 배운 것
+- 루트 `dart run build_runner build` 전체 실행은 멈춘다: json_serializable 이 쓰는 analyzer(언어 3.9)가 SDK 3.13 문법에서 `visitDotShorthandPropertyAccess` 예외를 내고 빌드가 116/132 에서 정지한다(리디자인 전부터 있던 dev 의존성 버전 문제). 에셋만 다시 만들 때는 `dart run build_runner build --delete-conflicting-outputs --build-filter lib/gen/assets.gen.dart` 로 FlutterGen 만 돌린다. `pubspec.yaml` 의 `flutter_gen.assets.output` 키는 FlutterGen 5.10 에서 `outputs` 로 바뀌어 있어 고쳤고, `fonts.enabled: false` 로 `fonts.gen.dart` 생성을 막았다. 설정에 있던 `package_parameter_enabled: true` 는 루트 앱에서 켜면 `packages/nurbanhoney/...` 경로를 요청해 로그인 심볼이 안 뜬다(교차 검증이 잡음) → `false` 로 바꾸고 `test/gen/assets_gen_test.dart` 가 번들에서 실제로 읽히는지 확인한다.
+- `ios/pod install` 은 `firebase_auth` 가 iOS 14.0(`ios/Podfile`)보다 높은 배포 대상을 요구해 실패한다(리디자인 전부터). 그래서 `ios/Podfile.lock` 에는 제거한 `fluttertoast` 가 아직 남아 있다. 배포 대상을 올린 뒤 `pod install` 로 갱신해야 한다.
 - 다음 화면 초안은 `git stash` 대신 scratch/`.harness/wip/` 에 두었다가 커밋 뒤 복사한다(stash 에 스테이징이 섞이면 add/add 충돌).
 - route 를 push 하는 위젯 테스트는 `pump(500ms)` ×2 로 전환 애니메이션을 끝내야 오른쪽 위젯이 화면 안에 들어온다. ListView 폼은 `tester.view.physicalSize = Size(1200, 3000)` 로 전부 만든다. `toImage` 는 `tester.runAsync` 안에서만 끝난다. macOS 에는 `timeout` 명령이 없다.
 - Codex 리뷰는 화면마다 2~5회 반복됐고 주로 경쟁 조건(요청 중 화면 이탈·중복 탭·다이얼로그 위 pop)을 잡았다. 요청 중에는 PopScope + IgnorePointer 로 잠그고, 세션 정리는 await 전에 notifier 를 잡아 mounted 와 무관하게 끝내는 패턴으로 수렴했다.

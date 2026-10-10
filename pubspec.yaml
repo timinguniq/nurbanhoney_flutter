@@ -13,16 +13,12 @@ dependencies:
     path: domain/authentication_domain
   flutter:
     sdk: flutter
-  fluttertoast: ^8.2.12
-  flutter_material_pickers: ^3.6.0
   flutter_riverpod: ^2.0.2
   cupertino_icons: ^1.0.2
   navigation_domain:
     path: domain/navigation_domain
   navigation_service:
     path: application/navigation_service
-  nurbanhoney_ui_service:
-    path: application/nurbanhoney_ui_service
   preference_storage_service:
     path: application/preference_storage_service
   preference_storage:
@@ -45,8 +41,6 @@ dependencies:
   google_mobile_ads: ^6.0.0
   android_id: ^0.4.0
   intl: ^0.19.0
-  carousel_slider: ^5.0.0
-  provider: ^6.1.2
   json_annotation: ^4.9.0
   freezed_annotation: ^3.0.0
   json_serializable: ^6.8.0
@@ -75,13 +69,7 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/images/splash/
-    - assets/images/home/
     - assets/images/login/
-    - assets/images/article_detail/
-    - assets/images/article_create/
-    - assets/images/myaccount/
-    - assets/images/common/
   fonts:
     - family: Pretendard
       fonts:
@@ -97,5 +85,7 @@ flutter:
 flutter_gen:
   line_length: 80
   assets:
-    output:
-      package_parameter_enabled: true
+    outputs:
+      package_parameter_enabled: false
+  fonts:
+    enabled: false

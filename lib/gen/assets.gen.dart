@@ -12,168 +12,8 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// Directory path: assets/images/article_create
-  $AssetsImagesArticleCreateGen get articleCreate =>
-      const $AssetsImagesArticleCreateGen();
-
-  /// Directory path: assets/images/article_detail
-  $AssetsImagesArticleDetailGen get articleDetail =>
-      const $AssetsImagesArticleDetailGen();
-
-  /// Directory path: assets/images/common
-  $AssetsImagesCommonGen get common => const $AssetsImagesCommonGen();
-
-  /// Directory path: assets/images/home
-  $AssetsImagesHomeGen get home => const $AssetsImagesHomeGen();
-
   /// Directory path: assets/images/login
   $AssetsImagesLoginGen get login => const $AssetsImagesLoginGen();
-
-  /// Directory path: assets/images/myaccount
-  $AssetsImagesMyaccountGen get myaccount => const $AssetsImagesMyaccountGen();
-
-  /// Directory path: assets/images/splash
-  $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
-}
-
-class $AssetsImagesArticleCreateGen {
-  const $AssetsImagesArticleCreateGen();
-
-  /// File path: assets/images/article_create/article_create_close.png
-  AssetGenImage get articleCreateClose => const AssetGenImage(
-      'assets/images/article_create/article_create_close.png');
-
-  /// File path: assets/images/article_create/article_create_downdrop.png
-  AssetGenImage get articleCreateDowndrop => const AssetGenImage(
-      'assets/images/article_create/article_create_downdrop.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [articleCreateClose, articleCreateDowndrop];
-}
-
-class $AssetsImagesArticleDetailGen {
-  const $AssetsImagesArticleDetailGen();
-
-  /// File path: assets/images/article_detail/back_key.png
-  AssetGenImage get backKey =>
-      const AssetGenImage('assets/images/article_detail/back_key.png');
-
-  /// File path: assets/images/article_detail/delete_icon.png
-  AssetGenImage get deleteIcon =>
-      const AssetGenImage('assets/images/article_detail/delete_icon.png');
-
-  /// File path: assets/images/article_detail/dislike_icon.png
-  AssetGenImage get dislikeIcon =>
-      const AssetGenImage('assets/images/article_detail/dislike_icon.png');
-
-  /// File path: assets/images/article_detail/like_icon.png
-  AssetGenImage get likeIcon =>
-      const AssetGenImage('assets/images/article_detail/like_icon.png');
-
-  /// File path: assets/images/article_detail/loss_cut_icon.png
-  AssetGenImage get lossCutIcon =>
-      const AssetGenImage('assets/images/article_detail/loss_cut_icon.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values =>
-      [backKey, deleteIcon, dislikeIcon, likeIcon, lossCutIcon];
-}
-
-class $AssetsImagesCommonGen {
-  const $AssetsImagesCommonGen();
-
-  /// File path: assets/images/common/comment_icon.png
-  AssetGenImage get commentIcon =>
-      const AssetGenImage('assets/images/common/comment_icon.png');
-
-  /// File path: assets/images/common/like_icon.png
-  AssetGenImage get likeIcon =>
-      const AssetGenImage('assets/images/common/like_icon.png');
-
-  /// File path: assets/images/common/option_icon.png
-  AssetGenImage get optionIcon =>
-      const AssetGenImage('assets/images/common/option_icon.png');
-
-  /// File path: assets/images/common/rank_icon.png
-  AssetGenImage get rankIcon =>
-      const AssetGenImage('assets/images/common/rank_icon.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values =>
-      [commentIcon, likeIcon, optionIcon, rankIcon];
-}
-
-class $AssetsImagesHomeGen {
-  const $AssetsImagesHomeGen();
-
-  /// File path: assets/images/home/drawer_board_icon.png
-  AssetGenImage get drawerBoardIcon =>
-      const AssetGenImage('assets/images/home/drawer_board_icon.png');
-
-  /// File path: assets/images/home/drawer_profile_edit.png
-  AssetGenImage get drawerProfileEdit =>
-      const AssetGenImage('assets/images/home/drawer_profile_edit.png');
-
-  /// File path: assets/images/home/floating_button.png
-  AssetGenImage get floatingButton =>
-      const AssetGenImage('assets/images/home/floating_button.png');
-
-  /// File path: assets/images/home/home_toolbar.png
-  AssetGenImage get homeToolbar =>
-      const AssetGenImage('assets/images/home/home_toolbar.png');
-
-  /// File path: assets/images/home/navi_home_active.png
-  AssetGenImage get naviHomeActive =>
-      const AssetGenImage('assets/images/home/navi_home_active.png');
-
-  /// File path: assets/images/home/navi_home_inactive.png
-  AssetGenImage get naviHomeInactive =>
-      const AssetGenImage('assets/images/home/navi_home_inactive.png');
-
-  /// File path: assets/images/home/navi_myaccount_active.png
-  AssetGenImage get naviMyaccountActive =>
-      const AssetGenImage('assets/images/home/navi_myaccount_active.png');
-
-  /// File path: assets/images/home/navi_myaccount_inactive.png
-  AssetGenImage get naviMyaccountInactive =>
-      const AssetGenImage('assets/images/home/navi_myaccount_inactive.png');
-
-  /// File path: assets/images/home/navi_rank_active.png
-  AssetGenImage get naviRankActive =>
-      const AssetGenImage('assets/images/home/navi_rank_active.png');
-
-  /// File path: assets/images/home/navi_rank_inactive.png
-  AssetGenImage get naviRankInactive =>
-      const AssetGenImage('assets/images/home/navi_rank_inactive.png');
-
-  /// File path: assets/images/home/nurban_char.png
-  AssetGenImage get nurbanChar =>
-      const AssetGenImage('assets/images/home/nurban_char.png');
-
-  /// File path: assets/images/home/nurban_rank_tab_money.png
-  AssetGenImage get nurbanRankTabMoney =>
-      const AssetGenImage('assets/images/home/nurban_rank_tab_money.png');
-
-  /// File path: assets/images/home/nurban_symbol.png
-  AssetGenImage get nurbanSymbol =>
-      const AssetGenImage('assets/images/home/nurban_symbol.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [
-        drawerBoardIcon,
-        drawerProfileEdit,
-        floatingButton,
-        homeToolbar,
-        naviHomeActive,
-        naviHomeInactive,
-        naviMyaccountActive,
-        naviMyaccountInactive,
-        naviRankActive,
-        naviRankInactive,
-        nurbanChar,
-        nurbanRankTabMoney,
-        nurbanSymbol
-      ];
 }
 
 class $AssetsImagesLoginGen {
@@ -187,85 +27,22 @@ class $AssetsImagesLoginGen {
   AssetGenImage get kakaoSymbol =>
       const AssetGenImage('assets/images/login/kakao_symbol.png');
 
-  /// File path: assets/images/login/login_close.png
-  AssetGenImage get loginClose =>
-      const AssetGenImage('assets/images/login/login_close.png');
-
   /// File path: assets/images/login/naver_symbol.png
   AssetGenImage get naverSymbol =>
       const AssetGenImage('assets/images/login/naver_symbol.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [googleSymbol, kakaoSymbol, loginClose, naverSymbol];
-}
-
-class $AssetsImagesMyaccountGen {
-  const $AssetsImagesMyaccountGen();
-
-  /// File path: assets/images/myaccount/myaccount_article_active.png
-  AssetGenImage get myaccountArticleActive => const AssetGenImage(
-      'assets/images/myaccount/myaccount_article_active.png');
-
-  /// File path: assets/images/myaccount/myaccount_article_inactive.png
-  AssetGenImage get myaccountArticleInactive => const AssetGenImage(
-      'assets/images/myaccount/myaccount_article_inactive.png');
-
-  /// File path: assets/images/myaccount/myaccount_comment_active.png
-  AssetGenImage get myaccountCommentActive => const AssetGenImage(
-      'assets/images/myaccount/myaccount_comment_active.png');
-
-  /// File path: assets/images/myaccount/myaccount_comment_inactive.png
-  AssetGenImage get myaccountCommentInactive => const AssetGenImage(
-      'assets/images/myaccount/myaccount_comment_inactive.png');
-
-  /// File path: assets/images/myaccount/myaccount_edit_cancel.png
-  AssetGenImage get myaccountEditCancel =>
-      const AssetGenImage('assets/images/myaccount/myaccount_edit_cancel.png');
-
-  /// File path: assets/images/myaccount/myaccount_progress_arrow.png
-  AssetGenImage get myaccountProgressArrow => const AssetGenImage(
-      'assets/images/myaccount/myaccount_progress_arrow.png');
-
-  /// File path: assets/images/myaccount/myaccount_setting.png
-  AssetGenImage get myaccountSetting =>
-      const AssetGenImage('assets/images/myaccount/myaccount_setting.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [
-        myaccountArticleActive,
-        myaccountArticleInactive,
-        myaccountCommentActive,
-        myaccountCommentInactive,
-        myaccountEditCancel,
-        myaccountProgressArrow,
-        myaccountSetting
-      ];
-}
-
-class $AssetsImagesSplashGen {
-  const $AssetsImagesSplashGen();
-
-  /// File path: assets/images/splash/splash.png
-  AssetGenImage get splash =>
-      const AssetGenImage('assets/images/splash/splash.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [splash];
+  List<AssetGenImage> get values => [googleSymbol, kakaoSymbol, naverSymbol];
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -290,10 +67,10 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {
@@ -325,15 +102,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+# 패키지(application/data/domain) 안에서 flutter test 를 돌리면 생기는 산출물
+**/build/
 /lib/config/*
 
 # Symbolication related
