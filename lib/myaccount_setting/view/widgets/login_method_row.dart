@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
 import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/theme/theme.dart';
+import 'package:nurbanhoney/utils/date_format_utils.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 
 /// 로그인 수단 행: 아이콘 타일 36 + '카카오 계정'/'Google 계정' + 닉네임 캡션 + [로그아웃].
-/// loginType 문자열('kakao'/'google')을 그대로 보여주지 않는다. 프로필 API 에 가입일이 없어 닉네임만 적는다.
+/// loginType 문자열('kakao'/'google')을 그대로 보여주지 않는다. 캡션은 '닉네임 · 가입일' 이고,
+/// 프로필에 [createdAt] 이 없거나 날짜로 읽을 수 없으면 닉네임만 적는다.
 class LoginMethodRow extends StatelessWidget {
   const LoginMethodRow({
     required this.loginType,
     required this.nickname,
     required this.onLogout,
+    this.createdAt,
     super.key,
   });
 
@@ -18,7 +21,15 @@ class LoginMethodRow extends StatelessWidget {
   final String nickname;
   final VoidCallback? onLogout;
 
+  /// 가입 시각(ISO 8601). 서버가 주기 전에는 null.
+  final String? createdAt;
+
   bool get _isGoogle => loginType == 'google';
+
+  String get _caption {
+    final joined = createdAt == null ? '' : formatDate(createdAt!, dotDateFormat);
+    return joined.isEmpty ? nickname : Strings.joinedCaption(nickname, joined);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +65,7 @@ class LoginMethodRow extends StatelessWidget {
                 ),
                 const SizedBox(height: NbkSpacing.xxs),
                 Text(
-                  nickname,
+                  _caption,
                   style: NbkTypography.caption,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

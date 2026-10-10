@@ -13,7 +13,10 @@ typedef ProfileType = ({
   String insigniaShow,
   String insigniaOwn,
   int myArticleCount,
-  int myCommentCount
+  int myCommentCount,
+
+  /// 가입 시각(ISO 8601). 서버가 추가하기 전에는 null.
+  String? createdAt,
 });
 
 typedef ProfileArticleType = ({
@@ -24,6 +27,9 @@ typedef ProfileArticleType = ({
   int count,
   int commentCount,
   String createdAt,
+
+  /// 손실액 원문(목록 API 와 같은 문자열). 서버가 추가하기 전에는 null.
+  String? lossCut,
 });
 
 typedef ProfileCommentType = ({
@@ -75,7 +81,8 @@ class ProfileRepository {
         insigniaShow: response.data['insigniaShow'].toString(),
         insigniaOwn: response.data['insigniaOwn'].toString(),
         myArticleCount: int.parse(response.data['myArticleCount'].toString()),
-        myCommentCount: int.parse(response.data['myCommentCount'].toString())
+        myCommentCount: int.parse(response.data['myCommentCount'].toString()),
+        createdAt: response.data['createdAt']?.toString(),
       );
       log('getProfile result: ${result.toString()}');
 
@@ -163,7 +170,8 @@ class ProfileRepository {
           title: response.data[i]['title'].toString(),
           count: int.parse(response.data[i]['count'].toString()),
           commentCount: int.parse(response.data[i]['commentCount'].toString()),
-          createdAt: response.data[i]['createdAt'].toString()
+          createdAt: response.data[i]['createdAt'].toString(),
+          lossCut: response.data[i]['lossCut']?.toString(),
         );
         // result.add(BoardModel.fromJson(response.data[i]));
         result.add(records);

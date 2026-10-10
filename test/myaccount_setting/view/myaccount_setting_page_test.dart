@@ -75,7 +75,7 @@ class _SlowLogoutStorage extends PreferenceStorage {
   }
 }
 
-ProfileType _profile({String loginType = 'kakao'}) => (
+ProfileType _profile({String loginType = 'kakao', String? createdAt}) => (
       id: 7,
       loginType: loginType,
       badge: '',
@@ -86,6 +86,7 @@ ProfileType _profile({String loginType = 'kakao'}) => (
       insigniaOwn: '[]',
       myArticleCount: 12,
       myCommentCount: 48,
+      createdAt: createdAt,
     );
 
 Widget _app({
@@ -158,6 +159,21 @@ void main() {
       expect(find.text('1.1.0'), findsOneWidget);
       expect(find.text(Strings.withdraw), findsOneWidget);
       expect(find.text('kakao'), findsNothing);
+    });
+
+    testWidgets('프로필에 createdAt 이 있으면 닉네임 옆에 가입일을 보여준다', (tester) async {
+      await tester.pumpWidget(_app(profile: _profile(createdAt: '2024-03-12T09:00:00.000Z')));
+      await _open(tester);
+
+      expect(find.text(Strings.joinedCaption('제희', '2024.03.12')), findsOneWidget);
+      expect(find.text('제희'), findsNothing);
+    });
+
+    testWidgets('createdAt 을 날짜로 읽을 수 없으면 닉네임만 보여준다', (tester) async {
+      await tester.pumpWidget(_app(profile: _profile(createdAt: 'n/a')));
+      await _open(tester);
+
+      expect(find.text('제희'), findsOneWidget);
     });
 
     testWidgets('구글 계정이면 Google 계정 행을 보여준다', (tester) async {

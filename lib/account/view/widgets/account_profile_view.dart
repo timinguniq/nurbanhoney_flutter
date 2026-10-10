@@ -207,6 +207,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
         date: formatDate(item.createdAt, dotDateFormat),
         viewCount: item.count,
         commentCount: item.commentCount,
+        lossAmount: item.lossCut == null ? null : parseLossAmount(item.lossCut!),
         onTap: () => Navigator.of(context).push(
           ArticleDetailPage.route(board: item.board, articleId: item.id),
         ),

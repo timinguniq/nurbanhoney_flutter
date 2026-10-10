@@ -56,9 +56,10 @@ ProfileType _profile({int articles = 2, int comments = 1}) => (
       insigniaOwn: '[]',
       myArticleCount: articles,
       myCommentCount: comments,
+      createdAt: null,
     );
 
-ProfileArticleType _article(int id) => (
+ProfileArticleType _article(int id, {String? lossCut}) => (
       id: id,
       board: id.isEven ? 2 : 1,
       thumbnail: '',
@@ -66,6 +67,7 @@ ProfileArticleType _article(int id) => (
       count: id * 3,
       commentCount: id,
       createdAt: '2026-10-10T10:00:00.000Z',
+      lossCut: lossCut,
     );
 
 ProfileCommentType _comment(int id) => (
@@ -159,6 +161,22 @@ void main() {
       expect(find.text('글 2'), findsOneWidget);
       expect(find.text('2026.10.10  ${Strings.views('6')}'), findsOneWidget);
       expect(find.text(Strings.accountLoggedOutTitle), findsNothing);
+    });
+
+    testWidgets('내 글에 lossCut 이 오면 손실액 캡션을 보여주고, 없으면 날짜·조회만 보여준다', (tester) async {
+      await tester.pumpWidget(_app(
+        auth: AuthenticationStatus.authenticated,
+        profile: _profile(),
+        // 서버 lossCut 은 목록 API 처럼 숫자 문자열일 수도, '1,200,000원' 처럼 꾸민 문자열일 수도 있다.
+        articles: [_article(1, lossCut: '430000'), _article(2), _article(3, lossCut: '1,200,000원')],
+      ));
+      await _pumpFrames(tester);
+
+      expect(find.text('-430,000원'), findsOneWidget);
+      expect(find.text('-1,200,000원'), findsOneWidget);
+      expect(find.byType(LossAmount), findsNWidgets(2));
+      expect(find.text(' · '), findsNWidgets(2));
+      expect(find.text('2026.10.10  ${Strings.views('6')}'), findsOneWidget);
     });
 
     testWidgets('포인트 옆 도움말을 누르면 적립·사용 규칙 안내 시트를 보여준다', (tester) async {

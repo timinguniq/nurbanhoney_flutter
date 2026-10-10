@@ -130,6 +130,7 @@ class _MyaccountSettingPageState extends ConsumerState<MyaccountSettingPage> {
             LoginMethodRow(
               loginType: data.loginType,
               nickname: data.nickname,
+              createdAt: data.createdAt,
               onLogout: _logout,
             ),
             const Divider(),

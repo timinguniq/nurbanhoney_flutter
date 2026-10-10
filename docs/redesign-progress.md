@@ -27,6 +27,7 @@
 | `bfc6dce` | [Refactor] 스플래시 네이티브 교체 — **4단계 9번** | verifier PASS, code-reviewer PASS, mutation PASS(랭킹 생존 3건 모두 kill). `flutter build apk --debug` 성공. 보고서 `.harness/reports/*-splash-snapshot.md` |
 | `ce4d9b9` | [Refactor] 레거시 테마 패키지·미사용 Provider·BaseView·에셋·의존성 제거 — **5단계 1차** | verifier·code-reviewer FAIL(FlutterGen package 경로 회귀)→반영 후 둘 다 PASS. 보고서 `.harness/reports/*-stage5{a,b}-snapshot.md` |
 | `939a155` | [Update] 패키지 warning 정리 — **5단계 2차** | verifier PASS, code-reviewer PASS(테스트 변경 없어 mutation 생략). 이 트리에서 `flutter build apk --debug` 성공, `flutter analyze` warning 0. 보고서 `.harness/reports/*-stage5c-snapshot.md` |
+| `f39d8e1` | [Update] 랭킹·Top3 집계 기간 월 단위, 포인트 안내 문구 — **사용자 답 1·2** | verifier PASS, code-reviewer PASS, mutation 7/8(생존 1건: 홈 기간 캡션 → 같은 커밋에 HomeTabView 테스트로 보강). 보고서 `.harness/reports/*-answers1-snapshot.md` |
 
 ### 작업 트리
 
@@ -132,8 +133,8 @@
 ### 사용자 질문과 답 (2026-10-10)
 1. 랭킹 집계 기준 → **월 단위**. 반영: 기간 필·문구를 '이번 달' 로(커밋 아래 참조).
 2. 포인트 규칙 → 글·댓글 작성 시 적립, 사용처 없음, 많이 모으면 휘장. 반영: 포인트 안내 시트 문구.
-3. 프로필 가입일 → 서버가 `createdAt` 으로 **추가 예정**. 반영 예정: 프로필 응답에 `createdAt` 이 오면 내 정보의 로그인 수단 행 캡션에 '닉네임 · 가입일' 표시, 없으면 닉네임만.
-4. 내 글 `lossCut` → 서버가 **추가 예정**. 반영 예정: `/profile/myarticle` 항목에 `lossCut` 이 오면 내 글 아이템에 손실액 캡션 표시, 없으면 지금처럼.
+3. 프로필 가입일 → 서버가 `createdAt` 으로 **추가 예정**. 반영(커밋 아래 참조): 프로필 응답에 `createdAt` 이 오면 내 정보의 로그인 수단 행 캡션에 '닉네임 · 가입일' 표시, 없으면 닉네임만.
+4. 내 글 `lossCut` → 서버가 **추가 예정**. 반영(커밋 아래 참조): `/profile/myarticle` 항목에 `lossCut` 이 오면 내 글 아이템에 손실액 캡션 표시, 없으면 지금처럼.
 5. 업로드 진행률 → 사용자 질문 "앱에서만 추가하면 되는가?" 에 답: 서버 변경 없이 앱만 바꾸면 된다. 구현은 사용자 결정 대기.
 6. 고해상도 심볼 → 그대로 둔다.
 

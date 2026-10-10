@@ -4,8 +4,8 @@ import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 
-/// 내 글 아이템: 게시판 필 + 제목 1줄 / 날짜 · 조회 / 오른쪽 댓글 수.
-/// 내 글 API(`/profile/myarticle`)에는 손실액이 없어 시안의 손실액 캡션은 넣지 못한다.
+/// 내 글 아이템: 게시판 필 + 제목 1줄 / [손실액 ·] 날짜 · 조회 / 오른쪽 댓글 수.
+/// 손실액은 내 글 API(`/profile/myarticle`)가 `lossCut` 을 주는 항목에만 보인다.
 class MyArticleItem extends StatelessWidget {
   const MyArticleItem({
     required this.board,
@@ -14,6 +14,7 @@ class MyArticleItem extends StatelessWidget {
     required this.viewCount,
     required this.commentCount,
     required this.onTap,
+    this.lossAmount,
     super.key,
   });
 
@@ -25,6 +26,9 @@ class MyArticleItem extends StatelessWidget {
   final int viewCount;
   final int commentCount;
   final VoidCallback onTap;
+
+  /// 손실액(원). API 가 아직 주지 않으면 null 이고 캡션에서 뺀다.
+  final int? lossAmount;
 
   static final _comma = NumberFormat('#,###');
 
@@ -58,9 +62,21 @@ class MyArticleItem extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: NbkSpacing.xs + NbkSpacing.xxs),
-                  Text(
-                    '$date  ${Strings.views(_comma.format(viewCount))}',
-                    style: NbkTypography.caption,
+                  Row(
+                    children: [
+                      if (lossAmount != null) ...[
+                        LossAmount(amount: lossAmount!, size: LossAmountSize.caption),
+                        const Text(' · ', style: NbkTypography.caption),
+                      ],
+                      Flexible(
+                        child: Text(
+                          '$date  ${Strings.views(_comma.format(viewCount))}',
+                          style: NbkTypography.caption,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -100,6 +100,7 @@ abstract class Strings {
   static const accountSection = '계정';
   static const kakaoAccount = '카카오 계정';
   static const googleAccount = 'Google 계정';
+  static String joinedCaption(String nickname, String date) => '$nickname · $date 가입';
   static const logout = '로그아웃';
   static const profileEdit = '프로필 수정';
   static const withdraw = '탈퇴하기';

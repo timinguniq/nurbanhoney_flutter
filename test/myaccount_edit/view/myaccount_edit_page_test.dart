@@ -49,6 +49,7 @@ const _c = 'https://example.com/insignia/2.png';
 ProfileType _profile({String show = '[$_a]', String description = '장기투자자였는데'}) => (
       id: 7,
       loginType: 'kakao',
+      createdAt: null,
       badge: '',
       nickname: '제희',
       description: description,
