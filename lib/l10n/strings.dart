@@ -66,6 +66,9 @@ abstract class Strings {
   static const rankingTitle = '손실 랭킹';
   static const rankingEmptyTitle = '아직 이번 주 랭킹이 없어요';
   static const rankingEmptyMessage = '첫 손절 인증이 1위가 됩니다.';
+  static const myRank = '내 순위';
+  static const myRankLoginCta = '로그인하고 내 순위 확인하기';
+  static const myRankNone = '아직 이번 주 기록이 없어요';
 
   // 내 계정
   static const accountLoggedOutTitle = '로그인하면 내 손절 기록이 모여요';

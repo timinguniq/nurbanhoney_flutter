@@ -143,6 +143,36 @@ void main() {
       await tester.pump(const Duration(seconds: 3));
     });
 
+    testWidgets('서버 휘장에 같은 것이 겹쳐 있으면 하나로 보고 저장도 서로 다른 것만 보낸다', (tester) async {
+      final repository = _FakeProfileRepository();
+      await tester.pumpWidget(_app(
+        profile: _profile(show: '[$_a, $_a, $_b]'),
+        repository: repository,
+      ));
+      await _open(tester);
+
+      expect(find.byType(InsigniaRemove), findsNWidgets(2));
+      await tester.tap(find.text(Strings.save));
+      await tester.pumpAndSettle();
+      expect(repository.edited!['insignia'], '{$_a, $_b}');
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('선택한 보유 휘장 타일은 honeyTint 배경이고, 해제하면 흰 배경이다', (tester) async {
+      await tester.pumpWidget(_app());
+      await _open(tester);
+
+      Material tileMaterial(int index) => tester.widget<Material>(
+            find.descendant(of: _ownedTile(index), matching: find.byType(Material)).first,
+          );
+      expect(tileMaterial(0).color, NbkColors.honeyTint);
+      expect(tileMaterial(1).color, NbkColors.bg);
+
+      await tester.tap(_ownedTile(0));
+      await _pumpFrames(tester);
+      expect(tileMaterial(0).color, NbkColors.bg);
+    });
+
     testWidgets("소개가 'null' 이면 빈칸으로 채운다", (tester) async {
       await tester.pumpWidget(_app(profile: _profile(description: 'null')));
       await _open(tester);
