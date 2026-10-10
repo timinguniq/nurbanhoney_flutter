@@ -28,6 +28,7 @@
 | `ce4d9b9` | [Refactor] 레거시 테마 패키지·미사용 Provider·BaseView·에셋·의존성 제거 — **5단계 1차** | verifier·code-reviewer FAIL(FlutterGen package 경로 회귀)→반영 후 둘 다 PASS. 보고서 `.harness/reports/*-stage5{a,b}-snapshot.md` |
 | `939a155` | [Update] 패키지 warning 정리 — **5단계 2차** | verifier PASS, code-reviewer PASS(테스트 변경 없어 mutation 생략). 이 트리에서 `flutter build apk --debug` 성공, `flutter analyze` warning 0. 보고서 `.harness/reports/*-stage5c-snapshot.md` |
 | `f39d8e1` | [Update] 랭킹·Top3 집계 기간 월 단위, 포인트 안내 문구 — **사용자 답 1·2** | verifier PASS, code-reviewer PASS, mutation 7/8(생존 1건: 홈 기간 캡션 → 같은 커밋에 HomeTabView 테스트로 보강). 보고서 `.harness/reports/*-answers1-snapshot.md` |
+| `23ec9ac` | [Add] 프로필 가입일·내 글 손실액 선택 필드 표시 — **사용자 답 3·4** | verifier PASS, code-reviewer PASS, mutation 5/7(생존 2건: 캡션 구분자·손실액 파싱 → 같은 커밋에 테스트 보강). 보고서 `.harness/reports/*-answers2-snapshot.md` |
 
 ### 작업 트리
 
