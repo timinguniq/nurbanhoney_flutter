@@ -1,180 +1,61 @@
-import 'dart:developer';
-
-import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:navigation_domain/navigation_domain.dart';
 import 'package:navigation_service/navigation_service.dart';
+import 'package:nurbanhoney/account/account.dart';
 import 'package:nurbanhoney/home/home.dart';
-import 'package:nurbanhoney/home/view/widgets/drawer_profile.dart';
-import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
+import 'package:nurbanhoney/ranking/ranking.dart';
+import 'package:nurbanhoney/widgets/widgets.dart';
 
-import 'package:nurbanhoney/stock/stock.dart';
-import 'package:nurbanhoney/coin/coin.dart';
-
+/// 앱의 루트 화면. 하단 탭(홈 / 랭킹 / 내 계정)으로 세 탭 페이지를 전환한다.
+/// 탭 상태는 [homeBottomNavigationProvider] 가 갖고, 다른 화면(Top3 전체보기, 내 순위 바)도 이 provider 로 탭을 바꾼다.
 class HomePageRefactor extends StatelessWidget {
-  const HomePageRefactor({
-    super.key,
-    this.initialIndex = 0,
-  });
+  const HomePageRefactor({super.key});
 
-  final int initialIndex;
-
-  static Route route({int initialIndex = 0}) {
+  static Route route() {
     return MaterialPageRoute<void>(
-      builder: (_) => HomePageRefactor(initialIndex: initialIndex),
+      builder: (_) => const HomePageRefactor(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return HomeViewRefactor(initialIndex: initialIndex);
+    return const HomeShell();
   }
 }
 
-class HomeViewRefactor extends ConsumerStatefulWidget {
-  const HomeViewRefactor({
-    super.key,
-    this.initialIndex = 0,
-  });
+class HomeShell extends ConsumerWidget {
+  const HomeShell({super.key});
 
-  final int initialIndex;
+  static NbkTab _tabOf(HomeBottomStatus status) => switch (status) {
+        HomeBottomStatus.rank => NbkTab.ranking,
+        HomeBottomStatus.myaccount => NbkTab.account,
+        HomeBottomStatus.home || HomeBottomStatus.unknown => NbkTab.home,
+      };
 
-  @override
-  ConsumerState<HomeViewRefactor> createState() => _HomeViewRefactorState();
-}
-
-class _HomeViewRefactorState extends ConsumerState<HomeViewRefactor> {
-  final List<Widget> _widgetOptions = const <Widget>[
-    StockTabPage(),
-    CoinTabPage(),
-  ];
-
-  // Global key to access HomeBody state
-  final GlobalKey<_HomeBodyState> _homeBodyKey = GlobalKey<_HomeBodyState>();
+  static HomeBottomStatus _statusOf(NbkTab tab) => switch (tab) {
+        NbkTab.home => HomeBottomStatus.home,
+        NbkTab.ranking => HomeBottomStatus.rank,
+        NbkTab.account => HomeBottomStatus.myaccount,
+      };
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  /// Switch to the tab at the given index
-  void switchTab(int index) {
-    _homeBodyKey.currentState?.switchTab(index);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final tabSelectedColor = ref.read(colorF6B748);
-    final tabUnselectedColor = ref.read(color212124);
-    final authenticationProvider = ref.watch(authenticationServiceProvider);
-    final homeTabTextStyle = ref.read(homeTabStyle);
-    final homeBottomNavigation = ref.watch(homeBottomNavigationProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tab = _tabOf(ref.watch(homeBottomNavigationProvider));
 
     return Scaffold(
-      drawer: const DrawerProfile(),
-      body: HomeBody(
-        key: _homeBodyKey,
-        tabSelectedColor: tabSelectedColor,
-        tabUnselectedColor: tabUnselectedColor,
-        homeTabTextStyle: homeTabTextStyle,
-        widgetOptions: _widgetOptions,
-        initialIndex: widget.initialIndex,
+      body: LazyIndexedStack(
+        index: tab.index,
+        children: const [
+          HomeTabView(),
+          RankingTabPage(),
+          AccountTabPage(),
+        ],
       ),
-    );
-  }
-}
-
-class HomeBody extends StatefulWidget {
-  final Color tabSelectedColor;
-  final Color tabUnselectedColor;
-  final TextStyle homeTabTextStyle;
-  final List<Widget> widgetOptions;
-  final int initialIndex;
-
-  const HomeBody({
-    Key? key,
-    required this.tabSelectedColor,
-    required this.tabUnselectedColor,
-    required this.homeTabTextStyle,
-    required this.widgetOptions,
-    this.initialIndex = 0,
-  }) : super(key: key);
-
-  @override
-  State<HomeBody> createState() => _HomeBodyState();
-}
-
-class _HomeBodyState extends State<HomeBody> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: 2, 
-      vsync: this,
-      initialIndex: widget.initialIndex,
-    );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  /// Switch to the tab at the given index
-  void switchTab(int index) {
-    if (index >= 0 && index < _tabController.length) {
-      _tabController.animateTo(index);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanUpdate: (details) {
-        // Swiping in right direction.
-        if (details.delta.dx > 0) {
-          // Drawer
-          log('Swiping in right direction');
-          Future.delayed(Duration.zero, () {
-            if (context.mounted) Scaffold.of(context).openDrawer();
-          });
-        }
-      },
-      child: SafeArea(
-        child: Column(
-          children: [
-            TabBar(
-              controller: _tabController,
-              indicatorColor: widget.tabSelectedColor,
-              unselectedLabelColor: widget.tabUnselectedColor,
-              labelStyle: widget.homeTabTextStyle,
-              indicatorWeight: 2,
-              tabs: const [
-                Tab(
-                  text: '주식',
-                  height: 50,
-                ),
-                Tab(
-                  text: '코인',
-                  height: 50,
-                ),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  widget.widgetOptions[0],
-                  widget.widgetOptions[1],
-                ],
-              ),
-            ),
-          ],
-        ),
+      bottomNavigationBar: NbkBottomTabBar(
+        current: tab,
+        onSelect: (selected) =>
+            ref.read(homeBottomNavigationProvider.notifier).select(_statusOf(selected)),
       ),
     );
   }

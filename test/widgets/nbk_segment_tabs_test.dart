@@ -34,6 +34,26 @@ void main() {
       expect(inactive.style?.color, NbkColors.text3);
     });
 
+    testWidgets('활성 탭에만 꿀색 언더라인이 있다', (tester) async {
+      await tester.pumpWidget(_wrap(NbkSegmentTabs(
+        labels: const ['주식', '코인'],
+        index: 0,
+        onChanged: (_) {},
+      )));
+
+      Color underlineOf(String label) {
+        final container = tester.widget<Container>(find.ancestor(
+          of: find.text(label),
+          matching: find.byType(Container),
+        ).first);
+        final border = (container.decoration as BoxDecoration).border as Border;
+        return border.bottom.color;
+      }
+
+      expect(underlineOf('주식'), NbkColors.honey);
+      expect(underlineOf('코인'), Colors.transparent);
+    });
+
     testWidgets('카운트가 있으면 라벨 뒤에 붙는다', (tester) async {
       await tester.pumpWidget(_wrap(NbkSegmentTabs(
         labels: const ['내 글', '내 댓글'],

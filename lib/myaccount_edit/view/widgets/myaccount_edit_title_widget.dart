@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:navigation_service/navigation_service.dart';
 import 'package:nurbanhoney/gen/assets.gen.dart';
-import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -94,16 +93,11 @@ class MyaccountEditTitleWidget extends StatelessWidget {
                         textColor: Colors.white,
                         fontSize: 16.0,
                       );
-                      if(context.mounted){
-                        Future.delayed(const Duration(milliseconds: 500), (){
-                          if(context.mounted){
-                            Navigator.of(context).pushAndRemoveUntil(
-                              HomePageRefactor.route(),
-                                  (route) => false,
-                            );
-                          }
-                        });
-                      }
+                      // 저장 중에 화면을 닫았으면 ref 를 쓸 수 없으므로 여기서 끝낸다.
+                      if (!context.mounted) return;
+                      // 직전 화면(내 계정 탭)이 구독 중인 프로필을 다시 받게 한 뒤 돌아간다.
+                      ref.invalidate(getProfileProvider);
+                      Navigator.of(context).pop();
                     }else{
                       Fluttertoast.showToast(
                         msg: '프로필 수정에 실패했습니다.',

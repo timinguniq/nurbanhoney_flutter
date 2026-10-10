@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/article_detail/article_detail.dart';
 import 'package:nurbanhoney/common/common.dart';
 import 'package:nurbanhoney/home/home.dart';
-import 'package:nurbanhoney/stock/stock.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
@@ -116,11 +115,11 @@ class CoinTabPage extends ConsumerWidget {
                         },
                       ),
                     ),
-                    const SizedBox(height: 80),
                   ],
                 ),
-                bottomSheet: StockTabBottomSheetView(
-                  onArticleCreated: () => viewModel.fetch(isRefresh: true),
+                floatingActionButton: LossCutFab(
+                  board: 2,
+                  onCreated: () => viewModel.fetch(isRefresh: true),
                 ),
               );
             },

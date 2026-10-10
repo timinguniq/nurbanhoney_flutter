@@ -3,7 +3,6 @@ import 'package:authentication_service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nurbanhoney/home/home.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
@@ -55,14 +54,9 @@ class MyaccountSettingLogoutWidget extends StatelessWidget {
                   fontSize: 16.0,
                 );
 
-                Future.delayed(const Duration(milliseconds: 1000), () {
-                  if (context.mounted) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      HomePageRefactor.route(),
-                      (route) => false,
-                    );
-                  }
-                });
+                // 직전 화면(내 계정 탭)으로 돌아간다. 탭은 authenticationServiceProvider 를 구독하므로
+                // 비로그인 카드로 바뀌고, 프로필 Provider 는 구독자가 없어져 autoDispose 된다.
+                if (context.mounted) Navigator.of(context).pop();
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),

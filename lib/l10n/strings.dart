@@ -17,10 +17,53 @@ abstract class Strings {
   static const boardStock = '주식';
   static const boardCoin = '코인';
 
+  /// board=1 → 주식, board=2 → 코인
+  static String boardName(int board) => board == 2 ? boardCoin : boardStock;
+
   // 하단 탭
   static const tabHome = '홈';
   static const tabRanking = '랭킹';
   static const tabAccount = '내 계정';
+
+  // 홈
+  static const lossCutCta = '손절 인증하기';
+  static String thisWeek(String range) => '이번 주 · $range';
+
+  // 랭킹
+  static const rankingTitle = '손실 랭킹';
+
+  // 내 계정
+  static const accountLoggedOutTitle = '로그인하면 내 손절 기록이 모여요';
+  static const accountLoggedOutSubtitle = '둘러보기는 로그인 없이도 가능합니다.';
+  static const accountBenefits = [
+    '손절 인증 글 작성 · 추천 · 댓글',
+    '주간 랭킹에서 내 순위 확인',
+    '휘장 수집 · 프로필 꾸미기',
+  ];
+  static const loginCta = '3초 만에 로그인';
+  static const settingsTitle = '내 정보';
+  static const descriptionPlaceholder = '자기 소개를 입력해 주세요';
+  static const statArticles = '게시글';
+  static const statComments = '댓글';
+  static const statPoints = '포인트';
+  static const pointsRuleTitle = '포인트 안내';
+  static const pointsRulePlaceholder = '[포인트 적립·사용 규칙 — 기획 확인 후 채움]';
+  static const myArticles = '내 글';
+  static const myComments = '내 댓글';
+  static const emptyMyArticlesTitle = '아직 쓴 글이 없어요';
+  static const emptyMyArticlesMessage = '첫 손절 인증을 남겨 보세요.';
+  static const emptyMyCommentsTitle = '아직 쓴 댓글이 없어요';
+  static const emptyMyCommentsMessage = '다른 사람의 손절에 위로를 남겨 보세요.';
+  static String views(String count) => '조회 $count';
+  static const deleteCommentTitle = '이 댓글을 삭제할까요?';
+  static const deleteCommentMessage = '삭제한 댓글은 되돌릴 수 없어요.';
+
+  // 앱 정보
+  static const appInfo = '앱 정보';
+  static const terms = '이용약관';
+  static const privacy = '개인정보 처리방침';
+  static const appVersion = '앱 버전';
+  static const errorPolicyLoad = '내용을 불러오지 못했어요';
 
   // 반응
   static const like = '좋아요';
@@ -38,4 +81,6 @@ abstract class Strings {
   // 토스트
   static const toastLoginRequired = '로그인 후 이용할 수 있어요.';
   static const toastNetworkError = '네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
+  static const toastCommentDeleted = '댓글이 삭제되었습니다.';
+  static const toastCommentDeleteFailed = '댓글을 삭제하지 못했어요. 다시 시도해 주세요.';
 }

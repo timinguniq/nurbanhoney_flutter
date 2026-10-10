@@ -30,6 +30,10 @@ void main() {
       expect(errorCodeOf(serverError), 'HTTP-500');
     });
 
+    test('상태 코드가 없는 응답 오류는 HTTP-ERR 이다', () {
+      expect(errorCodeOf('DioException [bad response]: x'), 'HTTP-ERR');
+    });
+
     test('알 수 없는 오류와 null 은 UNKNOWN 이다', () {
       expect(errorCodeOf('boom'), 'UNKNOWN');
       expect(errorCodeOf(null), 'UNKNOWN');

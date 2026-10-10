@@ -55,6 +55,18 @@ void main() {
       expect(taps, 1);
     });
 
+    testWidgets('인라인 형태도 누르면 onTap 이 한 번 불린다', (tester) async {
+      var taps = 0;
+      await tester.pumpWidget(_wrap(ReactionButton.like(
+        count: 34,
+        selected: false,
+        onTap: () => taps++,
+      )));
+
+      await tester.tap(find.text('34'));
+      expect(taps, 1);
+    });
+
     testWidgets('카운트는 천 단위 콤마를 붙인다', (tester) async {
       await tester.pumpWidget(_wrap(ReactionButton.like(
         count: 1234,
