@@ -93,6 +93,19 @@ abstract class Strings {
   static const deleteCommentTitle = '이 댓글을 삭제할까요?';
   static const deleteCommentMessage = '삭제한 댓글은 되돌릴 수 없어요.';
 
+  // 내 정보(설정)
+  static const accountSection = '계정';
+  static const kakaoAccount = '카카오 계정';
+  static const googleAccount = 'Google 계정';
+  static const logout = '로그아웃';
+  static const profileEdit = '프로필 수정';
+  static const withdraw = '탈퇴하기';
+  static const withdrawConfirmTitle = '정말 탈퇴할까요?';
+  static String withdrawConfirmMessage(String articles, String comments, String points) =>
+      '탈퇴하면 내가 쓴 글 $articles개와 댓글 $comments개, 모은 휘장과 포인트 $points이 모두 삭제되고 되돌릴 수 없어요.';
+  static const withdrawCheckbox = '위 내용을 확인했어요';
+  static const withdrawAction = '탈퇴';
+
   // 앱 정보
   static const appInfo = '앱 정보';
   static const terms = '이용약관';
@@ -160,6 +173,9 @@ abstract class Strings {
   static const toastCommentEmpty = '댓글 내용을 입력해 주세요.';
   static const toastCommentCreateFailed = '댓글을 등록하지 못했어요. 다시 시도해 주세요.';
   static const toastReactionFailed = '반응을 반영하지 못했어요. 다시 시도해 주세요.';
+  static const toastLoggedOut = '로그아웃 되었습니다.';
+  static const toastWithdrawn = '탈퇴가 완료되었습니다.';
+  static const toastWithdrawFailed = '탈퇴하지 못했어요. 다시 시도해 주세요.';
   static const toastCommentDeleted = '댓글이 삭제되었습니다.';
   static const toastCommentDeleteFailed = '댓글을 삭제하지 못했어요. 다시 시도해 주세요.';
 }

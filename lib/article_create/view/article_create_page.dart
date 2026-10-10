@@ -197,11 +197,8 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       return;
     }
     NbkToast.success(Strings.toastPostCreated);
-    // 위에 다른 route(다이얼로그 등)가 있어도 작성 화면 자체를 결과 true 로 닫는다.
-    final route = ModalRoute.of(context);
-    final navigator = Navigator.of(context);
-    if (route != null) navigator.popUntil((r) => r == route);
-    navigator.pop(true);
+    // 등록 중에는 _close·폼이 막혀 있어 위에 다른 route 가 없으므로 작성 화면을 바로 닫는다.
+    Navigator.of(context).pop(true);
   }
 
   InputDecoration _decoration(String hint, {required bool error}) {
