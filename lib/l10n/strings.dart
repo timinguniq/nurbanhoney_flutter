@@ -100,6 +100,28 @@ abstract class Strings {
   static const appVersion = '앱 버전';
   static const errorPolicyLoad = '내용을 불러오지 못했어요';
 
+  // 글 작성
+  static const composeTitle = '손절 인증';
+  static const boardLabel = '게시판';
+  static const titleLabel = '제목';
+  static const titleHint = '어떤 손절이었나요?';
+  static const lossHelper = '숫자만 입력하면 콤마가 자동으로 붙어요. 손실은 마이너스로 기록됩니다.';
+  static const photoLabel = '사진';
+  static const photoAdd = '손절 화면 사진 1장 추가';
+  static const photoCompressNote = '업로드 시 500px로 압축돼요';
+  static const photoUploading = '사진 올리는 중…';
+  static const contentLabel = '내용';
+  static const contentHint = '무엇을 사서 어디서 손절했는지, 지금 기분은 어떤지 적어 주세요.';
+  static const errorTitleRequired = '제목을 입력해 주세요.';
+  static const errorLossRequired = '손실액을 입력해 주세요. 랭킹 집계에 꼭 필요해요.';
+  static const errorPhotoRequired = '인증 사진 1장이 필요해요.';
+  static const errorContentRequired = '내용을 입력해 주세요.';
+  static const cancelComposeTitle = '작성을 취소할까요?';
+  static const cancelComposeMessage = '입력한 내용이 사라져요.';
+  static const leave = '나가기';
+  static const keepWriting = '계속 쓰기';
+  static const change = '바꾸기';
+
   // 글 상세
   static const lossLabel = '손실액';
   static const commentsHeader = '댓글';
@@ -127,6 +149,11 @@ abstract class Strings {
   static const toastNetworkError = '네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
   static const toastNaverNotReady = '네이버 로그인은 준비 중이에요.';
   static const toastLikeFailed = '좋아요를 반영하지 못했어요. 다시 시도해 주세요.';
+  static String toastMissingFields(int count) => '아직 입력하지 않은 항목이 $count개 있어요.';
+  static const toastPostCreated = '글이 등록되었습니다.';
+  static const toastPostCreateFailed = '글을 등록하지 못했어요. 다시 시도해 주세요.';
+  static const toastPhotoUploadFailed = '사진을 올리지 못했어요. 다시 시도해 주세요.';
+  static const toastPhotoPickFailed = '사진을 불러오지 못했어요. 다시 시도해 주세요.';
   static const toastArticleNotFound = '글이 존재하지 않습니다.';
   static const toastArticleDeleted = '글이 삭제되었습니다.';
   static const toastArticleDeleteFailed = '글을 삭제하지 못했어요. 다시 시도해 주세요.';

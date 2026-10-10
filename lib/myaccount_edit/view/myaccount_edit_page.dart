@@ -4,7 +4,6 @@ import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:navigation_service/navigation_service.dart';
-import 'package:nurbanhoney/article_create/article_create.dart';
 import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney_ui_service/nurbanhoney_ui_service.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
@@ -103,14 +102,14 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
                   child: Column(
                     children: [
                       const MyaccountEditTitleWidget(),
-                      ArticleCreateDivider(
+                      Divider(
                         thickness: 0.5,
                         color: dividerColor,
                       ),
                       MyaccountEditNicknameWidget(
                         nickname: nickname,
                       ),
-                      ArticleCreateDivider(
+                      Divider(
                         thickness: 0.5,
                         color: dividerColor,
                       ),
@@ -119,7 +118,7 @@ class _MyaccountEditPageState extends State<MyaccountEditPage> {
                             ? '자기소개를 입력하세요.'
                             : description,
                       ),
-                      ArticleCreateDivider(
+                      Divider(
                         thickness: 0.5,
                         color: dividerColor,
                       ),

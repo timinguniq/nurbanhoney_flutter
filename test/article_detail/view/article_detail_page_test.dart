@@ -309,6 +309,44 @@ void main() {
       expect(find.text('${Strings.dislike} 2'), findsOneWidget);
     });
 
+    testWidgets('싫어요를 누르면 싫어요를 만들고, 좋아요 상태였다면 좋아요 수가 하나 준다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(
+        article: _article(),
+        reactions: _reactions(myRating: 'like', likes: 35, dislikes: 3),
+        repository: repository,
+      ));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.dislike} 3'));
+      await _pumpFrames(tester);
+
+      expect(repository.calls, ['dislikeCreate']);
+      expect(find.text('${Strings.dislike} 4'), findsOneWidget);
+      expect(find.text('${Strings.like} 34'), findsOneWidget);
+      expect(
+        tester.widget<ReactionButton>(find.byWidgetPredicate((w) => w is ReactionButton && w.kind == ReactionKind.dislike)).selected,
+        isTrue,
+      );
+    });
+
+    testWidgets('이미 싫어요한 글의 싫어요를 다시 누르면 취소한다', (tester) async {
+      final repository = _FakeNurbanRepository();
+      await tester.pumpWidget(_app(
+        article: _article(),
+        reactions: _reactions(myRating: 'dislike', likes: 35, dislikes: 3),
+        repository: repository,
+      ));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.dislike} 3'));
+      await _pumpFrames(tester);
+
+      expect(repository.calls, ['dislikeDelete']);
+      expect(find.text('${Strings.dislike} 2'), findsOneWidget);
+      expect(find.text('${Strings.like} 35'), findsOneWidget);
+    });
+
     testWidgets('이미 좋아요한 글의 좋아요를 다시 누르면 취소한다', (tester) async {
       final repository = _FakeNurbanRepository();
       await tester.pumpWidget(_app(
@@ -395,6 +433,19 @@ void main() {
       expect(repository.calls, ['commentCreate:같이 울어요']);
       expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, isEmpty);
       expect(find.text('같이 울어요'), findsOneWidget);
+    });
+
+    testWidgets('댓글 카운터는 이모지도 글자 하나로 센다', (tester) async {
+      await tester.pumpWidget(_app(article: _article(), repository: _FakeNurbanRepository()));
+      await _open(tester);
+
+      await tester.enterText(find.byType(TextField), '😀');
+      await tester.pump();
+      expect(find.text('1/60'), findsOneWidget);
+
+      await tester.enterText(find.byType(TextField), '👨‍👩‍👧‍👦');
+      await tester.pump();
+      expect(find.text('1/60'), findsOneWidget);
     });
 
     testWidgets('댓글 등록이 예외로 실패하면 오류 토스트를 띄우고 입력을 유지한다', (tester) async {
