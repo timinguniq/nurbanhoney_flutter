@@ -43,12 +43,13 @@ bash tool/commit_gate.sh                              # 커밋 게이트와 같�
 
 ## 커밋 게이트의 테스트 대상
 
-`tool/commit_gate.sh` 의 `TEST_TARGETS` 에 있는 디렉터리에서 `flutter test --no-pub` 을 실행한다. 지금은 루트(`.`)와
-`data/dio_repository` 다.
+`tool/commit_gate.sh` 의 `TEST_TARGETS` 에 있는 디렉터리에서 `flutter test --no-pub` 을 실행한다. 지금은 루트(`.`),
+`data/dio_repository`, `application/dio_service` 다.
 
 - 실행된 테스트가 0개(`flutter test` 종료 코드 79)이면 실패로 처리한다.
-- 루트가 아닌 패키지는 테스트 전에 그 디렉터리에서 `flutter pub get --offline`(실패하면 네트워크)을 실행한다. 패키지는
-  `pubspec.lock` 을 커밋하지 않으므로(라이브러리 관례) lockfile 을 강제하지 않는다.
+- 루트가 아닌 패키지는 정적 분석 전에 그 디렉터리에서 `flutter pub get --offline`(실패하면 네트워크)을 실행한다. 루트
+  `flutter analyze` 가 패키지의 `test/` 도 분석하므로, 그 전에 패키지 dev 의존성이 설치돼 있어야 새 clone 에서 분석이
+  통과한다. 패키지는 `pubspec.lock` 을 커밋하지 않으므로(라이브러리 관례) lockfile 을 강제하지 않는다.
 - 다른 패키지의 `test/*_test.dart` 는 아직 빈 `main()` 이라 대상에서 뺐다. 실제 테스트를 넣으면 `TEST_TARGETS` 에 그
   디렉터리를 추가한다. 하네스 테스트(`tool/test/commit_gate_test.py`)는 `TEST_TARGETS` 를 읽어 픽스처를 만들므로 따로
   고칠 것은 없다.

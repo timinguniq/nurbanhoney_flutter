@@ -29,9 +29,9 @@
 | 1 | 필수 도구·파일 | `git`·`python3`·`flutter` 가 PATH 에 없음, `pubspec.yaml`·`tool/dep_guard.py`·`tool/test/run_tests.py` 없음, secret 파일 없음 |
 | 2 | staged ↔ 작업 트리 일치 (`--pre-commit` 만) | 검사 경로에 stage 하지 않은 변경이나 untracked 파일이 있음 |
 | 3 | 레이어 의존성 `python3 tool/dep_guard.py` | 금지 import (exit 1), 설정 오류 (exit 2) |
-| 4 | 의존성 설치 `flutter pub get --enforce-lockfile` (먼저 `--offline`, 실패하면 네트워크) | 실패, 또는 (`--pre-commit`) 설치가 추적 파일을 바꿈 |
+| 4 | 의존성 설치 `flutter pub get --enforce-lockfile` (먼저 `--offline`, 실패하면 네트워크). 이어서 `TEST_TARGETS` 의 패키지마다 그 디렉터리에서 `flutter pub get` (lockfile 미강제) | 실패, 또는 (`--pre-commit`) 설치가 추적 파일을 바꿈 |
 | 5 | 정적 분석 `flutter analyze --no-pub --no-fatal-warnings --no-fatal-infos` | 종료 코드 non-zero: error 가 있거나 분석기가 실행되지 못함 |
-| 6 | 테스트 `flutter test --no-pub` (`TEST_TARGETS`: 루트와 `data/dio_repository`. 패키지는 먼저 그 디렉터리에서 `flutter pub get --offline`, 실패하면 네트워크) | 실패, 테스트 0개(종료 코드 79), 또는 패키지 의존성 설치 실패 |
+| 6 | 테스트 `flutter test --no-pub` (`TEST_TARGETS`: 루트, `data/dio_repository`, `application/dio_service`) | 실패, 또는 테스트 0개(종료 코드 79) |
 | 7 | 하네스 테스트 `python3 tool/test/run_tests.py` | 실패, 또는 발견된 테스트 0개. `--pre-commit` 에서는 하네스 파일이 staged 됐을 때만 실행 |
 
 - **warning·info 정책:** 차단하지 않는다. 기존 코드에 warning·info 가 많이 남아 있어서다(`flutter analyze` 로 현재 개수 확인). 새 경고를 막는 방식(기준 개수 비교 등)은 추후 과제다.
@@ -68,7 +68,7 @@ staged 와 작업 트리가 다르면 자동으로 stash 하지 않고 차단한
 | `dep_audit`(의존성 현황 측정) | 지금 필요한 의사결정이 없다 | 패키지 구조를 정리할 때 |
 | `prepare-commit-msg`·`commit-msg` | 커밋 메시지 규칙(`[Tag] 한국어`)은 AGENTS.md 로 충분하다. 과거 기록에 `feat:` 형식도 섞여 있다 | 규칙 위반이 반복되면 |
 | 레이어 건너뛰기 금지(`lib` → `data`) | 문서 규칙은 "역방향 금지" 뿐이고 기존 사용처가 있다(`docs/architecture.md`) | 금지로 정하면 dep_guard 에 규칙과 사례 테스트 추가 |
-| 나머지 패키지 테스트 실행 | `data/dio_repository` 외 패키지의 `test/*_test.dart` 가 빈 `main()` 이다 | 실제 테스트를 넣을 때 `TEST_TARGETS` 에 추가(`test/README.md`) |
+| 나머지 패키지 테스트 실행 | `data/dio_repository`·`application/dio_service` 외 패키지의 `test/*_test.dart` 가 빈 `main()` 이다 | 실제 테스트를 넣을 때 `TEST_TARGETS` 에 추가(`test/README.md`) |
 
 ## 훅 등록
 

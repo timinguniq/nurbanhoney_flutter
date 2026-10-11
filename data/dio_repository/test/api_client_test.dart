@@ -177,6 +177,41 @@ void main() {
         );
       });
 
+      test('성공 응답의 본문이 깨진 JSON 이면 ApiFormatFailure 이다', () async {
+        final client = clientWith(FakeHttpClientAdapter((_) async => ResponseBody.fromString(
+              '{invalid',
+              200,
+              headers: {
+                Headers.contentTypeHeader: [Headers.jsonContentType],
+              },
+            )));
+
+        await expectLater(client.get('/rank/'), throwsA(isA<ApiFormatFailure>()));
+      });
+
+      test('오류 응답의 본문이 깨진 JSON 이어도 상태 코드를 보존한다', () async {
+        final client = clientWith(FakeHttpClientAdapter((_) async => ResponseBody.fromString(
+              '{invalid',
+              502,
+              headers: {
+                Headers.contentTypeHeader: [Headers.jsonContentType],
+              },
+            )));
+
+        await expectLater(
+          client.get('/rank/'),
+          throwsA(isA<ApiHttpFailure>()
+              .having((e) => e.status, 'status', 502)
+              .having((e) => e.serverError, 'serverError', isNull)),
+        );
+      });
+
+      test('성공 응답의 본문이 비어 있으면 null 을 돌려준다', () async {
+        final client = clientWith(FakeHttpClientAdapter((_) async => ResponseBody.fromString('', 204)));
+
+        expect(await client.get('/rank/'), isNull);
+      });
+
       test('시간 초과는 ApiTimeout 이다', () async {
         for (final type in [
           DioExceptionType.connectionTimeout,

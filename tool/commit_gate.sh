@@ -21,8 +21,10 @@ case "${1:-}" in
 esac
 
 # 테스트를 실행할 Flutter 패키지 디렉터리(ROOT 기준). 실제 테스트가 있는 패키지만 둔다.
-# 루트가 아닌 패키지는 테스트 전에 그 디렉터리에서 pub get 을 실행한다(pubspec.lock 을 커밋하지 않으므로 lockfile 미강제).
-TEST_TARGETS=("." "data/dio_repository")
+# 루트가 아닌 패키지는 정적 분석 전에 그 디렉터리에서 pub get 을 실행한다. 루트 analyze 가 패키지의 test/ 도
+# 분석하므로, 패키지 dev 의존성(package:test 등)이 없으면 새 clone 에서 분석이 실패한다.
+# 패키지는 pubspec.lock 을 커밋하지 않으므로 lockfile 을 강제하지 않는다.
+TEST_TARGETS=("." "data/dio_repository" "application/dio_service")
 
 # analyze 에 필요한 gitignore 대상 파일. 없으면 컴파일 오류가 나므로 먼저 이유를 표시한다.
 # .worktreeinclude 와 tool/ci/stub_secrets.sh 도 같은 파일을 다룬다(하네스 테스트가 확인).
@@ -162,10 +164,20 @@ step "의존성 설치 (flutter pub get --enforce-lockfile)"
 without_git_location flutter pub get --enforce-lockfile --offline >"$LOG_DIR/pub_get_offline.log" 2>&1 \
   || run_logged pub_get flutter pub get --enforce-lockfile \
   || fail "의존성 설치 실패. pubspec.yaml 을 바꿨다면 'flutter pub get' 으로 pubspec.lock 을 갱신해 함께 커밋하세요."
+pass "의존성 설치"
+
+for target in "${TEST_TARGETS[@]}"; do
+  [ "$target" != "." ] || continue
+  step "의존성 설치 ($target: flutter pub get)"
+  log_name="pub_get_$(printf '%s' "$target" | tr '/' '_')"
+  without_git_location bash -c 'cd "$0" && exec flutter pub get --offline' "$target" >"$LOG_DIR/${log_name}_offline.log" 2>&1 \
+    || run_logged "$log_name" bash -c 'cd "$0" && exec flutter pub get' "$target" \
+    || fail "$target: 의존성 설치 실패"
+  pass "의존성 설치 ($target)"
+done
 if [ "$MODE" = pre-commit ]; then
   check_tree_matches_index "의존성 설치가 추적 파일을 변경했습니다."
 fi
-pass "의존성 설치"
 
 step "정적 분석 (error 만 차단, warning/info 허용)"
 run_logged analyze flutter analyze --no-pub --no-fatal-warnings --no-fatal-infos \
@@ -175,13 +187,6 @@ pass "정적 분석"
 test_index=0
 for target in "${TEST_TARGETS[@]}"; do
   test_index=$((test_index + 1))
-  if [ "$target" != "." ]; then
-    step "의존성 설치 ($target: flutter pub get)"
-    without_git_location bash -c 'cd "$0" && exec flutter pub get --offline' "$target" >"$LOG_DIR/pub_get_${test_index}_offline.log" 2>&1 \
-      || run_logged "pub_get_$test_index" bash -c 'cd "$0" && exec flutter pub get' "$target" \
-      || fail "$target: 의존성 설치 실패"
-    pass "의존성 설치 ($target)"
-  fi
   step "테스트 ($target: flutter test)"
   [ -d "$target/test" ] || fail "테스트 디렉터리가 없습니다: $target/test"
   run_logged "test_$test_index" bash -c 'cd "$0" && exec flutter test --no-pub' "$target"

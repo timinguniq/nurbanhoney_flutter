@@ -5,6 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
+/// [apiClientProvider] 가 쓸 HTTP 어댑터. 앱에서는 null(Dio 기본 어댑터)이고, 테스트가 가짜 어댑터로 바꾼다.
+final apiHttpClientAdapterProvider = Provider<HttpClientAdapter?>((ref) => null);
+
 /// 모든 저장소가 공유하는 HTTP 클라이언트(ADR-0001).
 ///
 /// 인증 상태를 `watch` 하므로 로그인·로그아웃·탈퇴로 상태가 바뀌면 클라이언트가 다시 만들어지고, 이 provider 에
@@ -18,6 +21,7 @@ final apiClientProvider = Provider<ApiClient>((ref) {
       final storage = await ref.read(preferenceStorageProvider.future);
       return storage.hasToken() ? storage.getToken() : null;
     },
+    adapter: ref.watch(apiHttpClientAdapterProvider),
     logging: kDebugMode,
   );
 });

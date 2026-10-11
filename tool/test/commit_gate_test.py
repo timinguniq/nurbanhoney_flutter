@@ -36,15 +36,16 @@ class FirstCommitTest(CommitGateTestCase):
         self.assertPassed(result)
         calls = [(cwd, args) for cwd, args in self.fx.flutter_calls()]
         root = str(self.fx.repo)
-        expected = [
-            (root, "pub get --enforce-lockfile --offline"),
+        packages = [str(self.fx.repo / target) for target in PACKAGE_TEST_TARGETS]
+        # 루트 analyze 가 패키지의 test/ 도 분석하므로 패키지 의존성은 analyze 전에 설치해야 한다.
+        # 패키지는 pubspec.lock 을 커밋하지 않으므로 lockfile 을 강제하지 않고, 그 디렉터리에서 실행한다.
+        expected = [(root, "pub get --enforce-lockfile --offline")]
+        expected += [(package, "pub get --offline") for package in packages]
+        expected += [
             (root, "analyze --no-pub --no-fatal-warnings --no-fatal-infos"),
             (root, "test --no-pub"),
         ]
-        for target in PACKAGE_TEST_TARGETS:
-            # 패키지는 pubspec.lock 을 커밋하지 않으므로 lockfile 을 강제하지 않고, 그 디렉터리에서 실행한다.
-            package = str(self.fx.repo / target)
-            expected += [(package, "pub get --offline"), (package, "test --no-pub")]
+        expected += [(package, "test --no-pub") for package in packages]
         self.assertEqual(calls, expected)
         self.assertTrue(self.fx.selftest_log.exists(), "하네스 파일이 staged 됐는데 하네스 테스트가 돌지 않았습니다")
 
@@ -81,8 +82,9 @@ class ToolFailureTest(CommitGateTestCase):
         target = PACKAGE_TEST_TARGETS[0]
         result = self.fx.commit(env={"FAKE_PUB_FAIL_DIR": str(self.fx.repo / target)})
         self.assertBlocked(result, "{}: 의존성 설치 실패".format(target), "fake pub failed")
+        self.assertEqual(self.analyze_dirs(), [], "패키지 의존성 설치가 실패했는데 분석을 실행했습니다")
         tests_run = [cwd for cwd, args in self.fx.flutter_calls() if args == "test --no-pub"]
-        self.assertEqual(tests_run, [str(self.fx.repo)], "패키지 의존성 설치가 실패했는데 그 패키지 테스트를 실행했습니다")
+        self.assertEqual(tests_run, [], "패키지 의존성 설치가 실패했는데 테스트를 실행했습니다")
 
     def test_pub_get_changing_tracked_file_blocks(self):
         result = self.fx.commit(env={"FAKE_PUB_TOUCH": str(self.fx.repo / "pubspec.lock")})

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -64,7 +65,10 @@ class ApiClient {
   Future<dynamic> get(String path, {Map<String, dynamic>? query}) =>
       request(ApiMethod.get, path, query: query);
 
-  /// 임의 메서드 요청. 응답 JSON 을 그대로 돌려준다.
+  /// 임의 메서드 요청. 응답 JSON 을 그대로 돌려주고, 본문이 비어 있으면 null 이다.
+  ///
+  /// 본문은 문자열로 받아 여기서 파싱한다. Dio 에 맡기면 상태 코드를 보기 전에 JSON 을 파싱해서, 깨진 본문이
+  /// 상태와 관계없이 `FormatException` 이 되고 오류 응답의 상태 코드를 잃는다.
   Future<dynamic> request(
     ApiMethod method,
     String path, {
@@ -73,19 +77,46 @@ class ApiClient {
     Duration? receiveTimeout,
   }) async {
     try {
-      final response = await _dio.request<dynamic>(
+      final response = await _dio.request<String>(
         path,
         queryParameters: query,
         data: data,
-        options: Options(method: method.name.toUpperCase(), receiveTimeout: receiveTimeout),
+        options: Options(
+          method: method.name.toUpperCase(),
+          receiveTimeout: receiveTimeout,
+          responseType: ResponseType.plain,
+          validateStatus: (_) => true,
+        ),
       );
-      return response.data;
+      return _bodyOf(response.statusCode ?? 0, response.data ?? '');
     } on DioException catch (e) {
       throw _failureOf(e);
     } on ApiFailure {
       rethrow;
     } catch (e) {
       throw ApiUnknown(e);
+    }
+  }
+
+  static Object? _bodyOf(int status, String text) {
+    if (status < 200 || status >= 300) {
+      throw ApiHttpFailure(status: status, serverError: _serverErrorOf(text));
+    }
+    if (text.trim().isEmpty) return null;
+    try {
+      return jsonDecode(text);
+    } on FormatException catch (e) {
+      throw ApiFormatFailure('invalid JSON: ${e.message}');
+    }
+  }
+
+  /// 오류 응답 본문이 `{error: ...}` 봉투면 그 값을, 아니면(HTML·깨진 JSON 등) null 을 돌려준다.
+  static String? _serverErrorOf(String text) {
+    try {
+      final body = jsonDecode(text);
+      return body is Map ? body['error']?.toString() : null;
+    } on FormatException {
+      return null;
     }
   }
 
@@ -138,13 +169,7 @@ class ApiClient {
         return const ApiTimeout();
       case DioExceptionType.connectionError:
         return const ApiOffline();
-      case DioExceptionType.badResponse:
-        final response = e.response;
-        final data = response?.data;
-        return ApiHttpFailure(
-          status: response?.statusCode ?? 0,
-          serverError: data is Map ? data['error']?.toString() : null,
-        );
+      // 상태 코드는 validateStatus 로 모두 받아 [_bodyOf] 가 판정하므로 badResponse 는 오지 않는다.
       // badCertificate·cancel·unknown, 그리고 Dio 버전에 따라 추가되는 종류(transformTimeout 등).
       default:
         final cause = e.error;

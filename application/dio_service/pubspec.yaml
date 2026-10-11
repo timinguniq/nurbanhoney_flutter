@@ -25,7 +25,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  authentication_domain:
+    path: ../../domain/authentication_domain
+  dio: ^5.2.0
+  preference_storage:
+    path: ../../data/preference_storage
   lints: ^2.0.0
-  test: ^1.21.0
   riverpod_generator: 2.3.6
   build_runner: ^2.4.6
