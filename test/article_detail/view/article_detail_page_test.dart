@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -15,124 +16,103 @@ import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
 /// 좋아요·싫어요·댓글·글 삭제만 흉내 내는 저장소. 호출을 기록하고 가짜 댓글 목록을 고친다.
+/// `*Failure` 가 있으면 그 요청이 그 실패를 던진다(저장소 계약: 실패는 ApiFailure 뿐).
 class _FakeNurbanRepository implements NurbanRepository {
   _FakeNurbanRepository({
     this.comments = const [],
-    this.articleDeleteResult = 'nurbanboard_deleted',
-    this.likeCreateResult = '36',
-    this.commentCreateThrows = false,
+    this.articleDeleteFailure,
+    this.likeCreateFailure,
+    this.commentCreateFailure,
   });
 
   List<NurbanComment> comments;
   final calls = <String>[];
-  final String articleDeleteResult;
-
-  /// 숫자가 아니면 서버 오류 문자열을 흉내 낸다
-  final String likeCreateResult;
-  final bool commentCreateThrows;
+  final ApiFailure? articleDeleteFailure;
+  final ApiFailure? likeCreateFailure;
+  final ApiFailure? commentCreateFailure;
 
   @override
-  Future<String> nurbanLikeCreate({required String token, required int articleId}) async {
+  Future<int> nurbanLikeCreate({required int articleId}) async {
     calls.add('likeCreate');
-    return likeCreateResult;
+    final failure = likeCreateFailure;
+    if (failure != null) throw failure;
+    return 36;
   }
 
   @override
-  Future<String> nurbanLikeDelete({required String token, required int articleId}) async {
+  Future<int> nurbanLikeDelete({required int articleId}) async {
     calls.add('likeDelete');
-    return '34';
+    return 34;
   }
 
   @override
-  Future<String> nurbanDislikeCreate({required String token, required int articleId}) async {
+  Future<int> nurbanDislikeCreate({required int articleId}) async {
     calls.add('dislikeCreate');
-    return '4';
+    return 4;
   }
 
   @override
-  Future<String> nurbanDislikeDelete({required String token, required int articleId}) async {
+  Future<int> nurbanDislikeDelete({required int articleId}) async {
     calls.add('dislikeDelete');
-    return '2';
+    return 2;
   }
 
   @override
-  Future<String> nurbanCommentCreate({
-    required String token,
-    required int articleId,
-    required String content,
-  }) async {
+  Future<void> nurbanCommentCreate({required int articleId, required String content}) async {
     calls.add('commentCreate:$content');
-    if (commentCreateThrows) throw Exception('connection error');
+    final failure = commentCreateFailure;
+    if (failure != null) throw failure;
     comments = [...comments, _comment(99, content: content, userId: 7)];
-    return 'nurbancomment_posted';
   }
 
   @override
-  Future<String> nurbanCommentDelete({
-    required String token,
-    required int commentId,
-    required int articleId,
-  }) async {
+  Future<void> nurbanCommentDelete({required int commentId, required int articleId}) async {
     calls.add('commentDelete:$commentId');
     comments = comments.where((c) => c.id != commentId).toList();
-    return 'nurbancomment_deleted';
   }
 
   @override
-  Future<String> nurbanArticleDelete({
-    required String token,
-    required int articleId,
-    required String uuid,
-  }) async {
+  Future<void> nurbanArticleDelete({required int articleId, required String uuid}) async {
     calls.add('articleDelete:$uuid');
-    return articleDeleteResult;
+    final failure = articleDeleteFailure;
+    if (failure != null) throw failure;
   }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-NurbanArticle _article({int userId = 1, String thumbnail = ''}) => (
+NurbanArticle _article({
+  int userId = 1,
+  String? thumbnail,
+  Reaction myReaction = Reaction.none,
+  int likes = 35,
+  int dislikes = 3,
+}) =>
+    (
       id: 10,
       uuid: 'uuid-10',
       thumbnail: thumbnail,
       title: '삼전 물타기 실패했습니다',
-      lossCut: '1250000',
+      lossCut: 1250000,
       content: '7만전자에서 물 타고 6만전자에서 또 탔는데',
       count: 123,
       commentCount: 2,
-      likeCount: 35,
-      dislikeCount: 3,
-      updatedAt: '2026-10-10T14:30:00',
-      userId: userId,
-      badge: '',
-      nickname: '삼전홀더',
-      insignia: '[]',
-      myRating: 'null',
-    );
-
-FreeArticle _reactions({String myRating = 'null', int likes = 35, int dislikes = 3}) => (
-      id: 10,
-      uuid: 'uuid-10',
-      title: '',
-      content: '',
-      count: 0,
-      commentCount: 0,
       likeCount: likes,
       dislikeCount: dislikes,
-      updatedAt: '',
-      userId: 1,
-      badge: '',
-      nickname: '',
+      updatedAt: '2026-10-10T14:30:00',
+      userId: userId,
+      badge: null,
+      nickname: '삼전홀더',
       insignia: '[]',
-      myRating: myRating,
+      myReaction: myReaction,
     );
 
 NurbanComment _comment(int id, {String content = '', int userId = 2}) => (
       id: id,
       content: content.isEmpty ? '위로 $id' : content,
       userId: userId,
-      badge: '',
+      badge: null,
       nickname: '존버실패',
       insignia: '[]',
     );
@@ -140,7 +120,6 @@ NurbanComment _comment(int id, {String content = '', int userId = 2}) => (
 Widget _app({
   NurbanArticle? article,
   Object? articleError,
-  FreeArticle? reactions,
   required _FakeNurbanRepository repository,
   List<bool?>? popped,
 }) {
@@ -153,7 +132,6 @@ Widget _app({
         if (articleError != null) throw articleError;
         return article!;
       }),
-      getFreeArticleProvider.overrideWith((ref, r) async => reactions ?? _reactions()),
       getNurbanCommentsProvider.overrideWith((ref, id) async => repository.comments),
       nurbanRepositoryProvider.overrideWithValue(repository),
     ],
@@ -248,7 +226,7 @@ void main() {
     });
 
     testWidgets('글 삭제에 실패하면 오류 토스트를 띄우고 화면은 그대로다', (tester) async {
-      final repository = _FakeNurbanRepository(articleDeleteResult: 'error');
+      final repository = _FakeNurbanRepository(articleDeleteFailure: const ApiServerFailure('not_owner'));
       final popped = <bool?>[];
       await tester.pumpWidget(_app(article: _article(userId: 7), repository: repository, popped: popped));
       await _open(tester);
@@ -268,7 +246,7 @@ void main() {
     testWidgets('없는 글(404)이면 토스트를 띄우고 false 로 바로 닫힌다', (tester) async {
       final popped = <bool?>[];
       await tester.pumpWidget(_app(
-        articleError: Exception('status code of 404'),
+        articleError: const ApiHttpFailure(status: 404),
         repository: _FakeNurbanRepository(),
         popped: popped,
       ));
@@ -283,7 +261,7 @@ void main() {
 
     testWidgets('그 밖의 오류면 앱바는 유지하고 오류 상태를 보여준다', (tester) async {
       await tester.pumpWidget(_app(
-        articleError: Exception('connection error'),
+        articleError: const ApiOffline(),
         repository: _FakeNurbanRepository(),
       ));
       await _open(tester);
@@ -295,8 +273,7 @@ void main() {
     testWidgets('좋아요를 누르면 저장소를 부르고 돌려받은 수로 바꾸며, 싫어요 상태였다면 싫어요 수가 하나 준다', (tester) async {
       final repository = _FakeNurbanRepository();
       await tester.pumpWidget(_app(
-        article: _article(),
-        reactions: _reactions(myRating: 'dislike', likes: 35, dislikes: 3),
+        article: _article(myReaction: Reaction.dislike, likes: 35, dislikes: 3),
         repository: repository,
       ));
       await _open(tester);
@@ -312,8 +289,7 @@ void main() {
     testWidgets('싫어요를 누르면 싫어요를 만들고, 좋아요 상태였다면 좋아요 수가 하나 준다', (tester) async {
       final repository = _FakeNurbanRepository();
       await tester.pumpWidget(_app(
-        article: _article(),
-        reactions: _reactions(myRating: 'like', likes: 35, dislikes: 3),
+        article: _article(myReaction: Reaction.like, likes: 35, dislikes: 3),
         repository: repository,
       ));
       await _open(tester);
@@ -333,8 +309,7 @@ void main() {
     testWidgets('이미 싫어요한 글의 싫어요를 다시 누르면 취소한다', (tester) async {
       final repository = _FakeNurbanRepository();
       await tester.pumpWidget(_app(
-        article: _article(),
-        reactions: _reactions(myRating: 'dislike', likes: 35, dislikes: 3),
+        article: _article(myReaction: Reaction.dislike, likes: 35, dislikes: 3),
         repository: repository,
       ));
       await _open(tester);
@@ -350,8 +325,7 @@ void main() {
     testWidgets('이미 좋아요한 글의 좋아요를 다시 누르면 취소한다', (tester) async {
       final repository = _FakeNurbanRepository();
       await tester.pumpWidget(_app(
-        article: _article(),
-        reactions: _reactions(myRating: 'like'),
+        article: _article(myReaction: Reaction.like),
         repository: repository,
       ));
       await _open(tester);
@@ -363,8 +337,8 @@ void main() {
       expect(find.text('${Strings.like} 34'), findsOneWidget);
     });
 
-    testWidgets('반응 응답이 숫자가 아니면 오류 토스트를 띄우고 상태를 유지하며 다시 누를 수 있다', (tester) async {
-      final repository = _FakeNurbanRepository(likeCreateResult: 'error');
+    testWidgets('서버가 반응을 거절하면 반응 실패 토스트를 띄우고 상태를 유지하며 다시 누를 수 있다', (tester) async {
+      final repository = _FakeNurbanRepository(likeCreateFailure: const ApiServerFailure('already_reacted'));
       await tester.pumpWidget(_app(article: _article(), repository: repository));
       await _open(tester);
 
@@ -377,6 +351,29 @@ void main() {
       await _pumpFrames(tester);
       expect(repository.calls, ['likeCreate', 'likeCreate']);
       await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('반응 요청이 네트워크 오류로 실패하면 네트워크 안내 토스트를 띄우고 수는 그대로다', (tester) async {
+      final repository = _FakeNurbanRepository(likeCreateFailure: const ApiTimeout());
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.tap(find.text('${Strings.like} 35'));
+      await _pumpFrames(tester);
+
+      expect(find.text(Strings.toastNetworkError), findsOneWidget);
+      expect(find.text('${Strings.like} 35'), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('글을 로그인 상태로 받아 내 반응이 있으면 그 버튼이 선택돼 보인다', (tester) async {
+      await tester.pumpWidget(_app(article: _article(myReaction: Reaction.like), repository: _FakeNurbanRepository()));
+      await _open(tester);
+
+      final like = tester.widget<ReactionButton>(find.widgetWithText(ReactionButton, '${Strings.like} 35'));
+      final dislike = tester.widget<ReactionButton>(find.widgetWithText(ReactionButton, '${Strings.dislike} 3'));
+      expect(like.selected, isTrue);
+      expect(dislike.selected, isFalse);
     });
 
     testWidgets('비로그인 상태에서 반응을 누르면 로그인 안내 토스트만 띄운다', (tester) async {
@@ -448,8 +445,8 @@ void main() {
       expect(find.text('1/60'), findsOneWidget);
     });
 
-    testWidgets('댓글 등록이 예외로 실패하면 오류 토스트를 띄우고 입력을 유지한다', (tester) async {
-      final repository = _FakeNurbanRepository(commentCreateThrows: true);
+    testWidgets('댓글 등록이 네트워크 오류로 실패하면 오류 토스트를 띄우고 입력을 유지한다', (tester) async {
+      final repository = _FakeNurbanRepository(commentCreateFailure: const ApiOffline());
       await tester.pumpWidget(_app(article: _article(), repository: repository));
       await _open(tester);
 
@@ -459,6 +456,21 @@ void main() {
 
       expect(find.text(Strings.toastCommentCreateFailed), findsOneWidget);
       expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, '같이 울어요');
+      await tester.pump(const Duration(seconds: 3));
+    });
+
+    testWidgets('서버가 댓글 등록을 거절하면(error) 성공으로 처리하지 않고 오류 토스트를 띄운다', (tester) async {
+      final repository = _FakeNurbanRepository(commentCreateFailure: const ApiServerFailure('too_long'));
+      await tester.pumpWidget(_app(article: _article(), repository: repository));
+      await _open(tester);
+
+      await tester.enterText(find.byType(TextField), '같이 울어요');
+      await tester.tap(find.text(Strings.register));
+      await _pumpFrames(tester, 6);
+
+      expect(find.text(Strings.toastCommentCreateFailed), findsOneWidget);
+      expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, '같이 울어요');
+      expect(repository.comments, isEmpty);
       await tester.pump(const Duration(seconds: 3));
     });
 

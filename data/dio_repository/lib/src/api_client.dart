@@ -61,6 +61,9 @@ class ApiClient {
 
   final Dio _dio;
 
+  /// 서버 기본 URL. 서버가 상대 경로로 돌려주는 값(업로드한 사진 경로 등)을 절대 URL 로 만들 때 쓴다.
+  String get baseUrl => _dio.options.baseUrl;
+
   /// GET 요청. 응답 JSON(Map 또는 List)을 그대로 돌려준다.
   Future<dynamic> get(String path, {Map<String, dynamic>? query}) =>
       request(ApiMethod.get, path, query: query);

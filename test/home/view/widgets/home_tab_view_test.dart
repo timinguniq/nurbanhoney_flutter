@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,24 @@ class _EmptyNurbanRepository implements NurbanRepository {
   dynamic noSuchMethod(Invocation invocation) => Future.value(<BoardAllType>[]);
 }
 
-Widget _app() {
+/// 목록 요청이 네트워크 오류로 실패하는 저장소.
+class _OfflineNurbanRepository implements NurbanRepository {
+  @override
+  Future<List<BoardAllType>> getNurbanAll({required int flag, required int articleId, required int limit}) =>
+      Future.error(const ApiOffline());
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+Widget _app({NurbanRepository? repository}) {
   SharedPreferences.setMockInitialValues({});
   return ProviderScope(
     overrides: [
       preferenceStorageProvider.overrideWith(
         (ref) async => PreferenceStorage(plugin: await SharedPreferences.getInstance()),
       ),
-      nurbanRepositoryProvider.overrideWithValue(_EmptyNurbanRepository()),
+      nurbanRepositoryProvider.overrideWithValue(repository ?? _EmptyNurbanRepository()),
       getRankTabProvider.overrideWith((ref, arg) async => []),
     ],
     child: MaterialApp(
@@ -45,6 +56,15 @@ void main() {
       expect(find.text(Strings.thisMonth(formatMonthRange(DateTime.now()))), findsOneWidget);
       expect(find.text(Strings.boardStock), findsOneWidget);
       expect(find.text(Strings.boardCoin), findsOneWidget);
+    });
+
+    testWidgets('주식 목록이 네트워크 오류로 실패하면 오프라인 배너와 NET-OFFLINE 오류 코드를 보여준다', (tester) async {
+      await tester.pumpWidget(_app(repository: _OfflineNurbanRepository()));
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(OfflineBanner), findsOneWidget);
+      expect(find.textContaining('NET-OFFLINE'), findsOneWidget);
     });
   });
 }

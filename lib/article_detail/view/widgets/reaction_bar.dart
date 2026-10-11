@@ -1,74 +1,78 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/theme/theme.dart';
+import 'package:nurbanhoney/utils/utils.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
-/// 좋아요·싫어요 필 버튼 2개. 선택 상태와 수는 기존처럼 [getFreeArticleProvider] 의 `myRating`·카운트에서
+/// 좋아요·싫어요 필 버튼 2개. 수와 내 반응은 글 상세가 받은 값([likeCount]·[dislikeCount]·[myReaction])에서
 /// 시작하고, 누르면 nurbanRepository 로 생성·삭제한 뒤 돌려받은 수로 갱신한다(기존 LikeDislikeBoard 의 로직).
 class ReactionBar extends ConsumerStatefulWidget {
-  const ReactionBar({required this.articleId, super.key});
+  const ReactionBar({
+    required this.articleId,
+    required this.likeCount,
+    required this.dislikeCount,
+    required this.myReaction,
+    super.key,
+  });
 
   final int articleId;
+  final int likeCount;
+  final int dislikeCount;
+  final Reaction myReaction;
 
   @override
   ConsumerState<ReactionBar> createState() => _ReactionBarState();
 }
 
-class _ReactionBarState extends ConsumerState<ReactionBar> {
-  static const _emptyToken = '__empty__';
+typedef _Counts = ({int likeCount, int dislikeCount, Reaction myReaction});
 
+class _ReactionBarState extends ConsumerState<ReactionBar> {
   /// 서버 값 위에 덮어 보여줄 로컬 상태(누른 뒤부터)
-  ({int likeCount, int dislikeCount, String myRating})? _local;
+  _Counts? _local;
   var _busy = false;
 
-  Future<void> _react(
-    ReactionKind kind, {
-    required String token,
-    required ({int likeCount, int dislikeCount, String myRating}) current,
-  }) async {
+  Future<void> _react(ReactionKind kind, {required _Counts current}) async {
     if (_busy) return;
-    if (token == _emptyToken) {
+    if (!(ref.read(preferenceStorageProvider).valueOrNull?.hasToken() ?? false)) {
       NbkToast.info(Strings.toastLoginRequired);
       return;
     }
     _busy = true;
     final repository = ref.read(nurbanRepositoryProvider);
     final isLike = kind == ReactionKind.like;
-    final selectedNow = current.myRating == (isLike ? 'like' : 'dislike');
+    final target = isLike ? Reaction.like : Reaction.dislike;
+    final selectedNow = current.myReaction == target;
     try {
-      final result = switch ((isLike, selectedNow)) {
-        (true, true) => await repository.nurbanLikeDelete(token: token, articleId: widget.articleId),
-        (true, false) => await repository.nurbanLikeCreate(token: token, articleId: widget.articleId),
-        (false, true) => await repository.nurbanDislikeDelete(token: token, articleId: widget.articleId),
-        (false, false) => await repository.nurbanDislikeCreate(token: token, articleId: widget.articleId),
+      final count = switch ((isLike, selectedNow)) {
+        (true, true) => await repository.nurbanLikeDelete(articleId: widget.articleId),
+        (true, false) => await repository.nurbanLikeCreate(articleId: widget.articleId),
+        (false, true) => await repository.nurbanDislikeDelete(articleId: widget.articleId),
+        (false, false) => await repository.nurbanDislikeCreate(articleId: widget.articleId),
       };
-      final count = int.tryParse(result);
-      if (count == null) {
-        NbkToast.error(Strings.toastReactionFailed);
-        return;
-      }
       if (!mounted) return;
       setState(() {
+        final next = selectedNow ? Reaction.none : target;
         if (isLike) {
           _local = (
             likeCount: count,
             // 싫어요 상태에서 좋아요를 누르면 서버가 싫어요를 거두므로 수를 하나 줄인다(기존 로직).
-            dislikeCount: current.myRating == 'dislike' ? current.dislikeCount - 1 : current.dislikeCount,
-            myRating: selectedNow ? 'null' : 'like',
+            dislikeCount: current.myReaction == Reaction.dislike ? current.dislikeCount - 1 : current.dislikeCount,
+            myReaction: next,
           );
         } else {
           _local = (
-            likeCount: current.myRating == 'like' ? current.likeCount - 1 : current.likeCount,
+            likeCount: current.myReaction == Reaction.like ? current.likeCount - 1 : current.likeCount,
             dislikeCount: count,
-            myRating: selectedNow ? 'null' : 'dislike',
+            myReaction: next,
           );
         }
       });
-    } catch (_) {
-      NbkToast.error(Strings.toastNetworkError);
+    } on ApiFailure catch (e) {
+      NbkToast.error(isNetworkError(e) ? Strings.toastNetworkError : Strings.toastReactionFailed);
     } finally {
       _busy = false;
     }
@@ -76,13 +80,10 @@ class _ReactionBarState extends ConsumerState<ReactionBar> {
 
   @override
   Widget build(BuildContext context) {
-    final token = ref.watch(preferenceStorageProvider).valueOrNull?.getToken() ?? _emptyToken;
-    final article = ref.watch(getFreeArticleProvider((token, widget.articleId)));
-    final server = article.valueOrNull;
-    if (server == null) return const SizedBox(height: NbkSize.reactionButton);
-
+    // 누를 때 로그인 여부를 바로 읽을 수 있게 저장소를 미리 받아 둔다.
+    ref.watch(preferenceStorageProvider);
     final current = _local ??
-        (likeCount: server.likeCount, dislikeCount: server.dislikeCount, myRating: server.myRating);
+        (likeCount: widget.likeCount, dislikeCount: widget.dislikeCount, myReaction: widget.myReaction);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: NbkSpacing.screen),
@@ -90,16 +91,16 @@ class _ReactionBarState extends ConsumerState<ReactionBar> {
         children: [
           ReactionButton.like(
             count: current.likeCount,
-            selected: current.myRating == 'like',
+            selected: current.myReaction == Reaction.like,
             pill: true,
-            onTap: () => _react(ReactionKind.like, token: token, current: current),
+            onTap: () => _react(ReactionKind.like, current: current),
           ),
           const SizedBox(width: NbkSpacing.md),
           ReactionButton.dislike(
             count: current.dislikeCount,
-            selected: current.myRating == 'dislike',
+            selected: current.myReaction == Reaction.dislike,
             pill: true,
-            onTap: () => _react(ReactionKind.dislike, token: token, current: current),
+            onTap: () => _react(ReactionKind.dislike, current: current),
           ),
         ],
       ),

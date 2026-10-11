@@ -1,5 +1,6 @@
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -23,22 +24,20 @@ class _FakeAuthentication extends AuthenticationService {
 }
 
 /// 댓글 삭제만 흉내 내는 저장소. 호출 기록을 남기고 [onDelete] 로 가짜 목록을 고친다.
+/// [failure] 가 있으면 삭제가 그 실패를 던진다.
 class _FakeNurbanRepository implements NurbanRepository {
-  _FakeNurbanRepository({this.result = 'nurbancomment_deleted', this.onDelete});
+  _FakeNurbanRepository({this.failure, this.onDelete});
 
-  final String result;
+  final ApiFailure? failure;
   final void Function(int commentId)? onDelete;
   final deleted = <(int, int)>[];
 
   @override
-  Future<String> nurbanCommentDelete({
-    required String token,
-    required int commentId,
-    required int articleId,
-  }) async {
+  Future<void> nurbanCommentDelete({required int commentId, required int articleId}) async {
     deleted.add((commentId, articleId));
+    final failure = this.failure;
+    if (failure != null) throw failure;
     onDelete?.call(commentId);
-    return result;
   }
 
   @override
@@ -312,7 +311,7 @@ void main() {
     });
 
     testWidgets('삭제에 실패하면 오류 토스트를 보여주고 목록은 그대로다', (tester) async {
-      final repository = _FakeNurbanRepository(result: 'error');
+      final repository = _FakeNurbanRepository(failure: const ApiServerFailure('not_owner'));
       await tester.pumpWidget(_app(
         auth: AuthenticationStatus.authenticated,
         profile: _profile(),

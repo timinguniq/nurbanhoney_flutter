@@ -1,17 +1,20 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:dio_domain/dio_domain.dart';
-import 'package:dio_repository/dio_repository.dart';
-import 'package:mime/mime.dart';
+import 'package:dio_repository/src/api_client.dart';
+import 'package:dio_repository/src/board_items.dart';
+import 'package:dio_repository/src/json_fields.dart';
 
 typedef NurbanArticle = ({
   int id,
   String uuid,
-  String thumbnail,
+
+  /// 첨부 사진 URL. 없으면 null.
+  String? thumbnail,
   String title,
-  String lossCut,
+
+  /// 손실액(원)
+  int lossCut,
   String content,
   int count,
   int commentCount,
@@ -19,581 +22,149 @@ typedef NurbanArticle = ({
   int dislikeCount,
   String updatedAt,
   int userId,
-  String badge,
+
+  /// 글쓴이 배지 URL. 없으면 null.
+  String? badge,
   String nickname,
   String insignia,
-  String myRating,
+
+  /// 내 반응(로그인하지 않았으면 none)
+  Reaction myReaction,
 });
 
 typedef NurbanComment = ({
   int id,
   String content,
   int userId,
-  String badge,
+
+  /// 댓글 쓴이 배지 URL. 없으면 null.
+  String? badge,
   String nickname,
   String insignia
 });
 
+/// 주식 게시판(와이어 이름 nurban). 글 상세·반응·댓글·삭제는 코인 글도 이 저장소를 쓴다(기존 동작).
 class NurbanRepository {
-  /// constructor
-  NurbanRepository._privateConstructor();
+  NurbanRepository(this._client);
 
-  static final NurbanRepository _instance =
-      NurbanRepository._privateConstructor();
+  final ApiClient _client;
 
-  factory NurbanRepository() {
-    return _instance;
+  /// 글 상세. 로그인했으면 내 반응도 온다.
+  Future<NurbanArticle> getNurbanArticle({required int articleId}) async {
+    final body = await _client.get('/board/nurban/article', query: {'id': articleId});
+    return ApiClient.decode(() {
+      final json = jsonMap(body);
+      return (
+        id: jsonInt(json['id']),
+        uuid: jsonString(json['uuid']),
+        thumbnail: jsonStringOrNull(json['thumbnail']),
+        title: jsonString(json['title']),
+        lossCut: jsonLossAmount(json['lossCut']),
+        content: jsonString(json['content']),
+        count: jsonInt(json['count']),
+        commentCount: jsonInt(json['commentCount']),
+        likeCount: jsonInt(json['likeCount']),
+        dislikeCount: jsonInt(json['dislikeCount']),
+        updatedAt: jsonString(json['updatedAt']),
+        userId: jsonInt(json['userId']),
+        badge: jsonStringOrNull(json['badge']),
+        nickname: jsonString(json['nickname']),
+        insignia: jsonString(json['insignia']),
+        myReaction: jsonReaction(json['myRating']),
+      );
+    });
   }
 
-  final dio = Dio();
-
-  /// 너반꿀 아티클 상세
-  Future<NurbanArticle> getNurbanArticle({
-    required int articleId,
-  }) async {
-    try {
-      final response = await dio.get(
-        '${DioMainApi.mainApi}/board/nurban/article',
-        queryParameters: {
-          'id': articleId,
-        },
-      );
-
-      log('getNurbanArticle response: ${response.data}');
-      final records = (
-        id: int.parse(response.data['id'].toString()),
-        uuid: response.data['uuid'].toString(),
-        thumbnail: response.data['thumbnail'].toString(),
-        title: response.data['title'].toString(),
-        lossCut: response.data['lossCut'].toString(),
-        content: response.data['content'].toString(),
-        count: int.parse(response.data['count'].toString()),
-        commentCount: int.parse(response.data['commentCount'].toString()),
-        likeCount: int.parse(response.data['likeCount'].toString()),
-        dislikeCount: int.parse(response.data['dislikeCount'].toString()),
-        updatedAt: response.data['updatedAt'].toString(),
-        userId: int.parse(response.data['userId'].toString()),
-        badge: response.data['badge'].toString(),
-        nickname: response.data['nickname'].toString(),
-        insignia: response.data['insignia'].toString(),
-        myRating: response.data['myRating'].toString()
-      );
-
-      log('getNurbanArticle response: ${response.data.toString()}');
-
-      final futureValue = Future.value(records);
-      return await futureValue;
-    } catch (e) {
-      log('getNurbanArticle error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 너반꿀 리스트 조회
+  /// 목록. [articleId] 는 커서(처음은 -1, 다음은 마지막 글 id)다.
   Future<List<BoardAllType>> getNurbanAll({
     required int flag,
     required int articleId,
     required int limit,
-    required String? token,
   }) async {
-    try {
-      //var headers = {'Content-Type': 'application/json, charset=utf-8'};
-      log('getNurbanAll flag: $flag');
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.get(
-        '/',
-        queryParameters: {
-          'flag': flag,
-          'articleId': articleId,
-          'limit': limit,
-        },
-      );
-      log('getNurbanAll response: ${response.data}');
-
-      final result = <BoardAllType>[];
-      for (int i = 0; i < response.data.length; i++) {
-        log('getNurbanAll response: ${response.data[i]}');
-        final records = (
-          id: int.parse(response.data[i]['id'].toString()),
-          board: 1,
-          thumbnail: response.data[i]['thumbnail'].toString(),
-          title: response.data[i]['title'].toString(),
-          lossCut: response.data[i]['lossCut'].toString(),
-          content: response.data[i]['content'].toString(),
-          commentCount: int.parse(response.data[i]['commentCount'].toString()),
-          likeCount: response.data[i]['likeCount'].toString(),
-          createdAt: response.data[i]['createdAt'].toString(),
-          authorId: response.data[i]['user']['userId'].toString(),
-          nickname: response.data[i]['user']['nickname'].toString(),
-          badge: response.data[i]['user']['badge'].toString(),
-          insignia: response.data[i]['user']['insignia'].toString(),
-          myRating: response.data[i]['myRating'].toString()
-        );
-        // result.add(BoardModel.fromJson(response.data[i]));
-        result.add(records);
-      }
-      log('getNurbanAll response: ${response.data.toString()}');
-
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } on DioException catch (e) {
-      print('DioException: ${e.message}');
-      if (e.response != null) {
-        // You can inspect the response if it exists
-        print('Error response: ${e.response?.data}');
-      } else {
-        print('Request failed: ${e.requestOptions}');
-      }
-      throw Exception(e);
-    } catch (e) {
-      log('getNurbanAll error : $e');
-      throw Exception(e);
-    }
+    final body = await _client.get('/board/nurban/', query: {'flag': flag, 'articleId': articleId, 'limit': limit});
+    return boardItemsOf(body, board: 1);
   }
 
-  /// 너반꿀 아티클 삭제
-  Future<String> nurbanArticleDelete({
-    required String token,
-    required int articleId,
-    required String uuid,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
+  Future<void> nurbanArticleDelete({required int articleId, required String uuid}) => _client.expectResult(
+        ApiMethod.delete,
+        '/board/nurban/article/',
+        data: {'id': articleId, 'uuid': uuid},
+        result: 'nurbanboard_deleted',
       );
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.delete(
-        '/',
-        data: {
-          'id': articleId,
-          'uuid': uuid,
-        },
-      );
+  /// 좋아요. 새 좋아요 수를 돌려준다.
+  Future<int> nurbanLikeCreate({required int articleId}) => _reaction(ApiMethod.post, 'like', articleId);
 
-      log('nurbanArticleDelete response: ${response.data}');
+  /// 좋아요 취소. 새 좋아요 수를 돌려준다.
+  Future<int> nurbanLikeDelete({required int articleId}) => _reaction(ApiMethod.delete, 'like', articleId);
 
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
+  /// 싫어요. 새 싫어요 수를 돌려준다.
+  Future<int> nurbanDislikeCreate({required int articleId}) => _reaction(ApiMethod.post, 'dislike', articleId);
 
-      log('nurbanArticleDelete error: $error');
+  /// 싫어요 취소. 새 싫어요 수를 돌려준다.
+  Future<int> nurbanDislikeDelete({required int articleId}) => _reaction(ApiMethod.delete, 'dislike', articleId);
 
-      final futureValue =
-      error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanArticleDelete error : $e');
-      throw Exception(e);
-    }
+  Future<int> _reaction(ApiMethod method, String kind, int articleId) async {
+    final result = await _client.command(method, '/board/nurban/article/$kind/', data: {'articleId': articleId});
+    return ApiClient.decode(() => jsonInt(result));
   }
 
-  /// 아티클 좋아요 생성
-  Future<String> nurbanLikeCreate({
-    required String token,
-    required int articleId,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/like',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
+  /// 사진 업로드. 절대 URL 을 돌려준다.
+  Future<String> nurbanImageUpload({required String uuid, required File image}) =>
+      uploadBoardImage(_client, '/board/nurban/article/upload/image', uuid: uuid, image: image);
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.post(
-        '/',
-        data: {'articleId': articleId},
-      );
+  Future<void> nurbanImageDelete({required String uuid}) =>
+      _client.command(ApiMethod.delete, '/board/nurban/article/upload/image/', data: {'uuid': uuid});
 
-      log('nurbanLikeCreate response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanLikeCreate error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanLikeCreate error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 아티클 좋아요 삭제
-  Future<String> nurbanLikeDelete({
-    required String token,
-    required int articleId,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/like',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.delete(
-        '/',
-        data: {'articleId': articleId},
-      );
-
-      log('nurbanLikeDelete response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanLikeDelete error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanLikeDelete error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 아티클 싫어요 생성
-  Future<String> nurbanDislikeCreate({
-    required String token,
-    required int articleId,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/dislike',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.post(
-        '/',
-        data: {'articleId': articleId},
-      );
-
-      log('nurbanDislikeCreate response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanDislikeCreate error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanDislikeCreate error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 아티클 싫어요 삭제
-  Future<String> nurbanDislikeDelete({
-    required String token,
-    required int articleId,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/dislike',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.delete(
-        '/',
-        data: {'articleId': articleId},
-      );
-
-      log('nurbanDislikeDelete response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanDislikeDelete error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanDislikeDelete error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 너반꿀 이미지 업로드 생성
-  Future<String> nurbanImageUpload({
-    required String uuid,
-    required String token,
-    required File image,
-  }) async {
-    try {
-      log('nurbanImage token: $token');
-
-      Options options = Options(
-        contentType: lookupMimeType(image.path),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'multipart/form-data',
-          'Accept': "*/*",
-          'Content-Length': image.length,
-          'Connection': 'keep-alive',
-          'User-Agent': 'ClinicPlush'
-        },
-      );
-
-      final formData = FormData.fromMap({
-        'uuid': uuid,
-        'image': await MultipartFile.fromFile(image.path),
-      });
-
-      log('nurbanImage uuid: $uuid');
-      log('nurbanImage filename: ${image.path.split('/').last}');
-
-      //final authDio = Dio(baseOptions);
-      final response = await Dio().post(
-        '${DioMainApi.mainApi}/board/nurban/article/upload/image',
-        data: formData,
-        options: options,
-      );
-
-      log('nurbanImageUpload response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      final thumbnailUrl = '${DioMainApi.mainApi}$result';
-
-      log('nurbanImageUpload error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(thumbnailUrl);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanImageUpload e : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 너반꿀 이미지 삭제
-  Future<String> nurbanImageDelete({
-    required String uuid,
-    required String token,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/upload/image',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.delete(
-        '/',
-        data: {'uuid': uuid},
-      );
-
-      log('nurbanImageDelete response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanImageDelete error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanImageDelete error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 아티클 생성
-  Future<String> nurbanArticleCreate({
-    required String token,
+  Future<void> nurbanArticleCreate({
     required String title,
     required String uuid,
     required int lossCut,
     required String thumbnail,
     required String content,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
+  }) =>
+      _client.expectResult(
+        ApiMethod.post,
+        '/board/nurban/article/',
+        data: {'title': title, 'uuid': uuid, 'lossCut': lossCut, 'thumbnail': thumbnail, 'content': content},
+        result: 'nurbanboard_posted',
       );
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.post(
-        '/',
-        data: {
-          'title': title,
-          'uuid': uuid,
-          'lossCut': lossCut,
-          'thumbnail': thumbnail,
-          'content': content,
-        },
-      );
-
-      log('nurbanArticleCreate response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanArticleCreate error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanArticleCreate error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 댓글 리스트 조회
+  /// 댓글 목록. [commentId] 는 커서(처음은 -1)다.
   Future<List<NurbanComment>> getNurbanComments({
     required int articleId,
     required int commentId,
     required int limit,
   }) async {
-    try {
-      final response = await dio.get(
-        '${DioMainApi.mainApi}/board/nurban/article/comment',
-        queryParameters: {
-          'articleId': articleId,
-          'commentId': commentId,
-          'limit': limit,
-        },
-      );
-      final result = <NurbanComment>[];
-      for (int i = 0; i < response.data.length; i++) {
-        log('getNurbanComments response: ${response.data[i]}');
-        final records = (
-          id: int.parse(response.data[i]['id'].toString()),
-          content: response.data[i]['content'].toString(),
-          userId: int.parse(response.data[i]['user']['userId'].toString()),
-          badge: response.data[i]['user']['badge'].toString(),
-          nickname: response.data[i]['user']['nickname'].toString(),
-          insignia: response.data[i]['user']['insignia'].toString()
-        );
-        result.add(records);
-      }
-      log('getNurbanComments response: ${response.data.toString()}');
-
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } catch (e) {
-      log('getNurbanComments error : $e');
-      throw Exception(e);
-    }
+    final body = await _client.get(
+      '/board/nurban/article/comment',
+      query: {'articleId': articleId, 'commentId': commentId, 'limit': limit},
+    );
+    return ApiClient.decode(() => [
+          for (final item in jsonList(body))
+            () {
+              final json = jsonMap(item);
+              final user = jsonMap(json['user']);
+              return (
+                id: jsonInt(json['id']),
+                content: jsonString(json['content']),
+                userId: jsonInt(user['userId']),
+                badge: jsonStringOrNull(user['badge']),
+                nickname: jsonString(user['nickname']),
+                insignia: jsonString(user['insignia']),
+              );
+            }(),
+        ]);
   }
 
-  /// 댓글 작성
-  Future<String> nurbanCommentCreate({
-    required String token,
-    required int articleId,
-    required String content,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/comment',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
+  /// 댓글 작성. 성공 result 값은 정해져 있지 않아 error 가 없으면 성공이다.
+  Future<void> nurbanCommentCreate({required int articleId, required String content}) =>
+      _client.command(ApiMethod.post, '/board/nurban/article/comment/', data: {'articleId': articleId, 'content': content});
+
+  Future<void> nurbanCommentDelete({required int commentId, required int articleId}) => _client.expectResult(
+        ApiMethod.delete,
+        '/board/nurban/article/comment/',
+        data: {'id': commentId, 'articleId': articleId},
+        result: 'nurbancomment_deleted',
       );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.post(
-        '/',
-        data: {
-          'articleId': articleId,
-          'content': content,
-        },
-      );
-
-      log('nurbanCommentCreate response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanCommentCreate error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanCommentCreate error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 댓글 삭제
-  Future<String> nurbanCommentDelete({
-    required String token,
-    required int commentId,
-    required int articleId,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/board/nurban/article/comment',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.delete(
-        '/',
-        data: {
-          'id': commentId,
-          'articleId': articleId,
-        },
-      );
-
-      log('nurbanCommentDelete response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('nurbanCommentDelete error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('nurbanCommentDelete error : $e');
-      throw Exception(e);
-    }
-  }
 }

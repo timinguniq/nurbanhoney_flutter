@@ -53,14 +53,9 @@ class CoinTabViewModel extends BaseViewModel {
 
     log('articleId : $nextPage');
 
-    final preferenceStorage = ref.watch(preferenceStorageProvider);
-    final storage = preferenceStorage.asData?.value;
-    final token = storage?.getToken();
-    log('token: $token');
-
     try {
       final freeRepository = ref.read(freeRepositoryProvider);
-      final coinList = await freeRepository.getFreeAll(flag: 0, articleId: nextPage, limit: 10, token: token);
+      final coinList = await freeRepository.getFreeAll(flag: 0, articleId: nextPage, limit: 10);
 
       if (coinList.isEmpty) {
         if (isRefresh) _coinList = [];
@@ -80,8 +75,8 @@ class CoinTabViewModel extends BaseViewModel {
       _updateFetchState(DataFetchSuccess());
     } catch (e) {
       log('error: $e');
-      // 오류 문자열은 ErrorState 의 오류 코드(errorCodeOf)를 만드는 데만 쓰고 화면에 그대로 보이지 않는다.
-      _updateFetchState(DataFetchError(e.toString()));
+      // 오류는 ErrorState 의 오류 코드(errorCodeOf)·오프라인 배너(isNetworkError)를 만드는 데만 쓴다.
+      _updateFetchState(DataFetchError(e));
     }
   }
 

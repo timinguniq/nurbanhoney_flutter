@@ -19,7 +19,7 @@ class ArticleBody extends StatelessWidget {
   });
 
   final String title;
-  final String badgeUrl;
+  final String? badgeUrl;
   final String nickname;
   final List<String> insigniaUrls;
 
@@ -27,12 +27,14 @@ class ArticleBody extends StatelessWidget {
   final String meta;
   final bool mine;
   final int lossAmount;
-  final String thumbnailUrl;
+  /// 첨부 사진 URL. 없으면 null.
+  final String? thumbnailUrl;
   final String content;
 
   @override
   Widget build(BuildContext context) {
-    final hasThumbnail = thumbnailUrl.isNotEmpty && thumbnailUrl != 'null';
+    final url = thumbnailUrl;
+    final thumbnail = url == null || url.isEmpty ? null : url;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -77,12 +79,12 @@ class ArticleBody extends StatelessWidget {
               ],
             ),
           ),
-          if (hasThumbnail) ...[
+          if (thumbnail != null) ...[
             const SizedBox(height: NbkSpacing.lg),
             Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: NbkSize.detailImageMaxWidth),
-                child: NbkThumbnail(url: thumbnailUrl, height: null),
+                child: NbkThumbnail(url: thumbnail, height: null),
               ),
             ),
           ],

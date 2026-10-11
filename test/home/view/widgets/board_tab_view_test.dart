@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -16,43 +17,45 @@ import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
 class _FakeNurbanRepository implements NurbanRepository {
-  _FakeNurbanRepository({this.createResult = '35'});
+  _FakeNurbanRepository({this.createFailure});
 
-  /// 좋아요 생성 응답. 숫자가 아니면 서버 오류 문자열을 흉내 낸다.
-  final String createResult;
+  /// 있으면 좋아요 생성이 이 실패를 던진다
+  final ApiFailure? createFailure;
   final likes = <(int, bool)>[];
 
   @override
-  Future<String> nurbanLikeCreate({required String token, required int articleId}) async {
+  Future<int> nurbanLikeCreate({required int articleId}) async {
     likes.add((articleId, true));
-    return createResult;
+    final failure = createFailure;
+    if (failure != null) throw failure;
+    return 35;
   }
 
   @override
-  Future<String> nurbanLikeDelete({required String token, required int articleId}) async {
+  Future<int> nurbanLikeDelete({required int articleId}) async {
     likes.add((articleId, false));
-    return '33';
+    return 33;
   }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-BoardAllType _post(int id, {String myRating = 'null', String likeCount = '34'}) => (
+BoardAllType _post(int id, {Reaction myReaction = Reaction.none, int likeCount = 34}) => (
       id: id,
       board: 2,
-      thumbnail: '',
+      thumbnail: null,
       title: '글 $id',
-      lossCut: '${id * 1000}',
+      lossCut: id * 1000,
       content: '본문 $id',
       commentCount: id,
       likeCount: likeCount,
       createdAt: '2026-10-10T10:00:00.000Z',
-      authorId: '1',
+      userId: 1,
       nickname: '작성자 $id',
-      badge: '',
+      badge: null,
       insignia: '[]',
-      myRating: myRating,
+      myReaction: myReaction,
     );
 
 Widget _app({
@@ -118,7 +121,7 @@ void main() {
     testWidgets('네트워크 오류면 오프라인 배너와 오류 상태를 보여주고 다시 시도는 새로 받는다', (tester) async {
       final refreshes = <int>[];
       await tester.pumpWidget(_app(
-        fetchState: DataFetchError('Exception: DioException [connection error]'),
+        fetchState: DataFetchError(const ApiOffline()),
         refreshes: refreshes,
       ));
       await _pumpFrames(tester);
@@ -132,7 +135,7 @@ void main() {
 
     testWidgets('네트워크 오류가 아니면 오프라인 배너는 없다', (tester) async {
       await tester.pumpWidget(_app(
-        fetchState: DataFetchError('Exception: status code of 500'),
+        fetchState: DataFetchError(const ApiHttpFailure(status: 500)),
       ));
       await _pumpFrames(tester);
 
@@ -153,9 +156,9 @@ void main() {
       expect(find.byType(LossCutFab), findsOneWidget);
     });
 
-    testWidgets('좋아요 응답이 숫자가 아니면 오류 토스트를 띄우고 상태·수를 유지하며 다시 누를 수 있다', (tester) async {
+    testWidgets('서버가 좋아요를 거절하면 오류 토스트를 띄우고 상태·수를 유지하며 다시 누를 수 있다', (tester) async {
       SharedPreferences.setMockInitialValues({'__pref_auth_token__': 'token-1'});
-      final repository = _FakeNurbanRepository(createResult: 'error');
+      final repository = _FakeNurbanRepository(createFailure: const ApiServerFailure('already_liked'));
       await tester.pumpWidget(_app(
         fetchState: DataFetchSuccess(),
         items: [_post(1)],
@@ -274,14 +277,14 @@ void main() {
     testWidgets('새로고침한 목록에서 같은 글의 좋아요가 바뀌면 화면에 반영된다', (tester) async {
       await tester.pumpWidget(_app(
         fetchState: DataFetchSuccess(),
-        items: [_post(1, myRating: 'like', likeCount: '34')],
+        items: [_post(1, myReaction: Reaction.like, likeCount: 34)],
       ));
       await _pumpFrames(tester);
       expect(tester.widget<ReactionButton>(find.byType(ReactionButton)).selected, isTrue);
 
       await tester.pumpWidget(_app(
         fetchState: DataFetchSuccess(),
-        items: [_post(1, myRating: 'null', likeCount: '33')],
+        items: [_post(1, myReaction: Reaction.none, likeCount: 33)],
       ));
       await _pumpFrames(tester);
 

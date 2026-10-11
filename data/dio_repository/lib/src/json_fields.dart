@@ -1,3 +1,5 @@
+import 'package:dio_domain/dio_domain.dart';
+
 // 응답 JSON 필드 읽기. 형식이 다르면 FormatException 을 던지고, 저장소가 ApiClient.decode 로 감싸
 // ApiFormatFailure 로 바꾼다. 패키지 내부용이라 배럴에서 export 하지 않는다.
 
@@ -39,3 +41,10 @@ int jsonLossAmount(Object? value) {
 
 /// 없을 수 있는 손실액. 필드가 없거나 null 이면 null, 있으면 [jsonLossAmount] 와 같은 규칙.
 int? jsonLossAmountOrNull(Object? value) => value == null ? null : jsonLossAmount(value);
+
+/// 내 반응(CONTEXT.md "반응"). 와이어 필드 `myRating` 의 'like'·'dislike' 외 값(null·'null' 등)은 반응 없음이다.
+Reaction jsonReaction(Object? value) => switch (value) {
+      'like' => Reaction.like,
+      'dislike' => Reaction.dislike,
+      _ => Reaction.none,
+    };

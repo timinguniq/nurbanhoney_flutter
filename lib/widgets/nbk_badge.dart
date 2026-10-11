@@ -19,9 +19,8 @@ class NbkBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 문자열 'null' 은 아직 ApiClient 로 옮기지 않은 저장소가 null 을 문자열로 주는 경우다(ADR-0001, 이전이 끝나면 삭제).
     final url = this.url;
-    final imageUrl = url == null || url.isEmpty || url == 'null' ? null : url;
+    final imageUrl = url == null || url.isEmpty ? null : url;
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: Container(

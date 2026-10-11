@@ -7,7 +7,7 @@ import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 
 Widget _item({
-  String thumbnailUrl = '',
+  String? thumbnailUrl,
   bool liked = false,
   int likeCount = 34,
   Future<void> Function({required bool like})? onToggleLike,
@@ -48,8 +48,11 @@ void main() {
       expect(find.text('12'), findsOneWidget);
     });
 
-    testWidgets("썸네일 URL 이 비었거나 'null' 이면 썸네일을 그리지 않는다", (tester) async {
-      await tester.pumpWidget(_item(thumbnailUrl: 'null'));
+    testWidgets('썸네일 URL 이 없거나(null) 비었으면 썸네일을 그리지 않는다', (tester) async {
+      await tester.pumpWidget(_item(thumbnailUrl: null));
+      expect(find.byType(NbkThumbnail), findsNothing);
+
+      await tester.pumpWidget(_item(thumbnailUrl: ''));
       expect(find.byType(NbkThumbnail), findsNothing);
 
       await tester.pumpWidget(_item(thumbnailUrl: 'https://example.com/a.png'));

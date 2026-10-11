@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +10,6 @@ import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/utils/utils.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
-import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:uuid/uuid.dart';
 
 /// 글 작성(풀스크린 폼). [board] 는 진입한 홈 탭의 게시판(1 주식, 2 코인)으로 기본 선택된다.
@@ -38,9 +38,6 @@ class ArticleCreatePage extends ConsumerStatefulWidget {
 }
 
 class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
-  static const _emptyToken = '__empty__';
-  static const _posted = {'nurbanboard_posted', 'freeboard_posted'};
-
   late int _board = widget.board;
   final _title = TextEditingController();
   final _loss = TextEditingController();
@@ -64,9 +61,6 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     _content.dispose();
     super.dispose();
   }
-
-  String get _token =>
-      ref.read(preferenceStorageProvider).valueOrNull?.getToken() ?? _emptyToken;
 
   int get _lossAmount => parseLossAmount(_loss.text);
 
@@ -116,22 +110,19 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     final board = _board;
     final uuid = const Uuid().v4();
     setState(() => _uploading = true);
-    String url;
+    String? url;
     try {
       url = board == 2
-          ? await ref.read(freeRepositoryProvider).freeImageUpload(uuid: uuid, token: _token, image: file)
-          : await ref.read(nurbanRepositoryProvider).nurbanImageUpload(uuid: uuid, token: _token, image: file);
-    } catch (e) {
+          ? await ref.read(freeRepositoryProvider).freeImageUpload(uuid: uuid, image: file)
+          : await ref.read(nurbanRepositoryProvider).nurbanImageUpload(uuid: uuid, image: file);
+    } on ApiFailure catch (e) {
       log('image upload error: $e');
-      url = '';
     }
     if (!mounted) return;
-    // 저장소는 실패하면 서버 오류 문자열을 돌려주므로 URL 모양인지 확인한다.
-    final ok = url.startsWith('http');
-    if (!ok) NbkToast.error(Strings.toastPhotoUploadFailed);
+    if (url == null) NbkToast.error(Strings.toastPhotoUploadFailed);
     setState(() {
       _uploading = false;
-      if (ok) {
+      if (url != null) {
         _thumbnail = url;
         _uuid = uuid;
         _uploadBoard = board;
@@ -150,11 +141,11 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
     // 서버의 임시 이미지는 지워 두되, 실패해도 작성에는 영향이 없으므로 조용히 넘어간다.
     try {
       if (board == 2) {
-        await ref.read(freeRepositoryProvider).freeImageDelete(uuid: uuid, token: _token);
+        await ref.read(freeRepositoryProvider).freeImageDelete(uuid: uuid);
       } else {
-        await ref.read(nurbanRepositoryProvider).nurbanImageDelete(uuid: uuid, token: _token);
+        await ref.read(nurbanRepositoryProvider).nurbanImageDelete(uuid: uuid);
       }
-    } catch (e) {
+    } on ApiFailure catch (e) {
       log('image delete error: $e');
     }
   }
@@ -167,35 +158,34 @@ class _ArticleCreatePageState extends ConsumerState<ArticleCreatePage> {
       return;
     }
     setState(() => _submitting = true);
-    String result;
+    final title = _title.text.trim();
+    final content = _content.text.trim();
     try {
-      result = _board == 2
-          ? await ref.read(freeRepositoryProvider).freeArticleCreate(
-                token: _token,
-                title: _title.text.trim(),
-                uuid: _uuid,
-                lossCut: _lossAmount,
-                thumbnail: _thumbnail,
-                content: _content.text.trim(),
-              )
-          : await ref.read(nurbanRepositoryProvider).nurbanArticleCreate(
-                token: _token,
-                title: _title.text.trim(),
-                uuid: _uuid,
-                lossCut: _lossAmount,
-                thumbnail: _thumbnail,
-                content: _content.text.trim(),
-              );
-    } catch (e) {
+      if (_board == 2) {
+        await ref.read(freeRepositoryProvider).freeArticleCreate(
+              title: title,
+              uuid: _uuid,
+              lossCut: _lossAmount,
+              thumbnail: _thumbnail,
+              content: content,
+            );
+      } else {
+        await ref.read(nurbanRepositoryProvider).nurbanArticleCreate(
+              title: title,
+              uuid: _uuid,
+              lossCut: _lossAmount,
+              thumbnail: _thumbnail,
+              content: content,
+            );
+      }
+    } on ApiFailure catch (e) {
       log('article create error: $e');
-      result = '';
-    }
-    if (!mounted) return;
-    if (!_posted.contains(result)) {
+      if (!mounted) return;
       setState(() => _submitting = false);
       NbkToast.error(Strings.toastPostCreateFailed);
       return;
     }
+    if (!mounted) return;
     NbkToast.success(Strings.toastPostCreated);
     // 등록 중에는 _close·폼이 막혀 있어 위에 다른 route 가 없으므로 작성 화면을 바로 닫는다.
     Navigator.of(context).pop(true);

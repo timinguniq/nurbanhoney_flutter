@@ -1,40 +1,17 @@
-import 'dart:developer';
-
 import 'package:dio_repository/dio_repository.dart';
-import 'package:dio_service/dio_service.dart';
+import 'package:dio_service/src/api_client_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final getNurbanArticleProvider =
-    FutureProvider.autoDispose.family<NurbanArticle, int>((ref, articleId) async {
-  final nurbanRepository = ref.watch(nurbanRepositoryProvider);
-  return await nurbanRepository.getNurbanArticle(articleId: articleId);
+/// 글 상세. 토큰은 [apiClientProvider] 가 붙이므로 로그인했으면 내 반응(myReaction)도 온다.
+final getNurbanArticleProvider = FutureProvider.autoDispose.family<NurbanArticle, int>((ref, articleId) {
+  return ref.watch(nurbanRepositoryProvider).getNurbanArticle(articleId: articleId);
 });
 
-final createNurbanLikeProvider =
-    FutureProvider.autoDispose.family<String, (String, int)>(
-        (ref, record) async {
-  final nurbanRepository = ref.watch(nurbanRepositoryProvider);
-  return await nurbanRepository.nurbanLikeCreate(token: record.$1, articleId: record.$2);
-});
-
-final getNurbanAllProvider = FutureProvider.autoDispose.family<List<BoardAllType>, (int, int, int, String?)>((ref, records) async {
-  final nurbanRepository = ref.watch(nurbanRepositoryProvider);
-  return await nurbanRepository.getNurbanAll(flag: records.$1, articleId: records.$2, limit: records.$3, token: records.$4);
-});
-
-final getNurbanCommentsProvider =
-    FutureProvider.autoDispose.family<List<NurbanComment>, int>(
-        (ref, articleId) async {
-  final nurbanRepository = ref.watch(nurbanRepositoryProvider);
-  final commentIdRecords = ref.watch(nurbanCommentIdProvider);
-  log("commentId : ${commentIdRecords.$1}");
-  return await nurbanRepository.getNurbanComments(
-    articleId: articleId,
-    commentId: commentIdRecords.$1,
-    limit: 10,
-  );
+/// 댓글 목록. 기존처럼 처음부터 10개만 받는다(커서 -1).
+final getNurbanCommentsProvider = FutureProvider.autoDispose.family<List<NurbanComment>, int>((ref, articleId) {
+  return ref.watch(nurbanRepositoryProvider).getNurbanComments(articleId: articleId, commentId: -1, limit: 10);
 });
 
 final nurbanRepositoryProvider = Provider<NurbanRepository>((ref) {
-  return NurbanRepository();
+  return NurbanRepository(ref.watch(apiClientProvider));
 });

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,10 +40,6 @@ class ArticleDetailPage extends ConsumerStatefulWidget {
 }
 
 class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
-  static const _emptyToken = '__empty__';
-  static const _articleDeleted = 'nurbanboard_deleted';
-  static const _commentDeleted = 'nurbancomment_deleted';
-
   BannerAd? _bannerAd;
   var _bannerLoaded = false;
   var _notFoundHandled = false;
@@ -74,9 +71,6 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
     super.dispose();
   }
 
-  String get _token =>
-      ref.read(preferenceStorageProvider).valueOrNull?.getToken() ?? _emptyToken;
-
   void _invalidateComments() {
     ref.invalidate(getNurbanCommentsProvider(widget.articleId));
     ref.invalidate(getNurbanArticleProvider(widget.articleId));
@@ -90,21 +84,13 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       confirmLabel: Strings.delete,
     );
     if (!confirmed || !mounted) return;
-    String result;
     try {
-      result = await ref.read(nurbanRepositoryProvider).nurbanArticleDelete(
-            token: _token,
-            articleId: widget.articleId,
-            uuid: uuid,
-          );
-    } catch (_) {
-      result = '';
-    }
-    if (!mounted) return;
-    if (result != _articleDeleted) {
-      NbkToast.error(Strings.toastArticleDeleteFailed);
+      await ref.read(nurbanRepositoryProvider).nurbanArticleDelete(articleId: widget.articleId, uuid: uuid);
+    } on ApiFailure {
+      if (mounted) NbkToast.error(Strings.toastArticleDeleteFailed);
       return;
     }
+    if (!mounted) return;
     NbkToast.success(Strings.toastArticleDeleted);
     Navigator.of(context).pop(true);
   }
@@ -117,29 +103,20 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       confirmLabel: Strings.delete,
     );
     if (!confirmed || !mounted) return;
-    String result;
     try {
-      result = await ref.read(nurbanRepositoryProvider).nurbanCommentDelete(
-            token: _token,
-            commentId: commentId,
-            articleId: widget.articleId,
-          );
-    } catch (_) {
-      result = '';
-    }
-    if (!mounted) return;
-    if (result != _commentDeleted) {
-      NbkToast.error(Strings.toastCommentDeleteFailed);
+      await ref.read(nurbanRepositoryProvider).nurbanCommentDelete(commentId: commentId, articleId: widget.articleId);
+    } on ApiFailure {
+      if (mounted) NbkToast.error(Strings.toastCommentDeleteFailed);
       return;
     }
+    if (!mounted) return;
     NbkToast.success(Strings.toastCommentDeleted);
     _invalidateComments();
   }
 
   /// 댓글 등록. 비로그인이면 로그인 화면으로, 등록되면 true(입력 바가 비운다).
   Future<bool> _createComment(String content) async {
-    final token = _token;
-    if (token == _emptyToken) {
+    if (!(ref.read(preferenceStorageProvider).valueOrNull?.hasToken() ?? false)) {
       await Navigator.of(context).push(LoginPage.route());
       return false;
     }
@@ -148,13 +125,9 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
       return false;
     }
     try {
-      await ref.read(nurbanRepositoryProvider).nurbanCommentCreate(
-            token: token,
-            articleId: widget.articleId,
-            content: content,
-          );
-    } catch (_) {
-      NbkToast.error(Strings.toastCommentCreateFailed);
+      await ref.read(nurbanRepositoryProvider).nurbanCommentCreate(articleId: widget.articleId, content: content);
+    } on ApiFailure {
+      if (mounted) NbkToast.error(Strings.toastCommentCreateFailed);
       return false;
     }
     if (!mounted) return false;
@@ -209,7 +182,7 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
               meta: '${formatDate(data.updatedAt, dotDateTimeFormat)} · '
                   '${Strings.views(data.count.toString())}',
               mine: mine,
-              lossAmount: parseLossAmount(data.lossCut),
+              lossAmount: data.lossCut,
               thumbnailUrl: data.thumbnail,
               content: data.content,
             ),
@@ -227,7 +200,12 @@ class _ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                   : null,
             ),
             const SizedBox(height: NbkSpacing.lg),
-            ReactionBar(articleId: widget.articleId),
+            ReactionBar(
+              articleId: widget.articleId,
+              likeCount: data.likeCount,
+              dislikeCount: data.dislikeCount,
+              myReaction: data.myReaction,
+            ),
             const SizedBox(height: NbkSpacing.xl),
             const SectionBand(),
             CommentSection(

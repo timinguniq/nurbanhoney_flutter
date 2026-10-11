@@ -15,7 +15,7 @@ class CommentItem extends StatelessWidget {
     super.key,
   });
 
-  final String badgeUrl;
+  final String? badgeUrl;
   final String nickname;
   final List<String> insigniaUrls;
   final String content;

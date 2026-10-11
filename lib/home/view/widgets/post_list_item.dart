@@ -23,7 +23,7 @@ class PostListItem extends StatefulWidget {
     super.key,
   });
 
-  final String badgeUrl;
+  final String? badgeUrl;
   final String nickname;
   final List<String> insigniaUrls;
 
@@ -34,7 +34,8 @@ class PostListItem extends StatefulWidget {
   final String body;
 
   /// 비어 있으면 썸네일 영역을 그리지 않는다
-  final String thumbnailUrl;
+  /// 첫 사진 URL. 없으면 null.
+  final String? thumbnailUrl;
   final int likeCount;
   final bool liked;
   final int commentCount;
@@ -62,7 +63,8 @@ class _PostListItemState extends State<PostListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final hasThumbnail = widget.thumbnailUrl.isNotEmpty && widget.thumbnailUrl != 'null';
+    final url = widget.thumbnailUrl;
+    final thumbnail = url == null || url.isEmpty ? null : url;
 
     return InkWell(
       onTap: widget.onTap,
@@ -103,9 +105,9 @@ class _PostListItemState extends State<PostListItem> {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            if (hasThumbnail) ...[
+            if (thumbnail != null) ...[
               const SizedBox(height: NbkSpacing.md),
-              NbkThumbnail(url: widget.thumbnailUrl),
+              NbkThumbnail(url: thumbnail),
             ],
             const SizedBox(height: NbkSpacing.sm),
             Row(

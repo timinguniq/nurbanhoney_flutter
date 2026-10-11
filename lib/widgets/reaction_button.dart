@@ -5,7 +5,7 @@ import 'package:nurbanhoney/theme/theme.dart';
 
 enum ReactionKind { like, dislike }
 
-/// 좋아요/싫어요 카운터. [selected] 는 서버의 `myRating` 으로 초기화한다.
+/// 좋아요/싫어요 카운터. [selected] 는 글의 내 반응(Reaction)으로 초기화한다.
 /// 기본은 목록용 인라인(아이콘 + 숫자), [pill] 이면 상세용 필 버튼('좋아요 35', 높이 44).
 class ReactionButton extends StatelessWidget {
   const ReactionButton.like({

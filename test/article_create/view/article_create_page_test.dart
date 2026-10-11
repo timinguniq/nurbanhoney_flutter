@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +14,18 @@ import 'package:nurbanhoney/widgets/widgets.dart';
 import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
-/// 이미지 업로드·삭제·글 등록만 흉내 내는 주식 저장소
+/// 이미지 업로드·삭제·글 등록만 흉내 내는 주식 저장소. `*Failure` 가 있으면 그 요청이 그 실패를 던진다.
 class _FakeNurbanRepository implements NurbanRepository {
   _FakeNurbanRepository({
-    this.uploadResult = 'https://example.com/a.jpg',
-    this.createResult = 'nurbanboard_posted',
+    this.uploadFailure,
+    this.createFailure,
     this.uploadGate,
     this.createGate,
   });
 
-  final String uploadResult;
-  final String createResult;
+  static const uploadResult = 'https://example.com/a.jpg';
+  final ApiFailure? uploadFailure;
+  final ApiFailure? createFailure;
 
   /// 있으면 업로드·등록 응답을 이 Completer 가 끝날 때까지 미룬다(진행 중 상태를 보기 위해)
   final Completer<void>? uploadGate;
@@ -32,23 +34,23 @@ class _FakeNurbanRepository implements NurbanRepository {
   Map<String, Object?>? created;
 
   @override
-  Future<String> nurbanImageUpload({required String uuid, required String token, required File image}) async {
+  Future<String> nurbanImageUpload({required String uuid, required File image}) async {
     calls.add('upload:$uuid');
     await uploadGate?.future;
+    final failure = uploadFailure;
+    if (failure != null) throw failure;
     // 업로드마다 다른 URL 을 돌려줘 교체한 사진으로 등록되는지 가릴 수 있게 한다.
     final uploads = calls.where((c) => c.startsWith('upload:')).length;
     return uploads == 1 ? uploadResult : '$uploadResult?v=$uploads';
   }
 
   @override
-  Future<String> nurbanImageDelete({required String uuid, required String token}) async {
+  Future<void> nurbanImageDelete({required String uuid}) async {
     calls.add('delete:$uuid');
-    return 'deleted';
   }
 
   @override
-  Future<String> nurbanArticleCreate({
-    required String token,
+  Future<void> nurbanArticleCreate({
     required String title,
     required String uuid,
     required int lossCut,
@@ -58,7 +60,8 @@ class _FakeNurbanRepository implements NurbanRepository {
     calls.add('create');
     created = {'title': title, 'uuid': uuid, 'lossCut': lossCut, 'thumbnail': thumbnail, 'content': content};
     await createGate?.future;
-    return createResult;
+    final failure = createFailure;
+    if (failure != null) throw failure;
   }
 
   @override
@@ -70,14 +73,13 @@ class _FakeFreeRepository implements FreeRepository {
   final calls = <String>[];
 
   @override
-  Future<String> freeImageUpload({required String uuid, required String token, required File image}) async {
+  Future<String> freeImageUpload({required String uuid, required File image}) async {
     calls.add('upload');
     return 'https://example.com/coin.jpg';
   }
 
   @override
-  Future<String> freeArticleCreate({
-    required String token,
+  Future<void> freeArticleCreate({
     required String title,
     required String uuid,
     required int lossCut,
@@ -85,7 +87,6 @@ class _FakeFreeRepository implements FreeRepository {
     required String content,
   }) async {
     calls.add('create');
-    return 'freeboard_posted';
   }
 
   @override
@@ -238,7 +239,7 @@ void main() {
     });
 
     testWidgets('업로드가 실패하면 오류 토스트를 띄우고 사진 추가 상자로 돌아간다', (tester) async {
-      await pumpTall(tester, _app(nurban: _FakeNurbanRepository(uploadResult: 'server error')));
+      await pumpTall(tester, _app(nurban: _FakeNurbanRepository(uploadFailure: const ApiServerFailure('too_large'))));
       await _open(tester);
 
       await tester.tap(find.text(Strings.photoAdd));
@@ -287,7 +288,7 @@ void main() {
     });
 
     testWidgets('등록에 실패하면 오류 토스트를 띄우고 폼은 그대로다', (tester) async {
-      await pumpTall(tester, _app(nurban: _FakeNurbanRepository(createResult: 'error')));
+      await pumpTall(tester, _app(nurban: _FakeNurbanRepository(createFailure: const ApiServerFailure('invalid'))));
       await _open(tester);
       await _fillAll(tester);
 

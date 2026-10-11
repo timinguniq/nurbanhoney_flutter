@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,16 +21,16 @@ typedef BoardPost = ({
   int board,
   String? thumbnail,
   String title,
-  String lossCut,
+  int lossCut,
   String content,
   int commentCount,
-  String likeCount,
+  int likeCount,
   String createdAt,
-  String authorId,
+  int userId,
   String nickname,
-  String badge,
+  String? badge,
   String insignia,
-  String myRating,
+  Reaction myReaction,
 });
 
 /// 홈 게시판 목록 UI. 주식·코인 탭이 ViewModel 만 다르게 해서 공유한다(ViewModel 상태는 밖에서 받는다).
@@ -59,8 +60,6 @@ class BoardTabView extends ConsumerStatefulWidget {
 }
 
 class _BoardTabViewState extends ConsumerState<BoardTabView> {
-  static const _emptyToken = '__empty__';
-
   /// 목록에서 누른 좋아요 결과(글 id → 상태). 서버 목록은 ViewModel 이 갖고 있어 여기서 덮어 보여주고,
   /// 새로고침이 끝나면 그 새로고침보다 먼저 끝난 것만 비워 서버 값으로 돌아간다(더 받기는 유지).
   /// [generation] 은 좋아요 응답이 끝난 시점의 [_refreshGeneration] 이라, 새로고침 중에 끝난 좋아요는 남는다.
@@ -79,25 +78,23 @@ class _BoardTabViewState extends ConsumerState<BoardTabView> {
 
   /// 좋아요 생성·취소. 성공하면 돌려받은 새 좋아요 수로 그 글의 표시를 덮는다. 비로그인·실패면 안내 토스트.
   Future<void> _toggleLike(int articleId, {required bool like}) async {
-    final token = ref.read(preferenceStorageProvider).valueOrNull?.getToken() ?? _emptyToken;
-    if (token == _emptyToken) {
+    if (!(ref.read(preferenceStorageProvider).valueOrNull?.hasToken() ?? false)) {
       NbkToast.info(Strings.toastLoginRequired);
       return;
     }
     final repository = ref.read(nurbanRepositoryProvider);
-    int? count;
+    final int count;
     try {
-      final result = like
-          ? await repository.nurbanLikeCreate(token: token, articleId: articleId)
-          : await repository.nurbanLikeDelete(token: token, articleId: articleId);
-      count = int.tryParse(result);
-      if (count == null) NbkToast.error(Strings.toastLikeFailed);
-    } catch (_) {
-      NbkToast.error(Strings.toastNetworkError);
+      count = like
+          ? await repository.nurbanLikeCreate(articleId: articleId)
+          : await repository.nurbanLikeDelete(articleId: articleId);
+    } on ApiFailure catch (e) {
+      NbkToast.error(isNetworkError(e) ? Strings.toastNetworkError : Strings.toastLikeFailed);
+      return;
     }
-    if (count == null || !mounted) return;
+    if (!mounted) return;
     setState(() {
-      _likeOverrides[articleId] = (liked: like, count: count!, generation: _refreshGeneration);
+      _likeOverrides[articleId] = (liked: like, count: count, generation: _refreshGeneration);
     });
   }
 
@@ -119,7 +116,7 @@ class _BoardTabViewState extends ConsumerState<BoardTabView> {
 
   @override
   Widget build(BuildContext context) {
-    // 좋아요를 누를 때 토큰을 바로 읽을 수 있게 저장소를 미리 받아 둔다.
+    // 좋아요를 누를 때 로그인 여부를 바로 읽을 수 있게 저장소를 미리 받아 둔다.
     ref.watch(preferenceStorageProvider);
     final state = widget.fetchState;
     if (state is DataFetchError) {
@@ -183,12 +180,12 @@ class _BoardTabViewState extends ConsumerState<BoardTabView> {
                       nickname: item.nickname,
                       insigniaUrls: toInsignia(item.insignia),
                       timeLabel: formatRelativeTime(item.createdAt),
-                      lossAmount: parseLossAmount(item.lossCut),
+                      lossAmount: item.lossCut,
                       title: item.title,
                       body: item.content,
-                      thumbnailUrl: item.thumbnail ?? '',
-                      likeCount: like?.count ?? int.tryParse(item.likeCount) ?? 0,
-                      liked: like?.liked ?? item.myRating == 'like',
+                      thumbnailUrl: item.thumbnail,
+                      likeCount: like?.count ?? item.likeCount,
+                      liked: like?.liked ?? item.myReaction == Reaction.like,
                       commentCount: item.commentCount,
                       onTap: () => _openArticle(item),
                       onToggleLike: ({required bool like}) => _toggleLike(item.id, like: like),

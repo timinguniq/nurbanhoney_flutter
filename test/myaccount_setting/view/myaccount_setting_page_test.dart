@@ -57,7 +57,6 @@ class _FakeNurbanRepository implements NurbanRepository {
     required int flag,
     required int articleId,
     required int limit,
-    required String? token,
   }) async =>
       [];
 

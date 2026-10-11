@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,10 +18,7 @@ import 'package:share_service/share_service.dart';
 /// 로그인한 내 계정: 프로필 블록 → 활동 요약 → '내 글 | 내 댓글' 탭 → 목록(offset 10개씩 무한 스크롤).
 /// 당겨서 새로고침하면 프로필과 두 목록을 모두 다시 받는다.
 class AccountProfileView extends ConsumerStatefulWidget {
-  const AccountProfileView({required this.token, super.key});
-
-  /// 댓글 삭제(nurban 저장소)에만 쓴다. 그 저장소도 ApiClient 로 옮기면 없앤다(ADR-0001).
-  final String token;
+  const AccountProfileView({super.key});
 
   @override
   ConsumerState<AccountProfileView> createState() => _AccountProfileViewState();
@@ -28,7 +26,6 @@ class AccountProfileView extends ConsumerStatefulWidget {
 
 class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
   static const _pageSize = 10;
-  static const _commentDeleted = 'nurbancomment_deleted';
 
   var _tab = 0;
   var _articleOffsets = <int>[0];
@@ -58,21 +55,13 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
     );
     if (!confirmed || !mounted) return;
 
-    String result;
     try {
-      result = await ref.read(nurbanRepositoryProvider).nurbanCommentDelete(
-            token: widget.token,
-            commentId: commentId,
-            articleId: articleId,
-          );
-    } catch (_) {
-      result = '';
-    }
-    if (!mounted) return;
-    if (result != _commentDeleted) {
-      NbkToast.error(Strings.toastCommentDeleteFailed);
+      await ref.read(nurbanRepositoryProvider).nurbanCommentDelete(commentId: commentId, articleId: articleId);
+    } on ApiFailure {
+      if (mounted) NbkToast.error(Strings.toastCommentDeleteFailed);
       return;
     }
+    if (!mounted) return;
     NbkToast.success(Strings.toastCommentDeleted);
     setState(() => _commentOffsets = [0]);
     ref.invalidate(getProfileCommentProvider);

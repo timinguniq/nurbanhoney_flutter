@@ -8,7 +8,8 @@ abstract class DataFetchStatus {}
 class DataFetchError extends DataFetchStatus {
   DataFetchError(this.error);
 
-  final String error;
+  /// 저장소가 던진 오류 그대로(보통 ApiFailure). 화면은 `errorCodeOf`·`isNetworkError` 로만 읽고 문자열을 보이지 않는다.
+  final Object error;
 }
 
 class DataFetching extends DataFetchStatus {}
