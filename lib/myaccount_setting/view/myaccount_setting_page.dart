@@ -1,5 +1,6 @@
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,8 +31,6 @@ class MyaccountSettingPage extends ConsumerStatefulWidget {
 }
 
 class _MyaccountSettingPageState extends ConsumerState<MyaccountSettingPage> {
-  static const _emptyToken = '__empty__';
-  static const _withdrawn = 'profile_withdrawal';
   static final _comma = NumberFormat('#,###');
 
   /// 로그아웃·탈퇴 요청 중. 이 동안은 뒤로 가기를 막는다(세션 정리가 끝나기 전에 화면을 떠나지 않게).
@@ -85,13 +84,9 @@ class _MyaccountSettingPageState extends ConsumerState<MyaccountSettingPage> {
     final storageFuture = ref.read(preferenceStorageProvider.future);
     try {
       final storage = await storageFuture;
-      String result;
       try {
-        result = await repository.myaccountWithdrawal(token: storage.getToken(), userId: userId);
-      } catch (_) {
-        result = '';
-      }
-      if (result != _withdrawn) {
+        await repository.myaccountWithdrawal(userId: userId);
+      } on ApiFailure {
         if (mounted) NbkToast.error(Strings.toastWithdrawFailed);
         return;
       }
@@ -107,8 +102,7 @@ class _MyaccountSettingPageState extends ConsumerState<MyaccountSettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final token = ref.watch(preferenceStorageProvider).valueOrNull?.getToken() ?? _emptyToken;
-    final profile = ref.watch(getProfileProvider(token));
+    final profile = ref.watch(getProfileProvider);
 
     return PopScope(
       canPop: !_busy,

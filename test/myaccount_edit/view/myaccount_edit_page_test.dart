@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -9,24 +10,21 @@ import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/myaccount_edit/myaccount_edit.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
-import 'package:preference_storage/preference_storage.dart';
-import 'package:preference_storage_service/preference_storage_service.dart';
 
 /// 프로필 수정 요청만 흉내 내는 저장소
 class _FakeProfileRepository implements ProfileRepository {
-  _FakeProfileRepository({this.result = 'profile_updated', this.gate, this.throws = false});
+  _FakeProfileRepository({this.failure, this.gate});
 
-  final String result;
+  /// 있으면 저장 요청이 이 실패를 던진다
+  final ApiFailure? failure;
 
   /// 있으면 저장 응답을 이 Completer 가 끝날 때까지 미룬다
   final Completer<void>? gate;
-  final bool throws;
   Map<String, String>? edited;
   var calls = 0;
 
   @override
-  Future<String> profileEdit({
-    required String token,
+  Future<void> profileEdit({
     required String nickname,
     required String description,
     required String insignia,
@@ -34,8 +32,8 @@ class _FakeProfileRepository implements ProfileRepository {
     calls++;
     edited = {'nickname': nickname, 'description': description, 'insignia': insignia};
     await gate?.future;
-    if (throws) throw Exception('connection error');
-    return result;
+    final failure = this.failure;
+    if (failure != null) throw failure;
   }
 
   @override
@@ -46,7 +44,7 @@ const _a = 'https://example.com/insignia/0.png';
 const _b = 'https://example.com/insignia/1.png';
 const _c = 'https://example.com/insignia/2.png';
 
-ProfileType _profile({String show = '[$_a]', String description = '장기투자자였는데'}) => (
+ProfileType _profile({String show = '[$_a]', String? description = '장기투자자였는데'}) => (
       id: 7,
       loginType: 'kakao',
       createdAt: null,
@@ -63,10 +61,7 @@ ProfileType _profile({String show = '[$_a]', String description = '장기투자�
 Widget _app({ProfileType? profile, _FakeProfileRepository? repository, List<int>? profileFetches}) {
   return ProviderScope(
     overrides: [
-      preferenceStorageProvider.overrideWith(
-        (ref) async => PreferenceStorage(plugin: await SharedPreferences.getInstance()),
-      ),
-      getProfileProvider.overrideWith((ref, token) async {
+      getProfileProvider.overrideWith((ref) async {
         profileFetches?.add(1);
         return profile ?? _profile();
       }),
@@ -109,7 +104,6 @@ Finder _ownedTile(int index) => find.descendant(
     ).at(index);
 
 void main() {
-  setUp(() => SharedPreferences.setMockInitialValues({'__pref_auth_token__': 'token-1'}));
   tearDown(NbkToast.hide);
 
   group('MyaccountEditPage', () {
@@ -174,8 +168,8 @@ void main() {
       expect(tileMaterial(0).color, NbkColors.bg);
     });
 
-    testWidgets("소개가 'null' 이면 빈칸으로 채운다", (tester) async {
-      await tester.pumpWidget(_app(profile: _profile(description: 'null')));
+    testWidgets('소개가 없으면(null) 빈칸으로 채운다', (tester) async {
+      await tester.pumpWidget(_app(profile: _profile(description: null)));
       await _open(tester);
 
       expect(find.text('null'), findsNothing);
@@ -216,7 +210,7 @@ void main() {
       await _open(tester);
       // 실제 앱에서는 내 계정 탭이 프로필을 계속 구독한다. 저장 후 다시 받는지 보기 위해 구독을 잡아 둔다.
       final container = ProviderScope.containerOf(tester.element(find.byType(MyaccountEditPage)));
-      final profile = container.listen(getProfileProvider('token-1'), (_, __) {});
+      final profile = container.listen(getProfileProvider, (_, __) {});
       addTearDown(profile.close);
       final fetchesBefore = fetches.length;
 
@@ -275,8 +269,8 @@ void main() {
       expect(find.byType(MyaccountEditPage), findsNothing);
     });
 
-    testWidgets('저장 요청이 예외를 던지면 실패 토스트를 띄우고 다시 저장할 수 있다', (tester) async {
-      final repository = _FakeProfileRepository(throws: true);
+    testWidgets('저장 요청이 네트워크 오류로 실패하면 실패 토스트를 띄우고 다시 저장할 수 있다', (tester) async {
+      final repository = _FakeProfileRepository(failure: const ApiOffline());
       await tester.pumpWidget(_app(repository: repository));
       await _open(tester);
 
@@ -291,8 +285,8 @@ void main() {
       await tester.pump(const Duration(seconds: 3));
     });
 
-    testWidgets('저장에 실패하면 오류 토스트를 띄우고 화면은 그대로다', (tester) async {
-      await tester.pumpWidget(_app(repository: _FakeProfileRepository(result: 'error')));
+    testWidgets('서버가 저장을 거절하면 오류 토스트를 띄우고 화면은 그대로다', (tester) async {
+      await tester.pumpWidget(_app(repository: _FakeProfileRepository(failure: const ApiServerFailure('nickname_duplicated'))));
       await _open(tester);
 
       await tester.tap(find.text(Strings.save));

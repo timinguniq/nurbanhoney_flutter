@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -28,19 +29,21 @@ class _FakeAuthentication extends AuthenticationService {
 
 /// 탈퇴만 흉내 내는 프로필 저장소
 class _FakeProfileRepository implements ProfileRepository {
-  _FakeProfileRepository({this.result = 'profile_withdrawal', this.gate});
+  _FakeProfileRepository({this.failure, this.gate});
 
-  final String result;
+  /// 있으면 탈퇴 요청이 이 실패를 던진다
+  final ApiFailure? failure;
 
   /// 있으면 탈퇴 응답을 이 Completer 가 끝날 때까지 미룬다
   final Completer<void>? gate;
   final withdrawals = <int>[];
 
   @override
-  Future<String> myaccountWithdrawal({required String token, required int userId}) async {
+  Future<void> myaccountWithdrawal({required int userId}) async {
     withdrawals.add(userId);
     await gate?.future;
-    return result;
+    final failure = this.failure;
+    if (failure != null) throw failure;
   }
 
   @override
@@ -103,7 +106,7 @@ Widget _app({
             ? storage()
             : SharedPreferences.getInstance().then((p) => PreferenceStorage(plugin: p)),
       ),
-      getProfileProvider.overrideWith((ref, token) async {
+      getProfileProvider.overrideWith((ref) async {
         if (profileError != null) throw profileError;
         return profile ?? _profile();
       }),
@@ -307,7 +310,7 @@ void main() {
     });
 
     testWidgets('탈퇴에 실패하면 토스트를 띄우고 화면·토큰은 그대로다', (tester) async {
-      await tester.pumpWidget(_app(repository: _FakeProfileRepository(result: 'error')));
+      await tester.pumpWidget(_app(repository: _FakeProfileRepository(failure: const ApiServerFailure('not_owner'))));
       await _open(tester);
 
       await tester.tap(find.text(Strings.withdraw));

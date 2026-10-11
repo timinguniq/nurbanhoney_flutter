@@ -28,3 +28,14 @@ String jsonString(Object? value) {
 
 /// 없을 수 있는 문자열. null 은 문자열 `'null'` 이 아니라 null 로 읽는다.
 String? jsonStringOrNull(Object? value) => value == null ? null : jsonString(value);
+
+/// 손실액(원 단위 정수, CONTEXT.md "손실액"). 서버가 정수·숫자 문자열·콤마나 부호가 섞인 문자열로 줄 수 있어
+/// 숫자 외 문자를 버리고 읽는다. 숫자가 없거나 null 이면 0 이다(기존 화면의 `parseLossAmount` 와 같은 규칙).
+int jsonLossAmount(Object? value) {
+  if (value is int) return value.abs();
+  final digits = (value?.toString() ?? '').replaceAll(RegExp(r'[^0-9]'), '');
+  return digits.isEmpty ? 0 : int.parse(digits);
+}
+
+/// 없을 수 있는 손실액. 필드가 없거나 null 이면 null, 있으면 [jsonLossAmount] 와 같은 규칙.
+int? jsonLossAmountOrNull(Object? value) => value == null ? null : jsonLossAmount(value);

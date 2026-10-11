@@ -9,7 +9,7 @@ import 'package:dio_domain/dio_domain.dart';
 typedef TokenReader = Future<String?> Function();
 
 /// HTTP 메서드. Dio 에는 대문자 이름으로 넘긴다.
-enum ApiMethod { get, post, put, delete }
+enum ApiMethod { get, post, put, patch, delete }
 
 /// 모든 저장소가 거치는 HTTP 클라이언트 하나(ADR-0001).
 ///

@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +7,6 @@ import 'package:nurbanhoney/myaccount_edit/view/widgets/widgets.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/utils/utils.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
-import 'package:preference_storage_service/preference_storage_service.dart';
 import 'package:share_service/share_service.dart';
 
 /// 프로필 수정(풀스크린 폼). 닉네임(8자)·소개(100자)·닉네임 옆에 보이는 휘장(최대 2개)을 고친다.
@@ -29,9 +29,6 @@ class MyaccountEditPage extends ConsumerStatefulWidget {
 }
 
 class _MyaccountEditPageState extends ConsumerState<MyaccountEditPage> {
-  static const _emptyToken = '__empty__';
-  static const _updated = 'profile_updated';
-
   final _nickname = TextEditingController();
   final _intro = TextEditingController();
 
@@ -48,11 +45,11 @@ class _MyaccountEditPageState extends ConsumerState<MyaccountEditPage> {
     super.dispose();
   }
 
-  void _fillOnce(String nickname, String description, List<String> shown) {
+  void _fillOnce(String nickname, String? description, List<String> shown) {
     if (_filled) return;
     _filled = true;
     _nickname.text = nickname;
-    _intro.text = description == 'null' ? '' : description;
+    _intro.text = description ?? '';
     // 예전 화면은 개수를 제한하지 않아 3개 이상 저장된 계정이 있을 수 있다. 중복을 빼고 앞 2개만 쓴다.
     _shown.addAll(
       shown.where((url) => url.isNotEmpty).toSet().take(MyaccountEditPage.maxShownInsignia),
@@ -72,7 +69,7 @@ class _MyaccountEditPageState extends ConsumerState<MyaccountEditPage> {
     });
   }
 
-  Future<void> _save(String token) async {
+  Future<void> _save() async {
     final nickname = _nickname.text.trim();
     if (nickname.isEmpty) {
       setState(() => _showNicknameError = true);
@@ -81,24 +78,20 @@ class _MyaccountEditPageState extends ConsumerState<MyaccountEditPage> {
     }
     if (_saving) return;
     setState(() => _saving = true);
-    String result;
     try {
-      result = await ref.read(profileRepositoryProvider).profileEdit(
-            token: token,
+      await ref.read(profileRepositoryProvider).profileEdit(
             nickname: nickname,
             description: _intro.text.trim(),
             // 서버는 기존처럼 Set.toString() 형식('{url1, url2}')을 받는다.
             insignia: _shown.toSet().toString(),
           );
-    } catch (_) {
-      result = '';
-    }
-    if (!mounted) return;
-    if (result != _updated) {
+    } on ApiFailure {
+      if (!mounted) return;
       setState(() => _saving = false);
       NbkToast.error(Strings.toastProfileSaveFailed);
       return;
     }
+    if (!mounted) return;
     NbkToast.success(Strings.toastProfileSaved);
     ref.invalidate(getProfileProvider);
     Navigator.of(context).pop();
@@ -106,8 +99,7 @@ class _MyaccountEditPageState extends ConsumerState<MyaccountEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    final token = ref.watch(preferenceStorageProvider).valueOrNull?.getToken() ?? _emptyToken;
-    final profile = ref.watch(getProfileProvider(token));
+    final profile = ref.watch(getProfileProvider);
     final toInsignia = ref.read(convertToInsignia);
 
     return Scaffold(
@@ -117,7 +109,7 @@ class _MyaccountEditPageState extends ConsumerState<MyaccountEditPage> {
         actions: [
           NbkPillButton(
             label: Strings.save,
-            onPressed: profile.hasValue && !_saving ? () => _save(token) : null,
+            onPressed: profile.hasValue && !_saving ? _save : null,
           ),
         ],
       ),

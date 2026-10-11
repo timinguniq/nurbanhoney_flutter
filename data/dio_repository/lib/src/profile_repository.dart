@@ -1,14 +1,16 @@
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
-import 'package:dio_domain/dio_domain.dart';
+import 'package:dio_repository/src/api_client.dart';
+import 'package:dio_repository/src/json_fields.dart';
 
 typedef ProfileType = ({
   int id,
   String loginType,
-  String badge,
+
+  /// 배지 이미지 URL. 없으면 null.
+  String? badge,
   String nickname,
-  String description,
+
+  /// 자기 소개. 입력한 적이 없으면 null.
+  String? description,
   int point,
   String insigniaShow,
   String insigniaOwn,
@@ -22,14 +24,16 @@ typedef ProfileType = ({
 typedef ProfileArticleType = ({
   int id,
   int board,
-  String thumbnail,
+
+  /// 첫 이미지 URL. 없으면 null.
+  String? thumbnail,
   String title,
   int count,
   int commentCount,
   String createdAt,
 
-  /// 손실액 원문(목록 API 와 같은 문자열). 서버가 추가하기 전에는 null.
-  String? lossCut,
+  /// 손실액(원). 서버가 추가하기 전에는 null.
+  int? lossCut,
 });
 
 typedef ProfileCommentType = ({
@@ -41,273 +45,99 @@ typedef ProfileCommentType = ({
   int articleId,
 });
 
+/// 내 프로필·내 글·내 댓글·탈퇴, 그리고 약관·개인정보 처리방침 본문.
 class ProfileRepository {
-  /// constructor
-  ProfileRepository._privateConstructor();
+  ProfileRepository(this._client);
 
-  static final ProfileRepository _instance =
-      ProfileRepository._privateConstructor();
+  final ApiClient _client;
 
-  factory ProfileRepository() {
-    return _instance;
+  Future<ProfileType> getProfile() async {
+    final body = await _client.get('/profile/');
+    return ApiClient.decode(() {
+      final json = jsonMap(body);
+      return (
+        id: jsonInt(json['id']),
+        loginType: jsonString(json['loginType']),
+        badge: jsonStringOrNull(json['badge']),
+        nickname: jsonString(json['nickname']),
+        description: jsonStringOrNull(json['description']),
+        point: jsonInt(json['point']),
+        insigniaShow: jsonString(json['insigniaShow']),
+        insigniaOwn: jsonString(json['insigniaOwn']),
+        myArticleCount: jsonInt(json['myArticleCount']),
+        myCommentCount: jsonInt(json['myCommentCount']),
+        createdAt: jsonStringOrNull(json['createdAt']),
+      );
+    });
   }
 
-  final dio = Dio();
-
-  // getProfile
-  Future<ProfileType> getProfile({
-    required String token,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/profile',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.get('/');
-
-      log('getProfile response: ${response.data}');
-
-      final result = (
-        id: int.parse(response.data['id'].toString()),
-        loginType: response.data['loginType'].toString(),
-        badge: response.data['badge'].toString(),
-        nickname: response.data['nickname'].toString(),
-        description: response.data['description'].toString(),
-        point: int.parse(response.data['point'].toString()),
-        insigniaShow: response.data['insigniaShow'].toString(),
-        insigniaOwn: response.data['insigniaOwn'].toString(),
-        myArticleCount: int.parse(response.data['myArticleCount'].toString()),
-        myCommentCount: int.parse(response.data['myCommentCount'].toString()),
-        createdAt: response.data['createdAt']?.toString(),
-      );
-      log('getProfile result: ${result.toString()}');
-
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } catch (e) {
-      log('getProfile error : $e');
-      throw Exception(e);
-    }
-  }
-
-  // getProfileEdit
-  Future<String> profileEdit({
-    required String token,
+  /// [insignia] 는 서버가 받는 원문 형식 그대로다(지금은 `Set.toString()` 의 `'{url1, url2}'`).
+  Future<void> profileEdit({
     required String nickname,
     required String description,
     required String insignia,
-  }) async {
-    try {
-      log('profileEdit insignia: $insignia');
-
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/profile/edit',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
+  }) =>
+      _client.expectResult(
+        ApiMethod.patch,
+        '/profile/edit/',
+        data: {'nickname': nickname, 'description': description, 'insignia': insignia},
+        result: 'profile_updated',
       );
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.patch(
-        '/',
-        data: {
-          'nickname': nickname,
-          'description': description,
-          'insignia': insignia,
-        },
-      );
-
-      log('profileEdit response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('profileEdit error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('profileEdit error : $e');
-      throw Exception(e);
-    }
+  Future<List<ProfileArticleType>> getMyaccountArticle({required int offset, required int limit}) async {
+    final body = await _client.get('/profile/myarticle/', query: {'offset': offset, 'limit': limit});
+    return ApiClient.decode(() => [
+          for (final item in jsonList(body))
+            () {
+              final json = jsonMap(item);
+              return (
+                id: jsonInt(json['id']),
+                board: jsonInt(json['board']),
+                thumbnail: jsonStringOrNull(json['thumbnail']),
+                title: jsonString(json['title']),
+                count: jsonInt(json['count']),
+                commentCount: jsonInt(json['commentCount']),
+                createdAt: jsonString(json['createdAt']),
+                lossCut: jsonLossAmountOrNull(json['lossCut']),
+              );
+            }(),
+        ]);
   }
 
-  Future<List<ProfileArticleType>> getMyaccountArticle({
-    required String token,
-    required int offset,
-    required int limit,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/profile/myarticle',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.get(
-        '/',
-        queryParameters: {
-          'offset': offset,
-          'limit': limit,
-        },
-      );
-
-      final result = <ProfileArticleType>[];
-      for (int i = 0; i < response.data.length; i++) {
-        log('getBoardAll response: ${response.data[i]}');
-        final records = (
-          id: int.parse(response.data[i]['id'].toString()),
-          board: int.parse(response.data[i]['board'].toString()),
-          thumbnail: response.data[i]['thumbnail'].toString(),
-          title: response.data[i]['title'].toString(),
-          count: int.parse(response.data[i]['count'].toString()),
-          commentCount: int.parse(response.data[i]['commentCount'].toString()),
-          createdAt: response.data[i]['createdAt'].toString(),
-          lossCut: response.data[i]['lossCut']?.toString(),
-        );
-        // result.add(BoardModel.fromJson(response.data[i]));
-        result.add(records);
-      }
-      log('getBoardAll response: ${response.data.toString()}');
-
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } catch (e) {
-      log('getBoardAll error : $e');
-      throw Exception(e);
-    }
+  Future<List<ProfileCommentType>> getMyaccountComment({required int offset, required int limit}) async {
+    final body = await _client.get('/profile/mycomment/', query: {'offset': offset, 'limit': limit});
+    return ApiClient.decode(() => [
+          for (final item in jsonList(body))
+            () {
+              final json = jsonMap(item);
+              final location = jsonMap(json['location']);
+              return (
+                id: jsonInt(json['id']),
+                board: jsonInt(json['board']),
+                title: jsonString(location['title']),
+                content: jsonString(json['content']),
+                createdAt: jsonString(json['createdAt']),
+                articleId: jsonInt(location['articleId']),
+              );
+            }(),
+        ]);
   }
 
-  Future<List<ProfileCommentType>> getMyaccountComment({
-    required String token,
-    required int offset,
-    required int limit,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/profile/mycomment',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
+  Future<void> myaccountWithdrawal({required int userId}) => _client.expectResult(
+        ApiMethod.delete,
+        '/profile/withdrawal/',
+        data: {'id': userId},
+        result: 'profile_withdrawal',
       );
 
-      final authDio = Dio(baseOptions);
-      final response = await authDio.get(
-        '/',
-        queryParameters: {
-          'offset': offset,
-          'limit': limit,
-        },
-      );
+  /// 이용약관 본문.
+  Future<String> myaccountTerms() => _document('/information/terms');
 
-      final result = <ProfileCommentType>[];
-      for (int i = 0; i < response.data.length; i++) {
-        log('Mycomment response: ${response.data[i]}');
-        final records = (
-          id: int.parse(response.data[i]['id'].toString()),
-          board: int.parse(response.data[i]['board'].toString()),
-          title: response.data[i]['location']['title'].toString(),
-          content: response.data[i]['content'].toString(),
-          createdAt: response.data[i]['createdAt'].toString(),
-          articleId:
-              int.parse(response.data[i]['location']['articleId'].toString())
-        );
-        // result.add(BoardModel.fromJson(response.data[i]));
-        result.add(records);
-      }
-      log('Mycomment response: ${response.data.toString()}');
+  /// 개인정보 처리방침 본문.
+  Future<String> myaccountPrivacy() => _document('/information/privacy');
 
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } catch (e) {
-      log('Mycomment error : $e');
-      throw Exception(e);
-    }
-  }
-
-  Future<String> myaccountWithdrawal({
-    required String token,
-    required int userId,
-  }) async {
-    try {
-      final baseOptions = BaseOptions(
-        baseUrl: '${DioMainApi.mainApi}/profile/withdrawal',
-        headers: {'Authorization': 'Bearer $token'},
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      );
-
-      final authDio = Dio(baseOptions);
-      final response = await authDio.delete(
-        '/',
-        data: {
-          'id': userId,
-        },
-      );
-
-      log('withdrawal response: ${response.data}');
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      log('withdrawal error: $error');
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('withdrawal error : $e');
-      throw Exception(e);
-    }
-  }
-
-  // 이용약관 가져오는 메소드
-  Future<String> myaccountTerms() async {
-    try {
-      final response = await dio.get(
-        '${DioMainApi.mainApi}/information/terms',
-      );
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      log('result: $result');
-      return await futureValue;
-    } catch (e) {
-      log('myaccountTerms error : $e');
-      throw Exception(e);
-    }
-  }
-
-  // 개인정보 처리방침 가져오는 메소드
-  Future<String> myaccountPrivacy() async {
-    try {
-      final response = await dio.get(
-        '${DioMainApi.mainApi}/information/privacy',
-      );
-
-      final result = response.data['result'].toString();
-      final error = response.data['error'];
-
-      final futureValue =
-          error != null ? Future.value(error.toString()) : Future.value(result);
-
-      return await futureValue;
-    } catch (e) {
-      log('myaccountPrivacy error : $e');
-      throw Exception(e);
-    }
+  Future<String> _document(String path) async {
+    final result = await _client.command(ApiMethod.get, path);
+    return ApiClient.decode(() => jsonString(result));
   }
 }

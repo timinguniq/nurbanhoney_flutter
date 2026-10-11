@@ -19,6 +19,7 @@ import 'package:share_service/share_service.dart';
 class AccountProfileView extends ConsumerStatefulWidget {
   const AccountProfileView({required this.token, super.key});
 
+  /// 댓글 삭제(nurban 저장소)에만 쓴다. 그 저장소도 ApiClient 로 옮기면 없앤다(ADR-0001).
   final String token;
 
   @override
@@ -42,7 +43,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
     ref.invalidate(getProfileCommentProvider);
     ref.invalidate(getProfileProvider);
     try {
-      await ref.read(getProfileProvider(widget.token).future);
+      await ref.read(getProfileProvider.future);
     } catch (_) {
       // 오류는 build 의 ErrorState 가 보여준다.
     }
@@ -109,7 +110,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(getProfileProvider(widget.token));
+    final profile = ref.watch(getProfileProvider);
 
     return profile.when(
       loading: () => const AccountProfileSkeleton(),
@@ -120,8 +121,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
       data: (data) {
         final List<String> insignias =
             ref.read(convertToInsignia)(data.insigniaShow);
-        final description =
-            data.description == 'null' ? '' : data.description.trim();
+        final description = data.description?.trim() ?? '';
 
         return RefreshIndicator(
           onRefresh: _refresh,
@@ -188,7 +188,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
     return PagedSliverList(
       pages: [
         for (final offset in _articleOffsets)
-          ref.watch(getProfileArticleProvider((widget.token, offset, _pageSize))),
+          ref.watch(getProfileArticleProvider((offset: offset, limit: _pageSize))),
       ],
       pageSize: _pageSize,
       skeleton: const AccountListRowSkeleton(),
@@ -199,7 +199,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
       onLoadMore: () =>
           setState(() => _articleOffsets = [..._articleOffsets, _articleOffsets.length * _pageSize]),
       onRetry: (page) => ref.invalidate(
-        getProfileArticleProvider((widget.token, _articleOffsets[page], _pageSize)),
+        getProfileArticleProvider((offset: _articleOffsets[page], limit: _pageSize)),
       ),
       itemBuilder: (item) => MyArticleItem(
         board: item.board,
@@ -207,7 +207,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
         date: formatDate(item.createdAt, dotDateFormat),
         viewCount: item.count,
         commentCount: item.commentCount,
-        lossAmount: item.lossCut == null ? null : parseLossAmount(item.lossCut!),
+        lossAmount: item.lossCut,
         onTap: () => Navigator.of(context).push(
           ArticleDetailPage.route(board: item.board, articleId: item.id),
         ),
@@ -219,7 +219,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
     return PagedSliverList(
       pages: [
         for (final offset in _commentOffsets)
-          ref.watch(getProfileCommentProvider((widget.token, offset, _pageSize))),
+          ref.watch(getProfileCommentProvider((offset: offset, limit: _pageSize))),
       ],
       pageSize: _pageSize,
       skeleton: const AccountListRowSkeleton(),
@@ -231,7 +231,7 @@ class _AccountProfileViewState extends ConsumerState<AccountProfileView> {
       onLoadMore: () =>
           setState(() => _commentOffsets = [..._commentOffsets, _commentOffsets.length * _pageSize]),
       onRetry: (page) => ref.invalidate(
-        getProfileCommentProvider((widget.token, _commentOffsets[page], _pageSize)),
+        getProfileCommentProvider((offset: _commentOffsets[page], limit: _pageSize)),
       ),
       itemBuilder: (item) => MyCommentItem(
         board: item.board,

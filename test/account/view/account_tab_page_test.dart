@@ -45,12 +45,12 @@ class _FakeNurbanRepository implements NurbanRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-ProfileType _profile({int articles = 2, int comments = 1}) => (
+ProfileType _profile({int articles = 2, int comments = 1, String? description = '장기투자자였는데 어쩌다 단타를 치고 있습니다'}) => (
       id: 7,
       loginType: 'kakao',
       badge: '',
       nickname: '제희',
-      description: '장기투자자였는데 어쩌다 단타를 치고 있습니다',
+      description: description,
       point: 1240,
       insigniaShow: '[]',
       insigniaOwn: '[]',
@@ -59,7 +59,7 @@ ProfileType _profile({int articles = 2, int comments = 1}) => (
       createdAt: null,
     );
 
-ProfileArticleType _article(int id, {String? lossCut}) => (
+ProfileArticleType _article(int id, {int? lossCut}) => (
       id: id,
       board: id.isEven ? 2 : 1,
       thumbnail: '',
@@ -95,17 +95,17 @@ Widget _app({
       preferenceStorageProvider.overrideWith(
         (ref) async => PreferenceStorage(plugin: await SharedPreferences.getInstance()),
       ),
-      getProfileProvider.overrideWith((ref, token) async {
+      getProfileProvider.overrideWith((ref) async {
         profileCalls?.add(profileCalls.length + 1);
         if (profileError != null) throw profileError;
         return profile!;
       }),
-      getProfileArticleProvider.overrideWith((ref, records) async {
-        articleOffsets?.add(records.$2);
-        return articles.skip(records.$2).take(records.$3).toList();
+      getProfileArticleProvider.overrideWith((ref, page) async {
+        articleOffsets?.add(page.offset);
+        return articles.skip(page.offset).take(page.limit).toList();
       }),
       getProfileCommentProvider.overrideWith(
-        (ref, records) async => comments.skip(records.$2).take(records.$3).toList(),
+        (ref, page) async => comments.skip(page.offset).take(page.limit).toList(),
       ),
       appVersionProvider.overrideWith((ref) async => '1.1.0'),
       if (nurbanRepository != null)
@@ -163,12 +163,20 @@ void main() {
       expect(find.text(Strings.accountLoggedOutTitle), findsNothing);
     });
 
-    testWidgets('내 글에 lossCut 이 오면 손실액 캡션을 보여주고, 없으면 날짜·조회만 보여준다', (tester) async {
+    testWidgets('소개가 없으면(null) 소개 안내 문구를 보여준다', (tester) async {
+      await tester.pumpWidget(_app(auth: AuthenticationStatus.authenticated, profile: _profile(description: null)));
+      await _pumpFrames(tester);
+
+      expect(find.text(Strings.descriptionPlaceholder), findsOneWidget);
+      expect(find.text('null'), findsNothing);
+    });
+
+    testWidgets('내 글에 손실액이 있으면 손실액 캡션을 보여주고, 없으면 날짜·조회만 보여준다', (tester) async {
       await tester.pumpWidget(_app(
         auth: AuthenticationStatus.authenticated,
         profile: _profile(),
-        // 서버 lossCut 은 목록 API 처럼 숫자 문자열일 수도, '1,200,000원' 처럼 꾸민 문자열일 수도 있다.
-        articles: [_article(1, lossCut: '430000'), _article(2), _article(3, lossCut: '1,200,000원')],
+        // 서버 원문 형식(숫자 문자열·'1,200,000원' 등)은 저장소가 정수로 읽는다(profile_repository_test).
+        articles: [_article(1, lossCut: 430000), _article(2), _article(3, lossCut: 1200000)],
       ));
       await _pumpFrames(tester);
 
