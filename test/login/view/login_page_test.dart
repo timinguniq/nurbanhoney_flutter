@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ void main() {
       final serverCalls = <(String, String)>[];
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => (token: 'server-token', userId: '42'),
+        serverLogin: (_, __) async => (token: 'server-token', userId: 42),
         serverCalls: serverCalls,
       ));
       await _open(tester);
@@ -120,7 +121,7 @@ void main() {
       final serverCalls = <(String, String)>[];
       await tester.pumpWidget(_app(
         kakaoKey: () async => '',
-        serverLogin: (_, __) async => (token: 'x', userId: '1'),
+        serverLogin: (_, __) async => (token: 'x', userId: 1),
         serverCalls: serverCalls,
       ));
       await _open(tester);
@@ -135,10 +136,10 @@ void main() {
       expect(find.byType(LoginPage), findsOneWidget);
     });
 
-    testWidgets('서버가 토큰은 주지만 userId 가 숫자가 아니면 서버 실패로 처리한다', (tester) async {
+    testWidgets('서버 로그인 응답 형식이 잘못되면(저장소의 ApiFormatFailure) 서버 실패로 처리한다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => (token: 'server-token', userId: 'null'),
+        serverLogin: (_, __) async => throw const ApiFormatFailure('userId'),
       ));
       await _open(tester);
       final container = ProviderScope.containerOf(tester.element(find.byType(LoginPage)));
@@ -155,10 +156,10 @@ void main() {
       expect(find.byType(LoginPage), findsOneWidget);
     });
 
-    testWidgets('서버가 빈 토큰을 주면 서버 실패로 처리하고 저장하지 않는다', (tester) async {
+    testWidgets('서버가 로그인을 거절하면(ApiServerFailure) 서버 실패로 처리하고 저장하지 않는다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => (token: '', userId: '42'),
+        serverLogin: (_, __) async => throw const ApiServerFailure('invalid_key'),
       ));
       await _open(tester);
       final container = ProviderScope.containerOf(tester.element(find.byType(LoginPage)));
@@ -177,7 +178,7 @@ void main() {
     testWidgets('서버 로그인이 실패하면 서버 원인으로 실패 카드를 보여주고 인증 상태는 그대로다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => throw Exception('status code of 500'),
+        serverLogin: (_, __) async => throw const ApiHttpFailure(status: 500),
       ));
       await _open(tester);
       final container = ProviderScope.containerOf(tester.element(find.byType(LoginPage)));
@@ -199,8 +200,8 @@ void main() {
         kakaoKey: () async => 'same-key',
         serverLogin: (_, __) async {
           attempts++;
-          if (attempts == 1) throw Exception('status code of 500');
-          return (token: 'server-token', userId: '42');
+          if (attempts == 1) throw const ApiHttpFailure(status: 500);
+          return (token: 'server-token', userId: 42);
         },
       ));
       await _open(tester);
@@ -226,7 +227,7 @@ void main() {
       final storageReady = Completer<PreferenceStorage>();
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => (token: 'server-token', userId: '42'),
+        serverLogin: (_, __) async => (token: 'server-token', userId: 42),
         storage: () => storageReady.future,
       ));
       await _open(tester);
@@ -251,7 +252,7 @@ void main() {
     testWidgets('토큰 저장에 실패하면 인증하지 않고 실패 카드로 돌아간다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => (token: 'server-token', userId: '42'),
+        serverLogin: (_, __) async => (token: 'server-token', userId: 42),
         storage: () async => _ThrowingStorage(plugin: await SharedPreferences.getInstance()),
       ));
       await _open(tester);
@@ -271,7 +272,7 @@ void main() {
     testWidgets('userId 저장에 실패하면 저장된 토큰을 되돌리고 실패 카드로 돌아간다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'kakao-access',
-        serverLogin: (_, __) async => (token: 'server-token', userId: '42'),
+        serverLogin: (_, __) async => (token: 'server-token', userId: 42),
         storage: () async => _UserIdThrowingStorage(plugin: await SharedPreferences.getInstance()),
       ));
       await _open(tester);
@@ -295,7 +296,7 @@ void main() {
         kakaoKey: () async => 'same-key',
         serverLogin: (_, __) {
           attempts++;
-          if (attempts == 1) throw Exception('status code of 500');
+          if (attempts == 1) throw const ApiHttpFailure(status: 500);
           return second.future;
         },
       ));
@@ -313,7 +314,7 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.byType(LoginFailureCard), findsNothing);
 
-      second.complete((token: 'server-token', userId: '42'));
+      second.complete((token: 'server-token', userId: 42));
       await tester.pumpAndSettle();
       expect(find.byType(LoginPage), findsNothing);
     });
@@ -334,7 +335,7 @@ void main() {
       await _pumpFrames(tester);
       expect(find.byType(LoginPage), findsOneWidget);
 
-      completer.complete((token: 't', userId: '1'));
+      completer.complete((token: 't', userId: 1));
       await tester.pumpAndSettle();
       expect(find.byType(LoginPage), findsNothing);
     });
@@ -354,7 +355,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.text('약관 본문'), findsNothing);
 
-      completer.complete((token: 't', userId: '1'));
+      completer.complete((token: 't', userId: 1));
       await tester.pumpAndSettle();
       expect(find.byType(LoginPage), findsNothing);
     });
@@ -378,7 +379,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.text('열린 다이얼로그'), findsOneWidget);
 
-      completer.complete((token: 't', userId: '1'));
+      completer.complete((token: 't', userId: 1));
       await tester.pumpAndSettle();
 
       expect(find.byType(LoginPage), findsNothing);
@@ -391,7 +392,7 @@ void main() {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'unused',
         googleKey: () async => 'google-id-token',
-        serverLogin: (_, __) async => (token: 'server-token', userId: '42'),
+        serverLogin: (_, __) async => (token: 'server-token', userId: 42),
         serverCalls: serverCalls,
       ));
       await _open(tester);
@@ -409,7 +410,7 @@ void main() {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'unused',
         googleKey: () async => null,
-        serverLogin: (_, __) async => (token: 'x', userId: '1'),
+        serverLogin: (_, __) async => (token: 'x', userId: 1),
         serverCalls: serverCalls,
       ));
       await _open(tester);
@@ -426,7 +427,7 @@ void main() {
     testWidgets('네이버를 누르면 준비 중 토스트만 띄운다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'x',
-        serverLogin: (_, __) async => (token: 'x', userId: '1'),
+        serverLogin: (_, __) async => (token: 'x', userId: 1),
       ));
       await _open(tester);
 
@@ -441,7 +442,7 @@ void main() {
     testWidgets('이용약관을 누르면 약관 다이얼로그가 열린다', (tester) async {
       await tester.pumpWidget(_app(
         kakaoKey: () async => 'x',
-        serverLogin: (_, __) async => (token: 'x', userId: '1'),
+        serverLogin: (_, __) async => (token: 'x', userId: 1),
       ));
       await _open(tester);
 

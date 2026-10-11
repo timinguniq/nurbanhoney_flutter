@@ -240,7 +240,7 @@ void main() {
     testWidgets('프로필을 불러오지 못하면 오류 상태를 보여준다', (tester) async {
       await tester.pumpWidget(_app(
         auth: AuthenticationStatus.authenticated,
-        profileError: Exception('connection error'),
+        profileError: const ApiOffline(),
       ));
       await _pumpFrames(tester);
 

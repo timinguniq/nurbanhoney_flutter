@@ -30,9 +30,10 @@ bash tool/commit_gate.sh                              # 커밋 게이트와 같�
 - HTTP 는 `ApiClient`(`data/dio_repository`) 하나를 거친다. 저장소를 쓰는 쪽을 테스트할 때는 Provider override 로
   가짜 저장소를 넣는다. 클라이언트·저장소 자체를 테스트할 때는 `ApiClient(adapter: ...)` 에 가짜 `HttpClientAdapter` 를
   넘긴다(`data/dio_repository/test/api_client_test.dart` 의 `FakeHttpClientAdapter`). 저장소가 던지는 실패는
-  `ApiFailure`(`domain/dio_domain`) 뿐이므로 가짜 저장소도 그 타입만 던진다. 실제 요청이 나가는 테스트는 만들지 않는다.
-- 아직 `ApiClient` 로 옮기지 않은 저장소(`DioRepository` 계열 싱글턴, 내부에서 `Dio()` 생성)는 옮기는 커밋에서 같이
-  테스트를 넣는다.
+  `ApiFailure`(`domain/dio_domain`) 뿐이므로 가짜 저장소도 성공 문자열 대신 그 타입을 던진다. 실제 요청이 나가는
+  테스트는 만들지 않는다.
+- provider 사슬(인증 상태 → `apiClientProvider` → 저장소 → `FutureProvider`)을 통째로 확인할 때는
+  `apiHttpClientAdapterProvider` 를 가짜 어댑터로 바꾼다(`application/dio_service/test/`).
 
 ## 품질 기준
 

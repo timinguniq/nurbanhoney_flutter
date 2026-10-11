@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,7 +48,7 @@ void main() {
     testWidgets('첫 페이지가 실패하면 오류 상태를 보여주고 다시 시도는 0 페이지를 받는다', (tester) async {
       final retried = <int>[];
       await tester.pumpWidget(_host(
-        [AsyncError(Exception('connection error'), StackTrace.empty)],
+        [AsyncError(const ApiOffline(), StackTrace.empty)],
         retried: retried,
       ));
       await tester.pump();
@@ -81,7 +82,7 @@ void main() {
       await tester.pumpWidget(_host(
         [
           const AsyncData([1, 2, 3]),
-          AsyncError(Exception('connection error'), StackTrace.empty),
+          AsyncError(const ApiOffline(), StackTrace.empty),
           const AsyncData([7, 8]),
         ],
         retried: retried,

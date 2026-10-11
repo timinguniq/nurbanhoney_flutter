@@ -253,7 +253,7 @@ void main() {
           ),
           getRankProvider.overrideWith((ref) async {
             calls++;
-            if (calls == 1) throw Exception('connection error');
+            if (calls == 1) throw const ApiOffline();
             return _five;
           }),
         ],

@@ -46,9 +46,9 @@ class _AppViewState extends State<AppView> {
   Future<void> setAuth(WidgetRef ref) async {
     final preferenceStorage = ref.watch(preferenceStorageProvider);
     final storage = preferenceStorage.asData?.value;
-    final token = storage?.getToken() ?? '__empty__';
+    final hasToken = storage?.hasToken() ?? false;
 
-    if (token == '__empty__') {
+    if (!hasToken) {
       ref
           .watch(authenticationServiceProvider.notifier)
           .set(AuthenticationStatus.unauthenticated);

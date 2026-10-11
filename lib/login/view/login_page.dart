@@ -49,7 +49,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   String? _failureReason;
 
   /// 진행 중인 서버 로그인 구독. 결과를 한 번 처리하면 닫는다.
-  ProviderSubscription<AsyncValue<({String token, String userId})>>? _serverLogin;
+  ProviderSubscription<AsyncValue<({String token, int userId})>>? _serverLogin;
 
   @override
   void dispose() {
@@ -108,8 +108,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         _serverLogin?.close();
         _serverLogin = null;
         final login = next.valueOrNull;
-        // 토큰과 함께 숫자 userId 가 와야 성공이다(userId 는 내 글·댓글 판별에 쓴다).
-        if (login != null && login.token.isNotEmpty && int.tryParse(login.userId) != null) {
+        // 저장소가 빈 토큰·숫자가 아닌 userId 를 실패(ApiFailure)로 돌려주므로 값이 있으면 성공이다.
+        if (login != null) {
           _succeed(type, login);
         } else {
           log('server login error: ${next.error}');
@@ -130,12 +130,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   /// 서버 토큰을 저장소에 쓴 뒤에만 인증 상태를 바꾸고 닫는다. 저장소가 아직 준비 전이면 기다리고,
   /// 저장에 실패하면 실패 카드로 돌아간다(저장 없이 인증 상태만 바꾸면 다음 실행에서 로그아웃된 채 시작한다).
-  Future<void> _succeed(LoginTypeStatus type, ({String token, String userId}) login) async {
+  Future<void> _succeed(LoginTypeStatus type, ({String token, int userId}) login) async {
     try {
       final storage = await ref.read(preferenceStorageProvider.future);
       try {
         await storage.setToken(login.token);
-        await storage.setUserId(int.parse(login.userId));
+        await storage.setUserId(login.userId);
       } catch (e) {
         // 토큰만 남으면 다음 실행에서 userId 없이 인증된 채 시작하므로 되돌린다.
         try {

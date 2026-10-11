@@ -1,3 +1,4 @@
+import 'package:dio_domain/dio_domain.dart';
 import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ void main() {
 
     testWidgets('받지 못하면 안내와 다시 시도를 보여주고, 누르면 다시 받는다', (tester) async {
       final calls = <int>[];
-      await tester.pumpWidget(_app(error: Exception('connection error'), calls: calls));
+      await tester.pumpWidget(_app(error: const ApiOffline(), calls: calls));
       await tester.pump();
 
       expect(find.text(Strings.top3Error), findsOneWidget);

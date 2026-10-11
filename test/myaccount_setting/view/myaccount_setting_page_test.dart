@@ -327,7 +327,7 @@ void main() {
     });
 
     testWidgets('프로필을 받지 못하면 오류 상태를 보여준다', (tester) async {
-      await tester.pumpWidget(_app(profileError: Exception('connection error')));
+      await tester.pumpWidget(_app(profileError: const ApiOffline()));
       await _open(tester);
 
       expect(find.byType(ErrorState), findsOneWidget);

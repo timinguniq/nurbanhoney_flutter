@@ -47,15 +47,13 @@ lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/p
 ### 도구가 검사하지 않는 규칙 (리뷰로 확인)
 
 - **레이어 건너뛰기:** `lib/` 가 `data/*` 를 직접 import 하는 것은 역방향이 아니라서 차단하지 않는다.
-  지금 7곳이 있다: `lib/coin/view/coin_tab_page.dart`, `lib/coin/view/widgets/coin_list_item.dart`,
-  `lib/article_detail/view/widgets/comment_dashboard_widget.dart`, `lib/stock/view/stock_tab_page.dart`,
-  `lib/stock/view/widgets/stock_list_item.dart`, `lib/login/view/login_page.dart`(`dio_repository`,
-  `preference_storage`). 새 코드는 `application/*` 서비스를 거친다. 금지 규칙으로 바꿀지는 추후 결정한다.
+  지금 2곳이 있다: `lib/coin/view/coin_tab_page.dart`, `lib/stock/view/stock_tab_page.dart`(목록 레코드 타입
+  `BoardAllType` 때문). 새 코드는 `application/*` 서비스를 거친다. 금지 규칙으로 바꿀지는 추후 결정한다.
 - **domain pubspec 의 Flutter 의존성:** `authentication_domain`, `navigation_domain` 의 `pubspec.yaml` 에
   `flutter` 의존성이 선언돼 있다(`lib/` 에서 import 하지는 않는다). 정리할 때 함께 지운다.
 - **상태 관리:** 새 화면·기능은 Riverpod(`flutter_riverpod` + `riverpod_annotation`)를 쓴다.
-  `lib/common/view/base_view.dart` + `lib/common/viewmodel/base_viewmodel.dart` 의 `BaseView<T extends BaseViewModel>`
-  (Provider + ChangeNotifier)는 레거시다. 확장하지 않고, 손대는 김에 Riverpod 로 옮긴다.
+  `lib/common/viewmodel/base_viewmodel.dart` 의 `BaseViewModel`(ChangeNotifier)과 `lib/common/common/data_fetch_status.dart`
+  는 레거시로, 주식·코인 탭 뷰모델만 쓴다. 확장하지 않고, 손대는 김에 Riverpod 로 옮긴다.
 - **생성 파일:** `*.g.dart`, `*.freezed.dart` 는 커밋되어 있다. 손으로 고치지 않고, 애노테이션을 바꾸면
   `dart run build_runner build --delete-conflicting-outputs` 로 다시 만든다(루트와
   `application/authentication_service`, `application/dio_service`, `application/navigation_service`).
@@ -69,8 +67,8 @@ lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/p
 
 ## lib/ 기능 구조
 
-기능 폴더(`home/`, `login/`, `board/`, `article_detail/`, `article_create/`, `myaccount_setting/`,
-`myaccount_edit/`, `splash/`, `coin/`, `stock/`)는 다음 구조를 따른다.
+기능 폴더(`home/`, `login/`, `ranking/`, `account/`, `article_detail/`, `article_create/`, `myaccount_setting/`,
+`myaccount_edit/`, `coin/`, `stock/`)는 다음 구조를 따른다.
 
 ```
 <feature>/
@@ -87,8 +85,21 @@ lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/p
 
 ## 백엔드
 
-모든 HTTP 호출은 `data/dio_repository` 의 `Dio()` 를 거친다. API 기본 URL 은
-`domain/dio_domain/lib/src/models/dio_main_api.dart` 의 `DioMainApi.mainApi` 에 하드코딩되어 있다
+모든 HTTP 호출은 `data/dio_repository` 의 `ApiClient` 하나를 거친다(`docs/adr/0001-api-failure-and-single-client.md`).
+`application/dio_service` 의 `apiClientProvider` 가 만들고, 저장소(`RankRepository`·`ProfileRepository`·
+`NurbanRepository`·`FreeRepository`·`DioRepository`)는 생성자로 받는다.
+
+- **인증:** 클라이언트가 요청할 때 `PreferenceStorage` 에서 토큰을 읽어 있을 때만 `Authorization: Bearer` 를 붙인다.
+  저장소 메서드는 토큰을 받지 않는다.
+- **실패:** 저장소는 `domain/dio_domain` 의 sealed `ApiFailure`(`ApiOffline`·`ApiTimeout`·`ApiHttpFailure`·
+  `ApiServerFailure`·`ApiFormatFailure`·`ApiUnknown`)만 던진다. 서버의 `{result, error}` 봉투에서 `error` 가 오면
+  `ApiServerFailure`, 기대한 성공 리터럴(`nurbanboard_deleted` 등)이 아니면 `ApiFormatFailure` 다. 화면은
+  `lib/utils/error_code_utils.dart` 의 `errorCodeOf`·`isNetworkError`·`httpStatusOf` 로만 실패를 읽는다.
+- **응답 타입:** 저장소가 응답 JSON 을 레코드로 한 번 읽는다(`json_fields.dart`). 없을 수 있는 값은 `null`(문자열 `'null'`
+  이 아니다), 숫자는 `int`, 손실액은 원 단위 정수, 내 반응은 `Reaction`(용어는 `CONTEXT.md`).
+- **타임아웃:** connect 5초·receive 10초, 사진 업로드만 receive 30초.
+
+API 기본 URL 은 `domain/dio_domain/lib/src/models/dio_main_api.dart` 의 `DioMainApi.mainApi` 에 하드코딩되어 있다
 (`https://nurbanhoney-api.devjj.co.kr`). 이 파일은 `domain/dio_domain/.gitignore` 로 제외되어 저장소에 없으므로
 따로 받아 둔다. CI 는 더미 값을 쓴다.
 인증 토큰과 기기 ID 는 `data/preference_storage` 를 통해 `SharedPreferences` 에 저장한다.
@@ -96,6 +107,12 @@ lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/p
 ## 인증 흐름
 
 세 가지 로그인 경로가 `PreferenceStorage` 에 저장되는 토큰 하나로 모인다: Firebase Google Sign-In, Kakao SDK,
-레거시 이메일/비밀번호(`dioRepository.getLogin`). `AuthenticationService`(Riverpod `@riverpod` 클래스)가
-`AuthenticationStatus` 를 갖고, `AuthenticationRepository` 가 이를 스트림으로 노출한다. 로그아웃 시
-`setUnauthenticated()` 가 `PreferenceStorage.setEmptyToken()` 으로 토큰을 지운다.
+레거시 이메일/비밀번호. 모두 `DioRepository.getLogin`(`getLoginProvider`)으로 서버 토큰을 받는다.
+
+- **상태:** `AuthenticationService`(Riverpod `@riverpod` 클래스)가 `AuthenticationStatus` 를 갖는 값 칸이다.
+  `AppView` 가 저장된 토큰이 있는지(`PreferenceStorage.hasToken()`)로 이 값을 맞춘다.
+  `data/authentication_repository` 는 어디서도 쓰지 않는다.
+- **세션 쓰기:** 로그인 화면은 토큰·userId 를 저장한 뒤 `authenticated` 로, 설정 화면의 로그아웃·탈퇴는 토큰을 지운 뒤
+  `unauthenticated` 로 바꾼다.
+- **다시 받기:** `apiClientProvider` 가 인증 상태를 `watch` 하므로 상태가 바뀌면 클라이언트와 그 위의 저장소·
+  `FutureProvider` 가 다시 만들어져 새 토큰으로 다시 받는다(`application/dio_service/test/profile_service_test.dart`).
