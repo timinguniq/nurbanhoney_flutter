@@ -90,6 +90,19 @@ void main() {
       expect(items.map((i) => i.myReaction), [Reaction.none, Reaction.none, Reaction.dislike]);
     });
 
+    test('손실액은 부호를 버린 원 단위 정수다(정수·음수 정수·부호 붙은 문자열·숫자 없음)', () async {
+      final repository = NurbanRepository(clientWith(respond([
+        _listItem(id: 1, lossCut: 1250000),
+        _listItem(id: 2, lossCut: -1250000),
+        _listItem(id: 3, lossCut: '-430,000원'),
+        _listItem(id: 4, lossCut: null),
+      ])));
+
+      final items = await repository.getNurbanAll(flag: 0, articleId: -1, limit: 10);
+
+      expect(items.map((i) => i.lossCut), [1250000, 1250000, 430000, 0]);
+    });
+
     test('목록 항목의 필수 필드 형식이 다르면 ApiFormatFailure 다', () async {
       final repository = NurbanRepository(clientWith(respond([_listItem(likeCount: 'many')])));
 

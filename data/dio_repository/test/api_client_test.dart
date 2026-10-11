@@ -163,6 +163,15 @@ void main() {
         );
       });
 
+      test('2xx 만 성공이다: 299 는 본문을 돌려주고 300 은 ApiHttpFailure 다', () async {
+        expect(await clientWith(respond({'ok': true}, status: 299)).get('/rank/'), {'ok': true});
+
+        await expectLater(
+          clientWith(respond({'error': 'moved'}, status: 300)).get('/rank/'),
+          throwsA(isA<ApiHttpFailure>().having((e) => e.status, 'status', 300)),
+        );
+      });
+
       test('본문이 JSON 봉투가 아닌 HTTP 오류는 serverError 가 null 이다', () async {
         final adapter = FakeHttpClientAdapter(
           (_) async => ResponseBody.fromString('<html>Bad Gateway</html>', 502),
