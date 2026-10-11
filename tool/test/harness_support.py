@@ -22,6 +22,8 @@ case "$1" in
       *" --offline "*) [ -z "${FAKE_PUB_OFFLINE_EXIT:-}" ] || exit "$FAKE_PUB_OFFLINE_EXIT" ;;
     esac
     [ -z "${FAKE_PUB_TOUCH:-}" ] || echo "# touched by fake pub" >> "$FAKE_PUB_TOUCH"
+    # 특정 디렉터리(패키지)에서만 실패시킨다.
+    [ "${FAKE_PUB_FAIL_DIR:-}" != "$PWD" ] || { echo "fake pub failed in $PWD" >&2; exit 1; }
     exit "${FAKE_PUB_EXIT:-0}" ;;
   analyze)
     if [ -n "${FAKE_ANALYZE_EXIT:-}" ]; then echo "fake analyzer crashed" >&2; exit "$FAKE_ANALYZE_EXIT"; fi
@@ -57,6 +59,27 @@ def gate_secret_files():
 
 SECRET_FILES = {rel: "// fixture secret\n" for rel in gate_secret_files()}
 SECRET_GITIGNORE = "".join("/{}\n".format(rel) for rel in SECRET_FILES)
+
+
+def gate_test_targets():
+    """tool/commit_gate.sh 의 TEST_TARGETS 목록. 테스트가 같은 목록을 쓰도록 여기서 읽는다."""
+    text = (REPO_ROOT / "tool" / "commit_gate.sh").read_text(encoding="utf-8")
+    block = re.search(r"^TEST_TARGETS=\(([^)]*)\)", text, re.MULTILINE).group(1)
+    return re.findall(r'"([^"]+)"', block)
+
+
+# 루트가 아닌 테스트 대상 패키지. 픽스처가 같은 경로에 pubspec 과 테스트 파일을 만든다.
+PACKAGE_TEST_TARGETS = [target for target in gate_test_targets() if target != "."]
+
+
+def package_fixture_files():
+    files = {}
+    for target in PACKAGE_TEST_TARGETS:
+        name = target.rstrip("/").rsplit("/", 1)[-1]
+        files["{}/pubspec.yaml".format(target)] = "name: {}\n".format(name)
+        files["{}/lib/{}.dart".format(target, name)] = "class Fixture {}\n"
+        files["{}/test/{}_test.dart".format(target, name)] = "void main() {}\n"
+    return files
 
 
 def isolated_env(path):
@@ -121,6 +144,7 @@ class Fixture:
                 "import 'package:sample_repository/sample_repository.dart';\n",
             "tool/test/run_tests.py": FAKE_SELFTEST,
         }
+        files.update(package_fixture_files())
         files.update(SECRET_FILES)
         for rel, content in files.items():
             write(self.repo / rel, content)

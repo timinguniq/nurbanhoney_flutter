@@ -21,7 +21,8 @@ case "${1:-}" in
 esac
 
 # 테스트를 실행할 Flutter 패키지 디렉터리(ROOT 기준). 실제 테스트가 있는 패키지만 둔다.
-TEST_TARGETS=(".")
+# 루트가 아닌 패키지는 테스트 전에 그 디렉터리에서 pub get 을 실행한다(pubspec.lock 을 커밋하지 않으므로 lockfile 미강제).
+TEST_TARGETS=("." "data/dio_repository")
 
 # analyze 에 필요한 gitignore 대상 파일. 없으면 컴파일 오류가 나므로 먼저 이유를 표시한다.
 # .worktreeinclude 와 tool/ci/stub_secrets.sh 도 같은 파일을 다룬다(하네스 테스트가 확인).
@@ -174,6 +175,13 @@ pass "정적 분석"
 test_index=0
 for target in "${TEST_TARGETS[@]}"; do
   test_index=$((test_index + 1))
+  if [ "$target" != "." ]; then
+    step "의존성 설치 ($target: flutter pub get)"
+    without_git_location bash -c 'cd "$0" && exec flutter pub get --offline' "$target" >"$LOG_DIR/pub_get_${test_index}_offline.log" 2>&1 \
+      || run_logged "pub_get_$test_index" bash -c 'cd "$0" && exec flutter pub get' "$target" \
+      || fail "$target: 의존성 설치 실패"
+    pass "의존성 설치 ($target)"
+  fi
   step "테스트 ($target: flutter test)"
   [ -d "$target/test" ] || fail "테스트 디렉터리가 없습니다: $target/test"
   run_logged "test_$test_index" bash -c 'cd "$0" && exec flutter test --no-pub' "$target"

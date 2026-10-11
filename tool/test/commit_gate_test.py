@@ -4,7 +4,7 @@ import shutil
 import tempfile
 import unittest
 
-from harness_support import SECRET_FILES, Fixture
+from harness_support import PACKAGE_TEST_TARGETS, SECRET_FILES, Fixture
 
 
 class CommitGateTestCase(unittest.TestCase):
@@ -34,12 +34,18 @@ class FirstCommitTest(CommitGateTestCase):
     def test_clean_first_commit_runs_every_check(self):
         result = self.fx.commit("first")
         self.assertPassed(result)
-        calls = [args for _, args in self.fx.flutter_calls()]
-        self.assertEqual(calls, [
-            "pub get --enforce-lockfile --offline",
-            "analyze --no-pub --no-fatal-warnings --no-fatal-infos",
-            "test --no-pub",
-        ])
+        calls = [(cwd, args) for cwd, args in self.fx.flutter_calls()]
+        root = str(self.fx.repo)
+        expected = [
+            (root, "pub get --enforce-lockfile --offline"),
+            (root, "analyze --no-pub --no-fatal-warnings --no-fatal-infos"),
+            (root, "test --no-pub"),
+        ]
+        for target in PACKAGE_TEST_TARGETS:
+            # 패키지는 pubspec.lock 을 커밋하지 않으므로 lockfile 을 강제하지 않고, 그 디렉터리에서 실행한다.
+            package = str(self.fx.repo / target)
+            expected += [(package, "pub get --offline"), (package, "test --no-pub")]
+        self.assertEqual(calls, expected)
         self.assertTrue(self.fx.selftest_log.exists(), "하네스 파일이 staged 됐는데 하네스 테스트가 돌지 않았습니다")
 
     def test_first_commit_without_head_blocks_staged_error(self):
@@ -66,7 +72,17 @@ class ToolFailureTest(CommitGateTestCase):
     def test_pub_get_falls_back_to_network_when_cache_is_missing(self):
         self.assertPassed(self.fx.commit(env={"FAKE_PUB_OFFLINE_EXIT": "69"}))
         pub_calls = [args for _, args in self.fx.flutter_calls() if args.startswith("pub")]
-        self.assertEqual(pub_calls, ["pub get --enforce-lockfile --offline", "pub get --enforce-lockfile"])
+        expected = ["pub get --enforce-lockfile --offline", "pub get --enforce-lockfile"]
+        expected += ["pub get --offline", "pub get"] * len(PACKAGE_TEST_TARGETS)
+        self.assertEqual(pub_calls, expected)
+
+    @unittest.skipUnless(PACKAGE_TEST_TARGETS, "TEST_TARGETS 에 루트 외 패키지가 없습니다")
+    def test_package_pub_get_failure_blocks_with_package_name(self):
+        target = PACKAGE_TEST_TARGETS[0]
+        result = self.fx.commit(env={"FAKE_PUB_FAIL_DIR": str(self.fx.repo / target)})
+        self.assertBlocked(result, "{}: 의존성 설치 실패".format(target), "fake pub failed")
+        tests_run = [cwd for cwd, args in self.fx.flutter_calls() if args == "test --no-pub"]
+        self.assertEqual(tests_run, [str(self.fx.repo)], "패키지 의존성 설치가 실패했는데 그 패키지 테스트를 실행했습니다")
 
     def test_pub_get_changing_tracked_file_blocks(self):
         result = self.fx.commit(env={"FAKE_PUB_TOUCH": str(self.fx.repo / "pubspec.lock")})

@@ -14,6 +14,10 @@ dependencies:
     path: ../../domain/dio_domain
   dio_repository:
     path: ../../data/dio_repository
+  authentication_service:
+    path: ../authentication_service
+  preference_storage_service:
+    path: ../preference_storage_service
 
   flutter_riverpod: ^2.0.3
   riverpod_annotation: ^2.1.1

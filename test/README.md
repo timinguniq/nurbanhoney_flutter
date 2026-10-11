@@ -27,9 +27,12 @@ bash tool/commit_gate.sh                              # 커밋 게이트와 같�
   가짜 저장소·서비스로 바꾼다.
 - `PreferenceStorage` 는 생성자 `plugin:` 으로 `SharedPreferences` 를 받는다. 테스트에서는
   `SharedPreferences.setMockInitialValues({...})` 후 `SharedPreferences.getInstance()` 결과를 넘긴다.
-- `DioRepository` 계열은 싱글턴이고 내부에서 `Dio()` 를 만든다. 저장소를 쓰는 쪽을 테스트할 때는 Provider override 로
-  가짜 저장소를 넣는다. 저장소 자체를 테스트해야 하면 `DioRepository().dio.httpClientAdapter` 를 가짜 어댑터로
-  바꾸고 `tearDown` 에서 되돌린다. 실제 요청이 나가는 테스트는 만들지 않는다.
+- HTTP 는 `ApiClient`(`data/dio_repository`) 하나를 거친다. 저장소를 쓰는 쪽을 테스트할 때는 Provider override 로
+  가짜 저장소를 넣는다. 클라이언트·저장소 자체를 테스트할 때는 `ApiClient(adapter: ...)` 에 가짜 `HttpClientAdapter` 를
+  넘긴다(`data/dio_repository/test/api_client_test.dart` 의 `FakeHttpClientAdapter`). 저장소가 던지는 실패는
+  `ApiFailure`(`domain/dio_domain`) 뿐이므로 가짜 저장소도 그 타입만 던진다. 실제 요청이 나가는 테스트는 만들지 않는다.
+- 아직 `ApiClient` 로 옮기지 않은 저장소(`DioRepository` 계열 싱글턴, 내부에서 `Dio()` 생성)는 옮기는 커밋에서 같이
+  테스트를 넣는다.
 
 ## 품질 기준
 
@@ -40,10 +43,12 @@ bash tool/commit_gate.sh                              # 커밋 게이트와 같�
 
 ## 커밋 게이트의 테스트 대상
 
-`tool/commit_gate.sh` 의 `TEST_TARGETS` 에 있는 디렉터리에서 `flutter test --no-pub` 을 실행한다. 지금은 루트(`.`)만 있다.
+`tool/commit_gate.sh` 의 `TEST_TARGETS` 에 있는 디렉터리에서 `flutter test --no-pub` 을 실행한다. 지금은 루트(`.`)와
+`data/dio_repository` 다.
 
 - 실행된 테스트가 0개(`flutter test` 종료 코드 79)이면 실패로 처리한다.
-- 패키지의 `test/*_test.dart` 는 지금 모두 빈 `main()` 이라 대상에서 뺐다. 패키지에 실제 테스트를 넣으면
-  `TEST_TARGETS` 에 그 디렉터리를 추가한다. 패키지는 `pubspec.lock` 을 커밋하지 않으므로(라이브러리 관례)
-  게이트의 `flutter pub get --enforce-lockfile` 은 루트에서만 돈다. 패키지를 추가할 때는 게이트가 그 패키지에서도
-  `flutter pub get` 을 실행하도록 함께 고치고, 하네스 테스트(`tool/test/commit_gate_test.py`)에 사례를 추가한다.
+- 루트가 아닌 패키지는 테스트 전에 그 디렉터리에서 `flutter pub get --offline`(실패하면 네트워크)을 실행한다. 패키지는
+  `pubspec.lock` 을 커밋하지 않으므로(라이브러리 관례) lockfile 을 강제하지 않는다.
+- 다른 패키지의 `test/*_test.dart` 는 아직 빈 `main()` 이라 대상에서 뺐다. 실제 테스트를 넣으면 `TEST_TARGETS` 에 그
+  디렉터리를 추가한다. 하네스 테스트(`tool/test/commit_gate_test.py`)는 `TEST_TARGETS` 를 읽어 픽스처를 만들므로 따로
+  고칠 것은 없다.
