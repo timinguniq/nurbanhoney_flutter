@@ -11,8 +11,7 @@ flutter pub get
 
 # 코드 생성(*.g.dart, *.freezed.dart). @riverpod, @JsonSerializable, @freezed, retrofit
 # 애노테이션이 있는 파일을 고친 뒤 반드시 실행한다. build_runner 가 dev_dependencies 에 있는
-# 루트와 application/authentication_service, application/dio_service,
-# application/navigation_service 에서 각각 실행한다.
+# 루트와 application/authentication_service, application/navigation_service 에서 각각 실행한다.
 dart run build_runner build --delete-conflicting-outputs
 dart run build_runner watch --delete-conflicting-outputs   # 계속 감시
 
@@ -50,8 +49,8 @@ bash tool/cross_verify.sh <codex|claude> <역할>   # 반대편 도구로 교차
 - 의존 방향은 `lib/` → `application/*` → `data/*` → `domain/*` 이며 거꾸로 import 하지 않는다. `tool/dep_guard.py` 가 검사한다.
 - 새 데이터 소스는 `domain/<이름>_domain` + `data/<이름>_repository` + `application/<이름>_service` 세트로 나눈다.
   `lib/` 에 바로 넣지 않는다.
-- 상태 관리는 Riverpod 가 기본이다. `lib/common/view/base_view.dart` 의 `BaseView<T extends BaseViewModel>`
-  (Provider + ChangeNotifier) 는 레거시이므로 새 코드에 쓰지 않고, 손대는 김에 Riverpod 로 옮긴다.
+- 상태 관리는 Riverpod 로 쓴다. `lib/common/viewmodel/base_viewmodel.dart` 의 `BaseViewModel`(ChangeNotifier)은
+  주식·코인 탭 뷰모델에만 남은 레거시이며, 손대는 김에 Riverpod 로 옮긴다.
 - **진행 중인 리팩터링:** `lib/app/view/app.dart` 의 `AppView` 는 인증 여부와 관계없이 `HomePageRefactor` 로
   보낸다. 의도된 작업 중 상태이므로 확인 없이 "고치지" 않는다. 주석 처리된 `HomePage` 분기와
   `/// 왜 인지 모르겠지만 SplashPage로 안 감` 메모가 그 영역을 표시한다.

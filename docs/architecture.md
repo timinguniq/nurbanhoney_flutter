@@ -56,7 +56,7 @@ lib → 모든 레이어. 레이어 목록은 `domain/*/pubspec.yaml`, `data/*/p
   는 레거시로, 주식·코인 탭 뷰모델만 쓴다. 확장하지 않고, 손대는 김에 Riverpod 로 옮긴다.
 - **생성 파일:** `*.g.dart`, `*.freezed.dart` 는 커밋되어 있다. 손으로 고치지 않고, 애노테이션을 바꾸면
   `dart run build_runner build --delete-conflicting-outputs` 로 다시 만든다(루트와
-  `application/authentication_service`, `application/dio_service`, `application/navigation_service`).
+  `application/authentication_service`, `application/navigation_service`).
 
 ## 진입점
 
