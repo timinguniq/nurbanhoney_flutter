@@ -12,23 +12,25 @@ class NbkBadge extends StatelessWidget {
     super.key,
   });
 
-  final String url;
+  /// 배지 이미지 URL. 없으면 null.
+  final String? url;
   final double size;
   final double radius;
 
-  bool get _hasUrl => url.isNotEmpty && url != 'null';
-
   @override
   Widget build(BuildContext context) {
+    // 문자열 'null' 은 아직 ApiClient 로 옮기지 않은 저장소가 null 을 문자열로 주는 경우다(ADR-0001, 이전이 끝나면 삭제).
+    final url = this.url;
+    final imageUrl = url == null || url.isEmpty || url == 'null' ? null : url;
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: Container(
         width: size,
         height: size,
         color: NbkColors.surface,
-        child: _hasUrl
+        child: imageUrl != null
             ? CachedNetworkImage(
-                imageUrl: url,
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
                 placeholder: (_, __) => const SizedBox(),
                 errorWidget: (_, __, ___) => _fallback(),

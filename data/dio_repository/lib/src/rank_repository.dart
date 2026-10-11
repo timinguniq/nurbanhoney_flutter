@@ -1,82 +1,48 @@
-import 'dart:developer';
+import 'package:dio_repository/src/api_client.dart';
+import 'package:dio_repository/src/json_fields.dart';
 
-import 'package:dio/dio.dart';
-import 'package:dio_domain/dio_domain.dart';
+/// 랭킹 한 행. 순위는 응답 순서(index + 1)이고 필드에 없다.
+typedef RankType = ({
+  int id,
+  int totalLossCut,
+  int totalLikeCount,
+  int userId,
 
+  /// 배지 이미지 URL. 없으면 null.
+  String? badge,
+  String nickname,
+
+  /// 휘장 목록 원문(예: `[url1, url2]`). share_service 의 `convertToInsignia` 로 푼다.
+  String insignia,
+});
+
+/// 손실 랭킹. 서버가 집계 기간(월) 전체를 한 번에 준다.
 class RankRepository {
-  /// constructor
-  RankRepository._privateConstructor();
-  static final RankRepository _instance = RankRepository._privateConstructor();
+  RankRepository(this._client);
 
-  factory RankRepository(){
-    return _instance;
+  final ApiClient _client;
+
+  /// 앞쪽 일부(홈 Top3).
+  Future<List<RankType>> getRankTab({required int offset, required int limit}) async =>
+      _ranksOf(await _client.get('/rank/popup', query: {'offset': offset, 'limit': limit}));
+
+  /// 전체 랭킹(랭킹 탭).
+  Future<List<RankType>> getRanks() async => _ranksOf(await _client.get('/rank'));
+
+  static List<RankType> _ranksOf(Object? body) => ApiClient.decode(() => [
+        for (final item in jsonList(body)) _rankOf(jsonMap(item)),
+      ]);
+
+  static RankType _rankOf(Map<String, Object?> json) {
+    final user = jsonMap(json['user']);
+    return (
+      id: jsonInt(json['id']),
+      totalLossCut: jsonInt(json['totalLossCut']),
+      totalLikeCount: jsonInt(json['totalLikeCount']),
+      userId: jsonInt(user['userId']),
+      badge: jsonStringOrNull(user['badge']),
+      nickname: jsonString(user['nickname']),
+      insignia: jsonString(user['insignia']),
+    );
   }
-
-  final dio = Dio();
-
-  Future<List<({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>> getRankTab({
-    required int offset,
-    required int limit,
-  }) async {
-    try {
-      final response = await dio.get(
-        '${DioMainApi.mainApi}/rank/popup',
-        queryParameters: {
-          'offset': offset, 'limit': limit,
-        },
-      );
-      final result = <({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>[];
-      for(int i = 0; i < response.data.length ; i++) {
-        log('getRankTab response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        totalLossCut: int.parse(response.data[i]['totalLossCut'].toString()),
-        totalLikeCount: int.parse(response.data[i]['totalLikeCount'].toString()),
-        userId: int.parse(response.data[i]['user']['userId'].toString()),
-        badge: response.data[i]['user']['badge'].toString(),
-        nickname: response.data[i]['user']['nickname'].toString(),
-        insignia: response.data[i]['user']['insignia'] as Object);
-        // result.add(BoardModel.fromJson(response.data[i]));
-        result.add(records);
-      }
-      log('getRankTab response: ${response.data.toString()}');
-
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } catch (e) {
-      log('getRankTab error : $e');
-      throw Exception(e);
-    }
-  }
-
-  /// 너반꿀 리스트 조회
-  Future<List<({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>> getRanks() async {
-    try {
-      final response = await dio.get(
-        '${DioMainApi.mainApi}/rank',
-      );
-      final result = <({int id, int totalLossCut, int totalLikeCount, int userId, String badge, String nickname, Object insignia})>[];
-      for(int i = 0; i < response.data.length ; i++) {
-        log('getRankTab response: ${response.data[i]}');
-        final records =
-        (id: int.parse(response.data[i]['id'].toString()),
-        totalLossCut: int.parse(response.data[i]['totalLossCut'].toString()),
-        totalLikeCount: int.parse(response.data[i]['totalLikeCount'].toString()),
-        userId: int.parse(response.data[i]['user']['userId'].toString()),
-        badge: response.data[i]['user']['badge'].toString(),
-        nickname: response.data[i]['user']['nickname'].toString(),
-        insignia: response.data[i]['user']['insignia'] as Object);
-        // result.add(BoardModel.fromJson(response.data[i]));
-        result.add(records);
-      }
-      log('getRanks response: ${response.data.toString()}');
-
-      final futureValue = Future.value(result);
-      return await futureValue;
-    } catch (e) {
-      log('getRanks error : $e');
-      throw Exception(e);
-    }
-  }
-
 }

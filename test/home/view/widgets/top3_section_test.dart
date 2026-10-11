@@ -1,3 +1,4 @@
+import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,27 +10,17 @@ import 'package:nurbanhoney/l10n/strings.dart';
 import 'package:nurbanhoney/theme/theme.dart';
 import 'package:nurbanhoney/widgets/widgets.dart';
 
-typedef _Rank = ({
-  int id,
-  int totalLossCut,
-  int totalLikeCount,
-  int userId,
-  String badge,
-  String nickname,
-  Object insignia,
-});
-
-_Rank _rank(int id, {required int loss, required int likes}) => (
+RankType _rank(int id, {required int loss, required int likes}) => (
       id: id,
       totalLossCut: loss,
       totalLikeCount: likes,
       userId: id,
-      badge: '',
+      badge: null,
       nickname: '사용자$id',
       insignia: '[]',
     );
 
-Widget _app({List<_Rank>? ranks, Object? error, List<int>? calls}) {
+Widget _app({List<RankType>? ranks, Object? error, List<int>? calls}) {
   return ProviderScope(
     overrides: [
       getRankTabProvider.overrideWith((ref, arg) async {

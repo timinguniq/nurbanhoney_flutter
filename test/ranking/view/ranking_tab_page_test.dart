@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:authentication_domain/authentication_domain.dart';
 import 'package:authentication_service/authentication_service.dart';
+import 'package:dio_domain/dio_domain.dart';
+import 'package:dio_repository/dio_repository.dart';
 import 'package:dio_service/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,16 +19,6 @@ import 'package:nurbanhoney/widgets/widgets.dart';
 import 'package:preference_storage/preference_storage.dart';
 import 'package:preference_storage_service/preference_storage_service.dart';
 
-typedef _Rank = ({
-  int id,
-  int totalLossCut,
-  int totalLikeCount,
-  int userId,
-  String badge,
-  String nickname,
-  Object insignia,
-});
-
 class _FakeAuthentication extends AuthenticationService {
   _FakeAuthentication(this.initial);
 
@@ -36,12 +28,12 @@ class _FakeAuthentication extends AuthenticationService {
   AuthenticationStatus build() => initial;
 }
 
-_Rank _rank(int userId, {required int loss, required int likes, String insignia = '[]'}) => (
+RankType _rank(int userId, {required int loss, required int likes, String insignia = '[]'}) => (
       id: userId,
       totalLossCut: loss,
       totalLikeCount: likes,
       userId: userId,
-      badge: '',
+      badge: null,
       nickname: '유저$userId',
       insignia: insignia,
     );
@@ -55,7 +47,7 @@ final _five = [
 ];
 
 Widget _app({
-  List<_Rank>? ranks,
+  List<RankType>? ranks,
   Object? error,
   AuthenticationStatus auth = AuthenticationStatus.authenticated,
   int? myUserId,
@@ -199,7 +191,7 @@ void main() {
       expect(find.byType(PodiumColumn), findsNothing);
     });
 
-    testWidgets('받지 못하면 오류 상태를 보여주고 다시 시도하면 다시 받는다', (tester) async {
+    testWidgets('받지 못하면 오류 상태와 오류 코드를 보여주고 다시 시도하면 다시 받는다', (tester) async {
       var calls = 0;
       await tester.pumpWidget(ProviderScope(
         overrides: [
@@ -209,7 +201,7 @@ void main() {
           ),
           getRankProvider.overrideWith((ref) async {
             calls++;
-            if (calls == 1) throw Exception('connection error');
+            if (calls == 1) throw const ApiOffline();
             return _five;
           }),
         ],
@@ -217,6 +209,7 @@ void main() {
       ));
       await _pumpFrames(tester);
       expect(find.byType(ErrorState), findsOneWidget);
+      expect(find.textContaining('NET-OFFLINE'), findsOneWidget);
 
       await tester.tap(find.text(Strings.retry));
       await _pumpFrames(tester);

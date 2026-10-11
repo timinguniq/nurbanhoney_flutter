@@ -29,7 +29,8 @@ class AuthorInfo extends StatelessWidget {
     super.key,
   });
 
-  final String badgeUrl;
+  /// 배지 이미지 URL. 없으면 null(심볼로 대신한다).
+  final String? badgeUrl;
   final String nickname;
   final List<String> insigniaUrls;
   final AuthorInfoSize size;

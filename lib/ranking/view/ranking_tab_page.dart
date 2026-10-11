@@ -99,7 +99,7 @@ class RankingTabPage extends ConsumerWidget {
                 rank: i + 1,
                 badgeUrl: data[i].badge,
                 nickname: data[i].nickname,
-                insigniaUrls: toInsignia(data[i].insignia.toString()) as List<String>,
+                insigniaUrls: toInsignia(data[i].insignia) as List<String>,
                 lossAmount: data[i].totalLossCut,
                 likeCount: data[i].totalLikeCount,
               ),

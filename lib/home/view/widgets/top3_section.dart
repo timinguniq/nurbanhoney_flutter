@@ -73,7 +73,7 @@ class Top3Section extends ConsumerWidget {
                     rank: i + 1,
                     badgeUrl: data[i].badge,
                     nickname: data[i].nickname,
-                    insigniaUrls: toInsignia(data[i].insignia.toString()),
+                    insigniaUrls: toInsignia(data[i].insignia),
                     lossAmount: data[i].totalLossCut,
                     likeCount: data[i].totalLikeCount,
                   ),
@@ -161,7 +161,7 @@ class Top3Card extends StatelessWidget {
   });
 
   final int rank;
-  final String badgeUrl;
+  final String? badgeUrl;
   final String nickname;
   final List<String> insigniaUrls;
   final int lossAmount;

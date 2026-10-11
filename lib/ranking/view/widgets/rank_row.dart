@@ -17,7 +17,7 @@ class RankRow extends StatelessWidget {
   });
 
   final int rank;
-  final String badgeUrl;
+  final String? badgeUrl;
   final String nickname;
   final List<String> insigniaUrls;
   final int lossAmount;

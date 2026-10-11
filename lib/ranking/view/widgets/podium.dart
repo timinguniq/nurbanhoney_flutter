@@ -7,7 +7,7 @@ import 'package:nurbanhoney/widgets/widgets.dart';
 /// 시상대 한 칸에 넣을 값
 typedef PodiumEntry = ({
   int rank,
-  String badgeUrl,
+  String? badgeUrl,
   String nickname,
   List<String> insigniaUrls,
   int lossAmount,
