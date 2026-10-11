@@ -106,8 +106,9 @@ API 기본 URL 은 `domain/dio_domain/lib/src/models/dio_main_api.dart` 의 `Dio
 
 ## 인증 흐름
 
-세 가지 로그인 경로가 `PreferenceStorage` 에 저장되는 토큰 하나로 모인다: Firebase Google Sign-In, Kakao SDK,
-레거시 이메일/비밀번호. 모두 `DioRepository.getLogin`(`getLoginProvider`)으로 서버 토큰을 받는다.
+로그인 화면(`lib/login/view/login_page.dart`)은 Kakao SDK 와 Firebase Google Sign-In 두 경로를 쓰고, 둘 다
+`DioRepository.getLogin`(`getLoginProvider`)으로 서버 토큰을 받아 `PreferenceStorage` 에 저장한다. 저장소는 레거시
+이메일/비밀번호 요청 형식(`password`)도 받지만 지금 화면에서는 쓰지 않는다(항상 `null`).
 
 - **상태:** `AuthenticationService`(Riverpod `@riverpod` 클래스)가 `AuthenticationStatus` 를 갖는 값 칸이다.
   `AppView` 가 저장된 토큰이 있는지(`PreferenceStorage.hasToken()`)로 이 값을 맞춘다.
