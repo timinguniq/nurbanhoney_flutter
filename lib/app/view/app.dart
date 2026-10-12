@@ -71,6 +71,7 @@ class _AppViewState extends State<AppView> {
 
         /// 스플래시는 네이티브(Android Theme.SplashScreen, iOS LaunchScreen)가 그린다.
         return MaterialApp(
+            title: '너반꿀',
             debugShowCheckedModeBanner: false,
             navigatorKey: nbkNavigatorKey,
             theme: NbkTheme.light,

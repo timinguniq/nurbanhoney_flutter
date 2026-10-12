@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.devjj.platform" "\0"
-            VALUE "FileDescription", "nurbanhoney" "\0"
+            VALUE "FileDescription", "너반꿀" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "nurbanhoney" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.devjj.platform. All rights reserved." "\0"
             VALUE "OriginalFilename", "nurbanhoney.exe" "\0"
-            VALUE "ProductName", "nurbanhoney" "\0"
+            VALUE "ProductName", "너반꿀" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

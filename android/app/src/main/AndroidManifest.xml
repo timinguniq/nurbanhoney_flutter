@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.devjj.platform.nurbanhoney">
     <application
-        android:label="@string/app_name"
+        android:label="너반꿀"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">

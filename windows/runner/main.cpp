@@ -27,7 +27,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
   Win32Window::Size size(1280, 720);
-  if (!window.CreateAndShow(L"nurbanhoney", origin, size)) {
+  // App name (Korean), written as escapes: MSVC builds this file without /utf-8,
+  // so keep it ASCII-only.
+  if (!window.CreateAndShow(L"\uB108\uBC18\uAFC0", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);
